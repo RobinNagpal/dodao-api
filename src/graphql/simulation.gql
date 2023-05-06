@@ -1,0 +1,51 @@
+extend type Query {
+  simulation(spaceId: String!, simulationId: String!): Simulation!
+  simulations(spaceId: String!): [Simulation!]!
+}
+
+extend type Mutation {
+  upsertSimulation(spaceId: String!, input: UpsertSimulationInput!): Simulation!
+}
+
+type Simulation {
+  postSubmissionStepContent: String
+  content: String!
+  created: String!
+  id: String!
+  name: String!
+  publishStatus: String!
+  showIncorrectOnCompletion: Boolean!
+  steps: [SimulationStep!]!
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+}
+
+type SimulationStep {
+  content: String!
+  name: String!
+  iframeUrl: String
+  uuid: String!
+  order: Int!
+}
+
+input SimulationStepInput {
+  content: String!
+  name: String!
+  order: Int!
+  uuid: String!
+  iframeUrl: String
+}
+
+input UpsertSimulationInput {
+  content: String!
+  id: String
+  name: String!
+  steps: [SimulationStepInput!]!
+  publishStatus: String!
+  thumbnail: String
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+  created: String!
+}

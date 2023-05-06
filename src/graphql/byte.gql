@@ -1,0 +1,72 @@
+extend type Query {
+  byte(spaceId: String!, byteId: String!): Byte!
+  bytes(spaceId: String!): [Byte!]!
+}
+
+extend type Mutation {
+  upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
+}
+
+type Byte {
+  postSubmissionStepContent: String
+  content: String!
+  created: String!
+  id: String!
+  name: String!
+  publishStatus: String!
+  showIncorrectOnCompletion: Boolean!
+  steps: [ByteStep!]!
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+}
+
+type ByteQuestion {
+  answerKeys: [String!]!
+  choices: [QuestionChoice!]!
+  content: String!
+  order: Int!
+  type: String!
+  uuid: String!
+  explanation: String!
+}
+
+type ByteUserInput {
+  label: String!
+  order: Int!
+  type: String!
+  required: Boolean!
+  uuid: String!
+}
+
+union ByteStepItem = ByteQuestion | ByteUserInput | UserDiscordConnect
+
+type ByteStep {
+  content: String!
+  name: String!
+  order: Int!
+  stepItems: [ByteStepItem!]!
+  uuid: String!
+}
+
+input ByteStepInput {
+  content: String!
+  name: String!
+  order: Int!
+  stepItems: [StepItemInputGenericInput!]!
+  uuid: String!
+  explanation: String
+}
+
+input UpsertByteInput {
+  content: String!
+  id: String
+  name: String!
+  steps: [ByteStepInput!]!
+  publishStatus: String!
+  thumbnail: String
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+  created: String!
+}

@@ -1,0 +1,45 @@
+extend type Mutation {
+  submitByte(submissionInput: ByteSubmissionInput!): ByteSubmission!
+}
+
+type ByteStepItemSubmission {
+  selectedAnswerKeys: [String!]
+  userDiscordInfo: UserDiscordInfo
+  userInput: String
+  uuid: String!
+  type: String!
+}
+
+type ByteSubmission {
+  id: String!
+  created: Int!
+  createdBy: String!
+  byteId: String!
+  spaceId: String!
+}
+
+type ByteStepSubmission {
+  itemResponses: [ByteStepItemSubmission!]!
+  uuid: String!
+}
+
+input ByteStepItemSubmissionInput {
+  userDiscordInfo: UserDiscordInfoInput
+  userInput: String
+  uuid: String!
+  type: String!
+}
+
+input ByteStepSubmissionInput {
+  itemResponses: [ByteStepItemSubmissionInput!]!
+  uuid: String!
+}
+
+input ByteSubmissionInput {
+  from: String!
+  byteId: String!
+  space: String!
+  steps: [ByteStepSubmissionInput!]!
+  timestamp: String
+  uuid: String!
+}

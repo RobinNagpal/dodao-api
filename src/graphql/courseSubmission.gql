@@ -1,0 +1,130 @@
+extend type Query {
+  gitCourseSubmission(spaceId: String!, courseKey: String!): GitCourseSubmission
+
+  gitTopicSubmissions(spaceId: String!, courseKey: String!): [GitCourseTopicSubmission!]!
+}
+
+extend type Mutation {
+  upsertGitCourseTopicSubmission(spaceId: String!, gitCourseTopicSubmission: GitCourseTopicSubmissionInput!): GitCourseTopicSubmission!
+
+  submitGitCourseTopic(spaceId: String!, gitCourseTopicSubmission: GitCourseTopicSubmissionInput!): GitCourseTopicSubmission!
+
+  initializeGitCourseSubmission(spaceId: String!, courseKey: String!): GitCourseSubmission!
+
+  submitGitCourse(spaceId: String!, input: CourseSubmissionInput!): GitCourseSubmission!
+}
+
+type GitCourseExplanationsSubmission {
+  key: String!
+  status: String!
+}
+
+type GitCourseQuestionsSubmission {
+  uuid: String!
+  status: String!
+  answers: [String!]!
+}
+
+type GitCourseReadingsSubmission {
+  uuid: String!
+  status: String!
+  questions: [GitCourseQuestionsSubmission!]!
+}
+
+type GitCourseSummariesSubmission {
+  key: String!
+  status: String!
+}
+
+type GitCourseSubmission {
+  uuid: String!
+  spaceId: String!
+  courseKey: String!
+  createdAt: Int!
+  createdBy: String!
+
+  galaxyCredentialsUpdated: Boolean
+
+  isLatestSubmission: Boolean
+  questionsAttempted: Int
+  questionsCorrect: Int
+  questionsIncorrect: Int
+  questionsSkipped: Int
+
+  status: String!
+
+  topicSubmissions: [GitCourseTopicSubmission!]!
+  updatedAt: Int!
+}
+
+type GitCourseTopicCorrectAnswer {
+  uuid: String!
+  answerKeys: [String!]!
+}
+type GitCourseTopicSubmission {
+  uuid: String!
+  courseKey: String!
+  courseSubmissionUuid: String!
+  createdAt: Int!
+  createdBy: String!
+  correctAnswers: [GitCourseTopicCorrectAnswer!]
+  isLatestSubmission: Boolean!
+  questionsAttempted: Int
+  questionsCorrect: Int
+  questionsIncorrect: Int
+  questionsSkipped: Int
+  submission: GitCourseTopicSubmissionJson
+  spaceId: String!
+  status: String!
+  topicKey: String!
+  updatedAt: Int!
+}
+
+type GitCourseTopicSubmissionJson {
+  uuid: String!
+  courseKey: String!
+  topicKey: String!
+  explanations: [GitCourseExplanationsSubmission!]
+  questions: [GitCourseQuestionsSubmission!]
+  readings: [GitCourseReadingsSubmission!]
+  summaries: [GitCourseSummariesSubmission!]
+  status: String!
+}
+
+input GitCourseExplanationsSubmissionInput {
+  key: String!
+  status: String!
+}
+
+input GitCourseQuestionsSubmissionInput {
+  uuid: String!
+  status: String!
+  answers: [String!]!
+}
+
+input GitCourseReadingsSubmissionInput {
+  uuid: String!
+  status: String!
+  questions: [GitCourseQuestionsSubmissionInput!]!
+}
+
+input GitCourseSummariesSubmissionInput {
+  key: String!
+  status: String!
+}
+
+input GitCourseTopicSubmissionInput {
+  uuid: String!
+  courseKey: String!
+  topicKey: String!
+  explanations: [GitCourseExplanationsSubmissionInput!]!
+  questions: [GitCourseQuestionsSubmissionInput!]!
+  readings: [GitCourseReadingsSubmissionInput!]!
+  summaries: [GitCourseSummariesSubmissionInput!]!
+  status: String!
+}
+
+input CourseSubmissionInput {
+  uuid: String!
+  courseKey: String!
+}

@@ -1,0 +1,55 @@
+extend type Query {
+  timeline(spaceId: String!, timelineId: String!): Timeline!
+  timelines(spaceId: String!): [Timeline!]!
+}
+
+extend type Mutation {
+  upsertTimeline(spaceId: String!, input: UpsertTimelineInput!): Timeline!
+}
+
+type Timeline {
+  id: String!
+  name: String!
+  excerpt: String!
+  content: String!
+  thumbnail: String
+  created: String!
+  publishStatus: String!
+  events: [TimelineEvent!]!
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+}
+
+type TimelineEvent {
+  name: String!
+  uuid: String!
+  date: String!
+  excerpt: String!
+  content: String!
+  moreLink: String
+  order: Int!
+}
+
+input UpsertTimelineInput {
+  id: String
+  name: String!
+  excerpt: String!
+  content: String!
+  thumbnail: String
+  publishStatus: String!
+  events: [UpsertTimelineEventInput!]!
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+  created: String!
+}
+
+input UpsertTimelineEventInput {
+  name: String!
+  uuid: String!
+  date: String!
+  excerpt: String!
+  content: String!
+  moreLink: String
+}

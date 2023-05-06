@@ -1,0 +1,75 @@
+extend type Mutation {
+  submitGuide(submissionInput: GuideSubmissionInput!): GuideSubmission!
+}
+
+type UserDiscordInfo {
+  id: String!
+  accessToken: String!
+  avatar: String!
+  discriminator: String!
+  email: String!
+  username: String!
+}
+
+type GuideStepItemSubmission {
+  selectedAnswerKeys: [String!]
+  userDiscordInfo: UserDiscordInfo
+  userInput: String
+  uuid: String!
+  type: String!
+}
+
+type GuideStepSubmission {
+  itemResponses: [GuideStepItemSubmission!]!
+  uuid: String!
+}
+
+type GuideSubmissionResult {
+  correctQuestions: [String!]!
+  wrongQuestions: [String!]!
+  allQuestions: [String!]!
+}
+
+type GuideSubmission {
+  id: String!
+  created: Int!
+  createdBy: String!
+  galaxyCredentialsUpdated: Boolean
+  guideId: String!
+  guideUuid: String!
+  result: GuideSubmissionResult!
+  spaceId: String!
+  steps: [GuideStepSubmission!]
+  uuid: String!
+}
+
+input UserDiscordInfoInput {
+  id: String!
+  accessToken: String!
+  avatar: String!
+  discriminator: String!
+  email: String!
+  username: String!
+}
+
+input GuideStepItemSubmissionInput {
+  selectedAnswerKeys: [String!]
+  userDiscordInfo: UserDiscordInfoInput
+  userInput: String
+  uuid: String!
+  type: String!
+}
+
+input GuideStepSubmissionInput {
+  itemResponses: [GuideStepItemSubmissionInput!]!
+  uuid: String!
+}
+
+input GuideSubmissionInput {
+  from: String!
+  guideUuid: String!
+  space: String!
+  steps: [GuideStepSubmissionInput!]!
+  timestamp: String
+  uuid: String!
+}

@@ -1,0 +1,161 @@
+extend type Mutation {
+  upsertGuide(spaceId: String!, guideInput: GuideInput!): Guide!
+  refreshGitGuides(spaceId: String!): Boolean!
+}
+
+type QuestionChoice {
+  content: String!
+  key: String!
+  order: Int!
+}
+
+type GuideQuestion {
+  answerKeys: [String!]!
+  choices: [QuestionChoice!]!
+  content: String!
+  order: Int!
+  type: String!
+  uuid: String!
+}
+
+type GuideUserInput {
+  label: String!
+  order: Int!
+  type: String!
+  required: Boolean!
+  uuid: String!
+}
+
+type UserDiscordConnect {
+  order: Int!
+  type: String!
+  uuid: String!
+}
+
+union GuideStepItem = GuideQuestion | GuideUserInput | UserDiscordConnect
+
+type GuideStep {
+  content: String!
+  created: Int!
+  id: String!
+  name: String!
+  order: Int!
+  stepItems: [GuideStepItem!]!
+  uuid: String!
+}
+
+type GuideIntegrations {
+  discordRoleIds: [String!]
+  # number of answers that should be correct in order to get discord score
+  discordRolePassingCount: Int
+  discordWebhook: String
+  projectGalaxyCredentialId: String
+  projectGalaxyOatMintUrl: String
+  projectGalaxyOatPassingCount: Int
+}
+
+type Guide {
+  authors: [String!]!
+  categories: [String!]!
+  postSubmissionStepContent: String
+  content: String!
+  created: Int!
+  guideIntegrations: GuideIntegrations!
+  guideSource: String!
+  guideType: String!
+  id: String!
+  name: String!
+  previousId: String
+  publishStatus: String!
+  showIncorrectOnCompletion: Boolean!
+  socialShareImage: String
+  space: Space!
+  steps: [GuideStep!]!
+  thumbnail: String
+  uuid: String!
+  version: Int!
+  link: String!
+}
+
+input GuideIntegrationsInput {
+  discordRoleIds: [String!]!
+  # number of answers that should be correct in order to get discord score
+  discordRolePassingCount: Int
+  discordWebhook: String
+  projectGalaxyCredentialId: String
+  projectGalaxyOatMintUrl: String
+  projectGalaxyOatPassingCount: Int
+}
+
+input QuestionChoiceInput {
+  content: String!
+  key: String!
+  order: Int!
+}
+
+# Union types are not supported, so we make a generic type with all fields
+input StepItemInputGenericInput {
+  type: String!
+  order: Int
+  uuid: String!
+
+  # question fields
+  answerKeys: [String!]
+  choices: [QuestionChoiceInput!]
+  content: String
+  questionType: String
+  explanation: String
+
+  # user input fields
+  label: String
+  required: Boolean
+}
+
+input GuideQuestionInput {
+  type: String!
+  order: Int
+  uuid: String!
+
+  answerKeys: [String!]
+  choices: [QuestionChoiceInput!]
+  content: String!
+  questionType: String!
+  explanation: String
+}
+
+input UserInputInput {
+  type: String!
+  order: Int
+  uuid: String!
+
+  label: String!
+  required: Boolean
+}
+
+input GuideStepInput {
+  content: String!
+  id: String!
+  name: String!
+  order: Int!
+  stepItems: [StepItemInputGenericInput!]!
+  uuid: String!
+}
+
+input GuideInput {
+  categories: [String!]!
+  content: String!
+  from: String!
+  guideIntegrations: GuideIntegrationsInput!
+  guideSource: String!
+  guideType: String!
+  id: String!
+  name: String!
+  postSubmissionStepContent: String
+  showIncorrectOnCompletion: Boolean!
+  socialShareImage: String
+  space: String!
+  steps: [GuideStepInput!]!
+  publishStatus: String!
+  thumbnail: String
+  uuid: String!
+}

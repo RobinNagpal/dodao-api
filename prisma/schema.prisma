@@ -1,0 +1,250 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AcademyTask {
+  uuid                String @id @db.VarChar(66)
+  createdAt           Int
+  createdBy           String @db.VarChar(128)
+  prerequisiteCourses Json
+  prerequisiteGuides  Json
+  spaceId             String @db.VarChar(64)
+  status              String @db.VarChar(64)
+  details             String @db.Text
+  title               String @db.VarChar(66)
+  items               Json
+  updatedAt           Int
+  updatedBy           String @db.VarChar(128)
+  excerpt             String @db.VarChar(256)
+}
+
+model ByteSubmission {
+  id        String @id @db.VarChar(66)
+  created   Int
+  createdBy String @db.VarChar(64)
+  byteId    String @db.VarChar(64)
+  spaceId   String @db.VarChar(64)
+  steps     Json
+}
+
+model GitCourseSubmission {
+  uuid                     String                     @id @db.VarChar(66)
+  courseKey                String                     @db.VarChar(128)
+  createdAt                Int
+  createdBy                String                     @db.VarChar(64)
+  isLatestSubmission       Boolean                    @db.Boolean
+  questionsAttempted       Int?
+  questionsCorrect         Int?
+  questionsIncorrect       Int?
+  questionsSkipped         Int?
+  spaceId                  String                     @db.VarChar(64)
+  updatedAt                Int
+  status                   String                     @default("InProgress") @db.VarChar(64)
+  galaxyCredentialsUpdated Boolean?                   @db.Boolean
+  GitCourseTopicSubmission GitCourseTopicSubmission[]
+}
+
+model GitCourseTopicSubmission {
+  uuid                 String  @id @db.VarChar(66)
+  courseKey            String  @db.VarChar(128)
+  courseSubmissionUuid String  @db.VarChar(66)
+  createdAt            Int
+  createdBy            String  @db.VarChar(64)
+  isLatestSubmission   Boolean @db.Boolean
+  questionsAttempted   Int?
+  questionsCorrect     Int?
+  questionsIncorrect   Int?
+  questionsSkipped     Int?
+  submission           Json
+  spaceId              String  @db.VarChar(64)
+  topicKey             String  @db.VarChar(128)
+  updatedAt            Int
+  status               String  @default("InProgress") @db.VarChar(64)
+  correctAnswers       Json?
+
+  courseSubmission GitCourseSubmission @relation(fields: [courseSubmissionUuid], references: [uuid])
+}
+
+model Guide {
+  id                        String  @id @db.VarChar(66)
+  content                   String  @db.Text
+  previousId                String? @db.VarChar(66)
+  uuid                      String  @db.VarChar(255)
+  authors                   Json
+  created                   Int
+  spaceId                   String  @db.VarChar(64)
+  guideName                 String  @db.VarChar(255)
+  status                    String  @db.VarChar(255)
+  version                   Int
+  thumbnail                 String? @db.VarChar(255)
+  categories                Json
+  discordWebhook            String? @db.VarChar(1024)
+  guideType                 String  @default("onboarding") @db.VarChar(128)
+  publishStatus             String  @default("Live") @db.VarChar(128)
+  socialShareImage          String? @db.VarChar(2048)
+  discordRoleIds            Json
+  discordRolePassingCount   Int?
+  showIncorrectOnCompletion Boolean @default(true) @db.Boolean
+  postSubmissionStepContent String  @db.Text
+}
+
+model Space {
+  id                            String              @id @db.VarChar(64)
+  settings                      Json?               @db.Json
+  verified                      Int                 @default(0)
+  createdAt                     BigInt              @db.BigInt
+  creator                       String              @db.VarChar(64)
+  updatedAt                     BigInt              @db.BigInt
+  about                         String?             @db.Text
+  avatar                        String?             @db.VarChar(255)
+  admins                        Json                @db.Json
+  categories                    Json                @db.Json
+  github                        String?             @db.VarChar(255)
+  members                       Json                @db.Json
+  mission                       String?             @db.VarChar(255)
+  network                       String              @db.VarChar(12)
+  terms                         String?             @db.VarChar(255)
+  twitter                       String?             @db.VarChar(255)
+  blockchain                    String              @default("ETH") @db.VarChar(64)
+  skin                          String              @default("dodao") @db.VarChar(128)
+  discordInvite                 String?             @db.VarChar(1024)
+  guidesPageFooterContent       String?             @db.Text
+  guidesPageHeaderContent       String?             @db.Text
+  guidesBundlePageFooterContent String?             @db.Text
+  guidesBundlePageHeaderContent String?             @db.Text
+  blogSite                      String?             @db.VarChar(1024)
+  publicForumWebsite            String?             @db.VarChar(1024)
+  referenceDocsWebsite          String?             @db.VarChar(1024)
+  telegramInvite                String?             @db.VarChar(1024)
+  features                      Json                @db.Json
+  inviteLinks                   Json?               @db.Json
+  CourseIntegration             CourseIntegration[]
+  GitCourse                     GitCourse[]
+  GuideIntegration              GuideIntegration[]
+  GuideStep                     GuideStep[]
+  GuideSubmission               GuideSubmission[]
+  GuidesGuideStep               GuidesGuideStep[]
+  SpaceDiscord                  SpaceDiscord[]
+  SpaceIntegration              SpaceIntegration[]
+}
+
+model CourseIntegration {
+  id                            String  @id @db.VarChar(255)
+  spaceId                       String  @db.VarChar(255)
+  courseKey                     String  @db.VarChar(255)
+  createdAt                     Int     @db.Integer
+  createdBy                     String? @db.VarChar(256)
+  discordRoleIds                Json?   @db.Json
+  discordRolePassingCount       Int?    @db.Integer
+  discordWebhook                String? @db.VarChar(1024)
+  projectGalaxyCredentialId     String? @db.VarChar(255)
+  projectGalaxyOatMintUrl       String? @db.VarChar(255)
+  projectGalaxyOatPassingCount  Int?    @db.Integer
+  updatedAt                     Int     @db.Integer
+  updatedBy                     String? @db.VarChar(256)
+  projectGalaxyOatMintedContent String? @db.Text
+  space                         Space   @relation(fields: [spaceId], references: [id])
+}
+
+model GitCourse {
+  id            String  @id @db.VarChar(255)
+  courseKey     String? @db.VarChar(255)
+  spaceId       String  @db.VarChar(66)
+  createdAt     Int     @db.Integer
+  createdBy     String? @db.VarChar(256)
+  courseJsonUrl String? @db.VarChar(1024)
+  weight        Int     @default(20) @db.Integer
+  updatedAt     Int     @db.Integer
+  updatedBy     String? @db.VarChar(256)
+  courseRepoUrl String? @db.VarChar(1024)
+  publishStatus String  @default("Live") @db.VarChar(128)
+  courseAdmins  Json    @db.Json
+  space         Space   @relation(fields: [spaceId], references: [id])
+}
+
+model GuideIntegration {
+  id                           String  @id @db.VarChar(255)
+  spaceId                      String  @db.VarChar(255)
+  guideId                      String  @db.VarChar(255)
+  createdAt                    Int     @db.Integer
+  createdBy                    String? @db.VarChar(256)
+  discordRoleIds               Json?   @db.Json
+  discordRolePassingCount      Int?    @db.Integer
+  discordWebhook               String? @db.VarChar(1024)
+  projectGalaxyCredentialId    String? @db.VarChar(255)
+  projectGalaxyOatMintUrl      String? @db.VarChar(255)
+  updatedAt                    Int     @db.Integer
+  updatedBy                    String? @db.VarChar(256)
+  projectGalaxyOatPassingCount Int?    @db.Integer
+  space                        Space   @relation(fields: [spaceId], references: [id])
+}
+
+model GuideStep {
+  id        String @id @db.VarChar(66)
+  uuid      String @db.VarChar(66)
+  created   Int    @db.Integer
+  stepName  String @db.VarChar(255)
+  content   String @db.Text
+  stepItems Json   @db.Json
+  stepOrder Int    @db.Integer
+  spaceId   String @db.VarChar(64)
+  space     Space  @relation(fields: [spaceId], references: [id])
+}
+
+model GuideSubmission {
+  id        String @id @db.VarChar(66)
+  created   Int    @db.Integer
+  createdBy String @db.VarChar(64)
+  guideId   String @db.VarChar(64)
+  guideUuid String @db.VarChar(255)
+  result    Json   @db.Json
+  spaceId   String @db.VarChar(64)
+  steps     Json   @db.Json
+  uuid      String @db.VarChar(255)
+  space     Space  @relation(fields: [spaceId], references: [id])
+}
+
+model GuidesGuideStep {
+  id          String @id @db.VarChar(255)
+  guideStepId String @db.VarChar(66)
+  guideId     String @db.VarChar(66)
+  created     Int    @db.Integer
+  spaceId     String @db.VarChar(64)
+  space       Space  @relation(fields: [spaceId], references: [id])
+}
+
+model SpaceDiscord {
+  id                String  @id @db.VarChar(255)
+  accessToken       String  @db.VarChar(255)
+  accessTokenExpiry Int     @db.Integer
+  createdAt         Int     @db.Integer
+  refreshToken      String  @db.VarChar(255)
+  selectedGuideId   String? @db.VarChar(255)
+  spaceId           String  @db.VarChar(66)
+  updatedAt         Int     @db.Integer
+  space             Space   @relation(fields: [spaceId], references: [id])
+}
+
+model SpaceIntegration {
+  id                         String  @id @db.VarChar(255)
+  spaceId                    String  @db.VarChar(66)
+  createdAt                  Int     @db.Integer
+  createdBy                  String? @db.VarChar(256)
+  discordGuildId             String? @db.VarChar(255)
+  projectGalaxyToken         String? @db.VarChar(256)
+  projectGalaxyTokenLastFour String? @db.VarChar(64)
+  updatedAt                  Int     @db.Integer
+  updatedBy                  String? @db.VarChar(256)
+  gnosisSafeWallets          Json?   @db.Json
+  gitGuideRepositories       Json    @db.Json
+  academyRepository          String? @db.VarChar(2048)
+  space                      Space   @relation(fields: [spaceId], references: [id])
+}

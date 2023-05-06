@@ -1,0 +1,375 @@
+extend type Query {
+  gitCourse(spaceId: String!, courseKey: String!): GitCourse!
+
+  courses(spaceId: String!): [GenericCourse!]
+
+  summarizedGitCourses(spaceId: String!): [SummarizedGitCourse!]
+
+  rawGitCourse(spaceId: String!, key: String!): RawGitCourse!
+
+  gitCourseSummarized(spaceId: String!, key: String!): SummarizedGitCourse!
+
+  gitCourseIntegrations(spaceId: String!, key: String!): CourseIntegrations
+}
+
+extend type Mutation {
+  refreshGitCourse(spaceId: String!, courseKey: String!): Boolean!
+
+  refreshGitCourses(spaceId: String!): Boolean!
+
+  updateCourseBasicInfo(spaceId: String!, courseBasicInfo: CourseBasicInfoInput!): GitCourse!
+  upsertGitCourse(spaceId: String!, gitCourseInput: GitCourseInput!): SummarizedGitCourse
+
+  addTopic(spaceId: String!, topicInfo: AddTopicInput!): GitCourseTopic!
+  updateTopicBasicInfo(spaceId: String!, topicInfo: UpdateTopicBasicInfoInput!): GitCourse!
+  moveTopic(spaceId: String!, topicInfo: MoveTopicInput!): GitCourse!
+  deleteTopic(spaceId: String!, topicInfo: DeleteTopicInput!): GitCourse!
+
+  updateTopicExplanation(spaceId: String!, explanationInfo: UpdateTopicExplanationInput!): GitCourse!
+  updateTopicSummary(spaceId: String!, summaryInfo: UpdateTopicSummaryInput!): GitCourse!
+  updateTopicVideo(spaceId: String!, videoInfo: UpdateTopicVideoInput!): GitCourse!
+  updateTopicQuestion(spaceId: String!, questionInfo: UpdateTopicQuestionInput!): GitCourse!
+
+  addTopicExplanation(spaceId: String!, explanationInfo: AddTopicExplanationInput!): GitCourseExplanation!
+  addTopicSummary(spaceId: String!, summaryInfo: AddTopicSummaryInput!): GitCourseSummary!
+  addTopicVideo(spaceId: String!, videoInfo: AddTopicVideoInput!): GitCourseReading!
+  addTopicQuestion(spaceId: String!, questionInfo: AddTopicQuestionInput!): GitCourseQuestion!
+
+  deleteTopicExplanation(spaceId: String!, explanationInfo: DeleteTopicExplanationInput!): GitCourse!
+  deleteTopicSummary(spaceId: String!, summaryInfo: DeleteTopicSummaryInput!): GitCourse!
+  deleteTopicVideo(spaceId: String!, videoInfo: DeleteTopicVideoInput!): GitCourse!
+  deleteTopicQuestion(spaceId: String!, questionInfo: DeleteTopicQuestionInput!): GitCourse!
+
+  moveTopicExplanation(spaceId: String!, explanationInfo: MoveTopicExplanationInput!): GitCourse!
+  moveTopicSummary(spaceId: String!, summaryInfo: MoveTopicSummaryInput!): GitCourse!
+  moveTopicVideo(spaceId: String!, videoInfo: MoveTopicVideoInput!): GitCourse!
+  moveTopicQuestion(spaceId: String!, questionInfo: MoveTopicQuestionInput!): GitCourse!
+
+  upsertCourseIntegrations(spaceId: String!, courseIntegrationInput: UpsertCourseIntegrationsInput!): CourseIntegrations!
+}
+
+type RawGitCourse {
+  key: String!
+  weight: Int!
+  courseJsonUrl: String
+  courseRepoUrl: String
+  publishStatus: String!
+}
+
+type GitCourseExplanation {
+  title: String!
+  shortTitle: String!
+  key: String!
+  details: String!
+}
+
+type GitCourseSummary {
+  title: String!
+  shortTitle: String!
+  key: String!
+  details: String!
+}
+
+type GitCourseQuestionChoice {
+  content: String!
+  key: String!
+}
+
+type GitCourseQuestion {
+  uuid: String!
+  type: String!
+  content: String!
+  hint: String!
+  explanation: String!
+  answerKeys: [String!]
+  choices: [GitCourseQuestionChoice!]
+}
+
+type GitCourseReading {
+  uuid: String!
+  title: String!
+  shortTitle: String!
+  details: String!
+  type: String!
+  url: String!
+}
+
+type GitCourseTopic {
+  title: String!
+  key: String!
+  details: String!
+  explanations: [GitCourseExplanation!]
+  questions: [GitCourseQuestion!]
+  readings: [GitCourseReading!]
+  summaries: [GitCourseSummary!]
+}
+
+type GitCourse {
+  key: String!
+  title: String!
+  summary: String!
+  details: String!
+  courseFailContent: String
+  coursePassContent: String
+  coursePassCount: Int
+  courseAdmins: [String!]
+  duration: String!
+  priority: Int
+  publishStatus: String!
+  highlights: [String!]!
+  thumbnail: String!
+  topicConfig: TopicConfig
+  topics: [GitCourseTopic!]!
+}
+
+type TopicConfig {
+  showExplanations: Boolean!
+  showHints: Boolean!
+}
+
+type GenericCourse {
+  categories: [String!]!
+  content: String!
+  courseAdmins: [String!]
+  courseType: String!
+  duration: String!
+  excerpt: String!
+  highlights: [String!]!
+  id: String!
+  name: String!
+  priority: Int
+  publishStatus: String!
+  thumbnail: String!
+  uuid: String!
+}
+
+type SummarizedGitCourseTopic {
+  title: String!
+  key: String!
+  details: String!
+}
+
+type SummarizedGitCourse {
+  uuid: String!
+  key: String!
+  title: String!
+  summary: String!
+  details: String!
+  duration: String!
+  priority: Int
+  publishStatus: String!
+  highlights: [String!]!
+  thumbnail: String!
+  courseAdmins: [String!]
+  topics: [SummarizedGitCourseTopic!]!
+}
+
+type CourseIntegrations {
+  discordRoleIds: [String!]
+  # number of answers that should be correct in order to get discord score
+  discordRolePassingCount: Int
+  discordWebhook: String
+  projectGalaxyCredentialId: String
+  projectGalaxyOatMintUrl: String
+  projectGalaxyOatPassingCount: Int
+  projectGalaxyOatMintedContent: String
+}
+
+input GitCourseInput {
+  courseJsonUrl: String
+  courseRepoUrl: String
+  publishStatus: String!
+  weight: Int!
+}
+
+input CourseBasicInfoInput {
+  key: String!
+  title: String!
+  highlights: [String!]!
+  duration: String!
+  priority: Int
+  publishStatus: String!
+  thumbnail: String!
+  summary: String!
+  courseAdmins: [String!]!
+  details: String!
+  courseFailContent: String
+  coursePassContent: String
+  coursePassCount: Int
+  topicConfig: TopicConfigInput
+}
+
+input TopicConfigInput {
+  showExplanations: Boolean!
+  showHints: Boolean!
+}
+
+input UpdateTopicBasicInfoInput {
+  courseKey: String!
+  topicKey: String!
+  title: String!
+  details: String!
+}
+
+input MoveTopicInput {
+  courseKey: String!
+  topicKey: String!
+  direction: String!
+}
+
+input DeleteTopicInput {
+  courseKey: String!
+  topicKey: String!
+}
+
+input AddTopicInput {
+  courseKey: String!
+  title: String!
+  details: String!
+}
+
+input UpdateTopicExplanationInput {
+  courseKey: String!
+  topicKey: String!
+  explanationKey: String!
+  title: String!
+  shortTitle: String!
+  details: String!
+}
+
+input UpdateTopicSummaryInput {
+  courseKey: String!
+  topicKey: String!
+  summaryKey: String!
+  title: String!
+  shortTitle: String!
+  details: String!
+}
+
+input UpdateTopicVideoInput {
+  courseKey: String!
+  topicKey: String!
+  videoUuid: String!
+  title: String!
+  shortTitle: String!
+  url: String!
+  details: String!
+}
+
+input TopicQuestionChoiceInput {
+  content: String!
+  key: String!
+}
+
+input UpdateTopicQuestionInput {
+  courseKey: String!
+  topicKey: String!
+  questionUuid: String!
+  answerKeys: [String!]!
+  choices: [TopicQuestionChoiceInput!]!
+  content: String!
+  questionType: String!
+
+  explanation: String!
+  hint: String!
+}
+
+input AddTopicExplanationInput {
+  courseKey: String!
+  topicKey: String!
+  title: String!
+  shortTitle: String!
+  details: String!
+}
+
+input AddTopicSummaryInput {
+  courseKey: String!
+  topicKey: String!
+  title: String!
+  shortTitle: String!
+  details: String!
+}
+
+input AddTopicVideoInput {
+  courseKey: String!
+  topicKey: String!
+  title: String!
+  shortTitle: String!
+  url: String!
+  details: String!
+}
+
+input AddTopicQuestionInput {
+  courseKey: String!
+  topicKey: String!
+  answerKeys: [String!]!
+  choices: [TopicQuestionChoiceInput!]!
+  content: String!
+  questionType: String!
+  explanation: String!
+  hint: String!
+}
+
+input DeleteTopicExplanationInput {
+  courseKey: String!
+  topicKey: String!
+  explanationKey: String!
+}
+
+input DeleteTopicSummaryInput {
+  courseKey: String!
+  topicKey: String!
+  summaryKey: String!
+}
+
+input DeleteTopicVideoInput {
+  courseKey: String!
+  topicKey: String!
+  videoUuid: String!
+}
+
+input DeleteTopicQuestionInput {
+  courseKey: String!
+  topicKey: String!
+  questionUuid: String!
+}
+
+input MoveTopicExplanationInput {
+  courseKey: String!
+  topicKey: String!
+  explanationKey: String!
+  direction: String!
+}
+
+input MoveTopicSummaryInput {
+  courseKey: String!
+  topicKey: String!
+  summaryKey: String!
+  direction: String!
+}
+
+input MoveTopicVideoInput {
+  courseKey: String!
+  topicKey: String!
+  videoUuid: String!
+  direction: String!
+}
+
+input MoveTopicQuestionInput {
+  courseKey: String!
+  topicKey: String!
+  questionUuid: String!
+  direction: String!
+}
+
+input UpsertCourseIntegrationsInput {
+  courseKey: String!
+  discordRoleIds: [String!]!
+  # number of answers that should be correct in order to get discord score
+  discordRolePassingCount: Int
+  discordWebhook: String
+  projectGalaxyCredentialId: String
+  projectGalaxyOatMintUrl: String
+  projectGalaxyOatPassingCount: Int
+  projectGalaxyOatMintedContent: String
+}

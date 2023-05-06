@@ -1,0 +1,20 @@
+scalar Any
+scalar JSON
+scalar JSONObject
+
+# Queries
+type Query
+
+type Mutation
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+type JwtResponse {
+  jwt: String!
+}
+
+
+

@@ -1,0 +1,38 @@
+extend type Query {
+  academyTask(uuid: String!): AcademyTask!
+  academyTasks(spaceId: String!, status: String): [AcademyTask!]
+}
+
+extend type Mutation {
+  upsertAcademyTask(
+    spaceId: String!
+    task: UpsertAcademyTaskInput!
+  ): AcademyTask!
+}
+
+type AcademyTask {
+  uuid: String!
+  createdAt: Int!
+  createdBy: String!
+  excerpt: String!
+  prerequisiteCourses: [SummarizedGitCourse!]!
+  prerequisiteGuides: [Guide!]!
+  spaceId: String!
+  status: String!
+  details: String!
+  title: String!
+  items: [GuideStepItem!]!
+  updatedAt: Int!
+  updatedBy: String!
+}
+
+input UpsertAcademyTaskInput {
+  uuid: String!
+  details: String!
+  excerpt: String!
+  items: [StepItemInputGenericInput!]!
+  prerequisiteCourseUuids: [String!]!
+  prerequisiteGuideUuids: [String!]!
+  status: String!
+  title: String!
+}
