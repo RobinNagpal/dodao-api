@@ -11,98 +11,108 @@ datasource db {
 }
 
 model AcademyTask {
-  uuid                String @id @db.VarChar(66)
-  createdAt           Int
-  createdBy           String @db.VarChar(128)
-  prerequisiteCourses Json
-  prerequisiteGuides  Json
-  spaceId             String @db.VarChar(64)
-  status              String @db.VarChar(64)
-  details             String @db.Text
-  title               String @db.VarChar(66)
+  uuid                String   @id @db.VarChar(66)
+  createdAt           DateTime @default(now()) @map("created_at")
+  createdBy           String   @map("created_by") @db.VarChar(128)
+  prerequisiteCourses Json     @map("prerequisite_courses")
+  prerequisiteGuides  Json     @map("prerequisite_guides")
+  spaceId             String   @map("space_id") @db.VarChar(64)
+  status              String   @db.VarChar(64)
+  details             String   @db.Text
+  title               String   @db.VarChar(66)
   items               Json
-  updatedAt           Int
-  updatedBy           String @db.VarChar(128)
-  excerpt             String @db.VarChar(256)
+  updatedAt           DateTime @updatedAt @map("updated_at")
+  updatedBy           String   @map("updated_by") @db.VarChar(128)
+  excerpt             String   @db.VarChar(256)
+
+  @@map("academy_tasks")
 }
 
 model ByteSubmission {
-  id        String @id @db.VarChar(66)
-  created   Int
-  createdBy String @db.VarChar(64)
-  byteId    String @db.VarChar(64)
-  spaceId   String @db.VarChar(64)
+  id        String   @id @db.VarChar(66)
+  created   DateTime @default(now()) @map("created_at")
+  createdBy String   @map("created_by") @db.VarChar(64)
+  byteId    String   @map("byte_id") @db.VarChar(64)
+  spaceId   String   @map("space_id") @db.VarChar(64)
   steps     Json
+
+  @@map("byte_submissions")
 }
 
 model GitCourseSubmission {
   uuid                     String                     @id @db.VarChar(66)
-  courseKey                String                     @db.VarChar(128)
-  createdAt                Int
-  createdBy                String                     @db.VarChar(64)
-  isLatestSubmission       Boolean                    @db.Boolean
-  questionsAttempted       Int?
-  questionsCorrect         Int?
-  questionsIncorrect       Int?
-  questionsSkipped         Int?
-  spaceId                  String                     @db.VarChar(64)
-  updatedAt                Int
+  courseKey                String                     @map("course_key") @db.VarChar(128)
+  createdAt                DateTime                   @default(now()) @map("created_at")
+  createdBy                String                     @map("created_by") @db.VarChar(64)
+  isLatestSubmission       Boolean                    @map("is_latest_submission") @db.Boolean
+  questionsAttempted       Int?                       @map("questions_attempted")
+  questionsCorrect         Int?                       @map("questions_correct")
+  questionsIncorrect       Int?                       @map("questions_incorrect")
+  questionsSkipped         Int?                       @map("questions_skipped")
+  spaceId                  String                     @map("space_id") @db.VarChar(64)
+  updatedAt                Int                        @map("updated_at")
   status                   String                     @default("InProgress") @db.VarChar(64)
-  galaxyCredentialsUpdated Boolean?                   @db.Boolean
+  galaxyCredentialsUpdated Boolean?                   @map("galaxy_credentials_updated") @db.Boolean
   GitCourseTopicSubmission GitCourseTopicSubmission[]
+
+  @@map("git_course_submissions")
 }
 
 model GitCourseTopicSubmission {
-  uuid                 String  @id @db.VarChar(66)
-  courseKey            String  @db.VarChar(128)
-  courseSubmissionUuid String  @db.VarChar(66)
-  createdAt            Int
-  createdBy            String  @db.VarChar(64)
-  isLatestSubmission   Boolean @db.Boolean
-  questionsAttempted   Int?
-  questionsCorrect     Int?
-  questionsIncorrect   Int?
-  questionsSkipped     Int?
+  uuid                 String   @id @db.VarChar(66)
+  courseKey            String   @map("course_key") @db.VarChar(128)
+  courseSubmissionUuid String   @map("course_submission_uuid") @db.VarChar(66)
+  createdAt            DateTime @default(now()) @map("created_at")
+  createdBy            String   @map("created_by") @db.VarChar(64)
+  isLatestSubmission   Boolean  @map("is_latest_submission") @db.Boolean
+  questionsAttempted   Int?     @map("questions_attempted")
+  questionsCorrect     Int?     @map("questions_correct")
+  questionsIncorrect   Int?     @map("questions_incorrect")
+  questionsSkipped     Int?     @map("questions_skipped")
   submission           Json
-  spaceId              String  @db.VarChar(64)
-  topicKey             String  @db.VarChar(128)
-  updatedAt            Int
-  status               String  @default("InProgress") @db.VarChar(64)
-  correctAnswers       Json?
+  spaceId              String   @map("space_id") @db.VarChar(64)
+  topicKey             String   @map("topic_key") @db.VarChar(128)
+  updatedAt            DateTime @updatedAt @map("updated_at")
+  status               String   @default("InProgress") @db.VarChar(64)
+  correctAnswers       Json?    @map("correct_answers")
 
   courseSubmission GitCourseSubmission @relation(fields: [courseSubmissionUuid], references: [uuid])
+
+  @@map("git_course_topic_submissions")
 }
 
 model Guide {
   id                        String  @id @db.VarChar(66)
   content                   String  @db.Text
-  previousId                String? @db.VarChar(66)
+  previousId                String? @map("previous_id") @db.VarChar(66)
   uuid                      String  @db.VarChar(255)
   authors                   Json
   created                   Int
-  spaceId                   String  @db.VarChar(64)
-  guideName                 String  @db.VarChar(255)
+  spaceId                   String  @map("space_id") @db.VarChar(64)
+  guideName                 String  @map("guide_name") @db.VarChar(255)
   status                    String  @db.VarChar(255)
   version                   Int
   thumbnail                 String? @db.VarChar(255)
   categories                Json
-  discordWebhook            String? @db.VarChar(1024)
-  guideType                 String  @default("onboarding") @db.VarChar(128)
-  publishStatus             String  @default("Live") @db.VarChar(128)
-  socialShareImage          String? @db.VarChar(2048)
-  discordRoleIds            Json
-  discordRolePassingCount   Int?
-  showIncorrectOnCompletion Boolean @default(true) @db.Boolean
-  postSubmissionStepContent String  @db.Text
+  discordWebhook            String? @map("discord_webhook") @db.VarChar(1024)
+  guideType                 String  @default("onboarding") @map("guide_type") @db.VarChar(128)
+  publishStatus             String  @default("Live") @map("publish_status") @db.VarChar(128)
+  socialShareImage          String? @map("social_share_image") @db.VarChar(2048)
+  discordRoleIds            Json    @map("discord_role_ids")
+  discordRolePassingCount   Int?    @map("discord_role_passing_count")
+  showIncorrectOnCompletion Boolean @default(true) @map("show_incorrect_on_completion") @db.Boolean
+  postSubmissionStepContent String  @map("post_submission_step_content") @db.Text
+
+  @@map("guides")
 }
 
 model Space {
   id                            String              @id @db.VarChar(64)
   settings                      Json?               @db.Json
   verified                      Int                 @default(0)
-  createdAt                     BigInt              @db.BigInt
+  createdAt                     BigInt              @map("created_at") @db.BigInt
   creator                       String              @db.VarChar(64)
-  updatedAt                     BigInt              @db.BigInt
+  updatedAt                     BigInt              @map("updated_at") @db.BigInt
   about                         String?             @db.Text
   avatar                        String?             @db.VarChar(255)
   admins                        Json                @db.Json
@@ -110,22 +120,22 @@ model Space {
   github                        String?             @db.VarChar(255)
   members                       Json                @db.Json
   mission                       String?             @db.VarChar(255)
-  network                       String              @db.VarChar(12)
+  network                       String              @map("network") @db.VarChar(12)
   terms                         String?             @db.VarChar(255)
   twitter                       String?             @db.VarChar(255)
   blockchain                    String              @default("ETH") @db.VarChar(64)
   skin                          String              @default("dodao") @db.VarChar(128)
-  discordInvite                 String?             @db.VarChar(1024)
-  guidesPageFooterContent       String?             @db.Text
-  guidesPageHeaderContent       String?             @db.Text
-  guidesBundlePageFooterContent String?             @db.Text
-  guidesBundlePageHeaderContent String?             @db.Text
-  blogSite                      String?             @db.VarChar(1024)
-  publicForumWebsite            String?             @db.VarChar(1024)
-  referenceDocsWebsite          String?             @db.VarChar(1024)
-  telegramInvite                String?             @db.VarChar(1024)
+  discordInvite                 String?             @map("discord_invite") @db.VarChar(1024)
+  guidesPageFooterContent       String?             @map("guides_page_footer_content") @db.Text
+  guidesPageHeaderContent       String?             @map("guides_page_header_content") @db.Text
+  guidesBundlePageFooterContent String?             @map("guides_bundle_page_footer_content") @db.Text
+  guidesBundlePageHeaderContent String?             @map("guides_bundle_page_header_content") @db.Text
+  blogSite                      String?             @map("blog_site") @db.VarChar(1024)
+  publicForumWebsite            String?             @map("public_forum_website") @db.VarChar(1024)
+  referenceDocsWebsite          String?             @map("reference_docs_website") @db.VarChar(1024)
+  telegramInvite                String?             @map("telegram_invite") @db.VarChar(1024)
   features                      Json                @db.Json
-  inviteLinks                   Json?               @db.Json
+  inviteLinks                   Json?               @map("invite_links") @db.Json
   CourseIntegration             CourseIntegration[]
   GitCourse                     GitCourse[]
   GuideIntegration              GuideIntegration[]
@@ -134,117 +144,135 @@ model Space {
   GuidesGuideStep               GuidesGuideStep[]
   SpaceDiscord                  SpaceDiscord[]
   SpaceIntegration              SpaceIntegration[]
+
+  @@map("spaces")
 }
 
 model CourseIntegration {
-  id                            String  @id @db.VarChar(255)
-  spaceId                       String  @db.VarChar(255)
-  courseKey                     String  @db.VarChar(255)
-  createdAt                     Int     @db.Integer
-  createdBy                     String? @db.VarChar(256)
-  discordRoleIds                Json?   @db.Json
-  discordRolePassingCount       Int?    @db.Integer
-  discordWebhook                String? @db.VarChar(1024)
-  projectGalaxyCredentialId     String? @db.VarChar(255)
-  projectGalaxyOatMintUrl       String? @db.VarChar(255)
-  projectGalaxyOatPassingCount  Int?    @db.Integer
-  updatedAt                     Int     @db.Integer
-  updatedBy                     String? @db.VarChar(256)
-  projectGalaxyOatMintedContent String? @db.Text
-  space                         Space   @relation(fields: [spaceId], references: [id])
+  id                            String   @id @db.VarChar(255)
+  spaceId                       String   @map("space_id") @db.VarChar(255)
+  courseKey                     String   @map("course_key") @db.VarChar(255)
+  createdAt                     DateTime @default(now()) @map("created_at")
+  createdBy                     String?  @map("created_by") @db.VarChar(256)
+  discordRoleIds                Json?    @map("discord_role_ids") @db.Json
+  discordRolePassingCount       Int?     @map("discord_role_passing_count") @db.Integer
+  discordWebhook                String?  @map("discord_webhook") @db.VarChar(1024)
+  projectGalaxyCredentialId     String?  @map("project_galaxy_credential_id") @db.VarChar(255)
+  projectGalaxyOatMintUrl       String?  @map("project_galaxy_oat_mint_url") @db.VarChar(255)
+  projectGalaxyOatPassingCount  Int?     @map("project_galaxy_oat_passing_count") @db.Integer
+  updatedAt                     DateTime @updatedAt @map("updated_at")
+  updatedBy                     String?  @map("updated_by") @db.VarChar(256)
+  projectGalaxyOatMintedContent String?  @map("project_galaxy_oat_minted_content") @db.Text
+  space                         Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("course_integrations")
 }
 
 model GitCourse {
-  id            String  @id @db.VarChar(255)
-  courseKey     String? @db.VarChar(255)
-  spaceId       String  @db.VarChar(66)
-  createdAt     Int     @db.Integer
-  createdBy     String? @db.VarChar(256)
-  courseJsonUrl String? @db.VarChar(1024)
-  weight        Int     @default(20) @db.Integer
-  updatedAt     Int     @db.Integer
-  updatedBy     String? @db.VarChar(256)
-  courseRepoUrl String? @db.VarChar(1024)
-  publishStatus String  @default("Live") @db.VarChar(128)
-  courseAdmins  Json    @db.Json
-  space         Space   @relation(fields: [spaceId], references: [id])
+  id            String   @id @db.VarChar(255)
+  courseKey     String?  @map("course_key") @db.VarChar(255)
+  spaceId       String   @map("space_id") @db.VarChar(66)
+  createdAt     DateTime @default(now()) @map("created_at")
+  createdBy     String?  @map("created_by") @db.VarChar(256)
+  courseJsonUrl String?  @map("course_json_url") @db.VarChar(1024)
+  weight        Int      @default(20) @map("weight") @db.Integer
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  updatedBy     String?  @map("updated_by") @db.VarChar(256)
+  courseRepoUrl String?  @map("course_repo_url") @db.VarChar(1024)
+  publishStatus String   @default("Live") @map("publish_status") @db.VarChar(128)
+  courseAdmins  Json     @map("course_admins") @db.Json
+  space         Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("git_courses")
 }
 
 model GuideIntegration {
-  id                           String  @id @db.VarChar(255)
-  spaceId                      String  @db.VarChar(255)
-  guideId                      String  @db.VarChar(255)
-  createdAt                    Int     @db.Integer
-  createdBy                    String? @db.VarChar(256)
-  discordRoleIds               Json?   @db.Json
-  discordRolePassingCount      Int?    @db.Integer
-  discordWebhook               String? @db.VarChar(1024)
-  projectGalaxyCredentialId    String? @db.VarChar(255)
-  projectGalaxyOatMintUrl      String? @db.VarChar(255)
-  updatedAt                    Int     @db.Integer
-  updatedBy                    String? @db.VarChar(256)
-  projectGalaxyOatPassingCount Int?    @db.Integer
-  space                        Space   @relation(fields: [spaceId], references: [id])
+  id                           String   @id @db.VarChar(255)
+  spaceId                      String   @map("space_id") @db.VarChar(255)
+  guideId                      String   @map("guide_id") @db.VarChar(255)
+  createdAt                    DateTime @default(now()) @map("created_at")
+  createdBy                    String?  @map("created_by") @db.VarChar(256)
+  discordRoleIds               Json?    @map("discord_role_ids") @db.Json
+  discordRolePassingCount      Int?     @map("discord_role_passing_count") @db.Integer
+  discordWebhook               String?  @map("discord_webhook") @db.VarChar(1024)
+  projectGalaxyCredentialId    String?  @map("project_galaxy_credential_id") @db.VarChar(255)
+  projectGalaxyOatMintUrl      String?  @map("project_galaxy_oat_mint_url") @db.VarChar(255)
+  updatedAt                    DateTime @updatedAt @map("updated_at")
+  updatedBy                    String?  @map("updated_by") @db.VarChar(256)
+  projectGalaxyOatPassingCount Int?     @map("project_galaxy_oat_passing_count") @db.Integer
+  space                        Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("guide_integrations")
 }
 
 model GuideStep {
-  id        String @id @db.VarChar(66)
-  uuid      String @db.VarChar(66)
-  created   Int    @db.Integer
-  stepName  String @db.VarChar(255)
-  content   String @db.Text
-  stepItems Json   @db.Json
-  stepOrder Int    @db.Integer
-  spaceId   String @db.VarChar(64)
-  space     Space  @relation(fields: [spaceId], references: [id])
+  id        String   @id @db.VarChar(66)
+  uuid      String   @db.VarChar(66)
+  createdAt DateTime @default(now()) @map("created_at")
+  stepName  String   @map("step_name") @db.VarChar(255)
+  content   String   @db.Text
+  stepItems Json     @map("step_items") @db.Json
+  stepOrder Int      @map("step_order") @db.Integer
+  spaceId   String   @map("space_id") @db.VarChar(64)
+  space     Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("guide_steps")
 }
 
 model GuideSubmission {
-  id        String @id @db.VarChar(66)
-  created   Int    @db.Integer
-  createdBy String @db.VarChar(64)
-  guideId   String @db.VarChar(64)
-  guideUuid String @db.VarChar(255)
-  result    Json   @db.Json
-  spaceId   String @db.VarChar(64)
-  steps     Json   @db.Json
-  uuid      String @db.VarChar(255)
-  space     Space  @relation(fields: [spaceId], references: [id])
+  id        String   @id @db.VarChar(66)
+  createdAt DateTime @default(now()) @map("created_at")
+  createdBy String   @map("created_by") @db.VarChar(64)
+  guideId   String   @map("guide_id") @db.VarChar(64)
+  guideUuid String   @map("guide_uuid") @db.VarChar(255)
+  result    Json     @db.Json
+  spaceId   String   @map("space_id") @db.VarChar(64)
+  steps     Json     @db.Json
+  uuid      String   @db.VarChar(255)
+  space     Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("guide_submissions")
 }
 
 model GuidesGuideStep {
-  id          String @id @db.VarChar(255)
-  guideStepId String @db.VarChar(66)
-  guideId     String @db.VarChar(66)
-  created     Int    @db.Integer
-  spaceId     String @db.VarChar(64)
-  space       Space  @relation(fields: [spaceId], references: [id])
+  id          String   @id @db.VarChar(255)
+  guideStepId String   @map("guide_step_id") @db.VarChar(66)
+  guideId     String   @map("guide_id") @db.VarChar(66)
+  createdAt   DateTime @default(now()) @map("created_at")
+  spaceId     String   @map("space_id") @db.VarChar(64)
+  space       Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("guides_guide_steps")
 }
 
 model SpaceDiscord {
-  id                String  @id @db.VarChar(255)
-  accessToken       String  @db.VarChar(255)
-  accessTokenExpiry Int     @db.Integer
-  createdAt         Int     @db.Integer
-  refreshToken      String  @db.VarChar(255)
-  selectedGuideId   String? @db.VarChar(255)
-  spaceId           String  @db.VarChar(66)
-  updatedAt         Int     @db.Integer
-  space             Space   @relation(fields: [spaceId], references: [id])
+  id                String   @id @db.VarChar(255)
+  accessToken       String   @map("access_token") @db.VarChar(255)
+  accessTokenExpiry Int      @map("access_token_expiry") @db.Integer
+  createdAt         DateTime @default(now()) @map("created_at")
+  refreshToken      String   @map("refresh_token") @db.VarChar(255)
+  selectedGuideId   String?  @map("selected_guide_id") @db.VarChar(255)
+  spaceId           String   @map("space_id") @db.VarChar(66)
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  space             Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("space_discords")
 }
 
 model SpaceIntegration {
-  id                         String  @id @db.VarChar(255)
-  spaceId                    String  @db.VarChar(66)
-  createdAt                  Int     @db.Integer
-  createdBy                  String? @db.VarChar(256)
-  discordGuildId             String? @db.VarChar(255)
-  projectGalaxyToken         String? @db.VarChar(256)
-  projectGalaxyTokenLastFour String? @db.VarChar(64)
-  updatedAt                  Int     @db.Integer
-  updatedBy                  String? @db.VarChar(256)
-  gnosisSafeWallets          Json?   @db.Json
-  gitGuideRepositories       Json    @db.Json
-  academyRepository          String? @db.VarChar(2048)
-  space                      Space   @relation(fields: [spaceId], references: [id])
+  id                         String   @id @db.VarChar(255)
+  spaceId                    String   @map("space_id") @db.VarChar(66)
+  createdAt                  DateTime @default(now()) @map("created_at")
+  createdBy                  String?  @map("created_by") @db.VarChar(256)
+  discordGuildId             String?  @map("discord_guild_id") @db.VarChar(255)
+  projectGalaxyToken         String?  @map("project_galaxy_token") @db.VarChar(256)
+  projectGalaxyTokenLastFour String?  @map("project_galaxy_token_last_four") @db.VarChar(64)
+  updatedAt                  DateTime @updatedAt @map("updated_at")
+  updatedBy                  String?  @map("updated_by") @db.VarChar(256)
+  gnosisSafeWallets          Json?    @map("gnosis_safe_wallets") @db.Json
+  gitGuideRepositories       Json     @map("git_guide_repositories") @db.Json
+  academyRepository          String?  @map("academy_repository") @db.VarChar(2048)
+  space                      Space    @relation(fields: [spaceId], references: [id])
+
+  @@map("space_integrations")
 }
