@@ -1,5 +1,5 @@
-import getSpace from "@/space/queries/getSpace";
+import getSpace from '@/space/queries/getSpace';
 
 export default {
-  space: getSpace
-}
+  space: getSpace,
+};

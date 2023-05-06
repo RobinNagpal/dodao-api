@@ -1,4 +1,4 @@
-import spaceMutations from "@/space/spaceMutations";
+import spaceMutations from '@/space/spaceMutations';
 
 export default {
   ...spaceMutations,

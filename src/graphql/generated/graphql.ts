@@ -60,49 +60,41 @@ export type Mutation = {
   upsertSpaceInviteLinks: Space;
 };
 
-
 export type MutationAddDiscordCredentialsArgs = {
   code: Scalars['String'];
   redirectUri: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
-
 export type MutationCreateSignedUrlArgs = {
   input: CreateSignedUrlInput;
   spaceId: Scalars['String'];
 };
-
 
 export type MutationUpsertGnosisSafeWalletsArgs = {
   spaceId: Scalars['String'];
   wallets: Array<GnosisSafeWalletInput>;
 };
 
-
 export type MutationUpsertProjectGalaxyAccessTokenArgs = {
   accessToken: Scalars['String'];
   spaceId: Scalars['String'];
 };
-
 
 export type MutationUpsertSpaceAcademyRepositoryArgs = {
   academyRepository: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
-
 export type MutationUpsertSpaceFeaturesArgs = {
   features: Array<Scalars['String']>;
   spaceId: Scalars['String'];
 };
 
-
 export type MutationUpsertSpaceGitGuideRepositoriesArgs = {
   gitGuideRepositories: Array<SpaceGitRepositoryInput>;
   spaceId: Scalars['String'];
 };
-
 
 export type MutationUpsertSpaceInviteLinksArgs = {
   spaceId: Scalars['String'];
@@ -111,7 +103,7 @@ export type MutationUpsertSpaceInviteLinksArgs = {
 
 export enum OrderDirection {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type Query = {
@@ -121,12 +113,10 @@ export type Query = {
   spaces?: Maybe<Array<Space>>;
 };
 
-
 export type QuerySpaceArgs = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
 };
-
 
 export type QuerySpaceDiscordGuildArgs = {
   spaceId: Scalars['String'];
@@ -218,15 +208,14 @@ export type SpaceWhere = {
   id_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -285,8 +274,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-
-
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Any: ResolverTypeWrapper<Scalars['Any']>;
@@ -342,7 +329,10 @@ export interface AnyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
   name: 'Any';
 }
 
-export type GnosisSafeWalletResolvers<ContextType = any, ParentType extends ResolversParentTypes['GnosisSafeWallet'] = ResolversParentTypes['GnosisSafeWallet']> = {
+export type GnosisSafeWalletResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['GnosisSafeWallet'] = ResolversParentTypes['GnosisSafeWallet']
+> = {
   chainId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -366,14 +356,44 @@ export type JwtResponseResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addDiscordCredentials?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationAddDiscordCredentialsArgs, 'code' | 'redirectUri' | 'spaceId'>>;
+  addDiscordCredentials?: Resolver<
+    ResolversTypes['Space'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddDiscordCredentialsArgs, 'code' | 'redirectUri' | 'spaceId'>
+  >;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
-  upsertGnosisSafeWallets?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertGnosisSafeWalletsArgs, 'spaceId' | 'wallets'>>;
-  upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
-  upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
+  upsertGnosisSafeWallets?: Resolver<
+    ResolversTypes['Space'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpsertGnosisSafeWalletsArgs, 'spaceId' | 'wallets'>
+  >;
+  upsertProjectGalaxyAccessToken?: Resolver<
+    ResolversTypes['Space'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>
+  >;
+  upsertSpaceAcademyRepository?: Resolver<
+    ResolversTypes['Space'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>
+  >;
   upsertSpaceFeatures?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceFeaturesArgs, 'features' | 'spaceId'>>;
-  upsertSpaceGitGuideRepositories?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceGitGuideRepositoriesArgs, 'gitGuideRepositories' | 'spaceId'>>;
-  upsertSpaceInviteLinks?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceInviteLinksArgs, 'spaceId' | 'spaceInviteArgs'>>;
+  upsertSpaceGitGuideRepositories?: Resolver<
+    ResolversTypes['Space'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpsertSpaceGitGuideRepositoriesArgs, 'gitGuideRepositories' | 'spaceId'>
+  >;
+  upsertSpaceInviteLinks?: Resolver<
+    ResolversTypes['Space'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpsertSpaceInviteLinksArgs, 'spaceId' | 'spaceInviteArgs'>
+  >;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -426,14 +446,20 @@ export type SpaceFiltersResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SpaceGitRepositoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['SpaceGitRepository'] = ResolversParentTypes['SpaceGitRepository']> = {
+export type SpaceGitRepositoryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['SpaceGitRepository'] = ResolversParentTypes['SpaceGitRepository']
+> = {
   authenticationToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   gitRepoType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   repoUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SpaceIntegrationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['SpaceIntegrations'] = ResolversParentTypes['SpaceIntegrations']> = {
+export type SpaceIntegrationsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['SpaceIntegrations'] = ResolversParentTypes['SpaceIntegrations']
+> = {
   academyRepository?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordGuildId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   gitGuideRepositories?: Resolver<Maybe<Array<ResolversTypes['SpaceGitRepository']>>, ParentType, ContextType>;
@@ -442,7 +468,10 @@ export type SpaceIntegrationsResolvers<ContextType = any, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SpaceInviteLinksResolvers<ContextType = any, ParentType extends ResolversParentTypes['SpaceInviteLinks'] = ResolversParentTypes['SpaceInviteLinks']> = {
+export type SpaceInviteLinksResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['SpaceInviteLinks'] = ResolversParentTypes['SpaceInviteLinks']
+> = {
   discordInviteLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   showAnimatedButtonForDiscord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   showAnimatedButtonForTelegram?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -464,4 +493,3 @@ export type Resolvers<ContextType = any> = {
   SpaceIntegrations?: SpaceIntegrationsResolvers<ContextType>;
   SpaceInviteLinks?: SpaceInviteLinksResolvers<ContextType>;
 };
-
