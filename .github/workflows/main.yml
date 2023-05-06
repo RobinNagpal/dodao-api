@@ -1,19 +1,6 @@
-name: CI
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
 jobs:
-  build:
+  lint_and_prettier:
     runs-on: ubuntu-latest
-    env:
-      AWS_REGION: us-east-1 # Change this to the AWS region where your ECR repository is located
-      ECR_REPOSITORY: dodao-api # Replace this with your ECR repository name
 
     steps:
       - name: Check out repository
@@ -33,11 +20,24 @@ jobs:
       - name: Run Prettier
         run: npm run prettier-check
 
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
+  build_and_push_docker:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1 # Change this to the AWS region where your ECR repository is located
+      ECR_REPOSITORY: dodao-api # Replace this with your ECR repository name
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm i
 
       - name: Login to Amazon ECR
         id: login-ecr
