@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1 # Change this to the AWS region where your ECR repository is located
+      ECR_REPOSITORY: dodao-api # Replace this with your ECR repository name
 
     steps:
       - name: Check out repository
@@ -29,3 +32,25 @@ jobs:
 
       - name: Run Prettier
         run: npm run prettier-check
+
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_ENV
+          echo "ECR_REGISTRY=$(aws ecr describe-repositories --region $AWS_REGION --repository-names $ECR_REPOSITORY --query 'repositories[0].repositoryUri' --output text)" >> $GITHUB_ENV
+          echo "ECR_REGISTRY=$ECR_REGISTRY" >> $GITHUB_ENV
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t $ECR_REGISTRY:$GITHUB_SHA -f Dockerfile .
+          docker push $ECR_REGISTRY:$GITHUB_SHA
