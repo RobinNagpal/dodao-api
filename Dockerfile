@@ -13,9 +13,6 @@ RUN npm ci
 # Copy the rest of the application code to the container
 COPY . .
 
-# Compile TypeScript
-RUN npm run build
-
 # Expose the port your application uses
 EXPOSE 8000
 
