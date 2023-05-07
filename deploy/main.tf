@@ -15,7 +15,7 @@ module "networking" {
 }
 
 resource "aws_ecr_repository" "v2_api" {
-  name = "my-example-repository"
+  name = "v2-api"
 }
 
 module "redis" {
