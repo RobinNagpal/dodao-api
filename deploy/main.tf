@@ -14,6 +14,9 @@ module "networking" {
   environment  = local.environment
 }
 
+resource "aws_ecr_repository" "v2_api" {
+  name = "my-example-repository"
+}
 
 module "redis" {
   source = "./modules/redis"
@@ -30,7 +33,7 @@ module "ecs" {
 
   project_name                  = local.project_name
   environment                   = local.environment
-  ecr_repository_url            = aws_ecr_repository.main.repository_url
+  ecr_repository_url            = aws_ecr_repository.v2_api.repository_url
   jwt_private_key               = var.jwt_private_key
   all_guide_submissions_webhook = var.all_guide_submissions_webhook
   server_errors_webhook         = var.server_errors_webhook

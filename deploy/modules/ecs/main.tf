@@ -22,9 +22,16 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_task_definition" "app" {
   family                = local.family
+  cpu                      = "512" # 0.5 vCPU
+  memory                   = "1024" # 1 GB of RAM
   container_definitions = jsonencode([{
     name  = "${var.project_name}-${var.environment}"
     image = var.ecr_repository_url
+
+    resources = {
+      cpu    = 512 # 0.5 vCPU
+      memory = 1024 # 1 GB of RAM
+    }
 
     environment = [
       { name = "JWT_PRIVATE_KEY", value = var.jwt_private_key },
@@ -48,8 +55,6 @@ resource "aws_ecs_task_definition" "app" {
 
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                       = "256"
-  memory                    = "512"
   execution_role_arn        = aws_iam_role.execution.arn
   task_role_arn            = aws_iam_role.task.arn
 }
