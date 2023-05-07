@@ -73,3 +73,10 @@ jobs:
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
+      - name: Trigger ECS Deployment
+        env:
+          AWS_REGION: us-east-1
+          CLUSTER_NAME: v2-api-prod # Replace with your ECS cluster name
+          SERVICE_NAME: v2-api-prod-app # Replace with your ECS service name
+        run: |
+          aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment
