@@ -6,3 +6,12 @@ variable "discord_client_id" {}
 variable "discord_client_secret" {}
 variable "discord_bot_token" {}
 variable "all_guides_git_repository" {}
+variable "project_name" {
+  description = "The project name"
+  type        = string
+}
+
+variable "environment" {
+  description = "The environment (e.g., prod, staging)"
+  type        = string
+}

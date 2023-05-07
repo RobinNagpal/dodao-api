@@ -27,6 +27,14 @@ module "redis" {
   subnet_ids   = module.networking.subnets
 }
 
+module "load_balancer" {
+  source             = "./modules/load_balancer"
+  project_name       = var.project_name
+  environment        = var.environment
+  subnet_ids         = module.networking.subnets
+  security_group_ids = module.networking.security_group_id
+  vpc_id             = module.networking.vpc_id
+}
 
 module "ecs" {
   source = "./modules/ecs"
@@ -45,6 +53,8 @@ module "ecs" {
   subnets                       = module.networking.subnets
   security_groups               = [module.networking.security_group]
   redis_endpoint                = module.redis.redis_endpoint
+  ecs_target_group_arn          = module.load_balancer.ecs_target_group_arn
+
 
 }
 

@@ -66,11 +66,18 @@ resource "aws_ecs_service" "main" {
   desired_count   = var.environment == "prod" ? 2 : 1
   launch_type     = "FARGATE"
 
+  load_balancer {
+    target_group_arn = var.ecs_target_group_arn
+    container_name   = "${var.project_name}-${var.environment}"
+    container_port   = 8000
+  }
+
   network_configuration {
     subnets = var.subnets
     assign_public_ip = true
     security_groups = var.security_groups
   }
+
 
   depends_on = [aws_ecs_task_definition.app]
 }
