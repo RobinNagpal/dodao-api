@@ -13,6 +13,8 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "certificate_arn" {}
+
 variable "subnet_ids" {
   description = "The subnet IDs for the load balancer"
   type        = list(string)

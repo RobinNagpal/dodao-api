@@ -14,7 +14,7 @@ module "networking" {
   environment  = local.environment
 }
 
-resource "aws_ecr_repository" "v2_api" {
+data "aws_ecr_repository" "v2_api" {
   name = "v2-api"
 }
 
@@ -27,22 +27,57 @@ module "redis" {
   subnet_ids   = module.networking.subnets
 }
 
+data "aws_route53_zone" "dodao" {
+  name = "dodao.io."
+}
+
+resource "aws_route53_record" "alias" {
+  name    = "v2-api.dodao.io"
+  type    = "A"
+  zone_id = data.aws_route53_zone.dodao.zone_id
+
+  alias {
+    name                   = module.load_balancer.alb_dns_name
+    zone_id                = module.load_balancer.alb_zone_id
+    evaluate_target_health = false
+  }
+}
+
+# Add this block to create an SSL certificate (replace "example.com" with your domain)
+resource "aws_acm_certificate" "cert" {
+  domain_name       = "v2-api.dodao.io"
+  validation_method = "DNS"
+  tags              = {
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+resource "aws_acm_certificate_validation" "cert_validation" {
+  certificate_arn         = aws_acm_certificate.cert.arn
+  validation_record_fqdns = aws_acm_certificate.cert.domain_validation_options.*.resource_record_name
+}
+
 module "load_balancer" {
   source             = "./modules/load_balancer"
   project_name       = var.project_name
   environment        = var.environment
   subnet_ids         = module.networking.subnets
-  security_group_ids = module.networking.security_group_id
+  security_group_ids = [module.networking.security_group_id]
   vpc_id             = module.networking.vpc_id
+  certificate_arn    = aws_acm_certificate.cert.arn
+
 }
+
 
 module "ecs" {
   source = "./modules/ecs"
 
-  project_name                  = local.project_name
-  environment                   = local.environment
-  ecr_repository_url            = aws_ecr_repository.v2_api.repository_url
-  jwt_private_key               = var.jwt_private_key
+  project_name       = local.project_name
+  environment        = local.environment
+  ecr_repository_url = data.aws_ecr_repository.v2_api.repository_url
+  jwt_private_key    = var.jwt_private_key
+
   all_guide_submissions_webhook = var.all_guide_submissions_webhook
   server_errors_webhook         = var.server_errors_webhook
   public_aws_s3_bucket          = var.public_aws_s3_bucket

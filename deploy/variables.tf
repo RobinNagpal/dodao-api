@@ -9,9 +9,11 @@ variable "all_guides_git_repository" {}
 variable "project_name" {
   description = "The project name"
   type        = string
+  default = "v2-api"
 }
 
 variable "environment" {
   description = "The environment (e.g., prod, staging)"
   type        = string
+  default = "prod"
 }

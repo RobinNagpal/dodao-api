@@ -22,40 +22,42 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_task_definition" "app" {
   family                = local.family
-  cpu                      = "512" # 0.5 vCPU
-  memory                   = "1024" # 1 GB of RAM
-  container_definitions = jsonencode([{
-    name  = "${var.project_name}-${var.environment}"
-    image = var.ecr_repository_url
+  cpu                   = "512" # 0.5 vCPU
+  memory                = "1024" # 1 GB of RAM
+  container_definitions = jsonencode([
+    {
+      name  = "${var.project_name}-${var.environment}"
+      image = var.ecr_repository_url
 
-    resources = {
-      cpu    = 512 # 0.5 vCPU
-      memory = 1024 # 1 GB of RAM
-    }
-
-    environment = [
-      { name = "JWT_PRIVATE_KEY", value = var.jwt_private_key },
-      { name = "ALL_GUIDE_SUBMISSIONS_WEBHOOK", value = var.all_guide_submissions_webhook },
-      { name = "SERVER_ERRORS_WEBHOOK", value = var.server_errors_webhook },
-      { name = "PUBLIC_AWS_S3_BUCKET", value = var.public_aws_s3_bucket },
-      { name = "DISCORD_CLIENT_ID", value = var.discord_client_id },
-      { name = "DISCORD_CLIENT_SECRET", value = var.discord_client_secret },
-      { name = "DISCORD_BOT_TOKEN", value = var.discord_bot_token },
-      { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
-      { name  = "REDIS_ENDPOINT" value = var.redis_endpoint }
-    ]
-
-    portMappings = [
-      {
-        containerPort = 8000
-        hostPort      = 0
+      resources = {
+        cpu    = 512 # 0.5 vCPU
+        memory = 1024 # 1 GB of RAM
       }
-    ]
-  }])
+
+      environment = [
+        { name = "JWT_PRIVATE_KEY", value = var.jwt_private_key },
+        { name = "ALL_GUIDE_SUBMISSIONS_WEBHOOK", value = var.all_guide_submissions_webhook },
+        { name = "SERVER_ERRORS_WEBHOOK", value = var.server_errors_webhook },
+        { name = "PUBLIC_AWS_S3_BUCKET", value = var.public_aws_s3_bucket },
+        { name = "DISCORD_CLIENT_ID", value = var.discord_client_id },
+        { name = "DISCORD_CLIENT_SECRET", value = var.discord_client_secret },
+        { name = "DISCORD_BOT_TOKEN", value = var.discord_bot_token },
+        { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
+        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
+      ]
+
+      portMappings = [
+        {
+          containerPort = 8000
+          hostPort      = 8000
+        }
+      ]
+    }
+  ])
 
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  execution_role_arn        = aws_iam_role.execution.arn
+  execution_role_arn       = aws_iam_role.execution.arn
   task_role_arn            = aws_iam_role.task.arn
 }
 
@@ -73,9 +75,9 @@ resource "aws_ecs_service" "main" {
   }
 
   network_configuration {
-    subnets = var.subnets
+    subnets          = var.subnets
     assign_public_ip = true
-    security_groups = var.security_groups
+    security_groups  = var.security_groups
   }
 
 
@@ -83,13 +85,13 @@ resource "aws_ecs_service" "main" {
 }
 
 resource "aws_iam_role" "execution" {
-  name = "${var.project_name}-${var.environment}-execution"
+  name               = "${var.project_name}-${var.environment}-execution"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
         Principal = {
           Service = "ecs-tasks.amazonaws.com"
         }
@@ -99,13 +101,13 @@ resource "aws_iam_role" "execution" {
 }
 
 resource "aws_iam_role" "task" {
-  name = "${var.project_name}-${var.environment}-task"
+  name               = "${var.project_name}-${var.environment}-task"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
         Principal = {
           Service = "ecs-tasks.amazonaws.com"
         }
@@ -130,3 +132,35 @@ variable "security_groups" {
   type = list(string)
 }
 
+
+
+resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  role       = aws_iam_role.execution.name
+}
+
+resource "aws_iam_policy" "ecr_permissions" {
+  name        = "${var.project_name}-${var.environment}-ecr-policy"
+  description = "Policy to allow ECS tasks to access ECR repositories"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_permissions" {
+  policy_arn = aws_iam_policy.ecr_permissions.arn
+  role       = aws_iam_role.execution.name
+}
