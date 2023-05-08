@@ -69,6 +69,7 @@ module "load_balancer" {
 
 }
 
+
 module "efs" {
   source             = "./modules/efs"
   project_name       = var.project_name
@@ -77,8 +78,29 @@ module "efs" {
   subnet_ids         = module.networking.subnets
   security_group_ids = [module.networking.security_group_id]
 
-  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_dns_hostnames  = var.enable_dns_hostnames
   enable_dns_resolution = var.enable_dns_resolution
+
+  allowed_cidr_blocks   = module.networking.subnet_cidr_blocks
+  ecs_security_group_id = module.networking.security_group_id
+}
+
+resource "aws_efs_access_point" "efs_access_point" {
+  file_system_id = module.efs.efs_id
+
+  posix_user {
+    uid = 1000
+    gid = 1000
+  }
+
+  root_directory {
+    path = "/your_mount_path"
+    creation_info {
+      owner_uid   = 1000
+      owner_gid   = 1000
+      permissions = "755"
+    }
+  }
 }
 
 
@@ -99,9 +121,8 @@ module "ecs" {
   security_groups               = [module.networking.security_group]
   redis_endpoint                = module.redis.redis_endpoint
   ecs_target_group_arn          = module.load_balancer.ecs_target_group_arn
-
-  efs_file_system_id = module.efs.efs_id
-
+  efs_file_system_id            = module.efs.efs_id
+  efs_access_point_id           = aws_efs_access_point.efs_access_point.id
 }
 
 resource "aws_ecr_repository" "main" {

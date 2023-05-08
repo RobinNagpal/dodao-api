@@ -14,9 +14,16 @@ resource "aws_ecs_task_definition" "app" {
   cpu                   = "512" # 0.5 vCPU
   memory                = "1024" # 1 GB of RAM
   volume {
-    name      = "efs"
+    name = "efs-volume"
+
     efs_volume_configuration {
-      file_system_id = var.efs_file_system_id
+      file_system_id          = var.efs_file_system_id
+      transit_encryption      = "ENABLED"
+      transit_encryption_port = 2049
+
+      authorization_config {
+        access_point_id = var.efs_access_point_id
+      }
     }
   }
   container_definitions = jsonencode([
@@ -50,7 +57,7 @@ resource "aws_ecs_task_definition" "app" {
 
       mountPoints = [
         {
-          sourceVolume  = "efs"
+          sourceVolume  = "efs-volume"
           containerPath = "/opt/dodao/dodao-git-folder/prod"
         }
       ]
@@ -166,3 +173,31 @@ resource "aws_iam_role_policy_attachment" "ecr_permissions" {
   policy_arn = aws_iam_policy.ecr_permissions.arn
   role       = aws_iam_role.execution.name
 }
+
+
+resource "aws_iam_policy" "ecs_task_execution_efs" {
+  name = "ecs-task-execution-efs"
+  path = "/"
+  description = "ECS Task execution role policy to allow mounting and writing to EFS"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "elasticfilesystem:ClientMount",
+          "elasticfilesystem:ClientWrite"
+        ]
+        Effect = "Allow"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_efs_attach" {
+  policy_arn = aws_iam_policy.ecs_task_execution_efs.arn
+  role = aws_iam_role.execution.name
+}
+
+

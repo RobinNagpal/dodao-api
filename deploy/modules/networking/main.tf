@@ -87,3 +87,63 @@ resource "aws_route_table_association" "public_b" {
 }
 
 
+
+resource "aws_network_acl" "efs" {
+  vpc_id = aws_vpc.main.id
+  tags   = merge(local.tags, { Name = "${var.project_name}-${var.environment}-efs-nacl" })
+}
+
+
+resource "aws_network_acl_rule" "efs_inbound_nfs" {
+  network_acl_id = aws_network_acl.efs.id
+  rule_number    = 100
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  from_port      = 2049
+  to_port        = 2049
+  cidr_block     = "0.0.0.0/0"
+}
+
+resource "aws_network_acl_rule" "efs_outbound_nfs" {
+  network_acl_id = aws_network_acl.efs.id
+  rule_number    = 100
+  egress         = true
+  protocol       = "tcp"
+  rule_action    = "allow"
+  from_port      = 2049
+  to_port        = 2049
+  cidr_block     = "0.0.0.0/0"
+}
+
+
+resource "aws_network_acl" "efs_acl" {
+  vpc_id = aws_vpc.main.id
+
+  subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+
+  egress {
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+    protocol   = -1
+  }
+
+  ingress {
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 2049
+    to_port    = 2049
+    protocol   = "tcp"
+  }
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-efs-acl"
+    Environment = var.environment
+    Project     = var.project_name
+  }
+}
+

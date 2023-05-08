@@ -20,6 +20,12 @@ RUN apt-get update && \
     rm /tmp/get-pip.py && \
     pip3 install botocore
 
+# Install Amazon EFS mount helper (amazon-efs-utils)
+RUN apt-get install -y nfs-common \
+    && curl -o /tmp/amazon-efs-utils.deb https://amazon-efs-utils.s3.amazonaws.com/amazon-efs-utils-latest.deb \
+    && apt-get install -y /tmp/amazon-efs-utils.deb \
+    && rm /tmp/amazon-efs-utils.deb
+
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 

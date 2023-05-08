@@ -26,3 +26,30 @@ variable "enable_dns_hostnames" {
 variable "enable_dns_resolution" {
   default = true
 }
+
+resource "aws_security_group" "efs_security_group" {
+  name        = "${var.project_name}-${var.environment}-efs"
+  description = "EFS security group"
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_security_group_rule" "efs_inbound_nfs" {
+  security_group_id = aws_security_group.efs_security_group.id
+
+  type        = "ingress"
+  from_port   = 2049
+  to_port     = 2049
+  protocol    = "tcp"
+  source_security_group_id = var.ecs_security_group_id
+}
+
+resource "aws_security_group_rule" "efs_outbound_nfs" {
+  security_group_id = aws_security_group.efs_security_group.id
+
+  type        = "egress"
+  from_port   = 2049
+  to_port     = 2049
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
