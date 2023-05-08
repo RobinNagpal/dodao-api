@@ -14,11 +14,19 @@ RUN npm ci
 RUN apt-get update && \
     apt-get install -y \
     python3-pip \
-    nfs-common
+    nfs-common \
+    git
 
-# Install EFS utilities and botocore
+# Install EFS utilities from the GitHub repository
+RUN git clone https://github.com/aws/efs-utils && \
+    cd efs-utils && \
+    ./build-deb.sh && \
+    apt-get install -y ./build/amazon-efs-utils*deb && \
+    cd .. && \
+    rm -rf efs-utils
+
+# Install botocore
 RUN pip3 install \
-    amazon-efs-utils \
     botocore
 
 # Copy the rest of the application code to the container
