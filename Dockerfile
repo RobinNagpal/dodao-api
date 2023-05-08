@@ -35,5 +35,6 @@ COPY . .
 # Expose the port your application uses
 EXPOSE 8000
 
-# Start the application
-CMD ["npm", "start"]
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
+CMD ["/init.sh"]
