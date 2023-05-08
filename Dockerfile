@@ -10,6 +10,17 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    python3-pip \
+    nfs-common
+
+# Install EFS utilities and botocore
+RUN pip3 install \
+    amazon-efs-utils \
+    botocore
+
 # Copy the rest of the application code to the container
 COPY . .
 
