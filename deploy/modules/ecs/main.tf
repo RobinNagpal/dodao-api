@@ -1,15 +1,4 @@
-variable "project_name" {}
-variable "environment" {}
-variable "ecr_repository_url" {}
-variable "jwt_private_key" {}
-variable "all_guide_submissions_webhook" {}
-variable "server_errors_webhook" {}
-variable "public_aws_s3_bucket" {}
-variable "discord_client_id" {}
-variable "discord_client_secret" {}
-variable "discord_bot_token" {}
-variable "all_guides_git_repository" {}
-variable "redis_endpoint" {}
+
 
 
 locals {
@@ -24,6 +13,12 @@ resource "aws_ecs_task_definition" "app" {
   family                = local.family
   cpu                   = "512" # 0.5 vCPU
   memory                = "1024" # 1 GB of RAM
+  volume {
+    name      = "efs"
+    efs_volume_configuration {
+      file_system_id = var.efs_file_system_id
+    }
+  }
   container_definitions = jsonencode([
     {
       name  = "${var.project_name}-${var.environment}"
@@ -50,6 +45,13 @@ resource "aws_ecs_task_definition" "app" {
         {
           containerPort = 8000
           hostPort      = 8000
+        }
+      ]
+
+      mountPoints = [
+        {
+          sourceVolume  = "efs"
+          containerPath = "/opt/dodao/dodao-git-folder/prod"
         }
       ]
     }

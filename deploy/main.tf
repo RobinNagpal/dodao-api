@@ -69,15 +69,25 @@ module "load_balancer" {
 
 }
 
+module "efs" {
+  source             = "./modules/efs"
+  project_name       = var.project_name
+  environment        = var.environment
+  vpc_id             = module.networking.vpc_id
+  subnet_ids         = module.networking.subnets
+  security_group_ids = [module.networking.security_group_id]
+
+  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_dns_resolution = var.enable_dns_resolution
+}
+
 
 module "ecs" {
-  source = "./modules/ecs"
-
-  project_name       = local.project_name
-  environment        = local.environment
-  ecr_repository_url = data.aws_ecr_repository.v2_api.repository_url
-  jwt_private_key    = var.jwt_private_key
-
+  source                        = "./modules/ecs"
+  project_name                  = local.project_name
+  environment                   = local.environment
+  ecr_repository_url            = data.aws_ecr_repository.v2_api.repository_url
+  jwt_private_key               = var.jwt_private_key
   all_guide_submissions_webhook = var.all_guide_submissions_webhook
   server_errors_webhook         = var.server_errors_webhook
   public_aws_s3_bucket          = var.public_aws_s3_bucket
@@ -90,6 +100,7 @@ module "ecs" {
   redis_endpoint                = module.redis.redis_endpoint
   ecs_target_group_arn          = module.load_balancer.ecs_target_group_arn
 
+  efs_file_system_id = module.efs.efs_id
 
 }
 

@@ -17,3 +17,12 @@ variable "environment" {
   type        = string
   default = "prod"
 }
+
+
+variable "enable_dns_hostnames" {
+  default = true
+}
+
+variable "enable_dns_resolution" {
+  default = true
+}
