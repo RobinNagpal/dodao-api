@@ -147,3 +147,13 @@ resource "aws_network_acl" "efs_acl" {
   }
 }
 
+
+resource "aws_security_group_rule" "ecs_tasks_egress_ecr" {
+  security_group_id = aws_security_group.ecs_tasks.id
+
+  type        = "egress"
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
