@@ -104,9 +104,9 @@ resource "aws_efs_access_point" "efs_access_point" {
 }
 
 module "rds_postgres" {
-  project_name                  = local.project_name
-  environment                   = local.environment
-  source = "./modules/rds_postgres"
+  project_name = local.project_name
+  environment  = local.environment
+  source       = "./modules/rds_postgres"
 
   db_name  = var.rds_init_db
   username = var.rds_username
@@ -136,7 +136,9 @@ module "ecs" {
   ecs_target_group_arn          = module.load_balancer.ecs_target_group_arn
   efs_file_system_id            = module.efs.efs_id
   efs_access_point_id           = aws_efs_access_point.efs_access_point.id
-  database_url                  = module.rds_postgres.postgres_rds_endpoint
+  database_host                  = module.rds_postgres.postgres_rds_endpoint
+  database_username             = var.rds_username
+  database_password             = var.rds_password
 }
 
 resource "aws_ecr_repository" "main" {

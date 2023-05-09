@@ -9,7 +9,9 @@ variable "discord_client_id" {}
 variable "discord_client_secret" {}
 variable "discord_bot_token" {}
 variable "all_guides_git_repository" {}
-variable "database_url" {}
+variable "database_host" {}
+variable "database_username" {}
+variable "database_password" {}
 #variable "redis_endpoint" {}
 
 variable "efs_file_system_id" {}

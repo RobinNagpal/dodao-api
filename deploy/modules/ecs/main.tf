@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DISCORD_CLIENT_SECRET", value = var.discord_client_secret },
         { name = "DISCORD_BOT_TOKEN", value = var.discord_bot_token },
         { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
-        { name = "DATABASE_URL", value = var.database_url },
+        { name = "DATABASE_URL", value = "postgresql://${var.database_username}:${var.database_password}@${var.database_host}/v2_api_${var.environment}_db?sslmode=verify-full" },
 #        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
       ]
 
@@ -88,6 +88,7 @@ resource "aws_ecs_service" "main" {
   desired_count   = var.environment == "prod" ? 2 : 1
   launch_type     = "FARGATE"
 
+  deployment_minimum_healthy_percent = 100
   load_balancer {
     target_group_arn = var.ecs_target_group_arn
     container_name   = "${var.project_name}-${var.environment}"
