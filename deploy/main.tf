@@ -18,14 +18,14 @@ data "aws_ecr_repository" "v2_api" {
   name = "v2-api"
 }
 
-module "redis" {
-  source = "./modules/redis"
-
-  project_name = local.project_name
-  environment  = local.environment
-  vpc_id       = module.networking.vpc_id
-  subnet_ids   = module.networking.subnets
-}
+#module "redis" {
+#  source = "./modules/redis"
+#
+#  project_name = local.project_name
+#  environment  = local.environment
+#  vpc_id       = module.networking.vpc_id
+#  subnet_ids   = module.networking.subnets
+#}
 
 data "aws_route53_zone" "dodao" {
   name = "dodao.io."
@@ -119,7 +119,7 @@ module "ecs" {
   all_guides_git_repository     = var.all_guides_git_repository
   subnets                       = module.networking.subnets
   security_groups               = [module.networking.security_group]
-  redis_endpoint                = module.redis.redis_endpoint
+#  redis_endpoint                = module.redis.redis_endpoint
   ecs_target_group_arn          = module.load_balancer.ecs_target_group_arn
   efs_file_system_id            = module.efs.efs_id
   efs_access_point_id           = aws_efs_access_point.efs_access_point.id

@@ -9,8 +9,9 @@ locals {
 }
 
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-  tags       = merge(local.tags, { Name = "${var.project_name}-${var.environment}-vpc" })
+  cidr_block           = "10.0.0.0/16"
+  tags                 = merge(local.tags, { Name = "${var.project_name}-${var.environment}-vpc" })
+  enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "public_a" {
@@ -36,6 +37,13 @@ resource "aws_security_group" "ecs_tasks" {
     from_port   = 8000
     to_port     = 8000
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port  = 2049
+    to_port    = 2049
+    protocol   = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -87,73 +95,75 @@ resource "aws_route_table_association" "public_b" {
 }
 
 
-
-resource "aws_network_acl" "efs" {
-  vpc_id = aws_vpc.main.id
-  tags   = merge(local.tags, { Name = "${var.project_name}-${var.environment}-efs-nacl" })
-}
+# ========================== Below here are all EFS related resources ==========================
 
 
-resource "aws_network_acl_rule" "efs_inbound_nfs" {
-  network_acl_id = aws_network_acl.efs.id
-  rule_number    = 100
-  egress         = false
-  protocol       = "tcp"
-  rule_action    = "allow"
-  from_port      = 2049
-  to_port        = 2049
-  cidr_block     = "0.0.0.0/0"
-}
-
-resource "aws_network_acl_rule" "efs_outbound_nfs" {
-  network_acl_id = aws_network_acl.efs.id
-  rule_number    = 100
-  egress         = true
-  protocol       = "tcp"
-  rule_action    = "allow"
-  from_port      = 2049
-  to_port        = 2049
-  cidr_block     = "0.0.0.0/0"
-}
-
-
-resource "aws_network_acl" "efs_acl" {
-  vpc_id = aws_vpc.main.id
-
-  subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
-
-  egress {
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-    protocol   = -1
-  }
-
-  ingress {
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 2049
-    to_port    = 2049
-    protocol   = "tcp"
-  }
-
-  tags = {
-    Name        = "${var.project_name}-${var.environment}-efs-acl"
-    Environment = var.environment
-    Project     = var.project_name
-  }
-}
-
-
-resource "aws_security_group_rule" "ecs_tasks_egress_ecr" {
-  security_group_id = aws_security_group.ecs_tasks.id
-
-  type        = "egress"
-  from_port   = 443
-  to_port     = 443
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-}
+#resource "aws_network_acl" "efs" {
+#  vpc_id = aws_vpc.main.id
+#  tags   = merge(local.tags, { Name = "${var.project_name}-${var.environment}-efs-nacl" })
+#}
+#
+#
+#resource "aws_network_acl_rule" "efs_inbound_nfs" {
+#  network_acl_id = aws_network_acl.efs.id
+#  rule_number    = 100
+#  egress         = false
+#  protocol       = "tcp"
+#  rule_action    = "allow"
+#  from_port      = 2049
+#  to_port        = 2049
+#  cidr_block     = "0.0.0.0/0"
+#}
+#
+#resource "aws_network_acl_rule" "efs_outbound_nfs" {
+#  network_acl_id = aws_network_acl.efs.id
+#  rule_number    = 100
+#  egress         = true
+#  protocol       = "tcp"
+#  rule_action    = "allow"
+#  from_port      = 2049
+#  to_port        = 2049
+#  cidr_block     = "0.0.0.0/0"
+#}
+#
+#
+#resource "aws_network_acl" "efs_acl" {
+#  vpc_id = aws_vpc.main.id
+#
+#  subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+#
+#  egress {
+#    rule_no    = 100
+#    action     = "allow"
+#    cidr_block = "0.0.0.0/0"
+#    from_port  = 0
+#    to_port    = 0
+#    protocol   = -1
+#  }
+#
+#  ingress {
+#    rule_no    = 100
+#    action     = "allow"
+#    cidr_block = "0.0.0.0/0"
+#    from_port  = 2049
+#    to_port    = 2049
+#    protocol   = "tcp"
+#  }
+#
+#  tags = {
+#    Name        = "${var.project_name}-${var.environment}-efs-acl"
+#    Environment = var.environment
+#    Project     = var.project_name
+#  }
+#}
+#
+#
+#resource "aws_security_group_rule" "ecs_tasks_egress_ecr" {
+#  security_group_id = aws_security_group.ecs_tasks.id
+#
+#  type        = "egress"
+#  from_port   = 443
+#  to_port     = 443
+#  protocol    = "tcp"
+#  cidr_blocks = ["0.0.0.0/0"]
+#}

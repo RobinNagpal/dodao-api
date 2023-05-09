@@ -9,7 +9,7 @@ variable "discord_client_id" {}
 variable "discord_client_secret" {}
 variable "discord_bot_token" {}
 variable "all_guides_git_repository" {}
-variable "redis_endpoint" {}
+#variable "redis_endpoint" {}
 
 variable "efs_file_system_id" {}
 variable "ecs_target_group_arn" {}

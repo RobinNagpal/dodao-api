@@ -20,7 +20,7 @@ output "subnet_cidr_blocks" {
 }
 
 
-output "efs_network_acl_id" {
-  value = aws_network_acl.efs.id
-}
+#output "efs_network_acl_id" {
+#  value = aws_network_acl.efs.id
+#}
 

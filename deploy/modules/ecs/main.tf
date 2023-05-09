@@ -45,7 +45,7 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DISCORD_CLIENT_SECRET", value = var.discord_client_secret },
         { name = "DISCORD_BOT_TOKEN", value = var.discord_bot_token },
         { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
-        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
+#        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
       ]
 
       portMappings = [
@@ -178,7 +178,7 @@ resource "aws_iam_role_policy_attachment" "ecr_permissions" {
 resource "aws_iam_policy" "ecs_task_execution_efs" {
   name = "ecs-task-execution-efs"
   path = "/"
-  description = "ECS Task execution role policy to allow mounting and writing to EFS"
+  description = "ECS Task execution role policy to allow mounting and writing to EFS, and to describe mount targets and availability zones"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -186,7 +186,11 @@ resource "aws_iam_policy" "ecs_task_execution_efs" {
       {
         Action = [
           "elasticfilesystem:ClientMount",
-          "elasticfilesystem:ClientWrite"
+          "elasticfilesystem:ClientWrite",
+          "elasticfilesystem:DescribeAccessPoints",
+          "elasticfilesystem:DescribeFileSystems",
+          "elasticfilesystem:DescribeMountTargets",
+          "ec2:DescribeAvailabilityZones"
         ]
         Effect = "Allow"
         Resource = "*"
@@ -194,6 +198,7 @@ resource "aws_iam_policy" "ecs_task_execution_efs" {
     ]
   })
 }
+
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_efs_attach" {
   policy_arn = aws_iam_policy.ecs_task_execution_efs.arn
