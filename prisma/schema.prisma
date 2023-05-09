@@ -112,6 +112,7 @@ model Space {
   verified                      Int                 @default(0)
   createdAt                     BigInt              @map("created_at") @db.BigInt
   creator                       String              @db.VarChar(64)
+  name                          String              @db.VarChar(255)
   updatedAt                     BigInt              @map("updated_at") @db.BigInt
   about                         String?             @db.Text
   avatar                        String?             @db.VarChar(255)
@@ -120,7 +121,7 @@ model Space {
   github                        String?             @db.VarChar(255)
   members                       Json                @db.Json
   mission                       String?             @db.VarChar(255)
-  network                       String              @map("network") @db.VarChar(12)
+  network                       String              @map("network") @db.VarChar(64)
   terms                         String?             @db.VarChar(255)
   twitter                       String?             @db.VarChar(255)
   blockchain                    String              @default("ETH") @db.VarChar(64)
