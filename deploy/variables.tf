@@ -6,6 +6,7 @@ variable "discord_client_id" {}
 variable "discord_client_secret" {}
 variable "discord_bot_token" {}
 variable "all_guides_git_repository" {}
+
 variable "project_name" {
   description = "The project name"
   type        = string
@@ -26,3 +27,8 @@ variable "enable_dns_hostnames" {
 variable "enable_dns_resolution" {
   default = true
 }
+
+
+variable "rds_username" {}
+variable "rds_password" {}
+variable "rds_init_db" {}

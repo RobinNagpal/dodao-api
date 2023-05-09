@@ -26,6 +26,7 @@ resource "aws_ecs_task_definition" "app" {
       }
     }
   }
+
   container_definitions = jsonencode([
     {
       name  = "${var.project_name}-${var.environment}"
@@ -45,8 +46,18 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DISCORD_CLIENT_SECRET", value = var.discord_client_secret },
         { name = "DISCORD_BOT_TOKEN", value = var.discord_bot_token },
         { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
+        { name = "DATABASE_URL", value = var.database_url },
 #        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
       ]
+
+      healthCheck = {
+        retries = 10
+        command = [ "CMD-SHELL", "curl -f http://localhost:8080/graphql || exit 1" ]
+        timeout: 10
+        interval: 15
+        startPeriod: 10
+      }
+
 
       portMappings = [
         {

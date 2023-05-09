@@ -41,11 +41,42 @@ resource "aws_security_group" "ecs_tasks" {
   }
 
   ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port  = 2049
     to_port    = 2049
     protocol   = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # ============================ Start ====================================
+  # this block to allow all traffic from your public IP 174.119.210.55
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["174.119.210.55/32"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "udp"
+    cidr_blocks = ["174.119.210.55/32"]
+  }
+
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["174.119.210.55/32"]
+  }
+  # ============================= End =================================
 
   # Add this block to allow traffic on port 443 (HTTPS)
   ingress {
@@ -93,77 +124,3 @@ resource "aws_route_table_association" "public_b" {
   subnet_id      = aws_subnet.public_b.id
   route_table_id = aws_route_table.public.id
 }
-
-
-# ========================== Below here are all EFS related resources ==========================
-
-
-#resource "aws_network_acl" "efs" {
-#  vpc_id = aws_vpc.main.id
-#  tags   = merge(local.tags, { Name = "${var.project_name}-${var.environment}-efs-nacl" })
-#}
-#
-#
-#resource "aws_network_acl_rule" "efs_inbound_nfs" {
-#  network_acl_id = aws_network_acl.efs.id
-#  rule_number    = 100
-#  egress         = false
-#  protocol       = "tcp"
-#  rule_action    = "allow"
-#  from_port      = 2049
-#  to_port        = 2049
-#  cidr_block     = "0.0.0.0/0"
-#}
-#
-#resource "aws_network_acl_rule" "efs_outbound_nfs" {
-#  network_acl_id = aws_network_acl.efs.id
-#  rule_number    = 100
-#  egress         = true
-#  protocol       = "tcp"
-#  rule_action    = "allow"
-#  from_port      = 2049
-#  to_port        = 2049
-#  cidr_block     = "0.0.0.0/0"
-#}
-#
-#
-#resource "aws_network_acl" "efs_acl" {
-#  vpc_id = aws_vpc.main.id
-#
-#  subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
-#
-#  egress {
-#    rule_no    = 100
-#    action     = "allow"
-#    cidr_block = "0.0.0.0/0"
-#    from_port  = 0
-#    to_port    = 0
-#    protocol   = -1
-#  }
-#
-#  ingress {
-#    rule_no    = 100
-#    action     = "allow"
-#    cidr_block = "0.0.0.0/0"
-#    from_port  = 2049
-#    to_port    = 2049
-#    protocol   = "tcp"
-#  }
-#
-#  tags = {
-#    Name        = "${var.project_name}-${var.environment}-efs-acl"
-#    Environment = var.environment
-#    Project     = var.project_name
-#  }
-#}
-#
-#
-#resource "aws_security_group_rule" "ecs_tasks_egress_ecr" {
-#  security_group_id = aws_security_group.ecs_tasks.id
-#
-#  type        = "egress"
-#  from_port   = 443
-#  to_port     = 443
-#  protocol    = "tcp"
-#  cidr_blocks = ["0.0.0.0/0"]
-#}
