@@ -2,7 +2,7 @@ import { QuerySpaceArgs } from '@/graphql/generated/graphql';
 import { prisma } from '@/prisma';
 
 function getSpaceIdForDomain(domain: string) {
-  if (domain === 'dodao-ui-robinnagpal.vercel.app') {
+  if (domain === 'dodao-ui-robinnagpal.vercel.app' || domain === 'localhost') {
     return 'uniswap-eth-1';
   }
 }
