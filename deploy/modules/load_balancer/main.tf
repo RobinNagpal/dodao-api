@@ -16,7 +16,7 @@ resource "aws_lb_target_group" "ecs_target_group" {
 
   health_check {
     interval            = 60
-    path                = "/graphql"
+    path                = "/health"
     timeout             = 30
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -51,4 +51,6 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.ecs_target_group.arn
   }
 }
+
+
 

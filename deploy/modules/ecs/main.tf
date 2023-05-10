@@ -11,8 +11,8 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_task_definition" "app" {
   family                = local.family
-  cpu                   = "1024" # 1 vCPU
-  memory                = "2048" # 2 GB of RAM
+  cpu                   = "512" # 0.5 vCPU
+  memory                = "1024" # 1 GB of RAM
   volume {
     name = "efs-volume"
 
@@ -32,10 +32,10 @@ resource "aws_ecs_task_definition" "app" {
       name  = "${var.project_name}-${var.environment}"
       image = var.ecr_repository_url
 
-#      resources = {
-#        cpu    = 1024 # 1 vCPU
-#        memory = 2048 # 2 GB of RAM
-#      }
+      resources = {
+        cpu    = 512 # 0.5 vCPU
+        memory = 1024 # 1 GB of RAM
+      }
 
       environment = [
         { name = "JWT_PRIVATE_KEY", value = var.jwt_private_key },
