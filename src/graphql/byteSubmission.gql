@@ -2,6 +2,7 @@ extend type Mutation {
   submitByte(submissionInput: ByteSubmissionInput!): ByteSubmission!
 }
 
+
 type ByteStepItemSubmission {
   selectedAnswerKeys: [String!]
   userDiscordInfo: UserDiscordInfo

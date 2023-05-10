@@ -3,6 +3,13 @@ extend type Mutation {
   refreshGitGuides(spaceId: String!): Boolean!
 }
 
+extend type Query {
+  guide(spaceId: String!, uuid: String!): Guide!
+
+  guides(spaceId: String!): [Guide!]
+
+}
+
 type QuestionChoice {
   content: String!
   key: String!
