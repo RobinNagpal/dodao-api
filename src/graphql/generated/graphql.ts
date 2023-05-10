@@ -696,6 +696,7 @@ export type Mutation = {
   addTopicQuestion: GitCourseQuestion;
   addTopicSummary: GitCourseSummary;
   addTopicVideo: GitCourseReading;
+  authenticateWithUnstoppable: JwtResponse;
   createSignedUrl: Scalars['String'];
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
@@ -772,6 +773,11 @@ export type MutationAddTopicSummaryArgs = {
 export type MutationAddTopicVideoArgs = {
   spaceId: Scalars['String'];
   videoInfo: AddTopicVideoInput;
+};
+
+
+export type MutationAuthenticateWithUnstoppableArgs = {
+  idToken: Scalars['String'];
 };
 
 
@@ -1021,6 +1027,9 @@ export type Query = {
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
   gitCourseSummarized: SummarizedGitCourse;
   gitTopicSubmissions: Array<GitCourseTopicSubmission>;
+  guide: Guide;
+  guideSubmissions: Array<GuideSubmission>;
+  guides?: Maybe<Array<Guide>>;
   rawGitCourse: RawGitCourse;
   simulation: Simulation;
   simulations: Array<Simulation>;
@@ -1086,6 +1095,22 @@ export type QueryGitCourseSummarizedArgs = {
 
 export type QueryGitTopicSubmissionsArgs = {
   courseKey: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryGuideArgs = {
+  spaceId: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
+
+export type QueryGuideSubmissionsArgs = {
+  guideUuid: Scalars['String'];
+};
+
+
+export type QueryGuidesArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2241,6 +2266,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addTopicQuestion?: Resolver<ResolversTypes['GitCourseQuestion'], ParentType, ContextType, RequireFields<MutationAddTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   addTopicSummary?: Resolver<ResolversTypes['GitCourseSummary'], ParentType, ContextType, RequireFields<MutationAddTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   addTopicVideo?: Resolver<ResolversTypes['GitCourseReading'], ParentType, ContextType, RequireFields<MutationAddTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2293,6 +2319,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   gitCourseSummarized?: Resolver<ResolversTypes['SummarizedGitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseSummarizedArgs, 'key' | 'spaceId'>>;
   gitTopicSubmissions?: Resolver<Array<ResolversTypes['GitCourseTopicSubmission']>, ParentType, ContextType, RequireFields<QueryGitTopicSubmissionsArgs, 'courseKey' | 'spaceId'>>;
+  guide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<QueryGuideArgs, 'spaceId' | 'uuid'>>;
+  guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'guideUuid'>>;
+  guides?: Resolver<Maybe<Array<ResolversTypes['Guide']>>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;

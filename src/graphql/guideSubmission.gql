@@ -2,6 +2,11 @@ extend type Mutation {
   submitGuide(submissionInput: GuideSubmissionInput!): GuideSubmission!
 }
 
+extend type Query {
+  guideSubmissions(guideUuid: String!): [GuideSubmission!]!
+}
+
+
 type UserDiscordInfo {
   id: String!
   accessToken: String!
