@@ -50,13 +50,13 @@ resource "aws_ecs_task_definition" "app" {
 #        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
       ]
 
-      healthCheck = {
-        retries = 10
-        command = [ "CMD-SHELL", "curl -f http://localhost:8080/graphql || exit 1" ]
-        timeout: 10
-        interval: 15
-        startPeriod: 10
-      }
+#      healthCheck = {
+#        retries = 10
+#        command = [ "CMD-SHELL", "curl -f http://localhost:8080/graphql || exit 1" ]
+#        timeout: 10
+#        interval: 15
+#        startPeriod: 10
+#      }
 
 
       portMappings = [

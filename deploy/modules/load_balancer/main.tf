@@ -15,13 +15,14 @@ resource "aws_lb_target_group" "ecs_target_group" {
   target_type = "ip" # Add this line to change the target type to "ip"
 
   health_check {
-    interval            = 30
+    interval            = 60
     path                = "/graphql"
-    timeout             = 5
+    timeout             = 30
     healthy_threshold   = 3
     unhealthy_threshold = 3
     protocol            = "HTTP"
     matcher             = "200"
+
   }
 }
 
@@ -35,9 +36,6 @@ resource "aws_lb_listener" "http_listener" {
     target_group_arn = aws_lb_target_group.ecs_target_group.arn
   }
 }
-
-
-
 
 
 # Add this block to create an HTTPS listener
