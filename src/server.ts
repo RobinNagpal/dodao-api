@@ -25,5 +25,9 @@ const app = express();
 
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server));
 
+  app.use('/health', (req, res) => {
+    return res.status(200).send('OK');
+  });
+
   app.listen({ port: 8000 }, () => console.log(`🚀 Server ready at http://localhost:8000/graphql`));
 })();

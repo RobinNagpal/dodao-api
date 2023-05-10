@@ -11,8 +11,8 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_task_definition" "app" {
   family                = local.family
-  cpu                   = "512" # 0.5 vCPU
-  memory                = "1024" # 1 GB of RAM
+  cpu                   = "1024" # 1 vCPU
+  memory                = "2048" # 2 GB of RAM
   volume {
     name = "efs-volume"
 
@@ -32,10 +32,10 @@ resource "aws_ecs_task_definition" "app" {
       name  = "${var.project_name}-${var.environment}"
       image = var.ecr_repository_url
 
-      resources = {
-        cpu    = 512 # 0.5 vCPU
-        memory = 1024 # 1 GB of RAM
-      }
+#      resources = {
+#        cpu    = 1024 # 1 vCPU
+#        memory = 2048 # 2 GB of RAM
+#      }
 
       environment = [
         { name = "JWT_PRIVATE_KEY", value = var.jwt_private_key },
@@ -50,13 +50,13 @@ resource "aws_ecs_task_definition" "app" {
 #        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
       ]
 
-#      healthCheck = {
-#        retries = 10
-#        command = [ "CMD-SHELL", "curl -f http://localhost:8080/graphql || exit 1" ]
-#        timeout: 10
-#        interval: 15
-#        startPeriod: 10
-#      }
+      healthCheck = {
+        retries = 10
+        command = [ "CMD-SHELL", "curl -f http://localhost:8000/health || exit 1" ]
+        timeout: 10
+        interval: 15
+        startPeriod: 10
+      }
 
 
       portMappings = [
@@ -79,6 +79,8 @@ resource "aws_ecs_task_definition" "app" {
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn
   task_role_arn            = aws_iam_role.task.arn
+
+
 }
 
 resource "aws_ecs_service" "main" {
