@@ -22,7 +22,7 @@ const app = express();
   const server = new ApolloServer({ typeDefs, resolvers: rootValue, plugins: [] });
 
   await server.start();
-
+  app.use(cors());
   app.use(
     '/graphql',
     cors<cors.CorsRequest>({
