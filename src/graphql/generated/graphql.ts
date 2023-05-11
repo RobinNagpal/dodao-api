@@ -1214,40 +1214,16 @@ export type SimulationStepInput = {
 
 export type Space = {
   __typename?: 'Space';
-  about?: Maybe<Scalars['String']>;
   admins: Array<Scalars['String']>;
   avatar?: Maybe<Scalars['String']>;
-  blogSite?: Maybe<Scalars['String']>;
-  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
   creator: Scalars['String'];
   discordInvite?: Maybe<Scalars['String']>;
-  domain?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
   features: Array<Scalars['String']>;
-  filters?: Maybe<SpaceFilters>;
-  github?: Maybe<Scalars['String']>;
-  guidesBundlePageFooterContent?: Maybe<Scalars['String']>;
-  guidesBundlePageHeaderContent?: Maybe<Scalars['String']>;
-  guidesPageFooterContent?: Maybe<Scalars['String']>;
-  guidesPageHeaderContent?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  inviteLinks?: Maybe<SpaceInviteLinks>;
-  location?: Maybe<Scalars['String']>;
-  members: Array<Scalars['String']>;
-  mission: Scalars['String'];
   name?: Maybe<Scalars['String']>;
-  network?: Maybe<Scalars['String']>;
-  plugins?: Maybe<Scalars['Any']>;
-  private?: Maybe<Scalars['Boolean']>;
-  publicForumWebsite?: Maybe<Scalars['String']>;
-  referenceDocsWebsite?: Maybe<Scalars['String']>;
   skin: Scalars['String'];
   spaceIntegrations?: Maybe<SpaceIntegrations>;
-  symbol?: Maybe<Scalars['String']>;
   telegramInvite?: Maybe<Scalars['String']>;
-  terms?: Maybe<Scalars['String']>;
-  twitter?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
 };
 
 export type SpaceFilters = {
@@ -2374,40 +2350,16 @@ export type SimulationStepResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type SpaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Space'] = ResolversParentTypes['Space']> = {
-  about?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  blogSite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discordInvite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  domain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   features?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  filters?: Resolver<Maybe<ResolversTypes['SpaceFilters']>, ParentType, ContextType>;
-  github?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  guidesBundlePageFooterContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  guidesBundlePageHeaderContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  guidesPageFooterContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  guidesPageHeaderContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  inviteLinks?: Resolver<Maybe<ResolversTypes['SpaceInviteLinks']>, ParentType, ContextType>;
-  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  members?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  mission?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  network?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  plugins?: Resolver<Maybe<ResolversTypes['Any']>, ParentType, ContextType>;
-  private?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  publicForumWebsite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  referenceDocsWebsite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   skin?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;
-  symbol?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   telegramInvite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  terms?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -120,15 +120,17 @@ model Space {
   id                String              @id @db.VarChar(64)
   settings          Json?               @db.Json
   verified          Int                 @default(0)
-  createdAt         BigInt              @map("created_at") @db.BigInt
+  createdAt         DateTime            @default(now()) @map("created_at")
   creator           String              @db.VarChar(64)
   name              String              @db.VarChar(255)
-  updatedAt         BigInt              @map("updated_at") @db.BigInt
+  updatedAt         String              @map("updated_at") @db.VarChar(256)
   avatar            String?             @db.VarChar(255)
   admins            String[]
   skin              String              @default("dodao") @db.VarChar(128)
   discordInvite     String?             @map("discord_invite") @db.VarChar(1024)
   telegramInvite    String?             @map("telegram_invite") @db.VarChar(1024)
+  /// [SpaceInviteLinks]
+  inviteLinks       Json?               @map("invite_links") @db.Json
   features          String[]
   CourseIntegration CourseIntegration[]
   GitCourse         GitCourse[]
