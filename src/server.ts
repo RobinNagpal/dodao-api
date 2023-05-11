@@ -23,7 +23,15 @@ const app = express();
 
   await server.start();
 
-  app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server));
+  app.use(
+    '/graphql',
+    cors<cors.CorsRequest>({
+      origin: '*', // Replace '*' with a specific domain if you want to restrict the allowed origins
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    }),
+    json(),
+    expressMiddleware(server)
+  );
 
   app.use('/health', (req, res) => {
     return res.status(200).send('OK');
