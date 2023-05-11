@@ -1220,6 +1220,7 @@ export type Space = {
   discordInvite?: Maybe<Scalars['String']>;
   features: Array<Scalars['String']>;
   id: Scalars['String'];
+  inviteLinks?: Maybe<SpaceInviteLinks>;
   name?: Maybe<Scalars['String']>;
   skin: Scalars['String'];
   spaceIntegrations?: Maybe<SpaceIntegrations>;
@@ -2356,6 +2357,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   discordInvite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   features?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  inviteLinks?: Resolver<Maybe<ResolversTypes['SpaceInviteLinks']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   skin?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;

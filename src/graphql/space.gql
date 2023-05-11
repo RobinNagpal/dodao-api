@@ -35,6 +35,7 @@ type Space {
   skin: String!
   spaceIntegrations: SpaceIntegrations
   telegramInvite: String
+  inviteLinks: SpaceInviteLinks
 }
 
 type SpaceIntegrations {

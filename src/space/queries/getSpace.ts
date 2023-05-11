@@ -5,6 +5,8 @@ function getSpaceIdForDomain(domain: string) {
   if (domain === 'dodao-ui-robinnagpal.vercel.app' || domain === 'localhost') {
     return 'uniswap-eth-1';
   }
+
+  return 'compound-eth-1';
 }
 
 export default async function getSpace(_: any, { id, domain }: QuerySpaceArgs) {
