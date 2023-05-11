@@ -22,13 +22,7 @@ const app = express();
   const server = new ApolloServer({ typeDefs, resolvers: rootValue, plugins: [] });
 
   await server.start();
-  app.use(
-    cors({
-      origin: '*', // Replace '*' with a specific domain if you want to restrict the allowed origins
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    })
-  );
+  app.use(cors());
 
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server));
 
