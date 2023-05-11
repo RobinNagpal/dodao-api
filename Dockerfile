@@ -27,6 +27,11 @@ RUN apt-get install -y nfs-common git binutils && \
     ./build-deb.sh && \
     apt-get install -y ./build/amazon-efs-utils*deb
 
+# Install SSM Agent
+RUN curl https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb -o /tmp/amazon-ssm-agent.deb && \
+    dpkg -i /tmp/amazon-ssm-agent.deb && \
+    rm /tmp/amazon-ssm-agent.deb \
+
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
@@ -39,5 +44,14 @@ COPY . .
 # Expose the port your application uses
 EXPOSE 8000
 
-# Start the application
-CMD ["npm", "start"]
+
+# Create a supervisord configuration file
+RUN echo "[supervisord]\nnodaemon=true\n\n\
+[program:ssm-agent]\ncommand=/usr/bin/amazon-ssm-agent start\n\n\
+[program:app]\ncommand=npm start\n" > /etc/supervisor/conf.d/supervisord.conf
+
+# Expose the port your application uses
+EXPOSE 8000
+
+# Start supervisord
+CMD ["/usr/bin/supervisord"]
