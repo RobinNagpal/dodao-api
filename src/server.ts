@@ -9,6 +9,7 @@ import * as path from 'path';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
 const typesArray = loadFilesSync(path.join(__dirname, './graphql'), { extensions: ['gql'] });
 
@@ -21,14 +22,19 @@ const app = express();
 
   const server = new ApolloServer({ typeDefs, resolvers: rootValue, plugins: [] });
 
-  await server.start();
+  // await server.start();
   app.use(cors());
-
+  const { url } = await startStandaloneServer(server, {
+    context: async ({ req }) => ({ token: req.headers.token }),
+    listen: { port: 8000 },
+  });
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server));
 
   app.use('/health', (req, res) => {
-    return res.status(200).send('3');
+    return res.status(200).send('4');
   });
 
-  app.listen({ port: 8000 }, () => console.log(`🚀 Server ready at http://localhost:8000/graphql`));
+  console.log(`🚀  Server ready at ${url}`);
+
+  // app.listen({ port: 8000 }, () => console.log(`🚀 Server ready at http://localhost:8000/graphql`));
 })();
