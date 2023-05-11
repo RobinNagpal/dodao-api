@@ -10,6 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Always after the prisma-client-js generator
+generator json {
+  provider  = "prisma-json-types-generator"
+  namespace = "PrismaJson"
+
+  // In case you need to use a type, export it inside the namespace and we will add a index signature to it
+  // (e.g.  export namespace PrismaJson { export type MyType = {a: 1, b: 2} }; will generate namespace.MyType["TYPE HERE"])
+}
+
 model AcademyTask {
   uuid                String   @id @db.VarChar(66)
   createdAt           DateTime @default(now()) @map("created_at")
@@ -90,6 +99,7 @@ model Guide {
   created                   Int
   spaceId                   String  @map("space_id") @db.VarChar(64)
   guideName                 String  @map("guide_name") @db.VarChar(255)
+  guideSource               String  @map("guide_source") @db.VarChar(255)
   status                    String  @db.VarChar(255)
   version                   Int
   thumbnail                 String? @db.VarChar(255)
@@ -107,44 +117,27 @@ model Guide {
 }
 
 model Space {
-  id                            String              @id @db.VarChar(64)
-  settings                      Json?               @db.Json
-  verified                      Int                 @default(0)
-  createdAt                     BigInt              @map("created_at") @db.BigInt
-  creator                       String              @db.VarChar(64)
-  name                          String              @db.VarChar(255)
-  updatedAt                     BigInt              @map("updated_at") @db.BigInt
-  about                         String?             @db.Text
-  avatar                        String?             @db.VarChar(255)
-  admins                        Json                @db.Json
-  categories                    Json                @db.Json
-  github                        String?             @db.VarChar(255)
-  members                       Json                @db.Json
-  mission                       String?             @db.VarChar(255)
-  network                       String              @map("network") @db.VarChar(64)
-  terms                         String?             @db.VarChar(255)
-  twitter                       String?             @db.VarChar(255)
-  blockchain                    String              @default("ETH") @db.VarChar(64)
-  skin                          String              @default("dodao") @db.VarChar(128)
-  discordInvite                 String?             @map("discord_invite") @db.VarChar(1024)
-  guidesPageFooterContent       String?             @map("guides_page_footer_content") @db.Text
-  guidesPageHeaderContent       String?             @map("guides_page_header_content") @db.Text
-  guidesBundlePageFooterContent String?             @map("guides_bundle_page_footer_content") @db.Text
-  guidesBundlePageHeaderContent String?             @map("guides_bundle_page_header_content") @db.Text
-  blogSite                      String?             @map("blog_site") @db.VarChar(1024)
-  publicForumWebsite            String?             @map("public_forum_website") @db.VarChar(1024)
-  referenceDocsWebsite          String?             @map("reference_docs_website") @db.VarChar(1024)
-  telegramInvite                String?             @map("telegram_invite") @db.VarChar(1024)
-  features                      Json                @db.Json
-  inviteLinks                   Json?               @map("invite_links") @db.Json
-  CourseIntegration             CourseIntegration[]
-  GitCourse                     GitCourse[]
-  GuideIntegration              GuideIntegration[]
-  GuideStep                     GuideStep[]
-  GuideSubmission               GuideSubmission[]
-  GuidesGuideStep               GuidesGuideStep[]
-  SpaceDiscord                  SpaceDiscord[]
-  SpaceIntegration              SpaceIntegration[]
+  id                String              @id @db.VarChar(64)
+  settings          Json?               @db.Json
+  verified          Int                 @default(0)
+  createdAt         BigInt              @map("created_at") @db.BigInt
+  creator           String              @db.VarChar(64)
+  name              String              @db.VarChar(255)
+  updatedAt         BigInt              @map("updated_at") @db.BigInt
+  avatar            String?             @db.VarChar(255)
+  admins            String[]
+  skin              String              @default("dodao") @db.VarChar(128)
+  discordInvite     String?             @map("discord_invite") @db.VarChar(1024)
+  telegramInvite    String?             @map("telegram_invite") @db.VarChar(1024)
+  features          String[]
+  CourseIntegration CourseIntegration[]
+  GitCourse         GitCourse[]
+  GuideIntegration  GuideIntegration[]
+  GuideStep         GuideStep[]
+  GuideSubmission   GuideSubmission[]
+  GuidesGuideStep   GuidesGuideStep[]
+  SpaceDiscord      SpaceDiscord[]
+  SpaceIntegration  SpaceIntegration?
 
   @@map("spaces")
 }
@@ -171,7 +164,7 @@ model CourseIntegration {
 
 model GitCourse {
   id            String   @id @db.VarChar(255)
-  courseKey     String?  @map("course_key") @db.VarChar(255)
+  courseKey     String   @map("course_key") @db.VarChar(255)
   spaceId       String   @map("space_id") @db.VarChar(66)
   createdAt     DateTime @default(now()) @map("created_at")
   createdBy     String?  @map("created_by") @db.VarChar(256)
@@ -184,6 +177,7 @@ model GitCourse {
   courseAdmins  Json     @map("course_admins") @db.Json
   space         Space    @relation(fields: [spaceId], references: [id])
 
+  @@unique([spaceId, courseKey])
   @@map("git_courses")
 }
 
@@ -226,6 +220,7 @@ model GuideSubmission {
   createdBy String   @map("created_by") @db.VarChar(64)
   guideId   String   @map("guide_id") @db.VarChar(64)
   guideUuid String   @map("guide_uuid") @db.VarChar(255)
+  /// [GuideSubmissionResult]
   result    Json     @db.Json
   spaceId   String   @map("space_id") @db.VarChar(64)
   steps     Json     @db.Json
@@ -271,9 +266,11 @@ model SpaceIntegration {
   updatedAt                  DateTime @updatedAt @map("updated_at")
   updatedBy                  String?  @map("updated_by") @db.VarChar(256)
   gnosisSafeWallets          Json?    @map("gnosis_safe_wallets") @db.Json
-  gitGuideRepositories       Json     @map("git_guide_repositories") @db.Json
+  /// [GitGuideRepository]
+  gitGuideRepositories       Json[]   @map("git_guide_repositories") @db.Json
   academyRepository          String?  @map("academy_repository") @db.VarChar(2048)
   space                      Space    @relation(fields: [spaceId], references: [id])
 
+  @@unique([spaceId])
   @@map("space_integrations")
 }
