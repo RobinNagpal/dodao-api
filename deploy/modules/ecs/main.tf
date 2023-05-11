@@ -13,6 +13,8 @@ resource "aws_ecs_task_definition" "app" {
   family                = local.family
   cpu                   = "512" # 0.5 vCPU
   memory                = "1024" # 1 GB of RAM
+
+
   volume {
     name = "efs-volume"
 
@@ -116,7 +118,7 @@ resource "aws_iam_role" "execution" {
         Action    = "sts:AssumeRole"
         Effect    = "Allow"
         Principal = {
-          Service = "ecs-tasks.amazonaws.com"
+          Service = ["ecs-tasks.amazonaws.com", "ssm.amazonaws.com"]
         }
       }
     ]
@@ -220,3 +222,8 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_efs_attach" {
 }
 
 
+
+resource "aws_iam_role_policy_attachment" "ssm_managed_policy" {
+  role       = aws_iam_role.execution.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}

@@ -53,6 +53,3 @@ all_guides_git_repository = "our_all_guides_git_repository"
 Terraform will automatically load this file when you run terraform apply, terraform plan, 
 or terraform init. Make sure not to commit sensitive information to our version control 
 system.
-
-
-
