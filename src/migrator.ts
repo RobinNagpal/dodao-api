@@ -14,17 +14,9 @@ async function main() {
       admins: (settings.admins as string[]) || [],
       name: (settings.name as string) || space.name,
       skin: (settings.name as string) || space.skin,
-      about: (settings.name as string) || space.about,
-      avatar: (settings.name as string) || space.avatar,
+      avatar: (settings.avatar as string) || space.avatar,
       creator: (settings.name as string) || space.creator,
-      members: (settings.name as string[]) || space.members,
-      mission: (settings.name as string) || space.mission,
-      network: (settings.name as string) || space.network,
-      twitter: (settings.name as string) || space.twitter,
-      blockchain: (settings.name as string) || space.blockchain,
-      categories: (settings.name as string[]) || space.categories,
       features: space.features || [],
-      inviteLinks: space.inviteLinks || [],
     } as any;
     const result = await prisma.space.update({
       where: { id: space.id },
