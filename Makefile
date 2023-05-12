@@ -8,7 +8,7 @@ ecr-ssh:
 	aws ecs execute-command  \
 		--region eu-east-1 \
 		--cluster v2-api-prod \
-		--task c26ec483a0444cda9feae08c733d3f0b \
+		--task bcd329daac7463eae3e60a022356ba5 \
 		--container v2-api-prod \
 		--command "/bin/bash" \
 		--interactive
