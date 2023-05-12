@@ -4,11 +4,22 @@ ecr_login:
 pull_image:
 	docker pull 729763663166.dkr.ecr.us-east-1.amazonaws.com/v2-api:latest
 
-ecr-ssh:
+trigger_deploy:
+	aws ecs update-service --cluster v2-api-prod --service v2-api-prod-app --force-new-deployment
+
+ssh:
 	aws ecs execute-command  \
-		--region eu-east-1 \
+		--region us-east-1 \
 		--cluster v2-api-prod \
-		--task bcd329daac7463eae3e60a022356ba5 \
+		--task 9e189605a2f540d28f4229a713f98f0b \
 		--container v2-api-prod \
 		--command "/bin/bash" \
 		--interactive
+
+describe_task:
+	aws ecs describe-tasks \
+        --cluster v2-api-prod \
+        --region us-east-1 \
+        --tasks 1c67f19dc92c44628b310c502b9c1477
+
+ecs_ssh_setup:
