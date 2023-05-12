@@ -6,19 +6,7 @@ WORKDIR /app
 
 # Install Python, pip, and other necessary packages
 RUN apt-get update && \
-    apt-get install -y python3 python3-distutils wget && \
-    if echo $(python3 -V 2>&1) | grep -e "Python 3.6"; then \
-        wget https://bootstrap.pypa.io/pip/3.6/get-pip.py -O /tmp/get-pip.py; \
-    elif echo $(python3 -V 2>&1) | grep -e "Python 3.5"; then \
-        wget https://bootstrap.pypa.io/pip/3.5/get-pip.py -O /tmp/get-pip.py; \
-    elif echo $(python3 -V 2>&1) | grep -e "Python 3.4"; then \
-        wget https://bootstrap.pypa.io/pip/3.4/get-pip.py -O /tmp/get-pip.py; \
-    else \
-        wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py; \
-    fi && \
-    python3 /tmp/get-pip.py && \
-    rm /tmp/get-pip.py && \
-    pip3 install botocore
+    apt-get install -y python3 python3-distutils wget
 
 # Install Amazon EFS mount helper (amazon-efs-utils) from GitHub
 RUN apt-get install -y nfs-common git binutils && \
@@ -27,32 +15,34 @@ RUN apt-get install -y nfs-common git binutils && \
     ./build-deb.sh && \
     apt-get install -y ./build/amazon-efs-utils*deb
 
-# Install SSM Agent
-RUN curl https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb -o /tmp/amazon-ssm-agent.deb && \
+# Install Amazon SSM Agent
+RUN wget https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb -O /tmp/amazon-ssm-agent.deb && \
     dpkg -i /tmp/amazon-ssm-agent.deb && \
     rm /tmp/amazon-ssm-agent.deb
 
-# Install supervisor
+# Install Amazon SSM Agent
 RUN apt-get install -y supervisor
-
-# Create a supervisord configuration file
-RUN mkdir -p /etc/supervisor/conf.d && \
-    mkdir -p /var/log/supervisord && \
-    echo "[supervisord]\nnodaemon=true\n\n\
-[program:ssm-agent]\ncommand=/usr/bin/amazon-ssm-agent start\n\n\
-[program:app]\ncommand=npm start\nstdout_logfile=/var/log/supervisord/app-stdout.log\nstderr_logfile=/var/log/supervisord/app-stderr.log\n" > /etc/supervisor/conf.d/supervisord.conf
 
 # Expose the port your application uses
 EXPOSE 8000
+
+# Create log directory for the application
+RUN mkdir -p /var/log
+
+# Add custom supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm i
 
 # Copy the rest of the application code to the container
 COPY . .
 
-# Tail the log files
-CMD ["sh", "-c", "/usr/bin/supervisord && tail -f /var/log/supervisord/*.log"]
+# Expose the port your application uses
+EXPOSE 8000
+
+# Start the application
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

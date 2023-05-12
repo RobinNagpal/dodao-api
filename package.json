@@ -13,7 +13,7 @@
     "prettier-fix": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint 'src/**/*.ts'",
     "prettier-check": "prettier --check 'src/**/*.ts'",
-    "start": "ts-node -r tsconfig-paths/register src/server.ts"
+    "start": "prisma generate && graphql-codegen --config codegen.yml && ts-node -r tsconfig-paths/register src/server.ts"
   },
   "keywords": [],
   "author": "robin",
