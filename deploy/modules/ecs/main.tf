@@ -39,6 +39,16 @@ resource "aws_ecs_task_definition" "app" {
         memory = 1024 # 1 GB of RAM
       }
 
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = "${var.project_name}-${var.environment}-app-logs"
+          "awslogs-region"        = "us-east-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+
+
       environment = [
         { name = "JWT_PRIVATE_KEY", value = var.jwt_private_key },
         { name = "ALL_GUIDE_SUBMISSIONS_WEBHOOK", value = var.all_guide_submissions_webhook },
@@ -226,4 +236,9 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_efs_attach" {
 resource "aws_iam_role_policy_attachment" "ssm_managed_policy" {
   role       = aws_iam_role.execution.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_cloudwatch_log_group" "app_logs" {
+  name              = "${var.project_name}-${var.environment}-app-logs"
+  retention_in_days = 30 # Customize this value based on your retention requirements
 }
