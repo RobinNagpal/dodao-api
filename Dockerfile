@@ -32,6 +32,19 @@ RUN curl https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_a
     dpkg -i /tmp/amazon-ssm-agent.deb && \
     rm /tmp/amazon-ssm-agent.deb
 
+# Install supervisor
+RUN apt-get install -y supervisor
+
+# Create a supervisord configuration file
+RUN mkdir -p /etc/supervisor/conf.d && \
+    mkdir -p /var/log/supervisord && \
+    echo "[supervisord]\nnodaemon=true\n\n\
+[program:ssm-agent]\ncommand=/usr/bin/amazon-ssm-agent start\n\n\
+[program:app]\ncommand=npm start\nstdout_logfile=/var/log/supervisord/app-stdout.log\nstderr_logfile=/var/log/supervisord/app-stderr.log\n" > /etc/supervisor/conf.d/supervisord.conf
+
+# Expose the port your application uses
+EXPOSE 8000
+
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
@@ -41,20 +54,5 @@ RUN npm ci
 # Copy the rest of the application code to the container
 COPY . .
 
-# Expose the port your application uses
-EXPOSE 8000
-
-# Install supervisor
-RUN apt-get install -y supervisor
-
-# Create a supervisord configuration file
-RUN mkdir -p /etc/supervisor/conf.d && \
-    echo "[supervisord]\nnodaemon=true\n\n\
-[program:ssm-agent]\ncommand=/usr/bin/amazon-ssm-agent start\n\n\
-[program:app]\ncommand=npm start\nstdout_logfile=/dev/stdout\nstderr_logfile=/dev/stderr\n" > /etc/supervisor/conf.d/supervisord.conf
-
-# Expose the port your application uses
-EXPOSE 8000
-
-# Start supervisord
-CMD ["/usr/bin/supervisord"]
+# Tail the log files
+CMD ["sh", "-c", "/usr/bin/supervisord && tail -f /var/log/supervisord/*.log"]
