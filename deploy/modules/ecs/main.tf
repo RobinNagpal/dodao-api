@@ -29,6 +29,7 @@ resource "aws_ecs_task_definition" "app" {
     }
   }
 
+
   container_definitions = jsonencode([
     {
       name  = "${var.project_name}-${var.environment}"
@@ -37,6 +38,10 @@ resource "aws_ecs_task_definition" "app" {
       resources = {
         cpu    = 512 # 0.5 vCPU
         memory = 1024 # 1 GB of RAM
+      }
+
+      linuxParameters = {
+        initProcessEnabled = true
       }
 
       logConfiguration = {
@@ -59,6 +64,7 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DISCORD_BOT_TOKEN", value = var.discord_bot_token },
         { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
         { name = "DATABASE_URL", value = "postgresql://${var.database_username}:${var.database_password}@${var.database_host}/v2_api_${var.environment}_db?sslmode=verify-full" },
+        { name = "ECS_ENABLE_EXECUTE_COMMAND", value = "true" },
 #        { name = "REDIS_ENDPOINT", value = var.redis_endpoint }
       ]
 
@@ -92,7 +98,7 @@ resource "aws_ecs_task_definition" "app" {
   execution_role_arn       = aws_iam_role.execution.arn
   task_role_arn            = aws_iam_role.task.arn
 
-
+#  enable_execute_command = true
 }
 
 resource "aws_ecs_service" "main" {
@@ -117,6 +123,7 @@ resource "aws_ecs_service" "main" {
 
 
   depends_on = [aws_ecs_task_definition.app]
+  enable_execute_command = true
 }
 
 resource "aws_iam_role" "execution" {
@@ -188,6 +195,10 @@ resource "aws_iam_policy" "ecr_permissions" {
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
         ]
         Resource = "*"
       }
@@ -198,6 +209,11 @@ resource "aws_iam_policy" "ecr_permissions" {
 resource "aws_iam_role_policy_attachment" "ecr_permissions" {
   policy_arn = aws_iam_policy.ecr_permissions.arn
   role       = aws_iam_role.execution.name
+}
+
+resource "aws_iam_role_policy_attachment" "task_permissions" {
+  policy_arn = aws_iam_policy.ecr_permissions.arn
+  role       = aws_iam_role.task.name
 }
 
 
