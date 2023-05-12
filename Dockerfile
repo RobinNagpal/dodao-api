@@ -45,7 +45,8 @@ COPY . .
 EXPOSE 8000
 
 # Create a supervisord configuration file
-RUN echo "[supervisord]\nnodaemon=true\n\n\
+RUN mkdir -p /etc/supervisor/conf.d && \
+    echo "[supervisord]\nnodaemon=true\n\n\
 [program:ssm-agent]\ncommand=/usr/bin/amazon-ssm-agent start\n\n\
 [program:app]\ncommand=npm start\n" > /etc/supervisor/conf.d/supervisord.conf
 
