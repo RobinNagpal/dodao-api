@@ -30,9 +30,7 @@ RUN apt-get install -y nfs-common git binutils && \
 # Install SSM Agent
 RUN curl https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb -o /tmp/amazon-ssm-agent.deb && \
     dpkg -i /tmp/amazon-ssm-agent.deb && \
-    rm /tmp/amazon-ssm-agent.deb && \
-    # Fix: Add a backslash at the end of this line
-    \
+    rm /tmp/amazon-ssm-agent.deb
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
