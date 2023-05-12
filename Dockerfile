@@ -44,6 +44,9 @@ COPY . .
 # Expose the port your application uses
 EXPOSE 8000
 
+# Install supervisor
+RUN apt-get install -y supervisor
+
 # Create a supervisord configuration file
 RUN mkdir -p /etc/supervisor/conf.d && \
     echo "[supervisord]\nnodaemon=true\n\n\
