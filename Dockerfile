@@ -51,7 +51,7 @@ RUN apt-get install -y supervisor
 RUN mkdir -p /etc/supervisor/conf.d && \
     echo "[supervisord]\nnodaemon=true\n\n\
 [program:ssm-agent]\ncommand=/usr/bin/amazon-ssm-agent start\n\n\
-[program:app]\ncommand=npm start\n" > /etc/supervisor/conf.d/supervisord.conf
+[program:app]\ncommand=npm start\nstdout_logfile=/dev/stdout\nstderr_logfile=/dev/stderr\n" > /etc/supervisor/conf.d/supervisord.conf
 
 # Expose the port your application uses
 EXPOSE 8000
