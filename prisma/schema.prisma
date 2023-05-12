@@ -161,6 +161,7 @@ model CourseIntegration {
   projectGalaxyOatMintedContent String?  @map("project_galaxy_oat_minted_content") @db.Text
   space                         Space    @relation(fields: [spaceId], references: [id])
 
+  @@unique([spaceId, courseKey])
   @@map("course_integrations")
 }
 

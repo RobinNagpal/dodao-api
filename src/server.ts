@@ -1,3 +1,4 @@
+import { setupGitLoader } from '@/helpers/gitLoader';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { loadFilesSync } from '@graphql-tools/load-files';
@@ -28,6 +29,8 @@ const app = express();
   app.use('/health', (req, res) => {
     return res.status(200).send('5');
   });
+
+  setupGitLoader();
 
   app.listen({ port: 8000 }, () => console.log(`🚀 Server ready at http://localhost:8000/graphql`));
 })();
