@@ -63,7 +63,7 @@ resource "aws_ecs_task_definition" "app" {
         { name = "ALL_GUIDES_GIT_REPOSITORY", value = var.all_guides_git_repository },
         { name = "DATABASE_URL", value = "postgresql://${var.database_username}:${var.database_password}@${var.database_host}/v2_api_${var.environment}_db?sslmode=verify-full" },
         { name = "ECS_ENABLE_EXECUTE_COMMAND", value = "true" },
-        { name = "REDIS_URL", value = var.redis_endpoint },
+        { name = "REDIS_URL", value = "redis://${var.redis_endpoint}:6379" },
         { name = "GITHUB_TOKEN", value = var.github_token },
         { name = "MAIN_GIT_FOLDER_PATH", value = "/opt/dodao/dodao-git-folder/prod" },
         { name = "ALL_GIT_GUIDES_FOLDER_NAME", value = "dodao-all-prod-guides" }

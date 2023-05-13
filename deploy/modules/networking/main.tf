@@ -61,6 +61,13 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port  = 6379
+    to_port    = 6379
+    protocol   = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # ============================ Start ====================================
   # this block to allow all traffic from your public IP 174.119.210.55
   ingress {
