@@ -4,11 +4,12 @@ FROM node:18
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
+# Copy package.json, package-lock.json, and yarn.lock to the container
 COPY package*.json ./
+COPY yarn.lock ./
 
 # Install dependencies
-RUN npm i
+RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application code to the container
 COPY . .
@@ -17,4 +18,4 @@ COPY . .
 EXPOSE 8000
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
