@@ -310,8 +310,8 @@ export type GitCourseInput = {
 
 export type GitCourseQuestion = {
   __typename?: 'GitCourseQuestion';
-  answerKeys?: Maybe<Array<Scalars['String']>>;
-  choices?: Maybe<Array<GitCourseQuestionChoice>>;
+  answerKeys: Array<Scalars['String']>;
+  choices: Array<GitCourseQuestionChoice>;
   content: Scalars['String'];
   explanation: Scalars['String'];
   hint: Scalars['String'];
@@ -401,11 +401,11 @@ export type GitCourseSummary = {
 export type GitCourseTopic = {
   __typename?: 'GitCourseTopic';
   details: Scalars['String'];
-  explanations?: Maybe<Array<GitCourseExplanation>>;
+  explanations: Array<GitCourseExplanation>;
   key: Scalars['String'];
-  questions?: Maybe<Array<GitCourseQuestion>>;
-  readings?: Maybe<Array<GitCourseReading>>;
-  summaries?: Maybe<Array<GitCourseSummary>>;
+  questions: Array<GitCourseQuestion>;
+  readings: Array<GitCourseReading>;
+  summaries: Array<GitCourseSummary>;
   title: Scalars['String'];
 };
 
@@ -1988,8 +1988,8 @@ export type GitCourseExplanationsSubmissionResolvers<ContextType = any, ParentTy
 };
 
 export type GitCourseQuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['GitCourseQuestion'] = ResolversParentTypes['GitCourseQuestion']> = {
-  answerKeys?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
-  choices?: Resolver<Maybe<Array<ResolversTypes['GitCourseQuestionChoice']>>, ParentType, ContextType>;
+  answerKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  choices?: Resolver<Array<ResolversTypes['GitCourseQuestionChoice']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   explanation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hint?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2062,11 +2062,11 @@ export type GitCourseSummaryResolvers<ContextType = any, ParentType extends Reso
 
 export type GitCourseTopicResolvers<ContextType = any, ParentType extends ResolversParentTypes['GitCourseTopic'] = ResolversParentTypes['GitCourseTopic']> = {
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  explanations?: Resolver<Maybe<Array<ResolversTypes['GitCourseExplanation']>>, ParentType, ContextType>;
+  explanations?: Resolver<Array<ResolversTypes['GitCourseExplanation']>, ParentType, ContextType>;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  questions?: Resolver<Maybe<Array<ResolversTypes['GitCourseQuestion']>>, ParentType, ContextType>;
-  readings?: Resolver<Maybe<Array<ResolversTypes['GitCourseReading']>>, ParentType, ContextType>;
-  summaries?: Resolver<Maybe<Array<ResolversTypes['GitCourseSummary']>>, ParentType, ContextType>;
+  questions?: Resolver<Array<ResolversTypes['GitCourseQuestion']>, ParentType, ContextType>;
+  readings?: Resolver<Array<ResolversTypes['GitCourseReading']>, ParentType, ContextType>;
+  summaries?: Resolver<Array<ResolversTypes['GitCourseSummary']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
