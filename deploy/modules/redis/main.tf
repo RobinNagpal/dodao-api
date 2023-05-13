@@ -1,7 +1,3 @@
-variable "project_name" {}
-variable "environment" {}
-variable "vpc_id" {}
-variable "subnet_ids" {}
 
 locals {
   tags = {
@@ -10,13 +6,6 @@ locals {
   }
 }
 
-resource "aws_security_group" "redis" {
-  name        = "${var.project_name}-${var.environment}-redis"
-  description = "Security group for Redis"
-  vpc_id      = var.vpc_id
-
-  tags = local.tags
-}
 
 resource "aws_elasticache_subnet_group" "redis" {
   name       = "${var.project_name}-${var.environment}-redis"
@@ -34,7 +23,7 @@ resource "aws_elasticache_cluster" "redis" {
   engine_version       = "6.x"
   port                 = 6379
   subnet_group_name    = aws_elasticache_subnet_group.redis.name
-  security_group_ids   = [aws_security_group.redis.id]
+  security_group_ids   = [var.security_group_id]
 
   tags = local.tags
 }

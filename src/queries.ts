@@ -1,5 +1,5 @@
-import spaceQueries from '@/space/spaceQueries';
+import queries from '@/graphql/queries';
 
 export default {
-  ...spaceQueries,
+  ...queries,
 };

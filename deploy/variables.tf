@@ -32,3 +32,4 @@ variable "enable_dns_resolution" {
 variable "rds_username" {}
 variable "rds_password" {}
 variable "rds_init_db" {}
+variable "github_token" {}

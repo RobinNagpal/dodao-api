@@ -12,11 +12,8 @@ variable "all_guides_git_repository" {}
 variable "database_host" {}
 variable "database_username" {}
 variable "database_password" {}
-#variable "redis_endpoint" {}
-
+variable "redis_endpoint" {}
 variable "efs_file_system_id" {}
 variable "ecs_target_group_arn" {}
-variable "efs_access_point_id" {
-  description = "The ID of the EFS access point"
-  type        = string
-}
+variable "efs_access_point_id" {}
+variable "github_token" {}
