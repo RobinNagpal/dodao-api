@@ -81,8 +81,8 @@ type GitCourseQuestion {
   content: String!
   hint: String!
   explanation: String!
-  answerKeys: [String!]
-  choices: [GitCourseQuestionChoice!]
+  answerKeys: [String!]!
+  choices: [GitCourseQuestionChoice!]!
 }
 
 type GitCourseReading {
@@ -98,10 +98,10 @@ type GitCourseTopic {
   title: String!
   key: String!
   details: String!
-  explanations: [GitCourseExplanation!]
-  questions: [GitCourseQuestion!]
-  readings: [GitCourseReading!]
-  summaries: [GitCourseSummary!]
+  explanations: [GitCourseExplanation!]!
+  questions: [GitCourseQuestion!]!
+  readings: [GitCourseReading!]!
+  summaries: [GitCourseSummary!]!
 }
 
 type GitCourse {
