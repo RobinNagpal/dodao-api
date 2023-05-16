@@ -98,7 +98,6 @@ export type ByteQuestion = {
   choices: Array<QuestionChoice>;
   content: Scalars['String'];
   explanation: Scalars['String'];
-  order: Scalars['Int'];
   type: Scalars['String'];
   uuid: Scalars['String'];
 };
@@ -107,7 +106,6 @@ export type ByteStep = {
   __typename?: 'ByteStep';
   content: Scalars['String'];
   name: Scalars['String'];
-  order: Scalars['Int'];
   stepItems: Array<ByteStepItem>;
   uuid: Scalars['String'];
 };
@@ -116,7 +114,6 @@ export type ByteStepInput = {
   content: Scalars['String'];
   explanation?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  order: Scalars['Int'];
   stepItems: Array<StepItemInputGenericInput>;
   uuid: Scalars['String'];
 };
@@ -171,7 +168,6 @@ export type ByteSubmissionInput = {
 export type ByteUserInput = {
   __typename?: 'ByteUserInput';
   label: Scalars['String'];
-  order: Scalars['Int'];
   required: Scalars['Boolean'];
   type: Scalars['String'];
   uuid: Scalars['String'];
@@ -1203,13 +1199,11 @@ export type QuestionChoice = {
   __typename?: 'QuestionChoice';
   content: Scalars['String'];
   key: Scalars['String'];
-  order: Scalars['Int'];
 };
 
 export type QuestionChoiceInput = {
   content: Scalars['String'];
   key: Scalars['String'];
-  order: Scalars['Int'];
 };
 
 export type RawGitCourse = {
@@ -1322,7 +1316,6 @@ export type StepItemInputGenericInput = {
   content?: InputMaybe<Scalars['String']>;
   explanation?: InputMaybe<Scalars['String']>;
   label?: InputMaybe<Scalars['String']>;
-  order?: InputMaybe<Scalars['Int']>;
   questionType?: InputMaybe<Scalars['String']>;
   required?: InputMaybe<Scalars['Boolean']>;
   type: Scalars['String'];
@@ -1927,7 +1920,6 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
   choices?: Resolver<Array<ResolversTypes['QuestionChoice']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   explanation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1936,7 +1928,6 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
 export type ByteStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStep'] = ResolversParentTypes['ByteStep']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   stepItems?: Resolver<Array<ResolversTypes['ByteStepItem']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1972,7 +1963,6 @@ export type ByteSubmissionResolvers<ContextType = any, ParentType extends Resolv
 
 export type ByteUserInputResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteUserInput'] = ResolversParentTypes['ByteUserInput']> = {
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   required?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2397,7 +2387,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type QuestionChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuestionChoice'] = ResolversParentTypes['QuestionChoice']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

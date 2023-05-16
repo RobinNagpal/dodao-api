@@ -13,7 +13,6 @@ extend type Query {
 type QuestionChoice {
   content: String!
   key: String!
-  order: Int!
 }
 
 type GuideQuestion {
@@ -97,13 +96,11 @@ input GuideIntegrationsInput {
 input QuestionChoiceInput {
   content: String!
   key: String!
-  order: Int!
 }
 
 # Union types are not supported, so we make a generic type with all fields
 input StepItemInputGenericInput {
   type: String!
-  order: Int
   uuid: String!
 
   # question fields
