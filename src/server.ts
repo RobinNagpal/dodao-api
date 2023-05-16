@@ -6,6 +6,7 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import { json } from 'body-parser';
 import cors from 'cors';
 import express from 'express';
+import { GraphQLFormattedError } from 'graphql/error';
 import * as path from 'path';
 import Mutation from './mutations';
 import Query from './queries';
@@ -20,7 +21,15 @@ const app = express();
 (async () => {
   const rootValue = { Mutation, Query, ...resolvers };
 
-  const server = new ApolloServer({ typeDefs, resolvers: rootValue, plugins: [] });
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers: rootValue,
+    plugins: [],
+    formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
+      console.error(error);
+      return formattedError;
+    },
+  });
 
   await server.start();
 

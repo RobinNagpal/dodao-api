@@ -1,0 +1,34 @@
+type OpenAIChoice {
+  message: OpenAIMessage!
+  finish_reason: String!
+  index: Int!
+}
+
+type OpenAIMessage {
+  role: String!
+  content: String!
+}
+
+type OpenAIUsage {
+  prompt_tokens: Int!
+  completion_tokens: Int!
+  total_tokens: Int!
+}
+
+type OpenAIChatResponse {
+  id: ID!
+  object: String!
+  created: Int!
+  model: String!
+  usage: OpenAIUsage!
+  choices: [OpenAIChoice!]!
+}
+
+extend type Query {
+  queryOpenAIChat(messages: [OpenAIChatMessageInput!]!): OpenAIChatResponse
+}
+
+input OpenAIChatMessageInput {
+  role: String!
+  content: String!
+}
