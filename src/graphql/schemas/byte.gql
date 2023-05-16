@@ -25,7 +25,6 @@ type ByteQuestion {
   answerKeys: [String!]!
   choices: [QuestionChoice!]!
   content: String!
-  order: Int!
   type: String!
   uuid: String!
   explanation: String!
@@ -33,7 +32,6 @@ type ByteQuestion {
 
 type ByteUserInput {
   label: String!
-  order: Int!
   type: String!
   required: Boolean!
   uuid: String!
@@ -44,7 +42,6 @@ union ByteStepItem = ByteQuestion | ByteUserInput | UserDiscordConnect
 type ByteStep {
   content: String!
   name: String!
-  order: Int!
   stepItems: [ByteStepItem!]!
   uuid: String!
 }
@@ -52,7 +49,6 @@ type ByteStep {
 input ByteStepInput {
   content: String!
   name: String!
-  order: Int!
   stepItems: [StepItemInputGenericInput!]!
   uuid: String!
   explanation: String
