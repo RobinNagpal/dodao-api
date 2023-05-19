@@ -6,3 +6,5 @@ node_modules
 
 deploy/terraform.tfvars
 deploy/.terraform/providers
+.envrc
+
