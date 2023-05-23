@@ -1,6 +1,6 @@
 import { verifyJwt } from '@/helpers/login';
 import { getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
-import { prisma } from '@/prisma';
+import { getSpaceById } from '@/graphql/operations/space';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
@@ -12,7 +12,8 @@ export interface SpaceAndDecodedJwt {
 }
 
 export async function verifyJwtForRequest(context: IncomingMessage, spaceId: string): Promise<SpaceAndDecodedJwt> {
-  const spaceById = await prisma.space.findFirstOrThrow({ where: { id: spaceId } });
+  const spaceById = await getSpaceById(spaceId);
+  if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
   const decodedJwt = verifyJwt(context);
   const user = decodedJwt?.accountId?.toLowerCase();

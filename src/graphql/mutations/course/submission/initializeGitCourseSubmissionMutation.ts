@@ -1,7 +1,7 @@
 import { GitCourseModel } from '@/deprecatedSchemas/models/course/GitCourseModel';
 import { prisma } from '@/prisma';
 import { MutationInitializeGitCourseSubmissionArgs } from '@/graphql/generated/graphql';
-import { verifyJwtForRequest } from '@/graphql/mutations/helper/verifyJwtForRequest';
+import { verifyJwtForRequest } from '@/helpers/permissions/verifyJwtForRequest';
 import { getGitCourseFromRedis } from '@/helpers/course/gitCourseReader';
 import { IncomingMessage } from 'http';
 import { uuid } from 'uuidv4';

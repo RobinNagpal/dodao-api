@@ -1,5 +1,5 @@
 import { MutationRefreshGitCoursesArgs } from '@/graphql/generated/graphql';
-import { verifySpaceEditPermissions } from '@/graphql/mutations/helper/verifySpaceEditPermissions';
+import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { pullAllCoursesForSpace } from '@/helpers/course/gitCourseReader';
 import { IncomingMessage } from 'http';
 

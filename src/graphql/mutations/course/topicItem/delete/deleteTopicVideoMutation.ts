@@ -1,5 +1,5 @@
 import { MutationDeleteTopicVideoArgs } from '@/graphql/generated/graphql';
-import { verifyCourseEditPermissions } from '@/graphql/mutations/helper/verifyCourseEditPermissions';
+import { verifyCourseEditPermissions } from '@/helpers/permissions/verifyCourseEditPermissions';
 import { deleteTopicVideo } from '@/helpers/course/updates/updateTopicVideo';
 import { IncomingMessage } from 'http';
 

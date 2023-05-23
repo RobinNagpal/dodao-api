@@ -1,5 +1,5 @@
 import { MutationUpsertGitCourseTopicSubmissionArgs } from '@/graphql/generated/graphql';
-import { getDecodedJwtFromContext } from '@/graphql/mutations/auth/getJwtFromContext';
+import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { getSpaceById } from '@/graphql/operations/space';
 import { prisma } from '@/prisma';
 import { CourseQuestionSubmission, ExplanationSubmission, ReadingSubmission, SummarySubmission, TopicItemStatus } from '@/types/course/submission';

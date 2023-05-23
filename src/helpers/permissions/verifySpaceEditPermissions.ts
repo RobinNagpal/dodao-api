@@ -1,5 +1,5 @@
 import { getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
-import { prisma } from '@/prisma';
+import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
@@ -12,8 +12,9 @@ export interface SpaceAndDecodedJwt {
 }
 
 export async function verifySpaceEditPermissions(context: IncomingMessage, spaceId: string): Promise<SpaceAndDecodedJwt> {
-  const spaceById = await prisma.space.findFirstOrThrow({ where: { id: spaceId } });
-  const jwt = getJwtFromContext(context);
+  const spaceById = await getSpaceById(spaceId);
+  if (!spaceById) throw new Error(`No space found: ${spaceId}`);
+
   const decodedJwt = checkEditSpacePermission(spaceById, context);
 
   return {
