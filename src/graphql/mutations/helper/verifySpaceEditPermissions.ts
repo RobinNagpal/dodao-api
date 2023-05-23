@@ -15,8 +15,7 @@ export async function verifySpaceEditPermissions(context: IncomingMessage, space
   const spaceById = await getSpaceById(spaceId);
   if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
-  const jwt = getJwtFromContext(context);
-  const decodedJwt = checkEditSpacePermission(spaceById, jwt);
+  const decodedJwt = checkEditSpacePermission(spaceById, context);
 
   return {
     space: spaceById,

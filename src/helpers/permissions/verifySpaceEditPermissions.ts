@@ -14,7 +14,7 @@ export interface SpaceAndDecodedJwt {
 export async function verifySpaceEditPermissions(context: IncomingMessage, spaceId: string): Promise<SpaceAndDecodedJwt> {
   const spaceById = await prisma.space.findFirstOrThrow({ where: { id: spaceId } });
   const jwt = getJwtFromContext(context);
-  const decodedJwt = checkEditSpacePermission(spaceById, jwt);
+  const decodedJwt = checkEditSpacePermission(spaceById, context);
 
   return {
     space: spaceById,

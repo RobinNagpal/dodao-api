@@ -6,6 +6,5 @@ export function getJwtFromContext(context: IncomingMessage) {
 }
 
 export function getDecodedJwtFromContext(context: IncomingMessage) {
-  const jwtString = getJwtFromContext(context);
-  return verifyJwt(jwtString);
+  return verifyJwt(context);
 }

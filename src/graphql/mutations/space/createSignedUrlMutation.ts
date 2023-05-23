@@ -10,7 +10,7 @@ export default async function createSignedUrlMutation(_: unknown, args: Mutation
     const spaceById = await getSpaceById(args.spaceId);
     if (!spaceById) throw new Error(`No space found: ${args.spaceId}`);
 
-    checkEditSpacePermission(spaceById, context.headers?.authorization?.replace('Bearer ', '') || '');
+    checkEditSpacePermission(spaceById, context);
 
     return await presignedUrlCreator.createSignedUrl(spaceById.id, args.input);
   } catch (e) {

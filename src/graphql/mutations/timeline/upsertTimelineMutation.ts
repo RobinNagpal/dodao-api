@@ -10,7 +10,7 @@ import { IncomingMessage } from 'http';
 export default async function upsertTimelineMutation(_: unknown, args: MutationUpsertTimelineArgs, context: IncomingMessage) {
   const spaceById = await getSpaceById(args.spaceId);
   if (!spaceById) throw new Error(`No space found: ${args.spaceId}`);
-  const decodedJwt = checkEditSpacePermission(spaceById, context.headers?.authorization?.replace('Bearer ', '') || '');
+  const decodedJwt = checkEditSpacePermission(spaceById, context);
 
   const timelineInput = args.input;
 

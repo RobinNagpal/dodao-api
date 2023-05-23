@@ -1,5 +1,5 @@
-import spaceMutations from '@/space/spaceMutations';
+import mutations from '@/graphql/mutations';
 
 export default {
-  ...spaceMutations,
+  ...mutations,
 };
