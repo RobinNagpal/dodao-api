@@ -1,5 +1,5 @@
 import { MutationUpsertSpaceFeaturesArgs } from '@/graphql/generated/graphql';
-import { verifySpaceEditPermissions } from '@/graphql/mutations/helper/verifySpaceEditPermissions';
+import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { getSpaceById } from '@/graphql/operations/space';
 import { logError } from '@/helpers/adapters/errorLogger';
 import { prisma } from '@/prisma';

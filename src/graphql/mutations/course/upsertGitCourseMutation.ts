@@ -1,5 +1,5 @@
 import { MutationUpsertGitCourseArgs } from '@/graphql/generated/graphql';
-import { verifySpaceEditPermissions } from '@/graphql/mutations/helper/verifySpaceEditPermissions';
+import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { pullGitCourseAndSetInRedis, readGitCourse } from '@/helpers/course/gitCourseReader';
 import { transformToSummarizedCourse } from '@/helpers/course/transformToSummarizedCourse';
 import { prisma } from '@/prisma';

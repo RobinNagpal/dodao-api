@@ -4,7 +4,7 @@ import { prisma } from '@/prisma';
 import { GitCourseSubmission, GitCourseTopicSubmission } from '@prisma/client';
 
 import { MutationSubmitGitCourseArgs } from '@/graphql/generated/graphql';
-import { verifyJwtForRequest } from '@/graphql/mutations/helper/verifyJwtForRequest';
+import { verifyJwtForRequest } from '@/helpers/permissions/verifyJwtForRequest';
 import { getGitCourseFromRedis } from '@/helpers/course/gitCourseReader';
 import { postCourseSubmission } from '@/helpers/discord/webhookMessage';
 import { updateGalaxyCredentialsForCourseSubmissionIfApplicable } from '@/helpers/galaxy/updateGalaxyCredentials';

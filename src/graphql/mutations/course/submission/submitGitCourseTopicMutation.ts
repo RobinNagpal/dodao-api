@@ -3,7 +3,7 @@ import { CourseQuestionSubmission } from '@/deprecatedSchemas/models/course/GitC
 import { TopicQuestionModel } from '@/deprecatedSchemas/models/course/TopicQuestionModel';
 import { prisma } from '@/prisma';
 import { MutationSubmitGitCourseTopicArgs } from '@/graphql/generated/graphql';
-import { verifyJwtForRequest } from '@/graphql/mutations/helper/verifyJwtForRequest';
+import { verifyJwtForRequest } from '@/helpers/permissions/verifyJwtForRequest';
 import { getGitCourseFromRedis } from '@/helpers/course/gitCourseReader';
 import { postTopicSubmission } from '@/helpers/discord/webhookMessage';
 import { IncomingMessage } from 'http';

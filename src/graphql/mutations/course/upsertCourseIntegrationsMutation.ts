@@ -1,5 +1,5 @@
 import { MutationUpsertCourseIntegrationsArgs, UpsertCourseIntegrationsInput } from '@/graphql/generated/graphql';
-import { verifyCourseEditPermissions } from '@/graphql/mutations/helper/verifyCourseEditPermissions';
+import { verifyCourseEditPermissions } from '@/helpers/permissions/verifyCourseEditPermissions';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 import { uuid } from 'uuidv4';

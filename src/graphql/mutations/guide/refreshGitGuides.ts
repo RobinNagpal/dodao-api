@@ -1,5 +1,5 @@
 import { MutationRefreshGitGuidesArgs } from '@/graphql/generated/graphql';
-import { verifySpaceEditPermissions } from '@/graphql/mutations/helper/verifySpaceEditPermissions';
+import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { loadAllGuidesForSpace } from '@/helpers/gitGuides/gitGuideReader';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';

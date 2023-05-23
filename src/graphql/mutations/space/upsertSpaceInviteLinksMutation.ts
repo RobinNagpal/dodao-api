@@ -1,5 +1,5 @@
 import { MutationUpsertSpaceInviteLinksArgs } from '@/graphql/generated/graphql';
-import { verifySpaceEditPermissions } from '@/graphql/mutations/helper/verifySpaceEditPermissions';
+import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { logError } from '@/helpers/adapters/errorLogger';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';

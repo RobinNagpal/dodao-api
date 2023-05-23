@@ -1,5 +1,5 @@
 import { MutationUpdateTopicBasicInfoArgs } from '@/graphql/generated/graphql';
-import { verifyCourseEditPermissions } from '@/graphql/mutations/helper/verifyCourseEditPermissions';
+import { verifyCourseEditPermissions } from '@/helpers/permissions/verifyCourseEditPermissions';
 import { updateTopicInfo } from '@/helpers/course/updates/updateCourseBasicInfo';
 import { IncomingMessage } from 'http';
 

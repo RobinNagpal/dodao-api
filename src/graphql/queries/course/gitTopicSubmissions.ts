@@ -1,5 +1,5 @@
 import { QueryGitTopicSubmissionsArgs } from '@/graphql/generated/graphql';
-import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
+import { getDecodedJwtFromContext } from '@/helpers/permissions/getDecodedJwtFromContext';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
