@@ -1,6 +1,6 @@
-import { JwtModel } from '@/deprecatedSchemas/models/JwtModel';
 import { verifyJwt } from '@/helpers/login';
 import { isSuperAdmin } from '@/helpers/space/isSuperAdmin';
+import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
 import { JwtPayload } from 'jsonwebtoken';
 
@@ -19,7 +19,7 @@ export function canEditGitSpace(jwt: string, space: Space) {
   return { decodedJWT, canEditSpace, user };
 }
 
-export function checkEditSpacePermission(space: Space, jwt: string): JwtPayload & JwtModel {
+export function checkEditSpacePermission(space: Space, jwt: string): JwtPayload & DoDaoJwtTokenPayload {
   const { decodedJWT, canEditSpace } = canEditGitSpace(jwt, space);
 
   if (!canEditSpace) {

@@ -1,15 +1,14 @@
-import { JwtModel } from '@/deprecatedSchemas/models/JwtModel';
-import { SpaceModel } from '@/deprecatedSchemas/models/SpaceModel';
 import { getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { prisma } from '@/prisma';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
+import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { JwtPayload } from 'jsonwebtoken';
 
 export interface SpaceAndDecodedJwt {
   space: Space;
-  decodedJwt: JwtPayload & JwtModel;
+  decodedJwt: JwtPayload & DoDaoJwtTokenPayload;
 }
 
 export async function verifySpaceEditPermissions(context: IncomingMessage, spaceId: string): Promise<SpaceAndDecodedJwt> {
