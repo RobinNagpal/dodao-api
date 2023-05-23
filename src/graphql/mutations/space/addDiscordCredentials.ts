@@ -12,7 +12,7 @@ export default async function addDiscordCredentials(_: unknown, args: MutationAd
     const spaceById = await getSpaceById(args.spaceId);
     if (!spaceById) throw new Error(`No space found: ${args.spaceId}`);
 
-    checkEditSpacePermission(spaceById, context.headers?.authorization?.replace('Bearer ', '') || '');
+    checkEditSpacePermission(spaceById, context);
 
     const params = {
       client_id: process.env.DISCORD_CLIENT_ID!,

@@ -15,8 +15,7 @@ export async function verifyJwtForRequest(context: IncomingMessage, spaceId: str
   const spaceById = await getSpaceById(spaceId);
   if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
-  const jwt = getJwtFromContext(context);
-  const decodedJwt = verifyJwt(jwt);
+  const decodedJwt = verifyJwt(context);
   const user = decodedJwt?.accountId?.toLowerCase();
   if (!user) {
     throw Error('No accountId present in JWT');

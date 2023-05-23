@@ -2,10 +2,11 @@ import { verifyJwt } from '@/helpers/login';
 import { isSuperAdmin } from '@/helpers/space/isSuperAdmin';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
+import { IncomingMessage } from 'http';
 import { JwtPayload } from 'jsonwebtoken';
 
-export function canEditGitSpace(jwt: string, space: Space) {
-  const decodedJWT = verifyJwt(jwt);
+export function canEditGitSpace(context: IncomingMessage, space: Space) {
+  const decodedJWT = verifyJwt(context);
   const user = decodedJWT.accountId.toLowerCase();
   if (!user) {
     throw Error('No accountId present in JWT');
@@ -19,8 +20,8 @@ export function canEditGitSpace(jwt: string, space: Space) {
   return { decodedJWT, canEditSpace, user };
 }
 
-export function checkEditSpacePermission(space: Space, jwt: string): JwtPayload & DoDaoJwtTokenPayload {
-  const { decodedJWT, canEditSpace } = canEditGitSpace(jwt, space);
+export function checkEditSpacePermission(space: Space, context: IncomingMessage): JwtPayload & DoDaoJwtTokenPayload {
+  const { decodedJWT, canEditSpace } = canEditGitSpace(context, space);
 
   if (!canEditSpace) {
     throw new Error(

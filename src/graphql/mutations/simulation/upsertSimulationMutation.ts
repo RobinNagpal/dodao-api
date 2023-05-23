@@ -30,7 +30,7 @@ export default async function upsertSimulationMutation(_: unknown, { spaceId, in
     const spaceById = await getSpaceById(spaceId);
     if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
-    const decodedJwt = checkEditSpacePermission(spaceById, context.headers?.authorization?.replace('Bearer ', '') || '');
+    const decodedJwt = checkEditSpacePermission(spaceById, context);
     const transformedGuide = await transformInput(spaceId, input);
 
     const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedGuide, AcademyObjectTypes.simulations, decodedJwt.accountId);

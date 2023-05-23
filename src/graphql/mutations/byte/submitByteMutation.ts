@@ -82,7 +82,7 @@ async function doSubmitByte(user: string, msg: ByteSubmissionInput): Promise<Byt
 
 export default async function submitByteMutation(_: unknown, byteInput: MutationSubmitByteArgs, context: IncomingMessage) {
   try {
-    const decodedJWT = verifyJwt(context.headers?.authorization?.replace('Bearer ', '') || '');
+    const decodedJWT = verifyJwt(context);
     const user = decodedJWT.accountId.toLowerCase();
     if (!user) {
       throw Error('No accountId present in JWT');

@@ -12,7 +12,7 @@ export default async function upsertSpaceAcademyRepositoryMutation(_: unknown, a
     const spaceById = await getSpaceById(args.spaceId);
     if (!spaceById) throw new Error(`No space found: ${args.spaceId}`);
 
-    const decodedJwt = checkEditSpacePermission(spaceById, context.headers?.authorization?.replace('Bearer ', '') || '');
+    const decodedJwt = checkEditSpacePermission(spaceById, context);
 
     await prisma.spaceIntegration.upsert({
       where: {
