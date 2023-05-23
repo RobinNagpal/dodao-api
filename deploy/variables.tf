@@ -33,3 +33,5 @@ variable "rds_username" {}
 variable "rds_password" {}
 variable "rds_init_db" {}
 variable "github_token" {}
+variable "dodao_auth_secret" {}
+variable "dodao_auth_header_name" {}

@@ -17,3 +17,5 @@ variable "efs_file_system_id" {}
 variable "ecs_target_group_arn" {}
 variable "efs_access_point_id" {}
 variable "github_token" {}
+variable "dodao_auth_secret" {}
+variable "dodao_auth_header_name" {}

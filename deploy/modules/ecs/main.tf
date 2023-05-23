@@ -65,6 +65,8 @@ resource "aws_ecs_task_definition" "app" {
         { name = "ECS_ENABLE_EXECUTE_COMMAND", value = "true" },
         { name = "REDIS_URL", value = "redis://${var.redis_endpoint}:6379" },
         { name = "GITHUB_TOKEN", value = var.github_token },
+        { name = "DODAO_AUTH_SECRET", value = var.dodao_auth_secret },
+        { name = "DODAO_AUTH_HEADER_NAME", value = var.dodao_auth_header_name },
         { name = "MAIN_GIT_FOLDER_PATH", value = "/opt/dodao/dodao-git-folder/prod" },
         { name = "ALL_GIT_GUIDES_FOLDER_NAME", value = "dodao-all-prod-guides" }
       ]

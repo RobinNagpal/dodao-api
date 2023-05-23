@@ -3,7 +3,8 @@ import { IncomingMessage } from 'http';
 import jwt from 'jsonwebtoken';
 
 export function getJwtFromContext(context: IncomingMessage) {
-  return (context.headers?.[process.env.DAODAO_AUTH_HEADER_NAME!] as string | undefined)?.replace('Bearer ', '') || '';
+  console.log('getJwtFromContext', context);
+  return (context.headers?.[process.env.DODAO_AUTH_HEADER_NAME!] as string | undefined)?.replace('Bearer ', '') || '';
 }
 
 export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtTokenPayload {
