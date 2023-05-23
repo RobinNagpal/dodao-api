@@ -4,21 +4,23 @@ import { loadAllGitGuides } from '@/helpers/gitGuides/loadAllGitGuides';
 import { setupRedis } from '@/helpers/redis';
 
 export function setupGitLoader() {
-  setTimeout(() => loadAllGitCourses(), 4e3);
+  setTimeout(() => loadAllGitCourses(), 90 * 1000);
 
-  setTimeout(() => loadAllAcademyWebsites(), 5e3);
+  setTimeout(() => loadAllAcademyWebsites(), 60 * 1000);
 
   setInterval(() => {
     loadAllGitCourses();
-  }, 300e3);
+  }, 90 * 1000);
 
   setInterval(() => {
     loadAllAcademyWebsites();
-  }, 400e3);
+  }, 100 * 1000);
 
+  /*
   setInterval(() => {
     // loadAllGitGuides();
   }, 250e3);
+*/
 
   setupRedis();
 }
