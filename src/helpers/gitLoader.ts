@@ -17,7 +17,7 @@ export function setupGitLoader() {
   }, 400e3);
 
   setInterval(() => {
-    loadAllGitGuides();
+    // loadAllGitGuides();
   }, 250e3);
 
   setupRedis();
