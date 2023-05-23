@@ -37,7 +37,7 @@ type GuideSubmissionResult {
 
 type GuideSubmission {
   id: String!
-  created: Int!
+  created: String!
   createdBy: String!
   galaxyCredentialsUpdated: Boolean
   guideId: String!

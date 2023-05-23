@@ -1,9 +1,7 @@
-import { GitCourseSubmissionModel } from '@/deprecatedSchemas/models/course/GitCourseSubmissionModel';
 import { GuideModel } from '@/deprecatedSchemas/models/GuideModel';
 import { SpaceIntegrationModel } from '@/deprecatedSchemas/models/SpaceIntegrationModel';
-import { CourseIntegrations, GuideSubmissionInput } from '@/graphql/generated/graphql';
 import { appendToGalaxyCredentials } from '@/helpers/galaxy/appendToGalaxyCredentials';
-import { GuideSubmission } from '@prisma/client';
+import { CourseIntegration, GitCourseSubmission, GuideSubmission, SpaceIntegration } from '@prisma/client';
 
 export async function updateGalaxyCredentialsForGuideSubmissionIfApplicable(
   spaceIntegrations: SpaceIntegrationModel | undefined,
@@ -28,9 +26,9 @@ export async function updateGalaxyCredentialsForGuideSubmissionIfApplicable(
 }
 
 export async function updateGalaxyCredentialsForCourseSubmissionIfApplicable(
-  spaceIntegrations: SpaceIntegrationModel | undefined,
-  courseIntegrations: CourseIntegrations,
-  courseSubmission: GitCourseSubmissionModel,
+  spaceIntegrations: SpaceIntegration | null,
+  courseIntegrations: CourseIntegration,
+  courseSubmission: GitCourseSubmission,
   userAddress: string
 ): Promise<boolean | undefined> {
   const projectGalaxyToken = spaceIntegrations?.projectGalaxyToken;

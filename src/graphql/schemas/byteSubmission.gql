@@ -13,7 +13,7 @@ type ByteStepItemSubmission {
 
 type ByteSubmission {
   id: String!
-  created: Int!
+  created: String!
   createdBy: String!
   byteId: String!
   spaceId: String!

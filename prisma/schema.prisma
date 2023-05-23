@@ -59,7 +59,7 @@ model GitCourseSubmission {
   questionsIncorrect       Int?                       @map("questions_incorrect")
   questionsSkipped         Int?                       @map("questions_skipped")
   spaceId                  String                     @map("space_id") @db.VarChar(64)
-  updatedAt                Int                        @map("updated_at")
+  updatedAt                DateTime                   @updatedAt @map("updated_at")
   status                   String                     @default("InProgress") @db.VarChar(64)
   galaxyCredentialsUpdated Boolean?                   @map("galaxy_credentials_updated") @db.Boolean
   GitCourseTopicSubmission GitCourseTopicSubmission[]
@@ -78,7 +78,8 @@ model GitCourseTopicSubmission {
   questionsCorrect     Int?     @map("questions_correct")
   questionsIncorrect   Int?     @map("questions_incorrect")
   questionsSkipped     Int?     @map("questions_skipped")
-  submission           Json
+  /// [TempTopicSubmissionModel]
+  submission           Json     @db.Json
   spaceId              String   @map("space_id") @db.VarChar(64)
   topicKey             String   @map("topic_key") @db.VarChar(128)
   updatedAt            DateTime @updatedAt @map("updated_at")
@@ -123,7 +124,7 @@ model Space {
   createdAt         DateTime            @default(now()) @map("created_at")
   creator           String              @db.VarChar(64)
   name              String              @db.VarChar(255)
-  updatedAt         String              @map("updated_at") @db.VarChar(256)
+  updatedAt         DateTime            @updatedAt @map("updated_at")
   avatar            String?             @db.VarChar(255)
   admins            String[]
   skin              String              @default("dodao") @db.VarChar(128)

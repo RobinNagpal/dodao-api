@@ -8,7 +8,7 @@ import { InputType } from '@/deprecatedSchemas/models/enums';
 import { GuideModel, GuideStep, UserInput } from '@/deprecatedSchemas/models/GuideModel';
 import { UserInput as ByteUserInput } from '@/deprecatedSchemas/models/byte/ByteModel';
 import { prisma } from '@/prisma';
-import { Space } from '@prisma/client';
+import { GitCourseSubmission, GitCourseTopicSubmission, Space } from '@prisma/client';
 import axios from 'axios';
 import { ByteSubmissionInput, GuideSubmissionInput, GuideSubmissionResult, UserDiscordInfo } from '@/graphql/generated/graphql';
 import { logError } from '@/helpers/adapters/errorLogger';
@@ -123,7 +123,7 @@ export async function postTopicSubmission(
   space: Space,
   course: GitCourseModel,
   topic: GitCourseTopicModel,
-  submissionModel: GitCourseTopicSubmissionModel
+  submissionModel: GitCourseTopicSubmission
 ) {
   const embeds = [
     {
@@ -147,7 +147,7 @@ export async function postTopicSubmission(
   });
 }
 
-export async function postCourseSubmission(url: string, space: Space, course: GitCourseModel, submissionModel: GitCourseSubmissionModel) {
+export async function postCourseSubmission(url: string, space: Space, course: GitCourseModel, submissionModel: GitCourseSubmission) {
   const embeds = [
     {
       title: `${course.title}`,

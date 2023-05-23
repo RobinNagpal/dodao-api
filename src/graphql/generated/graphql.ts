@@ -150,7 +150,7 @@ export type ByteStepSubmissionInput = {
 export type ByteSubmission = {
   __typename?: 'ByteSubmission';
   byteId: Scalars['String'];
-  created: Scalars['Int'];
+  created: Scalars['String'];
   createdBy: Scalars['String'];
   id: Scalars['String'];
   spaceId: Scalars['String'];
@@ -608,7 +608,7 @@ export type GuideStepSubmissionInput = {
 
 export type GuideSubmission = {
   __typename?: 'GuideSubmission';
-  created: Scalars['Int'];
+  created: Scalars['String'];
   createdBy: Scalars['String'];
   galaxyCredentialsUpdated?: Maybe<Scalars['Boolean']>;
   guideId: Scalars['String'];
@@ -1954,7 +1954,7 @@ export type ByteStepSubmissionResolvers<ContextType = any, ParentType extends Re
 
 export type ByteSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteSubmission'] = ResolversParentTypes['ByteSubmission']> = {
   byteId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2237,7 +2237,7 @@ export type GuideStepSubmissionResolvers<ContextType = any, ParentType extends R
 };
 
 export type GuideSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideSubmission'] = ResolversParentTypes['GuideSubmission']> = {
-  created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   galaxyCredentialsUpdated?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   guideId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

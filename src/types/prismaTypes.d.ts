@@ -1,3 +1,4 @@
+import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
 import { GuideSubmissionResult as GuideSubmissionResultInterface } from '@/types/guide/GuideSubmissionResult';
 import { GuidesGitRepository as GuidesGitRepositoryInterface } from '@/types/space/GuidesGitRepository';
 import { SpaceInviteLinks as SpaceInviteLinksInterface } from '@/types/space/SpaceInviteLinks';
@@ -8,5 +9,6 @@ declare global {
     type GuidesGitRepository = GuidesGitRepositoryInterface;
     type GuideSubmissionResult = GuideSubmissionResultInterface;
     type SpaceInviteLinks = SpaceInviteLinksInterface;
+    type TempTopicSubmissionModel = TempTopicSubmissionModelInterface;
   }
 }

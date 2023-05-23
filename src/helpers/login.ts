@@ -1,4 +1,4 @@
-import { JwtModel } from '@/deprecatedSchemas/models/JwtModel';
+import { DoDaoJwtTokenPayload } from '@/types/session';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export function createJwt(accountId: string, blockchain: string, connector: string): string {
@@ -16,6 +16,6 @@ export function createJwt(accountId: string, blockchain: string, connector: stri
   );
 }
 
-export function verifyJwt(token: string): JwtPayload & JwtModel {
-  return jwt.verify(token, process.env.JWT_PRIVATE_KEY!) as JwtPayload & JwtModel;
+export function verifyJwt(token: string): JwtPayload & DoDaoJwtTokenPayload {
+  return jwt.verify(token, process.env.DODAO_AUTH_SECRET!) as JwtPayload & DoDaoJwtTokenPayload;
 }
