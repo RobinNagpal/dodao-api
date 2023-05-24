@@ -41,11 +41,11 @@ export default async function upsertByteMutation(_: unknown, { spaceId, input }:
     if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
     const decodedJwt = checkEditSpacePermission(spaceById, context);
-    const transformedGuide = await transformInput(spaceId, input);
+    const transformedByte = await transformInput(spaceId, input);
 
-    const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedGuide, AcademyObjectTypes.bytes, decodedJwt.accountId);
+    // const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedGuide, AcademyObjectTypes.bytes, decodedJwt.accountId);
 
-    return upsertedObject;
+    return transformedByte;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in upsertByte', {}, e as any, null, null);
     throw e;
