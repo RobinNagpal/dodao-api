@@ -43,9 +43,9 @@ export default async function upsertByteMutation(_: unknown, { spaceId, input }:
     const decodedJwt = checkEditSpacePermission(spaceById, context);
     const transformedByte = await transformInput(spaceId, input);
 
-    // const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedGuide, AcademyObjectTypes.bytes, decodedJwt.accountId);
+    const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedByte, AcademyObjectTypes.bytes, decodedJwt.accountId);
 
-    return transformedByte;
+    return upsertedObject;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in upsertByte', {}, e as any, null, null);
     throw e;
