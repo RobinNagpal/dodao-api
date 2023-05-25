@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from 'uuid';
 export default async function addDiscordCredentials(_: unknown, args: MutationAddDiscordCredentialsArgs, context: IncomingMessage) {
   try {
     const spaceById = await getSpaceById(args.spaceId);
-    if (!spaceById) throw new Error(`No space found: ${args.spaceId}`);
 
     checkEditSpacePermission(spaceById, context);
 

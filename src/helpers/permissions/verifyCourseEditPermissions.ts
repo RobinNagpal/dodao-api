@@ -13,9 +13,7 @@ export interface SpaceAndDecodedJwt {
 
 export async function verifyCourseEditPermissions(context: IncomingMessage, spaceId: string, courseKey: string): Promise<SpaceAndDecodedJwt> {
   const spaceById = await getSpaceById(spaceId);
-  if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
-  const jwt = getJwtFromContext(context);
   const decodedJwt = await checkEditCoursePermission(spaceById, context, courseKey);
 
   return {

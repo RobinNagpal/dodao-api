@@ -38,7 +38,6 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
 export default async function upsertByteMutation(_: unknown, { spaceId, input }: MutationUpsertByteArgs, context: IncomingMessage) {
   try {
     const spaceById = await getSpaceById(spaceId);
-    if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
     const decodedJwt = checkEditSpacePermission(spaceById, context);
     const transformedByte = await transformInput(spaceId, input);

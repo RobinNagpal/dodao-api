@@ -12,9 +12,6 @@ export default async function upsertGitCourseTopicSubmission(_: unknown, args: M
       gitCourseTopicSubmission: { courseKey, topicKey },
     } = args;
 
-    const spaceById = await getSpaceById(spaceId);
-    if (!spaceById) throw new Error(`No space found: ${spaceId}`);
-
     const decodedJWT = getDecodedJwtFromContext(context);
 
     const existingCourseSubmission = await prisma.gitCourseSubmission.findFirstOrThrow({
