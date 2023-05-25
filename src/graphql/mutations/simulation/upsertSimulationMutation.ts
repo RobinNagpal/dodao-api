@@ -28,7 +28,6 @@ async function transformInput(spaceId: string, message: UpsertSimulationInput): 
 export default async function upsertSimulationMutation(_: unknown, { spaceId, input }: MutationUpsertSimulationArgs, context: IncomingMessage) {
   try {
     const spaceById = await getSpaceById(spaceId);
-    if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
     const decodedJwt = checkEditSpacePermission(spaceById, context);
     const transformedGuide = await transformInput(spaceId, input);

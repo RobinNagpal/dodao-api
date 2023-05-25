@@ -13,7 +13,6 @@ export interface SpaceAndDecodedJwt {
 
 export async function verifyJwtForRequest(context: IncomingMessage, spaceId: string): Promise<SpaceAndDecodedJwt> {
   const spaceById = await getSpaceById(spaceId);
-  if (!spaceById) throw new Error(`No space found: ${spaceId}`);
 
   const decodedJwt = verifyJwt(context);
   const user = decodedJwt?.accountId?.toLowerCase();

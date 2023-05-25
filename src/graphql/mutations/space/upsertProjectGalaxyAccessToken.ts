@@ -9,7 +9,6 @@ import { uuid } from 'uuidv4';
 export default async function upsertProjectGalaxyAccessToken(_: unknown, args: MutationUpsertProjectGalaxyAccessTokenArgs, context: IncomingMessage) {
   try {
     const spaceById = await getSpaceById(args.spaceId);
-    if (!spaceById) throw new Error(`No space found: ${args.spaceId}`);
 
     const decodedJwt = checkEditSpacePermission(spaceById, context);
 
