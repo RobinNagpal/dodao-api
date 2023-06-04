@@ -490,7 +490,6 @@ export type Guide = {
   publishStatus: Scalars['String'];
   showIncorrectOnCompletion: Scalars['Boolean'];
   socialShareImage?: Maybe<Scalars['String']>;
-  space: Space;
   steps: Array<GuideStep>;
   thumbnail?: Maybe<Scalars['String']>;
   uuid: Scalars['String'];
@@ -1060,7 +1059,7 @@ export type Query = {
   gitTopicSubmissions: Array<GitCourseTopicSubmission>;
   guide: Guide;
   guideSubmissions: Array<GuideSubmission>;
-  guides?: Maybe<Array<Guide>>;
+  guides: Array<Guide>;
   queryOpenAIChat?: Maybe<OpenAiChatResponse>;
   rawGitCourse: RawGitCourse;
   simulation: Simulation;
@@ -2178,7 +2177,6 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   socialShareImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  space?: Resolver<ResolversTypes['Space'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['GuideStep']>, ParentType, ContextType>;
   thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2371,7 +2369,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   gitTopicSubmissions?: Resolver<Array<ResolversTypes['GitCourseTopicSubmission']>, ParentType, ContextType, RequireFields<QueryGitTopicSubmissionsArgs, 'courseKey' | 'spaceId'>>;
   guide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<QueryGuideArgs, 'spaceId' | 'uuid'>>;
   guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'guideUuid'>>;
-  guides?: Resolver<Maybe<Array<ResolversTypes['Guide']>>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
+  guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
   queryOpenAIChat?: Resolver<Maybe<ResolversTypes['OpenAIChatResponse']>, ParentType, ContextType, RequireFields<QueryQueryOpenAiChatArgs, 'messages'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
