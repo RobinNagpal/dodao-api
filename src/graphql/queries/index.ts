@@ -1,3 +1,4 @@
+import guides from '@/graphql/queries/guide/guides';
 import academyTask from './academyTask/academyTask';
 import academyTasks from './academyTask/academyTasks';
 import byte from './byte/byte';
@@ -33,6 +34,8 @@ export default {
   summarizedGitCourses,
 
   gitTopicSubmissions,
+
+  guides,
 
   simulation,
   simulations,
