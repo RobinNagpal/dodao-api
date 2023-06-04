@@ -18,6 +18,7 @@ export default async function getSpace(_: any, { id, domain }: QuerySpaceArgs) {
     throw new Error('No spaceId or domain provided');
   }
   const space = await prisma.space.findUnique({ where: { id: spaceId } });
+
   const spaceIntegrations = await prisma.spaceIntegration.findUnique({ where: { spaceId } });
   return { ...space, spaceIntegrations };
 }
