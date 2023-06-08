@@ -7,6 +7,9 @@ import guideMutations from '@/graphql/mutations/guide.mutations';
 import guideSubmissionMutations from '@/graphql/mutations/guideSubmission.mutations';
 import spaceMutations from '@/graphql/mutations/space.mutations';
 import timelineMutations from '@/graphql/mutations/timeline.mutations';
+import byteSaveMutation from './byteSave.mutation';
+import bytePublishMutation from './bytePublish.mutation';
+
 
 export default {
   ...byteMutations,
@@ -18,4 +21,6 @@ export default {
   ...simulationMutations,
   ...spaceMutations,
   ...timelineMutations,
+  ...byteSaveMutation,
+  ...bytePublishMutation
 };

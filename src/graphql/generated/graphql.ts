@@ -704,9 +704,11 @@ export type Mutation = {
   moveTopicQuestion: GitCourse;
   moveTopicSummary: GitCourse;
   moveTopicVideo: GitCourse;
+  publishByte: Byte;
   refreshGitCourse: Scalars['Boolean'];
   refreshGitCourses: Scalars['Boolean'];
   refreshGitGuides: Scalars['Boolean'];
+  saveByte: Byte;
   submitByte: ByteSubmission;
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseTopicSubmission;
@@ -848,6 +850,12 @@ export type MutationMoveTopicVideoArgs = {
 };
 
 
+export type MutationPublishByteArgs = {
+  byteId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationRefreshGitCourseArgs = {
   courseKey: Scalars['String'];
   spaceId: Scalars['String'];
@@ -860,6 +868,12 @@ export type MutationRefreshGitCoursesArgs = {
 
 
 export type MutationRefreshGitGuidesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationSaveByteArgs = {
+  input: UpsertByteInput;
   spaceId: Scalars['String'];
 };
 
@@ -2297,9 +2311,11 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   moveTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   moveTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   moveTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  publishByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationPublishByteArgs, 'byteId' | 'spaceId'>>;
   refreshGitCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCourseArgs, 'courseKey' | 'spaceId'>>;
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   refreshGitGuides?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitGuidesArgs, 'spaceId'>>;
+  saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
