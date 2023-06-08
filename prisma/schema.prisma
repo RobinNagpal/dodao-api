@@ -144,6 +144,30 @@ model Space {
 
   @@map("spaces")
 }
+model Byte {
+  id                          String         @id @db.VarChar(255)
+  name                        String         @db.VarChar(255)
+  content                     String         @db.Text
+  created                     String         @db.VarChar(255)
+  publishStatus               String         @db.VarChar(255)
+  showIncorrectOnCompletion   Boolean        @default(true)
+  postSubmissionStepContent   String         @db.Text
+  admins                      String[]
+  tags                        String[]
+  priority                    Int
+  steps                       ByteStep[]
+  spaceId                     String         @db.VarChar(255)
+}
+
+model ByteStep {
+  uuid        String         @id @db.VarChar(255)
+  name        String         @db.VarChar(255)
+  content     String         @db.Text
+  byteId      String         @db.VarChar(255)
+  Byte        Byte           @relation(fields: [byteId], references: [id])
+  stepItems   Json
+}
+
 
 model CourseIntegration {
   id                            String   @id @db.VarChar(255)
