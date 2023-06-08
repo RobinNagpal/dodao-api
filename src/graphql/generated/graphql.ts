@@ -1051,7 +1051,7 @@ export type Query = {
   academyTasks?: Maybe<Array<AcademyTask>>;
   byte: Byte;
   bytes: Array<Byte>;
-  courses?: Maybe<Array<GenericCourse>>;
+  courses: Array<GitCourse>;
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
@@ -1067,7 +1067,6 @@ export type Query = {
   space?: Maybe<Space>;
   spaceDiscordGuild?: Maybe<Scalars['Any']>;
   spaces?: Maybe<Array<Space>>;
-  summarizedGitCourses?: Maybe<Array<SummarizedGitCourse>>;
   timeline: Timeline;
   timelines: Array<Timeline>;
 };
@@ -1175,11 +1174,6 @@ export type QuerySpaceArgs = {
 
 
 export type QuerySpaceDiscordGuildArgs = {
-  spaceId: Scalars['String'];
-};
-
-
-export type QuerySummarizedGitCoursesArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2361,7 +2355,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
-  courses?: Resolver<Maybe<Array<ResolversTypes['GenericCourse']>>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
+  courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
@@ -2377,7 +2371,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, Partial<QuerySpaceArgs>>;
   spaceDiscordGuild?: Resolver<Maybe<ResolversTypes['Any']>, ParentType, ContextType, RequireFields<QuerySpaceDiscordGuildArgs, 'spaceId'>>;
   spaces?: Resolver<Maybe<Array<ResolversTypes['Space']>>, ParentType, ContextType>;
-  summarizedGitCourses?: Resolver<Maybe<Array<ResolversTypes['SummarizedGitCourse']>>, ParentType, ContextType, RequireFields<QuerySummarizedGitCoursesArgs, 'spaceId'>>;
   timeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<QueryTimelineArgs, 'spaceId' | 'timelineId'>>;
   timelines?: Resolver<Array<ResolversTypes['Timeline']>, ParentType, ContextType, RequireFields<QueryTimelinesArgs, 'spaceId'>>;
 };
