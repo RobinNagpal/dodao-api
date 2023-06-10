@@ -201,6 +201,18 @@ export type CourseIntegrations = {
   projectGalaxyOatPassingCount?: Maybe<Scalars['Int']>;
 };
 
+export type CourseReadingQuestion = {
+  __typename?: 'CourseReadingQuestion';
+  answerKeys: Array<Scalars['String']>;
+  choices: Array<GitCourseQuestionChoice>;
+  content: Scalars['String'];
+  explanation: Scalars['String'];
+  hint: Scalars['String'];
+  timeInSec: Scalars['Int'];
+  type: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
 export type CourseSubmissionInput = {
   courseKey: Scalars['String'];
   uuid: Scalars['String'];
@@ -337,6 +349,7 @@ export type GitCourseQuestionsSubmissionInput = {
 export type GitCourseReading = {
   __typename?: 'GitCourseReading';
   details: Scalars['String'];
+  questions?: Maybe<Array<CourseReadingQuestion>>;
   shortTitle: Scalars['String'];
   title: Scalars['String'];
   type: Scalars['String'];
@@ -1635,6 +1648,7 @@ export type ResolversTypes = {
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
+  CourseReadingQuestion: ResolverTypeWrapper<CourseReadingQuestion>;
   CourseSubmissionInput: CourseSubmissionInput;
   CreateSignedUrlInput: CreateSignedUrlInput;
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
@@ -1766,6 +1780,7 @@ export type ResolversParentTypes = {
   ByteUserInput: ByteUserInput;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
+  CourseReadingQuestion: CourseReadingQuestion;
   CourseSubmissionInput: CourseSubmissionInput;
   CreateSignedUrlInput: CreateSignedUrlInput;
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
@@ -1973,6 +1988,18 @@ export type CourseIntegrationsResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CourseReadingQuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CourseReadingQuestion'] = ResolversParentTypes['CourseReadingQuestion']> = {
+  answerKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  choices?: Resolver<Array<ResolversTypes['GitCourseQuestionChoice']>, ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  explanation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hint?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  timeInSec?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GenericCourseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GenericCourse'] = ResolversParentTypes['GenericCourse']> = {
   categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2049,6 +2076,7 @@ export type GitCourseQuestionsSubmissionResolvers<ContextType = any, ParentType 
 
 export type GitCourseReadingResolvers<ContextType = any, ParentType extends ResolversParentTypes['GitCourseReading'] = ResolversParentTypes['GitCourseReading']> = {
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  questions?: Resolver<Maybe<Array<ResolversTypes['CourseReadingQuestion']>>, ParentType, ContextType>;
   shortTitle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2543,6 +2571,7 @@ export type Resolvers<ContextType = any> = {
   ByteSubmission?: ByteSubmissionResolvers<ContextType>;
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
+  CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
   GenericCourse?: GenericCourseResolvers<ContextType>;
   GitCourse?: GitCourseResolvers<ContextType>;
   GitCourseExplanation?: GitCourseExplanationResolvers<ContextType>;

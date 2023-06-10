@@ -83,6 +83,17 @@ type GitCourseQuestion {
   choices: [GitCourseQuestionChoice!]!
 }
 
+type CourseReadingQuestion {
+  uuid: String!
+  type: String!
+  content: String!
+  hint: String!
+  explanation: String!
+  answerKeys: [String!]!
+  choices: [GitCourseQuestionChoice!]!
+  timeInSec: Int!
+}
+
 type GitCourseReading {
   uuid: String!
   title: String!
@@ -90,6 +101,7 @@ type GitCourseReading {
   details: String!
   type: String!
   url: String!
+  questions: [CourseReadingQuestion!]
 }
 
 type GitCourseTopic {
