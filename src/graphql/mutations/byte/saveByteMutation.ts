@@ -1,12 +1,11 @@
 import { prisma } from '@/prisma';
 import { ByteModel, ByteQuestion, ByteStepItem } from '@/deprecatedSchemas/models/byte/ByteModel';
 import { PublishStatus, QuestionType } from '@/deprecatedSchemas/models/enums';
-import { MutationUpsertByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
-//import { getSpaceById } from '@/graphql/operations/space';
+import { UpsertByteInput, MutationSaveByteArgs } from '@/graphql/generated/graphql';
 import { logError } from '@/helpers/adapters/errorLogger';
-//import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { slugify } from '@/helpers/space/slugify';
 import { IncomingMessage } from 'http';
+import { v4 as uuidv4 } from 'uuid';
 
 async function transformInput(spaceId: string, message: UpsertByteInput): Promise<ByteModel> {
   // remove the order and add id if needed
@@ -17,6 +16,7 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
     steps: message.steps.map((s, i) => ({
       ...s,
       order: undefined,
+      uuid: uuidv4(), // generate new uuid for each step
       stepItems: ((s.stepItems || []) as ByteStepItem[]).map((si, order) => {
         if (si.type === QuestionType.MultipleChoice || si.type === QuestionType.SingleChoice) {
           const question = si as ByteQuestion;
@@ -27,6 +27,7 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
         return {
           ...si,
           order: undefined,
+          uuid: uuidv4(), // generate new uuid for each step item
         };
       }),
     })),
@@ -34,21 +35,18 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
   return byteModel;
 }
 
-export default async function saveByteMutation(_: unknown, { spaceId, input }: MutationUpsertByteArgs, context: IncomingMessage) {
+export default async function saveByteMutation(_: unknown, { spaceId, input }: MutationSaveByteArgs, context: IncomingMessage) {
   try {
-    // find space by id and check edit permissions
     const spaceById = await prisma.space.findUnique({ where: { id: spaceId } });
     if (!spaceById) {
       throw new Error('Space not found');
     }
-    //const decodedJwt = checkEditSpacePermission(spaceById, context);
 
     const transformedByte = await transformInput(spaceId, input);
 
     const transformedSteps = transformedByte.steps.map((step) => ({
       name: step.name,
       uuid: step.uuid,
-      byteId: transformedByte.id,
       content: step.content,
       stepItems: JSON.stringify(step.stepItems),
     }));
@@ -56,6 +54,7 @@ export default async function saveByteMutation(_: unknown, { spaceId, input }: M
     const savedObject = await prisma.byte.create({
       data: {
         ...transformedByte,
+        uuid: uuidv4(), // generate new uuid for each byte
         steps: {
           create: transformedSteps,
         },
