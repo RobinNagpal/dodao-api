@@ -10,7 +10,6 @@ import timelineMutations from '@/graphql/mutations/timeline.mutations';
 import byteSaveMutation from './byteSave.mutation';
 import bytePublishMutation from './bytePublish.mutation';
 
-
 export default {
   ...byteMutations,
   ...byteSubmissionMutations,
@@ -22,5 +21,5 @@ export default {
   ...spaceMutations,
   ...timelineMutations,
   ...byteSaveMutation,
-  ...bytePublishMutation
+  ...bytePublishMutation,
 };
