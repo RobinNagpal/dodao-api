@@ -1,9 +1,7 @@
 extend type Query {
   gitCourse(spaceId: String!, courseKey: String!): GitCourse!
 
-  courses(spaceId: String!): [GenericCourse!]
-
-  summarizedGitCourses(spaceId: String!): [SummarizedGitCourse!]
+  courses(spaceId: String!): [GitCourse!]!
 
   rawGitCourse(spaceId: String!, key: String!): RawGitCourse!
 
@@ -85,6 +83,17 @@ type GitCourseQuestion {
   choices: [GitCourseQuestionChoice!]!
 }
 
+type CourseReadingQuestion {
+  uuid: String!
+  type: String!
+  content: String!
+  hint: String!
+  explanation: String!
+  answerKeys: [String!]!
+  choices: [GitCourseQuestionChoice!]!
+  timeInSec: Int!
+}
+
 type GitCourseReading {
   uuid: String!
   title: String!
@@ -92,6 +101,7 @@ type GitCourseReading {
   details: String!
   type: String!
   url: String!
+  questions: [CourseReadingQuestion!]
 }
 
 type GitCourseTopic {
