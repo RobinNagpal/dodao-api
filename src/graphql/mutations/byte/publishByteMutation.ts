@@ -13,7 +13,7 @@ import { IncomingMessage } from 'http';
 // Implement these functions as per your requirements
 async function getByteById(byteId: string): Promise<ByteModel> {
   const byte = await prisma.byte.findUnique({
-    where: { id: byteId },
+    where: { idx: byteId },
     include: { steps: true }, // Include the associated ByteSteps in the query result
   });
 
@@ -36,7 +36,7 @@ async function getByteById(byteId: string): Promise<ByteModel> {
 
 async function saveObjectToDb(spaceId: string, byte: ByteModel) {
   return prisma.byte.update({
-    where: { id: byte.id },
+    where: { idx: byte.id },
     data: { publishStatus: PublishStatus.Live },
   });
 }

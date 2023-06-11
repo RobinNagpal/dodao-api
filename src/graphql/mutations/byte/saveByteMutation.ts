@@ -54,7 +54,7 @@ export default async function saveByteMutation(_: unknown, { spaceId, input }: M
     const savedObject = await prisma.byte.create({
       data: {
         ...transformedByte,
-        uuid: uuidv4(), // generate new uuid for each byte
+        idx: uuidv4(), // generate new uuid for each byte
         steps: {
           create: transformedSteps,
         },
