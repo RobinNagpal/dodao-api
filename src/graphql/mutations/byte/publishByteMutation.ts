@@ -1,40 +1,14 @@
-import { prisma } from '@/prisma';
-import { ByteModel, ByteQuestion, ByteStepItem } from '@/deprecatedSchemas/models/byte/ByteModel';
-import { PublishStatus, QuestionType } from '@/deprecatedSchemas/models/enums';
+import { PublishStatus } from '@/deprecatedSchemas/models/enums';
 import { MutationPublishByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
+import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
+import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { writeObjectToAcademyRepo } from '@/helpers/academy/writers/academyObjectWriter';
 import { logError } from '@/helpers/adapters/errorLogger';
 import { slugify } from '@/helpers/space/slugify';
+import { prisma } from '@/prisma';
+import { ByteStep } from '@/types/bytes/ByteStep';
 import { IncomingMessage } from 'http';
-import { v4 as uuidv4 } from 'uuid';
-
-async function transformInput(spaceId: string, message: UpsertByteInput): Promise<ByteModel> {
-  const byteModel: ByteModel = {
-    ...message,
-    id: message.id || slugify(message.name),
-    publishStatus: PublishStatus.Live,
-    steps: message.steps.map((s, i) => ({
-      ...s,
-      order: undefined,
-      uuid: uuidv4(),
-      stepItems: ((s.stepItems || []) as ByteStepItem[]).map((si, order) => {
-        if (si.type === QuestionType.MultipleChoice || si.type === QuestionType.SingleChoice) {
-          const question = si as ByteQuestion;
-          if (!question.explanation) {
-            throw Error(`explanation is missing in byte question - ${spaceId} - ${byteModel.name}`);
-          }
-        }
-        return {
-          ...si,
-          order: undefined,
-          uuid: uuidv4(),
-        };
-      }),
-    })),
-  };
-  return byteModel;
-}
 
 export default async function publishByteMutation(
   _: unknown,
@@ -47,39 +21,55 @@ export default async function publishByteMutation(
       throw new Error('Space not found');
     }
 
-    const transformedByte = await transformInput(spaceId, input);
+    await validateInput(spaceId, input);
 
-    const transformedSteps = transformedByte.steps.map((step) => ({
-      name: step.name,
-      uuid: step.uuid,
-      content: step.content,
-      stepItems: JSON.stringify(step.stepItems),
-    }));
+    const steps: ByteStep[] = transformByteInputSteps(input);
+    const existingLiveByte = await prisma.byte.findUnique({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Live } } });
 
-    const savedObject = await prisma.byte.create({
-      data: {
-        ...transformedByte,
-        steps: {
-          create: transformedSteps,
+    let savedByte;
+
+    if (existingLiveByte) {
+      savedByte = await prisma.byte.update({
+        where: {
+          id_publishStatus: {
+            id: input.id!,
+            publishStatus: PublishStatus.Live,
+          },
         },
-        spaceId: spaceId,
-      },
-      include: {
-        steps: true,
-      },
-    });
+        data: {
+          ...input,
+          steps: steps,
+          publishStatus: PublishStatus.Live,
+        },
+      });
 
-    const byteModel: ByteModel = {
-      ...savedObject,
-      steps: savedObject.steps.map((s) => ({
-        ...s,
-        stepItems: typeof s.stepItems === 'string' ? JSON.parse(s.stepItems) : [],
-      })),
-      publishStatus: savedObject.publishStatus as PublishStatus,
-    };
-    await writeObjectToAcademyRepo(spaceById, byteModel, AcademyObjectTypes.bytes, '123456789');
+      await prisma.byte.delete({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Draft } } });
+    } else {
+      savedByte = await prisma.byte.upsert({
+        create: {
+          ...input,
+          steps: steps,
+          id: input.id || slugify(input.name),
+          spaceId: spaceId,
+          publishStatus: PublishStatus.Live,
+        },
+        update: {
+          ...input,
+          steps: steps,
+          publishStatus: PublishStatus.Live,
+        },
+        where: {
+          id_publishStatus: {
+            id: input.id!,
+            publishStatus: PublishStatus.Draft,
+          },
+        },
+      });
+    }
 
-    return byteModel;
+    await writeObjectToAcademyRepo(spaceById, savedByte, AcademyObjectTypes.bytes, '123456789');
+
+    return savedByte;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in publishByte', {}, e as any, null, null);
     throw e;
