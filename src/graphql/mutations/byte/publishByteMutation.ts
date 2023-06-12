@@ -1,64 +1,86 @@
 import { prisma } from '@/prisma';
-import { ByteModel } from '@/deprecatedSchemas/models/byte/ByteModel';
-import { PublishStatus } from '@/deprecatedSchemas/models/enums';
-import { MutationPublishByteArgs } from '@/graphql/generated/graphql';
-import { getSpaceById } from '@/graphql/operations/space';
+import { ByteModel, ByteQuestion, ByteStepItem } from '@/deprecatedSchemas/models/byte/ByteModel';
+import { PublishStatus, QuestionType } from '@/deprecatedSchemas/models/enums';
+import { MutationPublishByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { writeObjectToAcademyRepo } from '@/helpers/academy/writers/academyObjectWriter';
 import { logError } from '@/helpers/adapters/errorLogger';
-//import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
-//import { slugify } from '@/helpers/space/slugify';
+import { slugify } from '@/helpers/space/slugify';
 import { IncomingMessage } from 'http';
+import { v4 as uuidv4 } from 'uuid';
 
-// Implement these functions as per your requirements
-async function getByteById(byteId: string): Promise<ByteModel> {
-  const byte = await prisma.byte.findUnique({
-    where: { idx: byteId },
-    include: { steps: true }, // Include the associated ByteSteps in the query result
-  });
-
-  if (!byte) {
-    throw new Error('Byte not found');
-  }
-
-  // Map the Prisma Byte and ByteStep entities to a ByteModel object
+async function transformInput(spaceId: string, message: UpsertByteInput): Promise<ByteModel> {
   const byteModel: ByteModel = {
-    ...byte, // spread the rest of the properties
-    steps: byte.steps.map((s) => ({
+    ...message,
+    id: message.id || slugify(message.name),
+    publishStatus: PublishStatus.Live,
+    steps: message.steps.map((s, i) => ({
       ...s,
-      stepItems: typeof s.stepItems === 'string' ? JSON.parse(s.stepItems) : [], // parse only if it's a string
+      order: undefined,
+      uuid: uuidv4(),
+      stepItems: ((s.stepItems || []) as ByteStepItem[]).map((si, order) => {
+        if (si.type === QuestionType.MultipleChoice || si.type === QuestionType.SingleChoice) {
+          const question = si as ByteQuestion;
+          if (!question.explanation) {
+            throw Error(`explanation is missing in byte question - ${spaceId} - ${byteModel.name}`);
+          }
+        }
+        return {
+          ...si,
+          order: undefined,
+          uuid: uuidv4(),
+        };
+      }),
     })),
-    publishStatus: byte.publishStatus as PublishStatus, //cast string to PublishStatus
   };
-
   return byteModel;
 }
 
-async function saveObjectToDb(spaceId: string, byte: ByteModel) {
-  return prisma.byte.update({
-    where: { idx: byte.id },
-    data: { publishStatus: PublishStatus.Live },
-  });
-}
-
-export default async function publishByteMutation(_: unknown, { spaceId, byteId }: MutationPublishByteArgs, context: IncomingMessage) {
+export default async function publishByteMutation(
+  _: unknown,
+  { spaceId, input }: MutationPublishByteArgs & { input: UpsertByteInput },
+  context: IncomingMessage
+) {
   try {
-    const spaceById = await getSpaceById(spaceId);
-    //const decodedJwt = checkEditSpacePermission(spaceById, context);
+    const spaceById = await prisma.space.findUnique({ where: { id: spaceId } });
+    if (!spaceById) {
+      throw new Error('Space not found');
+    }
 
-    // Fetch the Byte that should be published
-    const byte = await getByteById(byteId);
+    const transformedByte = await transformInput(spaceId, input);
 
-    // Update the publishStatus to 'live'
-    byte.publishStatus = PublishStatus.Live;
+    const transformedSteps = transformedByte.steps.map((step) => ({
+      name: step.name,
+      uuid: step.uuid,
+      content: step.content,
+      stepItems: JSON.stringify(step.stepItems),
+    }));
 
-    // Save the updated Byte to the database
-    await saveObjectToDb(spaceId, byte);
+    const savedObject = await prisma.byte.create({
+      data: {
+        ...transformedByte,
+        steps: {
+          create: transformedSteps,
+        },
+        postSubmissionStepContent: 'Dummy value',
+        spaceId: spaceId,
+      },
+      include: {
+        steps: true,
+      },
+    });
 
-    // Write the updated Byte to the Academy Repo
-    await writeObjectToAcademyRepo(spaceById, byte, AcademyObjectTypes.bytes, '123456789');
+    const byteModel: ByteModel = {
+      ...savedObject,
+      steps: savedObject.steps.map((s) => ({
+        ...s,
+        stepItems: typeof s.stepItems === 'string' ? JSON.parse(s.stepItems) : [],
+      })),
+      publishStatus: savedObject.publishStatus as PublishStatus,
+    };
+    await writeObjectToAcademyRepo(spaceById, byteModel, AcademyObjectTypes.bytes, '123456789');
 
-    return byte; // return the updated Byte
+    return byteModel;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in publishByte', {}, e as any, null, null);
     throw e;
