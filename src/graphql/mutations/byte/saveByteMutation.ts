@@ -1,38 +1,30 @@
-import { prisma } from '@/prisma';
-import { ByteModel, ByteQuestion, ByteStepItem } from '@/deprecatedSchemas/models/byte/ByteModel';
+import { isQuestion, isUserDiscordConnect, isUserInput } from '@/deprecatedSchemas/helpers/stepItemTypes';
+import { ByteQuestion } from '@/deprecatedSchemas/models/byte/ByteModel';
 import { PublishStatus, QuestionType } from '@/deprecatedSchemas/models/enums';
-import { UpsertByteInput, MutationSaveByteArgs } from '@/graphql/generated/graphql';
+import { ByteStepInput, ByteStepItem, ByteUserInput, MutationSaveByteArgs, UpsertByteInput, UserDiscordConnect } from '@/graphql/generated/graphql';
 import { logError } from '@/helpers/adapters/errorLogger';
 import { slugify } from '@/helpers/space/slugify';
+import { prisma } from '@/prisma';
+import { ByteStep } from '@/types/bytes/ByteStep';
+import { Byte } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { v4 as uuidv4 } from 'uuid';
 
-async function transformInput(spaceId: string, message: UpsertByteInput): Promise<ByteModel> {
+function validateInput(spaceId: string, message: UpsertByteInput): void {
   // remove the order and add id if needed
-  const byteModel: ByteModel = {
-    ...message,
-    id: message.id || slugify(message.name),
-    publishStatus: message.publishStatus as PublishStatus,
-    steps: message.steps.map((s, i) => ({
-      ...s,
-      order: undefined,
-      uuid: uuidv4(), // generate new uuid for each step
-      stepItems: ((s.stepItems || []) as ByteStepItem[]).map((si, order) => {
-        if (si.type === QuestionType.MultipleChoice || si.type === QuestionType.SingleChoice) {
-          const question = si as ByteQuestion;
-          if (!question.explanation) {
-            throw Error(`explanation is missing in byte question - ${spaceId} - ${byteModel.name}`);
-          }
+  message.steps.map((s, i) => ({
+    ...s,
+    order: undefined,
+    uuid: uuidv4(), // generate new uuid for each step
+    stepItems: ((s.stepItems || []) as ByteStepItem[]).map((si, order) => {
+      if (si.type === QuestionType.MultipleChoice || si.type === QuestionType.SingleChoice) {
+        const question = si as ByteQuestion;
+        if (!question.explanation) {
+          throw Error(`explanation is missing in byte question - ${spaceId} - ${message.name}`);
         }
-        return {
-          ...si,
-          order: undefined,
-          uuid: uuidv4(), // generate new uuid for each step item
-        };
-      }),
-    })),
-  };
-  return byteModel;
+      }
+    }),
+  }));
 }
 
 export default async function saveByteMutation(_: unknown, { spaceId, input }: MutationSaveByteArgs, context: IncomingMessage) {
@@ -42,42 +34,48 @@ export default async function saveByteMutation(_: unknown, { spaceId, input }: M
       throw new Error('Space not found');
     }
 
-    const transformedByte = await transformInput(spaceId, input);
+    await validateInput(spaceId, input);
 
-    const transformedSteps = transformedByte.steps.map((step) => ({
-      name: step.name,
-      uuid: step.uuid,
-      content: step.content,
-      stepItems: JSON.stringify(step.stepItems),
-    }));
+    const steps: ByteStep[] = input.steps.map((s: ByteStepInput, i) => {
+      const stepItems: ByteStepItem[] = s.stepItems.map((si, order): ByteQuestion | ByteUserInput | UserDiscordConnect => {
+        if (isQuestion(si)) {
+          return si as ByteQuestion;
+        }
 
-    const savedObject = await prisma.byte.create({
-      data: {
-        ...transformedByte,
-        steps: {
-          create: transformedSteps,
-        },
-        postSubmissionStepContent: 'Dummy value',
-        spaceId: spaceId,
-      },
-      include: {
-        steps: true,
-      },
+        if (isUserInput(si)) {
+          return si as ByteUserInput;
+        }
+
+        if (isUserDiscordConnect(si)) {
+          return si as UserDiscordConnect;
+        }
+
+        throw new Error(`Unknown step item type ${si.type}`);
+      });
+      return { ...s, stepItems: stepItems };
     });
 
-    const byteModel: ByteModel = {
-      ...savedObject,
-      steps: savedObject.steps.map((s) => ({
-        ...s,
-        stepItems: typeof s.stepItems === 'string' ? JSON.parse(s.stepItems) : [],
-      })),
-      publishStatus: savedObject.publishStatus as PublishStatus,
-    };
-
-    return byteModel;
+    const savedObject: Byte = await prisma.byte.upsert({
+      create: {
+        ...input,
+        steps: steps,
+        id: input.id || slugify(input.name),
+        spaceId: spaceId,
+      },
+      update: {
+        ...input,
+        steps: steps,
+      },
+      where: {
+        id_publishStatus: {
+          id: input.id!,
+          publishStatus: PublishStatus.Draft,
+        },
+      },
+    });
+    return savedObject;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in saveByte', {}, e as any, null, null);
     throw e;
   }
 }
-

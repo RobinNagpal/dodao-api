@@ -62,7 +62,6 @@ export default async function publishByteMutation(
         steps: {
           create: transformedSteps,
         },
-        postSubmissionStepContent: 'Dummy value',
         spaceId: spaceId,
       },
       include: {

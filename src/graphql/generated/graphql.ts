@@ -112,7 +112,6 @@ export type ByteStep = {
 
 export type ByteStepInput = {
   content: Scalars['String'];
-  explanation?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   stepItems: Array<StepItemInputGenericInput>;
   uuid: Scalars['String'];
@@ -1470,7 +1469,7 @@ export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
   publishStatus: Scalars['String'];
@@ -1528,7 +1527,6 @@ export type UpsertTimelineInput = {
 
 export type UserDiscordConnect = {
   __typename?: 'UserDiscordConnect';
-  order: Scalars['Int'];
   type: Scalars['String'];
   uuid: Scalars['String'];
 };
@@ -2560,7 +2558,6 @@ export type TopicConfigResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type UserDiscordConnectResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserDiscordConnect'] = ResolversParentTypes['UserDiscordConnect']> = {
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
