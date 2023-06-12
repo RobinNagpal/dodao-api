@@ -53,12 +53,11 @@ input ByteStepInput {
   name: String!
   stepItems: [StepItemInputGenericInput!]!
   uuid: String!
-  explanation: String
 }
 
 input UpsertByteInput {
   content: String!
-  id: String
+  id: String!
   name: String!
   steps: [ByteStepInput!]!
   publishStatus: String!

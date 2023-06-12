@@ -141,37 +141,28 @@ model Space {
   GuidesGuideStep   GuidesGuideStep[]
   SpaceDiscord      SpaceDiscord[]
   SpaceIntegration  SpaceIntegration?
+  Byte              Byte[]
 
   @@map("spaces")
 }
 
 model Byte {
-  idx                       String     @id @unique @default(uuid()) @db.VarChar(255)
-  id                        String     @db.VarChar(255)
-  name                      String     @db.VarChar(255)
-  content                   String     @db.Text
-  created                   String     @db.VarChar(255)
-  publishStatus             String     @db.VarChar(255)
-  showIncorrectOnCompletion Boolean    @default(true)
-  postSubmissionStepContent String     @db.Text
-  admins                    String[]
-  tags                      String[]
-  priority                  Int
-  steps                     ByteStep[]
-  spaceId                   String     @db.VarChar(255)
+  uniqueId      String   @id @unique @default(uuid()) @map("unique_id") @db.VarChar(255)
+  id            String   @db.VarChar(255)
+  name          String   @db.VarChar(255)
+  content       String   @db.Text
+  created       String   @db.VarChar(255)
+  publishStatus String   @map("publish_status") @db.VarChar(255)
+  admins        String[]
+  tags          String[]
+  priority      Int
+  /// [ByteStep]
+  steps         Json[]
+  spaceId       String   @map("space_id") @db.VarChar(255)
+  Space         Space    @relation(fields: [spaceId], references: [id])
 
+  @@unique([id, publishStatus])
   @@map("bytes")
-}
-
-model ByteStep {
-  uuid      String @id @default(uuid()) @db.VarChar(255)
-  name      String @db.VarChar(255)
-  content   String @db.Text
-  byteId    String @map("byte_id") @db.VarChar(255)
-  Byte      Byte   @relation(fields: [byteId], references: [idx])
-  stepItems Json   @map("step_items") @db.Json
-
-  @@map("byte_steps")
 }
 
 model CourseIntegration {
