@@ -54,18 +54,30 @@ export default async function saveByteMutation(_: unknown, { spaceId, input }: M
     const savedObject = await prisma.byte.create({
       data: {
         ...transformedByte,
-        idx: uuidv4(), // generate new uuid for each byte
         steps: {
           create: transformedSteps,
         },
         postSubmissionStepContent: 'Dummy value',
         spaceId: spaceId,
       },
+      include: {
+        steps: true,
+      },
     });
 
-    return savedObject;
+    const byteModel: ByteModel = {
+      ...savedObject,
+      steps: savedObject.steps.map((s) => ({
+        ...s,
+        stepItems: typeof s.stepItems === 'string' ? JSON.parse(s.stepItems) : [],
+      })),
+      publishStatus: savedObject.publishStatus as PublishStatus,
+    };
+
+    return byteModel;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in saveByte', {}, e as any, null, null);
     throw e;
   }
 }
+

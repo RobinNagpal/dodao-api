@@ -6,7 +6,7 @@ extend type Query {
 extend type Mutation {
   upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
   saveByte(spaceId: String!, input: UpsertByteInput!): Byte!
-  publishByte(spaceId: String!, byteId: String!): Byte!
+  publishByte(spaceId: String!, byteId: String, input: UpsertByteInput!): Byte!
 }
 
 type Byte {
@@ -17,7 +17,7 @@ type Byte {
   name: String!
   publishStatus: String!
   showIncorrectOnCompletion: Boolean!
-  steps: [ByteStep!]!
+  steps: [ByteStep]!
   admins: [String!]!
   tags: [String!]!
   priority: Int!
@@ -44,7 +44,7 @@ union ByteStepItem = ByteQuestion | ByteUserInput | UserDiscordConnect
 type ByteStep {
   content: String!
   name: String!
-  stepItems: [ByteStepItem!]!
+  stepItems: [ByteStepItem]
   uuid: String!
 }
 
