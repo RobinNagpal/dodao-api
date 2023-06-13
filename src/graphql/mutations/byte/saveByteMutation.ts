@@ -1,11 +1,10 @@
 import { PublishStatus } from '@/deprecatedSchemas/models/enums';
-import { MutationSaveByteArgs } from '@/graphql/generated/graphql';
+import { ByteStep, MutationSaveByteArgs } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
 import { logError } from '@/helpers/adapters/errorLogger';
 import { slugify } from '@/helpers/space/slugify';
 import { prisma } from '@/prisma';
-import { ByteStep } from '@/types/bytes/ByteStep';
 import { Byte } from '@prisma/client';
 import { IncomingMessage } from 'http';
 

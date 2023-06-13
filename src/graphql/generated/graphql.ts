@@ -88,7 +88,7 @@ export type Byte = {
   priority: Scalars['Int'];
   publishStatus: Scalars['String'];
   showIncorrectOnCompletion: Scalars['Boolean'];
-  steps: Array<Maybe<ByteStep>>;
+  steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
 };
 
@@ -106,7 +106,7 @@ export type ByteStep = {
   __typename?: 'ByteStep';
   content: Scalars['String'];
   name: Scalars['String'];
-  stepItems?: Maybe<Array<Maybe<ByteStepItem>>>;
+  stepItems: Array<ByteStepItem>;
   uuid: Scalars['String'];
 };
 
@@ -1648,7 +1648,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Byte: ResolverTypeWrapper<Byte>;
   ByteQuestion: ResolverTypeWrapper<ByteQuestion>;
-  ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems?: Maybe<Array<Maybe<ResolversTypes['ByteStepItem']>>> }>;
+  ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversTypes['ByteStepItem']> }>;
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolverTypeWrapper<ResolversUnionTypes['ByteStepItem']>;
   ByteStepItemSubmission: ResolverTypeWrapper<ByteStepItemSubmission>;
@@ -1780,7 +1780,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Byte: Byte;
   ByteQuestion: ByteQuestion;
-  ByteStep: Omit<ByteStep, 'stepItems'> & { stepItems?: Maybe<Array<Maybe<ResolversParentTypes['ByteStepItem']>>> };
+  ByteStep: Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversParentTypes['ByteStepItem']> };
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolversUnionParentTypes['ByteStepItem'];
   ByteStepItemSubmission: ByteStepItemSubmission;
@@ -1930,7 +1930,7 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  steps?: Resolver<Array<Maybe<ResolversTypes['ByteStep']>>, ParentType, ContextType>;
+  steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1948,7 +1948,7 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
 export type ByteStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStep'] = ResolversParentTypes['ByteStep']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  stepItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['ByteStepItem']>>>, ParentType, ContextType>;
+  stepItems?: Resolver<Array<ResolversTypes['ByteStepItem']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
