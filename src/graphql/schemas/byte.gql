@@ -6,7 +6,7 @@ extend type Query {
 extend type Mutation {
   upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
   saveByte(spaceId: String!, input: UpsertByteInput!): Byte!
-  publishByte(spaceId: String!, byteId: String, input: UpsertByteInput!): Byte!
+  publishByte(spaceId: String!, input: UpsertByteInput!): Byte!
 }
 
 type Byte {

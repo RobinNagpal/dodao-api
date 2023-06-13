@@ -863,7 +863,6 @@ export type MutationMoveTopicVideoArgs = {
 
 
 export type MutationPublishByteArgs = {
-  byteId?: InputMaybe<Scalars['String']>;
   input: UpsertByteInput;
   spaceId: Scalars['String'];
 };
