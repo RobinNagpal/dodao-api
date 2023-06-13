@@ -1,5 +1,5 @@
 extend type Query {
-  byte(spaceId: String!, byteId: String!): Byte!
+  byte(spaceId: String!, byteId: String!, includeDraft: Boolean): Byte!
   bytes(spaceId: String!): [Byte!]!
 }
 
