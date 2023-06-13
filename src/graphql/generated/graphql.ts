@@ -1111,6 +1111,7 @@ export type QueryAcademyTasksArgs = {
 
 export type QueryByteArgs = {
   byteId: Scalars['String'];
+  includeDraft?: InputMaybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
 };
 
