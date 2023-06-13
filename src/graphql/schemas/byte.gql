@@ -15,6 +15,7 @@ type Byte {
   created: String!
   id: String!
   name: String!
+  visibility: String
   publishStatus: String!
   showIncorrectOnCompletion: Boolean!
   steps: [ByteStep!]!
@@ -61,6 +62,7 @@ input UpsertByteInput {
   name: String!
   steps: [ByteStepInput!]!
   publishStatus: String!
+  visibility: String
   thumbnail: String
   admins: [String!]!
   tags: [String!]!
