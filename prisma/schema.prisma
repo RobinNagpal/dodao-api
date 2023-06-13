@@ -152,6 +152,7 @@ model Byte {
   name          String   @db.VarChar(255)
   content       String   @db.Text
   created       String   @db.VarChar(255)
+  visibility    String   @db.VarChar(255)
   publishStatus String   @map("publish_status") @db.VarChar(255)
   admins        String[]
   tags          String[]

@@ -90,6 +90,7 @@ export type Byte = {
   showIncorrectOnCompletion: Scalars['Boolean'];
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
+  visibility?: Maybe<Scalars['String']>;
 };
 
 export type ByteQuestion = {
@@ -1486,6 +1487,7 @@ export type UpsertByteInput = {
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  visibility?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertCourseIntegrationsInput = {
@@ -1944,6 +1946,7 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  visibility?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
