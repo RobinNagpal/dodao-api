@@ -1,5 +1,5 @@
 import { PublishStatus } from '@/deprecatedSchemas/models/enums';
-import { MutationPublishByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
+import { ByteStep, MutationPublishByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
@@ -7,7 +7,6 @@ import { writeObjectToAcademyRepo } from '@/helpers/academy/writers/academyObjec
 import { logError } from '@/helpers/adapters/errorLogger';
 import { slugify } from '@/helpers/space/slugify';
 import { prisma } from '@/prisma';
-import { ByteStep } from '@/types/bytes/ByteStep';
 import { IncomingMessage } from 'http';
 
 export default async function publishByteMutation(
