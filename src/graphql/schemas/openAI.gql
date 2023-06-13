@@ -1,13 +1,18 @@
-type OpenAIChoice {
-  message: OpenAIMessage!
-  finish_reason: String!
-  index: Int!
+type OpenAIChoiceLogprobs {
+  tokens: [String!]
+  token_logprobs: [Float!]
+  top_logprobs: [Any!]
+  text_offset: [Int!]
+  text: String
 }
 
-type OpenAIMessage {
-  role: String!
-  content: String!
+type CreateCompletionResponseChoice {
+  finish_reason: String
+  index: Int
+  text: String
+  logprobs: OpenAIChoiceLogprobs
 }
+
 
 type OpenAIUsage {
   prompt_tokens: Int!
@@ -20,15 +25,21 @@ type OpenAIChatResponse {
   object: String!
   created: Int!
   model: String!
-  usage: OpenAIUsage!
-  choices: [OpenAIChoice!]!
+  usage: OpenAIUsage
+  choices: [CreateCompletionResponseChoice!]!
 }
 
-extend type Query {
-  queryOpenAIChat(messages: [OpenAIChatMessageInput!]!): OpenAIChatResponse
+enum  ChatCompletionRequestMessageRoleEnum {
+  system
+  user
+  assistant
 }
+extend type Query {
+  askOpenAI(messages: [OpenAIChatMessageInput!]!): OpenAIChatResponse!
+}
+
 
 input OpenAIChatMessageInput {
-  role: String!
+  role: ChatCompletionRequestMessageRoleEnum!
   content: String!
 }

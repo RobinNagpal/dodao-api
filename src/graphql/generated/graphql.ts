@@ -172,6 +172,12 @@ export type ByteUserInput = {
   uuid: Scalars['String'];
 };
 
+export enum ChatCompletionRequestMessageRoleEnum {
+  Assistant = 'assistant',
+  System = 'system',
+  User = 'user'
+}
+
 export type CourseBasicInfoInput = {
   courseAdmins: Array<Scalars['String']>;
   courseFailContent?: InputMaybe<Scalars['String']>;
@@ -215,6 +221,14 @@ export type CourseReadingQuestion = {
 export type CourseSubmissionInput = {
   courseKey: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type CreateCompletionResponseChoice = {
+  __typename?: 'CreateCompletionResponseChoice';
+  finish_reason?: Maybe<Scalars['String']>;
+  index?: Maybe<Scalars['Int']>;
+  logprobs?: Maybe<OpenAiChoiceLogprobs>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type CreateSignedUrlInput = {
@@ -1033,30 +1047,26 @@ export type MutationUpsertTimelineArgs = {
 
 export type OpenAiChatMessageInput = {
   content: Scalars['String'];
-  role: Scalars['String'];
+  role: ChatCompletionRequestMessageRoleEnum;
 };
 
 export type OpenAiChatResponse = {
   __typename?: 'OpenAIChatResponse';
-  choices: Array<OpenAiChoice>;
+  choices: Array<CreateCompletionResponseChoice>;
   created: Scalars['Int'];
   id: Scalars['ID'];
   model: Scalars['String'];
   object: Scalars['String'];
-  usage: OpenAiUsage;
+  usage?: Maybe<OpenAiUsage>;
 };
 
-export type OpenAiChoice = {
-  __typename?: 'OpenAIChoice';
-  finish_reason: Scalars['String'];
-  index: Scalars['Int'];
-  message: OpenAiMessage;
-};
-
-export type OpenAiMessage = {
-  __typename?: 'OpenAIMessage';
-  content: Scalars['String'];
-  role: Scalars['String'];
+export type OpenAiChoiceLogprobs = {
+  __typename?: 'OpenAIChoiceLogprobs';
+  text?: Maybe<Scalars['String']>;
+  text_offset?: Maybe<Array<Scalars['Int']>>;
+  token_logprobs?: Maybe<Array<Scalars['Float']>>;
+  tokens?: Maybe<Array<Scalars['String']>>;
+  top_logprobs?: Maybe<Array<Scalars['Any']>>;
 };
 
 export type OpenAiUsage = {
@@ -1075,6 +1085,7 @@ export type Query = {
   __typename?: 'Query';
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
+  askOpenAI: OpenAiChatResponse;
   byte: Byte;
   bytes: Array<Byte>;
   courses: Array<GitCourse>;
@@ -1086,7 +1097,6 @@ export type Query = {
   guide: Guide;
   guideSubmissions: Array<GuideSubmission>;
   guides: Array<Guide>;
-  queryOpenAIChat?: Maybe<OpenAiChatResponse>;
   rawGitCourse: RawGitCourse;
   simulation: Simulation;
   simulations: Array<Simulation>;
@@ -1106,6 +1116,11 @@ export type QueryAcademyTaskArgs = {
 export type QueryAcademyTasksArgs = {
   spaceId: Scalars['String'];
   status?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryAskOpenAiArgs = {
+  messages: Array<OpenAiChatMessageInput>;
 };
 
 
@@ -1169,11 +1184,6 @@ export type QueryGuideSubmissionsArgs = {
 
 export type QueryGuidesArgs = {
   spaceId: Scalars['String'];
-};
-
-
-export type QueryQueryOpenAiChatArgs = {
-  messages: Array<OpenAiChatMessageInput>;
 };
 
 
@@ -1659,10 +1669,12 @@ export type ResolversTypes = {
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
+  ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
   CourseReadingQuestion: ResolverTypeWrapper<CourseReadingQuestion>;
   CourseSubmissionInput: CourseSubmissionInput;
+  CreateCompletionResponseChoice: ResolverTypeWrapper<CreateCompletionResponseChoice>;
   CreateSignedUrlInput: CreateSignedUrlInput;
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
   DeleteTopicInput: DeleteTopicInput;
@@ -1724,8 +1736,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   OpenAIChatMessageInput: OpenAiChatMessageInput;
   OpenAIChatResponse: ResolverTypeWrapper<OpenAiChatResponse>;
-  OpenAIChoice: ResolverTypeWrapper<OpenAiChoice>;
-  OpenAIMessage: ResolverTypeWrapper<OpenAiMessage>;
+  OpenAIChoiceLogprobs: ResolverTypeWrapper<OpenAiChoiceLogprobs>;
   OpenAIUsage: ResolverTypeWrapper<OpenAiUsage>;
   OrderDirection: OrderDirection;
   Query: ResolverTypeWrapper<{}>;
@@ -1795,6 +1806,7 @@ export type ResolversParentTypes = {
   CourseIntegrations: CourseIntegrations;
   CourseReadingQuestion: CourseReadingQuestion;
   CourseSubmissionInput: CourseSubmissionInput;
+  CreateCompletionResponseChoice: CreateCompletionResponseChoice;
   CreateSignedUrlInput: CreateSignedUrlInput;
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
   DeleteTopicInput: DeleteTopicInput;
@@ -1856,8 +1868,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   OpenAIChatMessageInput: OpenAiChatMessageInput;
   OpenAIChatResponse: OpenAiChatResponse;
-  OpenAIChoice: OpenAiChoice;
-  OpenAIMessage: OpenAiMessage;
+  OpenAIChoiceLogprobs: OpenAiChoiceLogprobs;
   OpenAIUsage: OpenAiUsage;
   Query: {};
   QuestionChoice: QuestionChoice;
@@ -2010,6 +2021,14 @@ export type CourseReadingQuestionResolvers<ContextType = any, ParentType extends
   timeInSec?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCompletionResponseChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateCompletionResponseChoice'] = ResolversParentTypes['CreateCompletionResponseChoice']> = {
+  finish_reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  index?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  logprobs?: Resolver<Maybe<ResolversTypes['OpenAIChoiceLogprobs']>, ParentType, ContextType>;
+  text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2364,25 +2383,21 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type OpenAiChatResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIChatResponse'] = ResolversParentTypes['OpenAIChatResponse']> = {
-  choices?: Resolver<Array<ResolversTypes['OpenAIChoice']>, ParentType, ContextType>;
+  choices?: Resolver<Array<ResolversTypes['CreateCompletionResponseChoice']>, ParentType, ContextType>;
   created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   model?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   object?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  usage?: Resolver<ResolversTypes['OpenAIUsage'], ParentType, ContextType>;
+  usage?: Resolver<Maybe<ResolversTypes['OpenAIUsage']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OpenAiChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIChoice'] = ResolversParentTypes['OpenAIChoice']> = {
-  finish_reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  index?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['OpenAIMessage'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type OpenAiMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIMessage'] = ResolversParentTypes['OpenAIMessage']> = {
-  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type OpenAiChoiceLogprobsResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIChoiceLogprobs'] = ResolversParentTypes['OpenAIChoiceLogprobs']> = {
+  text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  text_offset?: Resolver<Maybe<Array<ResolversTypes['Int']>>, ParentType, ContextType>;
+  token_logprobs?: Resolver<Maybe<Array<ResolversTypes['Float']>>, ParentType, ContextType>;
+  tokens?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  top_logprobs?: Resolver<Maybe<Array<ResolversTypes['Any']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2396,6 +2411,7 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
+  askOpenAI?: Resolver<ResolversTypes['OpenAIChatResponse'], ParentType, ContextType, RequireFields<QueryAskOpenAiArgs, 'messages'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
@@ -2407,7 +2423,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   guide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<QueryGuideArgs, 'spaceId' | 'uuid'>>;
   guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'guideUuid'>>;
   guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
-  queryOpenAIChat?: Resolver<Maybe<ResolversTypes['OpenAIChatResponse']>, ParentType, ContextType, RequireFields<QueryQueryOpenAiChatArgs, 'messages'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
@@ -2586,6 +2601,7 @@ export type Resolvers<ContextType = any> = {
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
+  CreateCompletionResponseChoice?: CreateCompletionResponseChoiceResolvers<ContextType>;
   GenericCourse?: GenericCourseResolvers<ContextType>;
   GitCourse?: GitCourseResolvers<ContextType>;
   GitCourseExplanation?: GitCourseExplanationResolvers<ContextType>;
@@ -2618,8 +2634,7 @@ export type Resolvers<ContextType = any> = {
   JwtResponse?: JwtResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   OpenAIChatResponse?: OpenAiChatResponseResolvers<ContextType>;
-  OpenAIChoice?: OpenAiChoiceResolvers<ContextType>;
-  OpenAIMessage?: OpenAiMessageResolvers<ContextType>;
+  OpenAIChoiceLogprobs?: OpenAiChoiceLogprobsResolvers<ContextType>;
   OpenAIUsage?: OpenAiUsageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuestionChoice?: QuestionChoiceResolvers<ContextType>;
