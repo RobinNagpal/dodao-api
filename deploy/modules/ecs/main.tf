@@ -68,7 +68,8 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DODAO_AUTH_SECRET", value = var.dodao_auth_secret },
         { name = "DODAO_AUTH_HEADER_NAME", value = var.dodao_auth_header_name },
         { name = "MAIN_GIT_FOLDER_PATH", value = "/opt/dodao/dodao-git-folder/prod" },
-        { name = "ALL_GIT_GUIDES_FOLDER_NAME", value = "dodao-all-prod-guides" }
+        { name = "ALL_GIT_GUIDES_FOLDER_NAME", value = "dodao-all-prod-guides" },
+        { name = "OPENAI_API_KEY", value = var.openai_api_key }
       ]
 
       healthCheck = {

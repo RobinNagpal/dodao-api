@@ -19,3 +19,4 @@ variable "efs_access_point_id" {}
 variable "github_token" {}
 variable "dodao_auth_secret" {}
 variable "dodao_auth_header_name" {}
+variable "openai_api_key" {}

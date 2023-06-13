@@ -141,8 +141,9 @@ module "ecs" {
   database_username             = var.rds_username
   database_password             = var.rds_password
   github_token                  = var.github_token
-  dodao_auth_secret            = var.dodao_auth_secret
-  dodao_auth_header_name = var.dodao_auth_header_name
+  dodao_auth_secret             = var.dodao_auth_secret
+  dodao_auth_header_name        = var.dodao_auth_header_name
+  openai_api_key                = var.openai_api_key
 }
 
 resource "aws_ecr_repository" "main" {

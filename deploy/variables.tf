@@ -6,6 +6,7 @@ variable "discord_client_id" {}
 variable "discord_client_secret" {}
 variable "discord_bot_token" {}
 variable "all_guides_git_repository" {}
+variable "openai_api_key" {}
 
 variable "project_name" {
   description = "The project name"
