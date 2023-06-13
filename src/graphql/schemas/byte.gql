@@ -5,6 +5,8 @@ extend type Query {
 
 extend type Mutation {
   upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
+  saveByte(spaceId: String!, input: UpsertByteInput!): Byte!
+  publishByte(spaceId: String!, input: UpsertByteInput!): Byte!
 }
 
 type Byte {
@@ -51,12 +53,11 @@ input ByteStepInput {
   name: String!
   stepItems: [StepItemInputGenericInput!]!
   uuid: String!
-  explanation: String
 }
 
 input UpsertByteInput {
   content: String!
-  id: String
+  id: String!
   name: String!
   steps: [ByteStepInput!]!
   publishStatus: String!

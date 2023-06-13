@@ -33,7 +33,6 @@ type GuideUserInput {
 }
 
 type UserDiscordConnect {
-  order: Int!
   type: String!
   uuid: String!
 }

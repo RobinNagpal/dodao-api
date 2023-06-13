@@ -141,8 +141,28 @@ model Space {
   GuidesGuideStep   GuidesGuideStep[]
   SpaceDiscord      SpaceDiscord[]
   SpaceIntegration  SpaceIntegration?
+  Byte              Byte[]
 
   @@map("spaces")
+}
+
+model Byte {
+  uniqueId      String   @id @unique @default(uuid()) @map("unique_id") @db.VarChar(255)
+  id            String   @db.VarChar(255)
+  name          String   @db.VarChar(255)
+  content       String   @db.Text
+  created       String   @db.VarChar(255)
+  publishStatus String   @map("publish_status") @db.VarChar(255)
+  admins        String[]
+  tags          String[]
+  priority      Int
+  /// [ByteStep]
+  steps         Json[]
+  spaceId       String   @map("space_id") @db.VarChar(255)
+  Space         Space    @relation(fields: [spaceId], references: [id])
+
+  @@unique([id, publishStatus])
+  @@map("bytes")
 }
 
 model CourseIntegration {
