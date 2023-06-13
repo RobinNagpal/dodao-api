@@ -112,7 +112,6 @@ export type ByteStep = {
 
 export type ByteStepInput = {
   content: Scalars['String'];
-  explanation?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   stepItems: Array<StepItemInputGenericInput>;
   uuid: Scalars['String'];
@@ -717,9 +716,11 @@ export type Mutation = {
   moveTopicQuestion: GitCourse;
   moveTopicSummary: GitCourse;
   moveTopicVideo: GitCourse;
+  publishByte: Byte;
   refreshGitCourse: Scalars['Boolean'];
   refreshGitCourses: Scalars['Boolean'];
   refreshGitGuides: Scalars['Boolean'];
+  saveByte: Byte;
   submitByte: ByteSubmission;
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseTopicSubmission;
@@ -861,6 +862,12 @@ export type MutationMoveTopicVideoArgs = {
 };
 
 
+export type MutationPublishByteArgs = {
+  input: UpsertByteInput;
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationRefreshGitCourseArgs = {
   courseKey: Scalars['String'];
   spaceId: Scalars['String'];
@@ -873,6 +880,12 @@ export type MutationRefreshGitCoursesArgs = {
 
 
 export type MutationRefreshGitGuidesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationSaveByteArgs = {
+  input: UpsertByteInput;
   spaceId: Scalars['String'];
 };
 
@@ -1455,7 +1468,7 @@ export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
   publishStatus: Scalars['String'];
@@ -1513,7 +1526,6 @@ export type UpsertTimelineInput = {
 
 export type UserDiscordConnect = {
   __typename?: 'UserDiscordConnect';
-  order: Scalars['Int'];
   type: Scalars['String'];
   uuid: Scalars['String'];
 };
@@ -2319,9 +2331,11 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   moveTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   moveTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   moveTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  publishByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationPublishByteArgs, 'input' | 'spaceId'>>;
   refreshGitCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCourseArgs, 'courseKey' | 'spaceId'>>;
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   refreshGitGuides?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitGuidesArgs, 'spaceId'>>;
+  saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
@@ -2543,7 +2557,6 @@ export type TopicConfigResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type UserDiscordConnectResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserDiscordConnect'] = ResolversParentTypes['UserDiscordConnect']> = {
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
