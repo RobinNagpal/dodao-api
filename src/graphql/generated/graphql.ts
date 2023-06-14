@@ -1089,7 +1089,7 @@ export type OpenAiCompletionResponse = {
 
 export type OpenAiMessage = {
   __typename?: 'OpenAIMessage';
-  content: Scalars['String'];
+  content?: Maybe<Scalars['String']>;
   role: Scalars['String'];
 };
 
@@ -2457,7 +2457,7 @@ export type OpenAiCompletionResponseResolvers<ContextType = any, ParentType exte
 };
 
 export type OpenAiMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIMessage'] = ResolversParentTypes['OpenAIMessage']> = {
-  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

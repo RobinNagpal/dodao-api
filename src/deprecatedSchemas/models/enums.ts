@@ -21,6 +21,11 @@ export enum PublishStatus {
   Draft = 'Draft',
 }
 
+export enum VisibilityEnum {
+  Public = 'Public',
+  Hidden = 'Hidden',
+}
+
 export const UserDiscordConnectType = 'UserDiscordConnect';
 
 export enum QuestionType {
