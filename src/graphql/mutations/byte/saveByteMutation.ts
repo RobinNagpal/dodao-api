@@ -1,4 +1,4 @@
-import { PublishStatus } from '@/deprecatedSchemas/models/enums';
+import { PublishStatus, VisibilityEnum } from '@/deprecatedSchemas/models/enums';
 import { ByteStep, MutationSaveByteArgs } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
@@ -25,10 +25,12 @@ export default async function saveByteMutation(_: unknown, { spaceId, input }: M
         steps: steps,
         id: input.id || slugify(input.name),
         spaceId: spaceId,
+        visibility: input.visibility || VisibilityEnum.Public,
       },
       update: {
         ...input,
         steps: steps,
+        visibility: input.visibility || VisibilityEnum.Public,
       },
       where: {
         id_publishStatus: {
