@@ -4,8 +4,8 @@ import { CreateCompletionRequest } from 'openai/api';
 
 export default async function askCompletionAI(_: any, args: QueryAskCompletionAiArgs): Promise<OpenAiCompletionResponse> {
   const createCompletionRequest: CreateCompletionRequest = {
-    model: 'gpt-3.5-turbo',
-    prompt: args.prompt,
+    model: args.input.prompt || 'gpt-3.5-turbo',
+    prompt: args.input.prompt,
     temperature: 0.2,
     top_p: 1,
     frequency_penalty: 0,

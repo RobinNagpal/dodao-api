@@ -13,6 +13,9 @@ import guide from '@/graphql/queries/guide/guide';
 import guides from '@/graphql/queries/guide/guides';
 import askChatCompletionAI from '@/graphql/queries/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/queries/openAI/askCompletionAI';
+import createSummaryOfContent from '@/graphql/queries/openAI/createSummaryOfContent';
+import downloadAndCleanContent from '@/graphql/queries/openAI/downloadAndCleanContent';
+import extractRelevantTextForTopic from '@/graphql/queries/openAI/extractRelevantTextForTopic';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
@@ -22,6 +25,9 @@ import timelines from '@/graphql/queries/timeline/timelines';
 export default {
   askCompletionAI,
   askChatCompletionAI,
+  downloadAndCleanContent,
+  createSummaryOfContent,
+  extractRelevantTextForTopic,
 
   academyTask,
   academyTasks,
