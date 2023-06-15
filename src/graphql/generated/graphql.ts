@@ -173,11 +173,21 @@ export type ByteUserInput = {
   uuid: Scalars['String'];
 };
 
+export type ChatCompletionAiInput = {
+  messages: Array<OpenAiChatMessageInput>;
+  model?: InputMaybe<Scalars['String']>;
+};
+
 export enum ChatCompletionRequestMessageRoleEnum {
   Assistant = 'assistant',
   System = 'system',
   User = 'user'
 }
+
+export type CompletionAiInput = {
+  model?: InputMaybe<Scalars['String']>;
+  prompt: Scalars['String'];
+};
 
 export type CourseBasicInfoInput = {
   courseAdmins: Array<Scalars['String']>;
@@ -266,6 +276,11 @@ export type DeleteTopicVideoInput = {
   courseKey: Scalars['String'];
   topicKey: Scalars['String'];
   videoUuid: Scalars['String'];
+};
+
+export type ExtractRelevantTextForTopicInput = {
+  content: Scalars['String'];
+  topic: Scalars['String'];
 };
 
 export type GenericCourse = {
@@ -1114,6 +1129,9 @@ export type Query = {
   byte: Byte;
   bytes: Array<Byte>;
   courses: Array<GitCourse>;
+  createSummaryOfContent: Scalars['String'];
+  downloadAndCleanContent: Scalars['String'];
+  extractRelevantTextForTopic: Scalars['String'];
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
@@ -1145,12 +1163,12 @@ export type QueryAcademyTasksArgs = {
 
 
 export type QueryAskChatCompletionAiArgs = {
-  messages: Array<OpenAiChatMessageInput>;
+  input: ChatCompletionAiInput;
 };
 
 
 export type QueryAskCompletionAiArgs = {
-  prompt: Scalars['String'];
+  input: CompletionAiInput;
 };
 
 
@@ -1168,6 +1186,21 @@ export type QueryBytesArgs = {
 
 export type QueryCoursesArgs = {
   spaceId: Scalars['String'];
+};
+
+
+export type QueryCreateSummaryOfContentArgs = {
+  input: Scalars['String'];
+};
+
+
+export type QueryDownloadAndCleanContentArgs = {
+  input: Scalars['String'];
+};
+
+
+export type QueryExtractRelevantTextForTopicArgs = {
+  input: ExtractRelevantTextForTopicInput;
 };
 
 
@@ -1700,7 +1733,9 @@ export type ResolversTypes = {
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
+  ChatCompletionAIInput: ChatCompletionAiInput;
   ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
+  CompletionAIInput: CompletionAiInput;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
   CourseReadingQuestion: ResolverTypeWrapper<CourseReadingQuestion>;
@@ -1712,6 +1747,7 @@ export type ResolversTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GenericCourse: ResolverTypeWrapper<GenericCourse>;
   GitCourse: ResolverTypeWrapper<GitCourse>;
@@ -1836,6 +1872,8 @@ export type ResolversParentTypes = {
   ByteSubmission: ByteSubmission;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ByteUserInput;
+  ChatCompletionAIInput: ChatCompletionAiInput;
+  CompletionAIInput: CompletionAiInput;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
   CourseReadingQuestion: CourseReadingQuestion;
@@ -1847,6 +1885,7 @@ export type ResolversParentTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
   Float: Scalars['Float'];
   GenericCourse: GenericCourse;
   GitCourse: GitCourse;
@@ -2472,11 +2511,14 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
-  askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<QueryAskChatCompletionAiArgs, 'messages'>>;
-  askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<QueryAskCompletionAiArgs, 'prompt'>>;
+  askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<QueryAskChatCompletionAiArgs, 'input'>>;
+  askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<QueryAskCompletionAiArgs, 'input'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
+  createSummaryOfContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryCreateSummaryOfContentArgs, 'input'>>;
+  downloadAndCleanContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryDownloadAndCleanContentArgs, 'input'>>;
+  extractRelevantTextForTopic?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryExtractRelevantTextForTopicArgs, 'input'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;

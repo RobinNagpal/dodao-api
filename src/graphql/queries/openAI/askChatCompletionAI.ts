@@ -4,8 +4,8 @@ import { CreateChatCompletionRequest } from 'openai/api';
 
 export default async function askCompletionAI(_: any, args: QueryAskChatCompletionAiArgs): Promise<OpenAiChatCompletionResponse> {
   const createCompletionRequest: CreateChatCompletionRequest = {
-    model: 'gpt-3.5-turbo',
-    messages: args.messages,
+    model: args.input.model || 'gpt-3.5-turbo',
+    messages: args.input.messages,
     temperature: 0.2,
     top_p: 1,
     frequency_penalty: 0,

@@ -59,12 +59,30 @@ enum  ChatCompletionRequestMessageRoleEnum {
 }
 
 extend type Query {
-  askChatCompletionAI(messages: [OpenAIChatMessageInput!]!): OpenAIChatCompletionResponse!
-  askCompletionAI(prompt: String!): OpenAICompletionResponse!
+  askChatCompletionAI(input: ChatCompletionAIInput!): OpenAIChatCompletionResponse!
+  askCompletionAI(input: CompletionAIInput!): OpenAICompletionResponse!
+  downloadAndCleanContent(input: String!): String!
+  createSummaryOfContent(input: String!): String!
+  extractRelevantTextForTopic(input: ExtractRelevantTextForTopicInput!): String!
 }
 
 
+input CompletionAIInput {
+  model: String
+  prompt: String!
+}
+
+input ChatCompletionAIInput {
+  model: String
+  messages: [OpenAIChatMessageInput!]!
+}
+
 input OpenAIChatMessageInput {
   role: ChatCompletionRequestMessageRoleEnum!
+  content: String!
+}
+
+input ExtractRelevantTextForTopicInput{
+  topic: String!
   content: String!
 }
