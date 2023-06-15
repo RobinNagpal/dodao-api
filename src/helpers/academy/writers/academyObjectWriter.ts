@@ -122,7 +122,7 @@ async function writeObjectToRepo({
     ref: 'main',
     onAuth: () => ({ username: process.env.GITHUB_TOKEN }),
   });
-  console.log(pushResult);
+  console.log('pushResult', pushResult);
 }
 
 interface AppendToAcademyObjectsParams<T extends AcademyObject> {

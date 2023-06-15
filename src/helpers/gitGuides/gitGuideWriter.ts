@@ -64,7 +64,7 @@ async function writeGuideToRepo({ gitGuide, repositoryPath, absoluteGuidePath, a
     ref: 'main',
     onAuth: () => ({ username: process.env.GITHUB_TOKEN }),
   });
-  console.log(pushResult);
+  console.log('pushResult', pushResult);
 }
 
 async function appendToSpaceGuides(

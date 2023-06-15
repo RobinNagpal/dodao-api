@@ -37,7 +37,7 @@ export async function addCommitAndPush(accountId: string, repositoryPath: string
     ref: 'main',
     onAuth: () => ({ username: process.env.GITHUB_TOKEN }),
   });
-  console.log(pushResult);
+  console.log('pushResult', pushResult);
 }
 
 export async function getCourseAndRepoInfo(space: Space, courseKey: string): Promise<CourseAndRepoInfo> {
