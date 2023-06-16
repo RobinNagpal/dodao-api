@@ -7,10 +7,15 @@ export default async function downloadFromAllLinks(content: string) {
   const urls = extractUrls(content);
   const contents = [];
   for (const url of urls) {
-    let importantContent = await getImportantContentUsingCheerio(url);
-    if ((importantContent?.length || 0) < 2000) {
-      console.log('Cheerio failed, trying puppeteer :', url);
-      importantContent = await getContentsUsingPuppeteer(url);
+    let importantContent = '';
+    try {
+      importantContent = await getImportantContentUsingCheerio(url);
+      if ((importantContent?.length || 0) < 2000) {
+        console.log('Cheerio failed, trying puppeteer :', url);
+        importantContent = await getContentsUsingPuppeteer(url);
+      }
+    } catch (e) {
+      console.log('Error while getting content from url', url, e);
     }
     contents.push(importantContent);
   }

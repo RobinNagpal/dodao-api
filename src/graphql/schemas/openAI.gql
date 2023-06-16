@@ -58,7 +58,7 @@ enum  ChatCompletionRequestMessageRoleEnum {
   assistant
 }
 
-extend type Query {
+extend type Mutation {
   askChatCompletionAI(input: ChatCompletionAIInput!): OpenAIChatCompletionResponse!
   askCompletionAI(input: CompletionAIInput!): OpenAICompletionResponse!
   downloadAndCleanContent(input: String!): String!
