@@ -1,6 +1,7 @@
 import { cleanupContent } from '@/ai/text/cleanupContent';
 import getContentsUsingPuppeteer from '@/ai/text/getContentsUsingPuppeteer';
 import { getImportantContentUsingCheerio } from '@/ai/text/getImportantContentUsingCheerio';
+import { formatAxiosError } from '@/helpers/adapters/errorLogger';
 
 export default async function downloadFromAllLinks(content: string) {
   const withoutUrls = extractStringContentWithoutUrls(content);
@@ -9,7 +10,12 @@ export default async function downloadFromAllLinks(content: string) {
   for (const url of urls) {
     let importantContent = '';
     try {
-      importantContent = await getImportantContentUsingCheerio(url);
+      try {
+        importantContent = await getImportantContentUsingCheerio(url);
+      } catch (e) {
+        const formattedAxiosError = formatAxiosError(e);
+        console.log('Error while getting content from url', url, formattedAxiosError);
+      }
       if ((importantContent?.length || 0) < 2000) {
         console.log('Cheerio failed, trying puppeteer :', url);
         importantContent = await getContentsUsingPuppeteer(url);

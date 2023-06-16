@@ -50,7 +50,10 @@ type OpenAIChatCompletionResponse {
   choices: [OpenAIChatCompletionChoice!]!
 }
 
-
+type OpenAITextResponse {
+  tokenCount: Int!
+  text: String!
+}
 
 enum  ChatCompletionRequestMessageRoleEnum {
   system
@@ -61,10 +64,12 @@ enum  ChatCompletionRequestMessageRoleEnum {
 extend type Mutation {
   askChatCompletionAI(input: ChatCompletionAIInput!): OpenAIChatCompletionResponse!
   askCompletionAI(input: CompletionAIInput!): OpenAICompletionResponse!
-  downloadAndCleanContent(input: String!): String!
-  createSummaryOfContent(input: String!): String!
-  extractRelevantTextForTopic(input: ExtractRelevantTextForTopicInput!): String!
+  downloadAndCleanContent(input: String!): OpenAITextResponse!
+  createSummaryOfContent(input: String!): OpenAITextResponse!
+  extractRelevantTextForTopic(input: ExtractRelevantTextForTopicInput!): OpenAITextResponse!
 }
+
+
 
 
 input CompletionAIInput {

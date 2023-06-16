@@ -1,9 +1,8 @@
-import tiktoken from 'tiktoken';
+import { getTokenCount, tokenEncoding } from '@/ai/getTokenCount';
 
 export function splitContentIntoSmallerChunks(cleanedContent: string, maxTokens: number) {
-  const encoding = tiktoken.encoding_for_model('gpt-3.5-turbo');
   let chunks = [];
-  let totalTokens = encoding.encode(cleanedContent).length;
+  let totalTokens = getTokenCount(cleanedContent);
 
   // Calculate the tokens per chunk we should aim for.
   let tokensPerChunk = Math.ceil(totalTokens / Math.ceil(totalTokens / maxTokens));
@@ -17,7 +16,7 @@ export function splitContentIntoSmallerChunks(cleanedContent: string, maxTokens:
   for (let word of words) {
     // Include the space that will be added before the word when joining back the words into a string.
     let wordWithSpace = ' ' + word;
-    let wordTokens = encoding.encode(wordWithSpace).length;
+    let wordTokens = tokenEncoding.encode(wordWithSpace).length;
 
     // If adding the current word doesn't exceed tokensPerChunk, add it to current chunk.
     if (currentChunkTokens + wordTokens <= tokensPerChunk) {

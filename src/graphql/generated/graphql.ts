@@ -737,14 +737,14 @@ export type Mutation = {
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
   createSignedUrl: Scalars['String'];
-  createSummaryOfContent: Scalars['String'];
+  createSummaryOfContent: OpenAiTextResponse;
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
   deleteTopicQuestion: GitCourse;
   deleteTopicSummary: GitCourse;
   deleteTopicVideo: GitCourse;
-  downloadAndCleanContent: Scalars['String'];
-  extractRelevantTextForTopic: Scalars['String'];
+  downloadAndCleanContent: OpenAiTextResponse;
+  extractRelevantTextForTopic: OpenAiTextResponse;
   initializeGitCourseSubmission: GitCourseSubmission;
   moveTopic: GitCourse;
   moveTopicExplanation: GitCourse;
@@ -1136,6 +1136,12 @@ export type OpenAiMessage = {
   __typename?: 'OpenAIMessage';
   content?: Maybe<Scalars['String']>;
   role: Scalars['String'];
+};
+
+export type OpenAiTextResponse = {
+  __typename?: 'OpenAITextResponse';
+  text: Scalars['String'];
+  tokenCount: Scalars['Int'];
 };
 
 export type OpenAiUsage = {
@@ -1807,6 +1813,7 @@ export type ResolversTypes = {
   OpenAIChoiceLogprobs: ResolverTypeWrapper<OpenAiChoiceLogprobs>;
   OpenAICompletionResponse: ResolverTypeWrapper<OpenAiCompletionResponse>;
   OpenAIMessage: ResolverTypeWrapper<OpenAiMessage>;
+  OpenAITextResponse: ResolverTypeWrapper<OpenAiTextResponse>;
   OpenAIUsage: ResolverTypeWrapper<OpenAiUsage>;
   OrderDirection: OrderDirection;
   Query: ResolverTypeWrapper<{}>;
@@ -1945,6 +1952,7 @@ export type ResolversParentTypes = {
   OpenAIChoiceLogprobs: OpenAiChoiceLogprobs;
   OpenAICompletionResponse: OpenAiCompletionResponse;
   OpenAIMessage: OpenAiMessage;
+  OpenAITextResponse: OpenAiTextResponse;
   OpenAIUsage: OpenAiUsage;
   Query: {};
   QuestionChoice: QuestionChoice;
@@ -2419,14 +2427,14 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
-  createSummaryOfContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
+  createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   deleteTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
-  downloadAndCleanContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
-  extractRelevantTextForTopic?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
+  downloadAndCleanContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
+  extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   moveTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicArgs, 'spaceId' | 'topicInfo'>>;
   moveTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2503,6 +2511,12 @@ export type OpenAiCompletionResponseResolvers<ContextType = any, ParentType exte
 export type OpenAiMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIMessage'] = ResolversParentTypes['OpenAIMessage']> = {
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OpenAiTextResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAITextResponse'] = ResolversParentTypes['OpenAITextResponse']> = {
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tokenCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2742,6 +2756,7 @@ export type Resolvers<ContextType = any> = {
   OpenAIChoiceLogprobs?: OpenAiChoiceLogprobsResolvers<ContextType>;
   OpenAICompletionResponse?: OpenAiCompletionResponseResolvers<ContextType>;
   OpenAIMessage?: OpenAiMessageResolvers<ContextType>;
+  OpenAITextResponse?: OpenAiTextResponseResolvers<ContextType>;
   OpenAIUsage?: OpenAiUsageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuestionChoice?: QuestionChoiceResolvers<ContextType>;
