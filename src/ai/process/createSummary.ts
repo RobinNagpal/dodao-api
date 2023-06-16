@@ -36,9 +36,7 @@ function getPromptForSummarization(chunk: string, maxTokens: number) {
 export async function generateSummaryOfContent(chunk: string): Promise<string> {
   const cleanedContent = cleanupContent(chunk);
   const chunkTokens = encoding.encode(cleanedContent);
-  const length = chunkTokens.length;
-  if (length > 10000) {
-  }
+
   const maxTokens = 10000;
 
   if (!chunk) {

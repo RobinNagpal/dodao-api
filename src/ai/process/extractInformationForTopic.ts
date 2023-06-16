@@ -29,9 +29,7 @@ function getPromptForTopicInformation(chunk: string, topic: string) {
 export async function extractInformationForTopic(inputContent: string, topic: string): Promise<string> {
   const cleanedContent = cleanupContent(inputContent);
   const chunkTokens = encoding.encode(cleanedContent);
-  const length = chunkTokens.length;
-  if (length > 10000) {
-  }
+
   const maxTokens = 10000;
 
   if (!inputContent) {
