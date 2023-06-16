@@ -733,13 +733,18 @@ export type Mutation = {
   addTopicQuestion: GitCourseQuestion;
   addTopicSummary: GitCourseSummary;
   addTopicVideo: GitCourseReading;
+  askChatCompletionAI: OpenAiChatCompletionResponse;
+  askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
   createSignedUrl: Scalars['String'];
+  createSummaryOfContent: Scalars['String'];
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
   deleteTopicQuestion: GitCourse;
   deleteTopicSummary: GitCourse;
   deleteTopicVideo: GitCourse;
+  downloadAndCleanContent: Scalars['String'];
+  extractRelevantTextForTopic: Scalars['String'];
   initializeGitCourseSubmission: GitCourseSubmission;
   moveTopic: GitCourse;
   moveTopicExplanation: GitCourse;
@@ -815,6 +820,16 @@ export type MutationAddTopicVideoArgs = {
 };
 
 
+export type MutationAskChatCompletionAiArgs = {
+  input: ChatCompletionAiInput;
+};
+
+
+export type MutationAskCompletionAiArgs = {
+  input: CompletionAiInput;
+};
+
+
 export type MutationAuthenticateWithUnstoppableArgs = {
   idToken: Scalars['String'];
 };
@@ -823,6 +838,11 @@ export type MutationAuthenticateWithUnstoppableArgs = {
 export type MutationCreateSignedUrlArgs = {
   input: CreateSignedUrlInput;
   spaceId: Scalars['String'];
+};
+
+
+export type MutationCreateSummaryOfContentArgs = {
+  input: Scalars['String'];
 };
 
 
@@ -853,6 +873,16 @@ export type MutationDeleteTopicSummaryArgs = {
 export type MutationDeleteTopicVideoArgs = {
   spaceId: Scalars['String'];
   videoInfo: DeleteTopicVideoInput;
+};
+
+
+export type MutationDownloadAndCleanContentArgs = {
+  input: Scalars['String'];
+};
+
+
+export type MutationExtractRelevantTextForTopicArgs = {
+  input: ExtractRelevantTextForTopicInput;
 };
 
 
@@ -1124,14 +1154,9 @@ export type Query = {
   __typename?: 'Query';
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
-  askChatCompletionAI: OpenAiChatCompletionResponse;
-  askCompletionAI: OpenAiCompletionResponse;
   byte: Byte;
   bytes: Array<Byte>;
   courses: Array<GitCourse>;
-  createSummaryOfContent: Scalars['String'];
-  downloadAndCleanContent: Scalars['String'];
-  extractRelevantTextForTopic: Scalars['String'];
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
@@ -1162,16 +1187,6 @@ export type QueryAcademyTasksArgs = {
 };
 
 
-export type QueryAskChatCompletionAiArgs = {
-  input: ChatCompletionAiInput;
-};
-
-
-export type QueryAskCompletionAiArgs = {
-  input: CompletionAiInput;
-};
-
-
 export type QueryByteArgs = {
   byteId: Scalars['String'];
   includeDraft?: InputMaybe<Scalars['Boolean']>;
@@ -1186,21 +1201,6 @@ export type QueryBytesArgs = {
 
 export type QueryCoursesArgs = {
   spaceId: Scalars['String'];
-};
-
-
-export type QueryCreateSummaryOfContentArgs = {
-  input: Scalars['String'];
-};
-
-
-export type QueryDownloadAndCleanContentArgs = {
-  input: Scalars['String'];
-};
-
-
-export type QueryExtractRelevantTextForTopicArgs = {
-  input: ExtractRelevantTextForTopicInput;
 };
 
 
@@ -2415,13 +2415,18 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addTopicQuestion?: Resolver<ResolversTypes['GitCourseQuestion'], ParentType, ContextType, RequireFields<MutationAddTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   addTopicSummary?: Resolver<ResolversTypes['GitCourseSummary'], ParentType, ContextType, RequireFields<MutationAddTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   addTopicVideo?: Resolver<ResolversTypes['GitCourseReading'], ParentType, ContextType, RequireFields<MutationAddTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;
+  askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
+  createSummaryOfContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   deleteTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  downloadAndCleanContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
+  extractRelevantTextForTopic?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   moveTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicArgs, 'spaceId' | 'topicInfo'>>;
   moveTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2511,14 +2516,9 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
-  askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<QueryAskChatCompletionAiArgs, 'input'>>;
-  askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<QueryAskCompletionAiArgs, 'input'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
-  createSummaryOfContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryCreateSummaryOfContentArgs, 'input'>>;
-  downloadAndCleanContent?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryDownloadAndCleanContentArgs, 'input'>>;
-  extractRelevantTextForTopic?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryExtractRelevantTextForTopicArgs, 'input'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;

@@ -1,8 +1,8 @@
-import { OpenAiCompletionResponse, QueryAskCompletionAiArgs } from '@/graphql/generated/graphql';
+import { MutationAskCompletionAiArgs, OpenAiCompletionResponse } from '@/graphql/generated/graphql';
 import { Configuration, OpenAIApi } from 'openai';
 import { CreateCompletionRequest } from 'openai/api';
 
-export default async function askCompletionAI(_: any, args: QueryAskCompletionAiArgs): Promise<OpenAiCompletionResponse> {
+export default async function askCompletionAI(_: any, args: MutationAskCompletionAiArgs): Promise<OpenAiCompletionResponse> {
   const createCompletionRequest: CreateCompletionRequest = {
     model: args.input.prompt || 'gpt-3.5-turbo',
     prompt: args.input.prompt,
