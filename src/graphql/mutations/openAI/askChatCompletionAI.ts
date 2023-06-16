@@ -23,5 +23,8 @@ export default async function askCompletionAI(_: any, args: MutationAskChatCompl
 
   const completion = await openai.createChatCompletion(createCompletionRequest, { timeout: 5 * 60 * 1000 });
 
-  return completion.data!;
+  const response = completion.data!;
+
+  console.log('response', JSON.stringify(response, null, 2));
+  return response;
 }
