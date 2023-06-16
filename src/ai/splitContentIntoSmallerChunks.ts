@@ -1,22 +1,22 @@
 import { getTokenCount, tokenEncoding } from '@/ai/getTokenCount';
 
 export function splitContentIntoSmallerChunks(cleanedContent: string, maxTokens: number) {
-  let chunks = [];
-  let totalTokens = getTokenCount(cleanedContent);
+  const chunks = [];
+  const totalTokens = getTokenCount(cleanedContent);
 
   // Calculate the tokens per chunk we should aim for.
-  let tokensPerChunk = Math.ceil(totalTokens / Math.ceil(totalTokens / maxTokens));
+  const tokensPerChunk = Math.ceil(totalTokens / Math.ceil(totalTokens / maxTokens));
 
   let currentChunk = '';
   let currentChunkTokens = 0;
 
   // Split content into words
-  let words = cleanedContent.split(' ');
+  const words = cleanedContent.split(' ');
 
-  for (let word of words) {
+  for (const word of words) {
     // Include the space that will be added before the word when joining back the words into a string.
-    let wordWithSpace = ' ' + word;
-    let wordTokens = tokenEncoding.encode(wordWithSpace).length;
+    const wordWithSpace = ' ' + word;
+    const wordTokens = tokenEncoding.encode(wordWithSpace).length;
 
     // If adding the current word doesn't exceed tokensPerChunk, add it to current chunk.
     if (currentChunkTokens + wordTokens <= tokensPerChunk) {
