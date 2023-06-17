@@ -14,6 +14,7 @@ import guides from '@/graphql/queries/guide/guides';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
+import spaces from '@/graphql/queries/space/spaces';
 import timeline from '@/graphql/queries/timeline/timeline';
 import timelines from '@/graphql/queries/timeline/timelines';
 
@@ -44,4 +45,5 @@ export default {
   timelines,
 
   space: getSpace,
+  spaces,
 };
