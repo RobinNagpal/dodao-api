@@ -7,8 +7,15 @@ import { IncomingMessage } from 'http';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
-  const token = getJwtFromContext(context);
-  const decoded = jwt.decode(token) as JwtPayload & DoDaoJwtTokenPayload;
+  const decoded = verifyJwt(context);
+  if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
+    return decoded;
+  }
+  return null;
+}
+
+function isDoDAOAdmin(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
+  const decoded = verifyJwt(context);
   if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
     return decoded;
   }
@@ -17,12 +24,21 @@ function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPay
 
 export function canEditGitSpace(context: IncomingMessage, space: Space) {
   const doDAOMember = isDoDAOMember(context);
+  const doDAOAdmin = isDoDAOAdmin(context);
+
+  if (doDAOAdmin) {
+    return { decodedJWT: doDAOAdmin, canEditSpace: true, user: doDAOAdmin.accountId.toLowerCase() };
+  }
 
   if (doDAOMember && space.id === 'test-academy-eth') {
     return { decodedJWT: doDAOMember, canEditSpace: true, user: doDAOMember.accountId.toLowerCase() };
   }
   const decodedJWT = verifyJwt(context);
+
   const user = decodedJWT.accountId.toLowerCase();
+
+  const isDoDAOSuperAdmin = isSuperAdmin(user);
+
   if (!user) {
     throw Error('No accountId present in JWT');
   }
@@ -30,8 +46,7 @@ export function canEditGitSpace(context: IncomingMessage, space: Space) {
 
   const isAdminOfSpace: boolean = spaceAdmins.includes(user.toLowerCase());
 
-  const isDoDAOAdmin = isSuperAdmin(user);
-  const canEditSpace = isAdminOfSpace || isDoDAOAdmin;
+  const canEditSpace = isAdminOfSpace || isDoDAOSuperAdmin;
   return { decodedJWT, canEditSpace, user };
 }
 
