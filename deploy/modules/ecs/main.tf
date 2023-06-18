@@ -69,7 +69,10 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DODAO_AUTH_HEADER_NAME", value = var.dodao_auth_header_name },
         { name = "MAIN_GIT_FOLDER_PATH", value = "/opt/dodao/dodao-git-folder/prod" },
         { name = "ALL_GIT_GUIDES_FOLDER_NAME", value = "dodao-all-prod-guides" },
-        { name = "OPENAI_API_KEY", value = var.openai_api_key }
+        { name = "OPENAI_API_KEY", value = var.openai_api_key },
+        { name = "DODAO_WHITELISTED_ADMINS", value = "0x470579d16401a36BF63b1428eaA7189FBdE5Fee9" },
+        { name = "PUBLIC_AWS_S3_BUCKET", value = "dodao-prod-public-assets" },
+        { name = "DEFAULT_REGION", value = "us-east-1" }
       ]
 
       healthCheck = {

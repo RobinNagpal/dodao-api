@@ -737,6 +737,7 @@ export type Mutation = {
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
   createSignedUrl: Scalars['String'];
+  createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
@@ -838,6 +839,11 @@ export type MutationAuthenticateWithUnstoppableArgs = {
 export type MutationCreateSignedUrlArgs = {
   input: CreateSignedUrlInput;
   spaceId: Scalars['String'];
+};
+
+
+export type MutationCreateSpaceArgs = {
+  spaceInput?: InputMaybe<UpsertSpaceInput>;
 };
 
 
@@ -1389,6 +1395,14 @@ export type SpaceIntegrations = {
   projectGalaxyTokenLastFour?: Maybe<Scalars['String']>;
 };
 
+export type SpaceIntegrationsInput = {
+  academyRepository?: InputMaybe<Scalars['String']>;
+  discordGuildId?: InputMaybe<Scalars['String']>;
+  gitGuideRepositories?: InputMaybe<Array<SpaceGitRepositoryInput>>;
+  gnosisSafeWallets?: InputMaybe<Array<GnosisSafeWalletInput>>;
+  projectGalaxyTokenLastFour?: InputMaybe<Scalars['String']>;
+};
+
 export type SpaceInviteArgs = {
   discordInviteLink?: InputMaybe<Scalars['String']>;
   showAnimatedButtonForDiscord?: InputMaybe<Scalars['Boolean']>;
@@ -1402,6 +1416,13 @@ export type SpaceInviteLinks = {
   showAnimatedButtonForDiscord?: Maybe<Scalars['Boolean']>;
   showAnimatedButtonForTelegram?: Maybe<Scalars['Boolean']>;
   telegramInviteLink?: Maybe<Scalars['String']>;
+};
+
+export type SpaceInviteLinksInput = {
+  discordInviteLink?: InputMaybe<Scalars['String']>;
+  showAnimatedButtonForDiscord?: InputMaybe<Scalars['Boolean']>;
+  showAnimatedButtonForTelegram?: InputMaybe<Scalars['Boolean']>;
+  telegramInviteLink?: InputMaybe<Scalars['String']>;
 };
 
 export type SpaceWhere = {
@@ -1580,6 +1601,19 @@ export type UpsertSimulationInput = {
   steps: Array<SimulationStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+};
+
+export type UpsertSpaceInput = {
+  admins?: InputMaybe<Array<Scalars['String']>>;
+  avatar?: InputMaybe<Scalars['String']>;
+  creator?: InputMaybe<Scalars['String']>;
+  discordInvite?: InputMaybe<Scalars['String']>;
+  features?: InputMaybe<Array<Scalars['String']>>;
+  id?: InputMaybe<Scalars['String']>;
+  inviteLinks?: InputMaybe<SpaceInviteLinksInput>;
+  name?: InputMaybe<Scalars['String']>;
+  skin?: InputMaybe<Scalars['String']>;
+  telegramInvite?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertTimelineEventInput = {
@@ -1828,8 +1862,10 @@ export type ResolversTypes = {
   SpaceGitRepository: ResolverTypeWrapper<SpaceGitRepository>;
   SpaceGitRepositoryInput: SpaceGitRepositoryInput;
   SpaceIntegrations: ResolverTypeWrapper<SpaceIntegrations>;
+  SpaceIntegrationsInput: SpaceIntegrationsInput;
   SpaceInviteArgs: SpaceInviteArgs;
   SpaceInviteLinks: ResolverTypeWrapper<SpaceInviteLinks>;
+  SpaceInviteLinksInput: SpaceInviteLinksInput;
   SpaceWhere: SpaceWhere;
   StepItemInputGenericInput: StepItemInputGenericInput;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -1849,6 +1885,7 @@ export type ResolversTypes = {
   UpsertByteInput: UpsertByteInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertSimulationInput: UpsertSimulationInput;
+  UpsertSpaceInput: UpsertSpaceInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
   UpsertTimelineInput: UpsertTimelineInput;
   UserDiscordConnect: ResolverTypeWrapper<UserDiscordConnect>;
@@ -1966,8 +2003,10 @@ export type ResolversParentTypes = {
   SpaceGitRepository: SpaceGitRepository;
   SpaceGitRepositoryInput: SpaceGitRepositoryInput;
   SpaceIntegrations: SpaceIntegrations;
+  SpaceIntegrationsInput: SpaceIntegrationsInput;
   SpaceInviteArgs: SpaceInviteArgs;
   SpaceInviteLinks: SpaceInviteLinks;
+  SpaceInviteLinksInput: SpaceInviteLinksInput;
   SpaceWhere: SpaceWhere;
   StepItemInputGenericInput: StepItemInputGenericInput;
   String: Scalars['String'];
@@ -1987,6 +2026,7 @@ export type ResolversParentTypes = {
   UpsertByteInput: UpsertByteInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertSimulationInput: UpsertSimulationInput;
+  UpsertSpaceInput: UpsertSpaceInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
   UpsertTimelineInput: UpsertTimelineInput;
   UserDiscordConnect: UserDiscordConnect;
@@ -2427,6 +2467,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
+  createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, Partial<MutationCreateSpaceArgs>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
