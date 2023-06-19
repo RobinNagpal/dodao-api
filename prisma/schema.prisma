@@ -209,7 +209,7 @@ model GitCourse {
 model GuideIntegration {
   id                           String   @id @db.VarChar(255)
   spaceId                      String   @map("space_id") @db.VarChar(255)
-  guideId                      String   @map("guide_id") @db.VarChar(255)
+  guideUuid                    String   @map("guide_uuid") @db.VarChar(255)
   createdAt                    DateTime @default(now()) @map("created_at")
   createdBy                    String?  @map("created_by") @db.VarChar(256)
   discordRoleIds               Json?    @map("discord_role_ids") @db.Json
@@ -220,8 +220,9 @@ model GuideIntegration {
   updatedAt                    DateTime @updatedAt @map("updated_at")
   updatedBy                    String?  @map("updated_by") @db.VarChar(256)
   projectGalaxyOatPassingCount Int?     @map("project_galaxy_oat_passing_count") @db.Integer
-  space                        Space    @relation(fields: [spaceId], references: [id])
+  Space                        Space    @relation(fields: [spaceId], references: [id])
 
+  @@unique([spaceId, guideUuid])
   @@map("guide_integrations")
 }
 

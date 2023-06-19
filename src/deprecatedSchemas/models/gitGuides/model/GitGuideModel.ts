@@ -18,4 +18,5 @@ export interface GitGuideModel {
   steps: GitGuideStep[];
   thumbnail: string;
   uuid: string;
+  version?: number;
 }
