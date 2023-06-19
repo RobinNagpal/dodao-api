@@ -6,6 +6,14 @@ function getSpaceIdForDomain(domain: string) {
     return 'test-academy-eth';
   }
 
+  if (domain === 'uniswap-localhost.university') {
+    return 'uniswap-eth-1';
+  }
+
+  if (domain === 'dodao-localhost.academy') {
+    return 'dodao-academy-eth-1';
+  }
+
   return 'test-academy-eth';
 }
 
