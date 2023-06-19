@@ -7,7 +7,9 @@ extend type Query {
 }
 
 extend type Mutation {
-  createSpace(spaceInput: UpsertSpaceInput): Space!
+  createSpace(spaceInput: UpsertSpaceInput!): Space!
+
+  updateSpace(spaceInput: UpsertSpaceInput!): Space!
 
   addDiscordCredentials(spaceId: String!, code: String!, redirectUri: String!): Space!
 
@@ -31,12 +33,10 @@ type Space {
   admins: [String!]!
   avatar: String
   creator: String!
-  discordInvite: String
   features: [String!]!
-  name: String
+  name: String!
   skin: String!
   spaceIntegrations: SpaceIntegrations
-  telegramInvite: String
   inviteLinks: SpaceInviteLinks
 }
 
@@ -114,23 +114,22 @@ input CreateSignedUrlInput {
 
 
 input  UpsertSpaceInput {
-  id: String
-  admins: [String!]
-  avatar: String
-  creator: String
-  discordInvite: String
-  features: [String!]
-  name: String
-  skin: String
-  telegramInvite: String
-  inviteLinks: SpaceInviteLinksInput
+  id: String!
+  admins: [String!]!
+  avatar: String!
+  creator: String!
+  features: [String!]!
+  name: String!
+  skin: String!
+  inviteLinks: SpaceInviteLinksInput!
+  spaceIntegrations: SpaceIntegrationsInput!
 }
 
 input  SpaceIntegrationsInput {
   discordGuildId: String
   projectGalaxyTokenLastFour: String
-  gnosisSafeWallets: [GnosisSafeWalletInput!]
-  gitGuideRepositories: [SpaceGitRepositoryInput!]
+  gnosisSafeWallets: [GnosisSafeWalletInput!]!
+  gitGuideRepositories: [SpaceGitRepositoryInput!]!
   academyRepository: String
 }
 

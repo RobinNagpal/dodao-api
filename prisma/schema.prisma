@@ -120,7 +120,7 @@ model Guide {
 model Space {
   id                String              @id @db.VarChar(64)
   settings          Json?               @db.Json
-  verified          Int                 @default(0)
+  verified          Boolean             @default(false)
   createdAt         DateTime            @default(now()) @map("created_at")
   creator           String              @db.VarChar(64)
   name              String              @db.VarChar(255)
@@ -152,7 +152,7 @@ model Byte {
   name          String   @db.VarChar(255)
   content       String   @db.Text
   created       String   @db.VarChar(255)
-  visibility    String   @db.VarChar(255)
+  visibility    String   @default("Public") @db.VarChar(255)
   publishStatus String   @map("publish_status") @db.VarChar(255)
   admins        String[]
   tags          String[]
