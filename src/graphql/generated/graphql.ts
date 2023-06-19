@@ -762,6 +762,7 @@ export type Mutation = {
   submitGitCourseTopic: GitCourseTopicSubmission;
   submitGuide: GuideSubmission;
   updateCourseBasicInfo: GitCourse;
+  updateSpace: Space;
   updateTopicBasicInfo: GitCourse;
   updateTopicExplanation: GitCourse;
   updateTopicQuestion: GitCourse;
@@ -843,7 +844,7 @@ export type MutationCreateSignedUrlArgs = {
 
 
 export type MutationCreateSpaceArgs = {
-  spaceInput?: InputMaybe<UpsertSpaceInput>;
+  spaceInput: UpsertSpaceInput;
 };
 
 
@@ -981,6 +982,11 @@ export type MutationSubmitGuideArgs = {
 export type MutationUpdateCourseBasicInfoArgs = {
   courseBasicInfo: CourseBasicInfoInput;
   spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateSpaceArgs = {
+  spaceInput: UpsertSpaceInput;
 };
 
 
@@ -1357,14 +1363,12 @@ export type Space = {
   admins: Array<Scalars['String']>;
   avatar?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
-  discordInvite?: Maybe<Scalars['String']>;
   features: Array<Scalars['String']>;
   id: Scalars['String'];
   inviteLinks?: Maybe<SpaceInviteLinks>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   skin: Scalars['String'];
   spaceIntegrations?: Maybe<SpaceIntegrations>;
-  telegramInvite?: Maybe<Scalars['String']>;
 };
 
 export type SpaceFilters = {
@@ -1398,8 +1402,8 @@ export type SpaceIntegrations = {
 export type SpaceIntegrationsInput = {
   academyRepository?: InputMaybe<Scalars['String']>;
   discordGuildId?: InputMaybe<Scalars['String']>;
-  gitGuideRepositories?: InputMaybe<Array<SpaceGitRepositoryInput>>;
-  gnosisSafeWallets?: InputMaybe<Array<GnosisSafeWalletInput>>;
+  gitGuideRepositories: Array<SpaceGitRepositoryInput>;
+  gnosisSafeWallets: Array<GnosisSafeWalletInput>;
   projectGalaxyTokenLastFour?: InputMaybe<Scalars['String']>;
 };
 
@@ -1604,16 +1608,15 @@ export type UpsertSimulationInput = {
 };
 
 export type UpsertSpaceInput = {
-  admins?: InputMaybe<Array<Scalars['String']>>;
-  avatar?: InputMaybe<Scalars['String']>;
-  creator?: InputMaybe<Scalars['String']>;
-  discordInvite?: InputMaybe<Scalars['String']>;
-  features?: InputMaybe<Array<Scalars['String']>>;
-  id?: InputMaybe<Scalars['String']>;
-  inviteLinks?: InputMaybe<SpaceInviteLinksInput>;
-  name?: InputMaybe<Scalars['String']>;
-  skin?: InputMaybe<Scalars['String']>;
-  telegramInvite?: InputMaybe<Scalars['String']>;
+  admins: Array<Scalars['String']>;
+  avatar: Scalars['String'];
+  creator: Scalars['String'];
+  features: Array<Scalars['String']>;
+  id: Scalars['String'];
+  inviteLinks: SpaceInviteLinksInput;
+  name: Scalars['String'];
+  skin: Scalars['String'];
+  spaceIntegrations: SpaceIntegrationsInput;
 };
 
 export type UpsertTimelineEventInput = {
@@ -2467,7 +2470,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
-  createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, Partial<MutationCreateSpaceArgs>>;
+  createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2492,6 +2495,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
+  updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateTopicBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicBasicInfoArgs, 'spaceId' | 'topicInfo'>>;
   updateTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   updateTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
@@ -2635,14 +2639,12 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  discordInvite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   features?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   inviteLinks?: Resolver<Maybe<ResolversTypes['SpaceInviteLinks']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   skin?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;
-  telegramInvite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

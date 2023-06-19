@@ -1,5 +1,5 @@
 import { QuerySpaceArgs } from '@/graphql/generated/graphql';
-import { prisma } from '@/prisma';
+import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
 
 function getSpaceIdForDomain(domain: string) {
   if (domain === 'dodao-ui-robinnagpal.vercel.app' || domain === 'localhost') {
@@ -17,8 +17,5 @@ export default async function getSpace(_: any, { id, domain }: QuerySpaceArgs) {
   if (!spaceId) {
     throw new Error('No spaceId or domain provided');
   }
-  const space = await prisma.space.findUnique({ where: { id: spaceId } });
-
-  const spaceIntegrations = await prisma.spaceIntegration.findUnique({ where: { spaceId } });
-  return { ...space, spaceIntegrations };
+  return await getSpaceWithIntegrations(spaceId);
 }
