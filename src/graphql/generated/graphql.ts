@@ -1363,6 +1363,7 @@ export type Space = {
   admins: Array<Scalars['String']>;
   avatar?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
+  domains: Array<Scalars['String']>;
   features: Array<Scalars['String']>;
   id: Scalars['String'];
   inviteLinks?: Maybe<SpaceInviteLinks>;
@@ -1611,6 +1612,7 @@ export type UpsertSpaceInput = {
   admins: Array<Scalars['String']>;
   avatar: Scalars['String'];
   creator: Scalars['String'];
+  domains: Array<Scalars['String']>;
   features: Array<Scalars['String']>;
   id: Scalars['String'];
   inviteLinks: SpaceInviteLinksInput;
@@ -2639,6 +2641,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  domains?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   features?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   inviteLinks?: Resolver<Maybe<ResolversTypes['SpaceInviteLinks']>, ParentType, ContextType>;

@@ -28,6 +28,7 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     updatedAt: new Date(),
     discordInvite: null,
     telegramInvite: null,
+    domains: input.domains,
   };
 
   await prisma.space.create({
