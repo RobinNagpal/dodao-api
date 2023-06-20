@@ -38,6 +38,7 @@ type Space {
   skin: String!
   spaceIntegrations: SpaceIntegrations
   inviteLinks: SpaceInviteLinks
+  domains: [String!]!
 }
 
 type SpaceIntegrations {
@@ -123,6 +124,7 @@ input  UpsertSpaceInput {
   skin: String!
   inviteLinks: SpaceInviteLinksInput!
   spaceIntegrations: SpaceIntegrationsInput!
+  domains: [String!]!
 }
 
 input  SpaceIntegrationsInput {

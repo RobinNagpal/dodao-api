@@ -127,6 +127,7 @@ model Space {
   updatedAt         DateTime            @updatedAt @map("updated_at")
   avatar            String?             @db.VarChar(255)
   admins            String[]
+  domains           String[]            @default([])
   skin              String              @default("dodao") @db.VarChar(128)
   discordInvite     String?             @map("discord_invite") @db.VarChar(1024)
   telegramInvite    String?             @map("telegram_invite") @db.VarChar(1024)
