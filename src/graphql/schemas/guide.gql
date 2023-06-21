@@ -1,5 +1,6 @@
 extend type Mutation {
   upsertGuide(spaceId: String!, guideInput: GuideInput!): Guide!
+  saveGuide(spaceId: String!, guideInput: GuideInput!): Guide!
   refreshGitGuides(spaceId: String!): Boolean!
 }
 
@@ -7,7 +8,6 @@ extend type Query {
   guide(spaceId: String!, uuid: String!): Guide!
 
   guides(spaceId: String!): [Guide!]!
-
 }
 
 type QuestionChoice {

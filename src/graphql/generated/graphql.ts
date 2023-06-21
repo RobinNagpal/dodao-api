@@ -757,6 +757,7 @@ export type Mutation = {
   refreshGitCourses: Scalars['Boolean'];
   refreshGitGuides: Scalars['Boolean'];
   saveByte: Byte;
+  saveGuide: Guide;
   submitByte: ByteSubmission;
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseTopicSubmission;
@@ -953,6 +954,12 @@ export type MutationRefreshGitGuidesArgs = {
 
 export type MutationSaveByteArgs = {
   input: UpsertByteInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationSaveGuideArgs = {
+  guideInput: GuideInput;
   spaceId: Scalars['String'];
 };
 
@@ -2492,6 +2499,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   refreshGitGuides?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitGuidesArgs, 'spaceId'>>;
   saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
+  saveGuide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<MutationSaveGuideArgs, 'guideInput' | 'spaceId'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;

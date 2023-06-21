@@ -101,18 +101,17 @@ model Guide {
   spaceId                   String  @map("space_id") @db.VarChar(64)
   guideName                 String  @map("guide_name") @db.VarChar(255)
   guideSource               String  @map("guide_source") @db.VarChar(255)
-  status                    String  @db.VarChar(255)
   version                   Int
   thumbnail                 String? @db.VarChar(255)
   categories                Json
   discordWebhook            String? @map("discord_webhook") @db.VarChar(1024)
   guideType                 String  @default("onboarding") @map("guide_type") @db.VarChar(128)
-  publishStatus             String  @default("Live") @map("publish_status") @db.VarChar(128)
+  publishStatus             String  @map("publish_status") @db.VarChar(128)
   socialShareImage          String? @map("social_share_image") @db.VarChar(2048)
-  discordRoleIds            Json    @map("discord_role_ids")
+  discordRoleIds            Json?    @map("discord_role_ids")
   discordRolePassingCount   Int?    @map("discord_role_passing_count")
   showIncorrectOnCompletion Boolean @default(true) @map("show_incorrect_on_completion") @db.Boolean
-  postSubmissionStepContent String  @map("post_submission_step_content") @db.Text
+  postSubmissionStepContent String?  @map("post_submission_step_content") @db.Text
 
   @@map("guides")
 }
