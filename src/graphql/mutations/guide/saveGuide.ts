@@ -13,7 +13,6 @@ export interface GuideStep extends Omit<PrismaGuideStep, 'guideId'> {
   guideId?: string;
 }
 
-
 export function transformGuideInputSteps(input: GuideInput): GuideStep[] {
   return input.steps.map((step, index) => ({
     uuid: step.uuid,
@@ -61,7 +60,6 @@ export default async function saveGuide(_: unknown, { spaceId, guideInput }: Mut
         create: transformGuideInputSteps(guideInput),
       },
     });
-
 
     if (!existingGuide) {
       const savedObject = await prisma.guide.create({ data: buildGuideData(true) });

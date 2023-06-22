@@ -5,5 +5,5 @@ import saveGuide from '@/graphql/mutations/guide/saveGuide';
 export default {
   refreshGitGuides,
   upsertGuide,
-  saveGuide
+  saveGuide,
 };
