@@ -8,12 +8,12 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
   const decoded = verifyJwt(context);
-  if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
+  if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com','0x577a6E294505A797976f218eFd751aB5557E1522'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
     return decoded;
   }
   return null;
 }
-
+ 
 export function canEditGitSpace(context: IncomingMessage, space: Space) {
   const doDAOMember = isDoDAOMember(context);
   const doDAOAdmin = isDoDAOSuperAdmin(context);

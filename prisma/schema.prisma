@@ -92,26 +92,24 @@ model GitCourseTopicSubmission {
 }
 
 model Guide {
-  id                        String  @id @db.VarChar(66)
-  content                   String  @db.Text
-  previousId                String? @map("previous_id") @db.VarChar(66)
-  uuid                      String  @db.VarChar(255)
+  id                        String      @id @db.VarChar(66)
+  content                   String      @db.Text
+  previousId                String?     @map("previous_id") @db.VarChar(66)
+  uuid                      String      @db.VarChar(255)
   authors                   Json
   created                   Int
-  spaceId                   String  @map("space_id") @db.VarChar(64)
-  guideName                 String  @map("guide_name") @db.VarChar(255)
-  guideSource               String  @map("guide_source") @db.VarChar(255)
+  spaceId                   String      @map("space_id") @db.VarChar(64)
+  guideName                 String      @map("guide_name") @db.VarChar(255)
+  guideSource               String      @map("guide_source") @db.VarChar(255)
   version                   Int
-  thumbnail                 String? @db.VarChar(255)
+  thumbnail                 String?     @db.VarChar(255)
   categories                Json
-  discordWebhook            String? @map("discord_webhook") @db.VarChar(1024)
-  guideType                 String  @default("onboarding") @map("guide_type") @db.VarChar(128)
-  publishStatus             String  @map("publish_status") @db.VarChar(128)
-  socialShareImage          String? @map("social_share_image") @db.VarChar(2048)
-  discordRoleIds            Json?    @map("discord_role_ids")
-  discordRolePassingCount   Int?    @map("discord_role_passing_count")
-  showIncorrectOnCompletion Boolean @default(true) @map("show_incorrect_on_completion") @db.Boolean
-  postSubmissionStepContent String?  @map("post_submission_step_content") @db.Text
+  guideType                 String      @default("onboarding") @map("guide_type") @db.VarChar(128)
+  publishStatus             String      @map("publish_status") @db.VarChar(128)
+  socialShareImage          String?     @map("social_share_image") @db.VarChar(2048)
+  showIncorrectOnCompletion Boolean     @default(true) @map("show_incorrect_on_completion") @db.Boolean
+  postSubmissionStepContent String?     @map("post_submission_step_content") @db.Text
+  steps                     GuideStep[]
 
   @@map("guides")
 }
@@ -136,7 +134,6 @@ model Space {
   CourseIntegration CourseIntegration[]
   GitCourse         GitCourse[]
   GuideIntegration  GuideIntegration[]
-  GuideStep         GuideStep[]
   GuideSubmission   GuideSubmission[]
   GuidesGuideStep   GuidesGuideStep[]
   SpaceDiscord      SpaceDiscord[]
@@ -232,10 +229,10 @@ model GuideStep {
   createdAt DateTime @default(now()) @map("created_at")
   stepName  String   @map("step_name") @db.VarChar(255)
   content   String   @db.Text
-  stepItems Json     @map("step_items") @db.Json
+  stepItems Json[]     @map("step_items") @db.Json
   stepOrder Int      @map("step_order") @db.Integer
-  spaceId   String   @map("space_id") @db.VarChar(64)
-  space     Space    @relation(fields: [spaceId], references: [id])
+  guideId   String   @map("guide_id") @db.VarChar(64)
+  guide     Guide    @relation(fields: [guideId], references: [id])
 
   @@map("guide_steps")
 }
