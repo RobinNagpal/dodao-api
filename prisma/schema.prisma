@@ -229,7 +229,7 @@ model GuideStep {
   createdAt DateTime @default(now()) @map("created_at")
   stepName  String   @map("step_name") @db.VarChar(255)
   content   String   @db.Text
-  stepItems Json[]     @map("step_items") @db.Json
+  stepItems Json[]   @map("step_items") @db.Json
   stepOrder Int      @map("step_order") @db.Integer
   guideId   String   @map("guide_id") @db.VarChar(64)
   guide     Guide    @relation(fields: [guideId], references: [id])
