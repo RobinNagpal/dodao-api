@@ -1185,6 +1185,7 @@ export type Query = {
   guideSubmissions: Array<GuideSubmission>;
   guides: Array<Guide>;
   rawGitCourse: RawGitCourse;
+  rawGitCourses: Array<RawGitCourse>;
   simulation: Simulation;
   simulations: Array<Simulation>;
   space?: Maybe<Space>;
@@ -1271,6 +1272,11 @@ export type QueryGuidesArgs = {
 
 export type QueryRawGitCourseArgs = {
   key: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryRawGitCoursesArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2596,6 +2602,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'guideUuid'>>;
   guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
+  rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, Partial<QuerySpaceArgs>>;

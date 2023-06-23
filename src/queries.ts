@@ -8,6 +8,7 @@ import gitCourseSubmission from '@/graphql/queries/course/gitCourseSubmission';
 import gitCourseSummarized from '@/graphql/queries/course/gitCourseSummarized';
 import gitTopicSubmissions from '@/graphql/queries/course/gitTopicSubmissions';
 import rawGitCourse from '@/graphql/queries/course/rawGitCourse';
+import rawGitCourses from '@/graphql/queries/course/rawGitCourses';
 import courses from '@/graphql/queries/course/summarizedGitCourses';
 import guide from '@/graphql/queries/guide/guide';
 import guides from '@/graphql/queries/guide/guides';
@@ -32,6 +33,7 @@ export default {
   gitCourseSubmission,
   gitCourseSummarized,
   rawGitCourse,
+  rawGitCourses,
 
   gitTopicSubmissions,
 

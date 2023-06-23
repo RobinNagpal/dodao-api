@@ -5,6 +5,8 @@ extend type Query {
 
   rawGitCourse(spaceId: String!, key: String!): RawGitCourse!
 
+  rawGitCourses(spaceId: String!): [RawGitCourse!]!
+
   gitCourseSummarized(spaceId: String!, key: String!): SummarizedGitCourse!
 
   gitCourseIntegrations(spaceId: String!, key: String!): CourseIntegrations
