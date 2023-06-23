@@ -1,6 +1,7 @@
 scalar Any
 scalar JSON
 scalar JSONObject
+scalar DateTimeISO
 
 # Queries
 type Query

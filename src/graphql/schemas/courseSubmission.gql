@@ -40,7 +40,7 @@ type GitCourseSubmission {
   uuid: String!
   spaceId: String!
   courseKey: String!
-  createdAt: Int!
+  createdAt: String!
   createdBy: String!
 
   galaxyCredentialsUpdated: Boolean
@@ -54,7 +54,7 @@ type GitCourseSubmission {
   status: String!
 
   topicSubmissions: [GitCourseTopicSubmission!]!
-  updatedAt: Int!
+  updatedAt: DateTimeISO!
 }
 
 type GitCourseTopicCorrectAnswer {
@@ -65,7 +65,7 @@ type GitCourseTopicSubmission {
   uuid: String!
   courseKey: String!
   courseSubmissionUuid: String!
-  createdAt: Int!
+  createdAt: DateTimeISO!
   createdBy: String!
   correctAnswers: [GitCourseTopicCorrectAnswer!]
   isLatestSubmission: Boolean!
@@ -77,7 +77,7 @@ type GitCourseTopicSubmission {
   spaceId: String!
   status: String!
   topicKey: String!
-  updatedAt: Int!
+  updatedAt: DateTimeISO!
 }
 
 type GitCourseTopicSubmissionJson {
