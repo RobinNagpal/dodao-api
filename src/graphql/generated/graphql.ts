@@ -14,6 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   Any: any;
+  DateTimeISO: any;
   JSON: any;
   JSONObject: any;
 };
@@ -402,7 +403,7 @@ export type GitCourseReadingsSubmissionInput = {
 export type GitCourseSubmission = {
   __typename?: 'GitCourseSubmission';
   courseKey: Scalars['String'];
-  createdAt: Scalars['Int'];
+  createdAt: Scalars['String'];
   createdBy: Scalars['String'];
   galaxyCredentialsUpdated?: Maybe<Scalars['Boolean']>;
   isLatestSubmission?: Maybe<Scalars['Boolean']>;
@@ -413,7 +414,7 @@ export type GitCourseSubmission = {
   spaceId: Scalars['String'];
   status: Scalars['String'];
   topicSubmissions: Array<GitCourseTopicSubmission>;
-  updatedAt: Scalars['Int'];
+  updatedAt: Scalars['DateTimeISO'];
   uuid: Scalars['String'];
 };
 
@@ -458,7 +459,7 @@ export type GitCourseTopicSubmission = {
   correctAnswers?: Maybe<Array<GitCourseTopicCorrectAnswer>>;
   courseKey: Scalars['String'];
   courseSubmissionUuid: Scalars['String'];
-  createdAt: Scalars['Int'];
+  createdAt: Scalars['DateTimeISO'];
   createdBy: Scalars['String'];
   isLatestSubmission: Scalars['Boolean'];
   questionsAttempted?: Maybe<Scalars['Int']>;
@@ -469,7 +470,7 @@ export type GitCourseTopicSubmission = {
   status: Scalars['String'];
   submission?: Maybe<GitCourseTopicSubmissionJson>;
   topicKey: Scalars['String'];
-  updatedAt: Scalars['Int'];
+  updatedAt: Scalars['DateTimeISO'];
   uuid: Scalars['String'];
 };
 
@@ -1787,6 +1788,7 @@ export type ResolversTypes = {
   CourseSubmissionInput: CourseSubmissionInput;
   CreateCompletionResponseChoice: ResolverTypeWrapper<CreateCompletionResponseChoice>;
   CreateSignedUrlInput: CreateSignedUrlInput;
+  DateTimeISO: ResolverTypeWrapper<Scalars['DateTimeISO']>;
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
   DeleteTopicInput: DeleteTopicInput;
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
@@ -1929,6 +1931,7 @@ export type ResolversParentTypes = {
   CourseSubmissionInput: CourseSubmissionInput;
   CreateCompletionResponseChoice: CreateCompletionResponseChoice;
   CreateSignedUrlInput: CreateSignedUrlInput;
+  DateTimeISO: Scalars['DateTimeISO'];
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
   DeleteTopicInput: DeleteTopicInput;
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
@@ -2162,6 +2165,10 @@ export type CreateCompletionResponseChoiceResolvers<ContextType = any, ParentTyp
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTimeISO'], any> {
+  name: 'DateTimeISO';
+}
+
 export type GenericCourseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GenericCourse'] = ResolversParentTypes['GenericCourse']> = {
   categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2256,7 +2263,7 @@ export type GitCourseReadingsSubmissionResolvers<ContextType = any, ParentType e
 
 export type GitCourseSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['GitCourseSubmission'] = ResolversParentTypes['GitCourseSubmission']> = {
   courseKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   galaxyCredentialsUpdated?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isLatestSubmission?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2267,7 +2274,7 @@ export type GitCourseSubmissionResolvers<ContextType = any, ParentType extends R
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   topicSubmissions?: Resolver<Array<ResolversTypes['GitCourseTopicSubmission']>, ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -2307,7 +2314,7 @@ export type GitCourseTopicSubmissionResolvers<ContextType = any, ParentType exte
   correctAnswers?: Resolver<Maybe<Array<ResolversTypes['GitCourseTopicCorrectAnswer']>>, ParentType, ContextType>;
   courseKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   courseSubmissionUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isLatestSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   questionsAttempted?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -2318,7 +2325,7 @@ export type GitCourseTopicSubmissionResolvers<ContextType = any, ParentType exte
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   submission?: Resolver<Maybe<ResolversTypes['GitCourseTopicSubmissionJson']>, ParentType, ContextType>;
   topicKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -2766,6 +2773,7 @@ export type Resolvers<ContextType = any> = {
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
   CreateCompletionResponseChoice?: CreateCompletionResponseChoiceResolvers<ContextType>;
+  DateTimeISO?: GraphQLScalarType;
   GenericCourse?: GenericCourseResolvers<ContextType>;
   GitCourse?: GitCourseResolvers<ContextType>;
   GitCourseExplanation?: GitCourseExplanationResolvers<ContextType>;

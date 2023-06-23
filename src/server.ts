@@ -12,6 +12,7 @@ import * as path from 'path';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
+import { GraphQLDateTimeISO } from 'graphql-scalars';
 
 const typesArray = loadFilesSync(path.join(__dirname, './graphql'), { extensions: ['gql'] });
 
@@ -20,7 +21,7 @@ const typeDefs = mergeTypeDefs(typesArray);
 const app = express();
 
 (async () => {
-  const rootValue = { Mutation, Query, ...resolvers };
+  const rootValue = { Mutation, Query, ...resolvers, DateTimeISO: GraphQLDateTimeISO };
 
   const server = new ApolloServer({
     typeDefs,
