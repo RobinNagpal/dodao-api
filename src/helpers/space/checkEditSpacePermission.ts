@@ -42,7 +42,9 @@ export function canEditGitSpace(context: IncomingMessage, space: Space) {
 
   const isAdminOfSpace: boolean = spaceAdmins.includes(user.toLowerCase());
 
-  const canEditSpace = isAdminOfSpace || superAdmin;
+  const isAdminOfSpaceByUserName: boolean = space.adminUsernames.map((u) => u.toLowerCase()).includes(decodedJWT.username.toLowerCase());
+
+  const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || superAdmin;
   return { decodedJWT, canEditSpace, user };
 }
 

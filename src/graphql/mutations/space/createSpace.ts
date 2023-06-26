@@ -15,6 +15,7 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
 
   const spaceInput: Space = {
     admins: input.admins,
+    adminUsernames: input.adminUsernames,
     avatar: input.avatar,
     creator: doDAOSuperAdmin.accountId,
     features: input.features || [],

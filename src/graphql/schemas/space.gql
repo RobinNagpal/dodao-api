@@ -31,6 +31,7 @@ extend type Mutation {
 type Space {
   id: String!
   admins: [String!]!
+  adminUsernames: [String!]!
   avatar: String
   creator: String!
   features: [String!]!
@@ -117,6 +118,7 @@ input CreateSignedUrlInput {
 input  UpsertSpaceInput {
   id: String!
   admins: [String!]!
+  adminUsernames: [String!]!
   avatar: String!
   creator: String!
   features: [String!]!
