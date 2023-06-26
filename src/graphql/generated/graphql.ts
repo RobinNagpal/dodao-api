@@ -1367,6 +1367,7 @@ export type SimulationStepInput = {
 
 export type Space = {
   __typename?: 'Space';
+  adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
   avatar?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
@@ -1616,6 +1617,7 @@ export type UpsertSimulationInput = {
 };
 
 export type UpsertSpaceInput = {
+  adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
   avatar: Scalars['String'];
   creator: Scalars['String'];
@@ -2652,6 +2654,7 @@ export type SimulationStepResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type SpaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Space'] = ResolversParentTypes['Space']> = {
+  adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

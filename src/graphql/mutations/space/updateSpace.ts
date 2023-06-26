@@ -16,6 +16,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
   const user: DoDaoJwtTokenPayload = decodedJwt;
   const spaceInput: Space = {
     admins: args.spaceInput.admins,
+    adminUsernames: args.spaceInput.adminUsernames,
     avatar: args.spaceInput.avatar,
     creator: user.accountId,
     features: args.spaceInput.features || [],
