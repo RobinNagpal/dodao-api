@@ -8,7 +8,11 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
   const decoded = verifyJwt(context);
-  if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
+  if (
+    ['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com', 'jahnavimenon.m2020@vitstudent.ac.in']
+      .map((u) => u.toLowerCase())
+      .includes(decoded.username.toLowerCase())
+  ) {
     return decoded;
   }
   return null;
