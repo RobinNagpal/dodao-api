@@ -42,7 +42,7 @@ union GuideStepItem = GuideQuestion | GuideUserInput | UserDiscordConnect
 type GuideStep {
   content: String!
   created: Int!
-  id: String!
+  uniqueId: String!
   name: String!
   order: Int!
   stepItems: [GuideStepItem!]!
@@ -68,7 +68,7 @@ type Guide {
   guideIntegrations: GuideIntegrations!
   guideSource: String!
   guideType: String!
-  id: String!
+  uniqueId: String!
   name: String!
   previousId: String
   publishStatus: String!
@@ -136,7 +136,7 @@ input UserInputInput {
 
 input GuideStepInput {
   content: String!
-  id: String!
+  uniqueId: String!
   name: String!
   order: Int!
   stepItems: [StepItemInputGenericInput!]!
@@ -150,7 +150,7 @@ input GuideInput {
   guideIntegrations: GuideIntegrationsInput!
   guideSource: String!
   guideType: String!
-  id: String!
+  uniqueId: String!
   name: String!
   postSubmissionStepContent: String
   showIncorrectOnCompletion: Boolean!

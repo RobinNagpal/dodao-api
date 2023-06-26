@@ -1,19 +1,18 @@
-import { GuideInput, MutationUpsertGuideArgs } from '@/graphql/generated/graphql';
-import { prisma } from '@/prisma';
-import { IncomingMessage } from 'http';
-import { logError } from '@/helpers/adapters/errorLogger';
 import { PublishStatus } from '@/deprecatedSchemas/models/enums';
 import { GuideSource, GuideType } from '@/deprecatedSchemas/models/GuideModel';
-import { verifyJwt } from '@/helpers/login';
+import { GuideInput, MutationUpsertGuideArgs } from '@/graphql/generated/graphql';
+import { logError } from '@/helpers/adapters/errorLogger';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { slugify } from '@/helpers/space/slugify';
-import { GuideStep as PrismaGuideStep } from '@prisma/client';
+import { prisma } from '@/prisma';
+import { Guide, GuideStep as PrismaGuideStep } from '@prisma/client';
+import { IncomingMessage } from 'http';
 
 export interface GuideStep extends Omit<PrismaGuideStep, 'guideId'> {
   guideId?: string;
 }
 
-export function transformGuideInputSteps(input: GuideInput): GuideStep[] {
+export function transformGuideInputSteps(input: GuideInput, guidePublishStatus: PublishStatus): GuideStep[] {
   return input.steps.map((step, index) => ({
     uuid: step.uuid,
     stepName: step.name,
@@ -21,7 +20,7 @@ export function transformGuideInputSteps(input: GuideInput): GuideStep[] {
     stepOrder: index,
     stepItems: step.stepItems,
     // Append uuid to the slugified name to ensure uniqueness
-    id: `${slugify(step.name)}-${step.uuid}`,
+    uniqueId: `${step.uuid}-${guidePublishStatus}`,
     createdAt: new Date(),
   }));
 }
@@ -33,13 +32,13 @@ export default async function saveGuide(_: unknown, { spaceId, guideInput }: Mut
       throw new Error('Space not found');
     }
 
-    const existingGuide = await prisma.guide.findUnique({ where: { id: guideInput.id } });
+    const existingGuide = await prisma.guide.findUnique({ where: { uniqueId: guideInput.uniqueId } });
     const currentUnixTime = Math.floor(Date.now() / 1000);
-    // const decodedJwt = checkEditSpacePermission(spaceById, context);
-    // const user=decodedJwt.accountId;
+    const decodedJwt = checkEditSpacePermission(spaceById, context);
+    const user = decodedJwt.accountId;
 
-    const buildGuideData = (isNewGuide: boolean) => ({
-      id: guideInput.id,
+    const buildGuideData = (createdBy: string, existingGuide?: Guide) => ({
+      uniqueId: guideInput.uniqueId,
       content: guideInput.content,
       uuid: guideInput.uuid,
       guideSource: guideInput.guideSource as GuideSource,
@@ -50,37 +49,39 @@ export default async function saveGuide(_: unknown, { spaceId, guideInput }: Mut
       socialShareImage: guideInput.socialShareImage,
       showIncorrectOnCompletion: guideInput.showIncorrectOnCompletion,
       postSubmissionStepContent: guideInput.postSubmissionStepContent,
-      authors: ['1234'],
+      authors: [createdBy],
       created: currentUnixTime,
-      previousId: isNewGuide ? null : existingGuide!.id,
-      version: isNewGuide ? 1 : existingGuide!.version + 1,
+      previousId: existingGuide ? null : existingGuide!.uniqueId,
+      version: existingGuide ? 1 : existingGuide!.version + 1,
       spaceId: guideInput.space,
       guideName: guideInput.name,
       steps: {
-        create: transformGuideInputSteps(guideInput),
+        create: transformGuideInputSteps(guideInput, guideInput.publishStatus as PublishStatus),
       },
     });
 
     if (!existingGuide) {
-      const savedObject = await prisma.guide.create({ data: buildGuideData(true) });
+      // No guide exists. User is saving for the first time. Or it existed in git, but not in DB
+      const savedObject = await prisma.guide.create({ data: buildGuideData(user) });
       return savedObject;
     } else {
       if (guideInput.publishStatus === PublishStatus.Draft) {
         if (existingGuide.publishStatus === PublishStatus.Draft) {
+          // No new steps need to be created in this case
           const savedObject = await prisma.guide.update({
-            where: { id: guideInput.id },
-            data: buildGuideData(false),
+            where: { uniqueId: guideInput.uniqueId },
+            data: buildGuideData(user, existingGuide),
           });
           return savedObject;
         } else {
-          const savedObject = await prisma.guide.create({ data: buildGuideData(true) });
+          const savedObject = await prisma.guide.create({ data: buildGuideData(user, existingGuide) });
           return savedObject;
         }
       } else if (guideInput.publishStatus === PublishStatus.Live) {
         if (existingGuide.publishStatus === PublishStatus.Draft) {
           const savedObject = await prisma.guide.update({
-            where: { id: guideInput.id },
-            data: buildGuideData(false),
+            where: { uniqueId: guideInput.uniqueId },
+            data: buildGuideData(user, existingGuide),
           });
           return savedObject;
         } else {

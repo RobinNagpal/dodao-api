@@ -45,7 +45,7 @@ export type UserDiscordConnect = GuideStepItem;
 export interface GuideStep {
   content: string;
   created: number;
-  id?: string;
+  uniqueId?: string;
   name: string;
   order: number;
   stepItems: (GuideQuestion | UserInput | UserDiscordConnect)[];
@@ -63,7 +63,7 @@ export interface GuideIntegrations {
 }
 
 export interface GuideModel {
-  id: string;
+  uniqueId: string;
   authors: string[];
   categories: string[];
   content: string;

@@ -524,7 +524,6 @@ export type Guide = {
   guideIntegrations: GuideIntegrations;
   guideSource: Scalars['String'];
   guideType: Scalars['String'];
-  id: Scalars['String'];
   link: Scalars['String'];
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
@@ -534,6 +533,7 @@ export type Guide = {
   socialShareImage?: Maybe<Scalars['String']>;
   steps: Array<GuideStep>;
   thumbnail?: Maybe<Scalars['String']>;
+  uniqueId: Scalars['String'];
   uuid: Scalars['String'];
   version: Scalars['Int'];
 };
@@ -545,7 +545,6 @@ export type GuideInput = {
   guideIntegrations: GuideIntegrationsInput;
   guideSource: Scalars['String'];
   guideType: Scalars['String'];
-  id: Scalars['String'];
   name: Scalars['String'];
   postSubmissionStepContent?: InputMaybe<Scalars['String']>;
   publishStatus: Scalars['String'];
@@ -554,6 +553,7 @@ export type GuideInput = {
   space: Scalars['String'];
   steps: Array<GuideStepInput>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  uniqueId: Scalars['String'];
   uuid: Scalars['String'];
 };
 
@@ -601,19 +601,19 @@ export type GuideStep = {
   __typename?: 'GuideStep';
   content: Scalars['String'];
   created: Scalars['Int'];
-  id: Scalars['String'];
   name: Scalars['String'];
   order: Scalars['Int'];
   stepItems: Array<GuideStepItem>;
+  uniqueId: Scalars['String'];
   uuid: Scalars['String'];
 };
 
 export type GuideStepInput = {
   content: Scalars['String'];
-  id: Scalars['String'];
   name: Scalars['String'];
   order: Scalars['Int'];
   stepItems: Array<StepItemInputGenericInput>;
+  uniqueId: Scalars['String'];
   uuid: Scalars['String'];
 };
 
@@ -2360,7 +2360,6 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   guideIntegrations?: Resolver<ResolversTypes['GuideIntegrations'], ParentType, ContextType>;
   guideSource?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   guideType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2370,6 +2369,7 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   socialShareImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['GuideStep']>, ParentType, ContextType>;
   thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  uniqueId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   version?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -2398,10 +2398,10 @@ export type GuideQuestionResolvers<ContextType = any, ParentType extends Resolve
 export type GuideStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideStep'] = ResolversParentTypes['GuideStep']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   stepItems?: Resolver<Array<ResolversTypes['GuideStepItem']>, ParentType, ContextType>;
+  uniqueId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

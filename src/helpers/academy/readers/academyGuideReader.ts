@@ -1,6 +1,7 @@
-import { GuideModel } from '@/deprecatedSchemas/models/GuideModel';
+import { GuideModel, GuideStep } from '@/deprecatedSchemas/models/GuideModel';
 import { getRedisKeyForAcademyGuide, getRedisKeyForAcademyGuides } from '@/helpers/academy/gitAcademyRepoWrapper';
 import { getRedisValue } from '@/helpers/redis';
+import { v4 } from 'uuid';
 
 export async function getAcademyGuideKeysFromRedis(spaceId: string): Promise<string[]> {
   const guidesArrayKey = getRedisKeyForAcademyGuides(spaceId);
@@ -11,7 +12,22 @@ export async function getAcademyGuideKeysFromRedis(spaceId: string): Promise<str
 export async function getAcademyGuideFromRedis(spaceId: string, guideKey: string): Promise<GuideModel | undefined> {
   const redisKeyForGuide = getRedisKeyForAcademyGuide(spaceId, guideKey);
   const guidesString = await getRedisValue(redisKeyForGuide);
-  return guidesString ? JSON.parse(guidesString) : undefined;
+  const withUniqueId = guidesString ? JSON.parse(guidesString) : undefined;
+  const guideSteps =
+    withUniqueId?.steps.map((step: GuideStep) => ({
+      uniqueId: step.uniqueId || step.uuid || v4(),
+      ...step,
+    })) || [];
+
+  if (withUniqueId) {
+    return {
+      uniqueId: withUniqueId.uniqueId || withUniqueId.uuid || v4(),
+      ...withUniqueId,
+      steps: guideSteps,
+    };
+  }
+
+  return;
 }
 
 export async function getAllAcademyGuidesForSpace(spaceId: string): Promise<GuideModel[]> {
