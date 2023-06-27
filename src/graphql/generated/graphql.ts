@@ -340,8 +340,7 @@ export type GitCourseExplanationsSubmissionInput = {
 };
 
 export type GitCourseInput = {
-  courseJsonUrl?: InputMaybe<Scalars['String']>;
-  courseRepoUrl?: InputMaybe<Scalars['String']>;
+  courseRepoUrl: Scalars['String'];
   publishStatus: Scalars['String'];
   weight: Scalars['Int'];
 };
@@ -1326,9 +1325,8 @@ export type QuestionChoiceInput = {
 
 export type RawGitCourse = {
   __typename?: 'RawGitCourse';
-  courseJsonUrl?: Maybe<Scalars['String']>;
-  courseRepoUrl?: Maybe<Scalars['String']>;
-  key: Scalars['String'];
+  courseKey: Scalars['String'];
+  courseRepoUrl: Scalars['String'];
   publishStatus: Scalars['String'];
   weight: Scalars['Int'];
 };
@@ -2621,9 +2619,8 @@ export type QuestionChoiceResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type RawGitCourseResolvers<ContextType = any, ParentType extends ResolversParentTypes['RawGitCourse'] = ResolversParentTypes['RawGitCourse']> = {
-  courseJsonUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  courseRepoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  courseKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  courseRepoUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   weight?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
