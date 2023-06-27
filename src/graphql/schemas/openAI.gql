@@ -85,11 +85,13 @@ extend type Mutation {
 
 input CompletionAIInput {
   model: String
+  temperature: Float
   prompt: String!
 }
 
 input ChatCompletionAIInput {
   model: String
+  temperature: Float
   messages: [OpenAIChatMessageInput!]!
 }
 

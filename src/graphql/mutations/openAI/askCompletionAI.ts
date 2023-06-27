@@ -6,7 +6,7 @@ export default async function askCompletionAI(_: any, args: MutationAskCompletio
   const createCompletionRequest: CreateCompletionRequest = {
     model: args.input.prompt || 'gpt-3.5-turbo',
     prompt: args.input.prompt,
-    temperature: 0.2,
+    temperature: args.input.temperature || 0.4,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
