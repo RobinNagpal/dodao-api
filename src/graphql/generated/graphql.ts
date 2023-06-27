@@ -279,6 +279,19 @@ export type DeleteTopicVideoInput = {
   videoUuid: Scalars['String'];
 };
 
+export type DownloadAndCleanContentResponse = {
+  __typename?: 'DownloadAndCleanContentResponse';
+  content: Scalars['String'];
+  links: Array<DownloadLinkInfo>;
+};
+
+export type DownloadLinkInfo = {
+  __typename?: 'DownloadLinkInfo';
+  downloadStatus: Scalars['String'];
+  link: Scalars['String'];
+  tokenCount: Scalars['Int'];
+};
+
 export type ExtractRelevantTextForTopicInput = {
   content: Scalars['String'];
   topic: Scalars['String'];
@@ -744,7 +757,7 @@ export type Mutation = {
   deleteTopicQuestion: GitCourse;
   deleteTopicSummary: GitCourse;
   deleteTopicVideo: GitCourse;
-  downloadAndCleanContent: OpenAiTextResponse;
+  downloadAndCleanContent: DownloadAndCleanContentResponse;
   extractRelevantTextForTopic: OpenAiTextResponse;
   initializeGitCourseSubmission: GitCourseSubmission;
   moveTopic: GitCourse;
@@ -1800,6 +1813,8 @@ export type ResolversTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  DownloadAndCleanContentResponse: ResolverTypeWrapper<DownloadAndCleanContentResponse>;
+  DownloadLinkInfo: ResolverTypeWrapper<DownloadLinkInfo>;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GenericCourse: ResolverTypeWrapper<GenericCourse>;
@@ -1943,6 +1958,8 @@ export type ResolversParentTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  DownloadAndCleanContentResponse: DownloadAndCleanContentResponse;
+  DownloadLinkInfo: DownloadLinkInfo;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
   Float: Scalars['Float'];
   GenericCourse: GenericCourse;
@@ -2174,6 +2191,19 @@ export type CreateCompletionResponseChoiceResolvers<ContextType = any, ParentTyp
 export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTimeISO'], any> {
   name: 'DateTimeISO';
 }
+
+export type DownloadAndCleanContentResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DownloadAndCleanContentResponse'] = ResolversParentTypes['DownloadAndCleanContentResponse']> = {
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  links?: Resolver<Array<ResolversTypes['DownloadLinkInfo']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DownloadLinkInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['DownloadLinkInfo'] = ResolversParentTypes['DownloadLinkInfo']> = {
+  downloadStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tokenCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type GenericCourseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GenericCourse'] = ResolversParentTypes['GenericCourse']> = {
   categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2492,7 +2522,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   deleteTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
-  downloadAndCleanContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
+  downloadAndCleanContent?: Resolver<ResolversTypes['DownloadAndCleanContentResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   moveTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicArgs, 'spaceId' | 'topicInfo'>>;
@@ -2781,6 +2811,8 @@ export type Resolvers<ContextType = any> = {
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
   CreateCompletionResponseChoice?: CreateCompletionResponseChoiceResolvers<ContextType>;
   DateTimeISO?: GraphQLScalarType;
+  DownloadAndCleanContentResponse?: DownloadAndCleanContentResponseResolvers<ContextType>;
+  DownloadLinkInfo?: DownloadLinkInfoResolvers<ContextType>;
   GenericCourse?: GenericCourseResolvers<ContextType>;
   GitCourse?: GitCourseResolvers<ContextType>;
   GitCourseExplanation?: GitCourseExplanationResolvers<ContextType>;
