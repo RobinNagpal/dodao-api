@@ -6,7 +6,7 @@ export default async function askCompletionAI(_: any, args: MutationAskChatCompl
   const createCompletionRequest: CreateChatCompletionRequest = {
     model: args.input.model || 'gpt-3.5-turbo',
     messages: args.input.messages,
-    temperature: 0.2,
+    temperature: args.input.temperature || 0.4,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,

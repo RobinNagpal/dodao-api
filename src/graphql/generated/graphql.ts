@@ -177,6 +177,7 @@ export type ByteUserInput = {
 export type ChatCompletionAiInput = {
   messages: Array<OpenAiChatMessageInput>;
   model?: InputMaybe<Scalars['String']>;
+  temperature?: InputMaybe<Scalars['Float']>;
 };
 
 export enum ChatCompletionRequestMessageRoleEnum {
@@ -188,6 +189,7 @@ export enum ChatCompletionRequestMessageRoleEnum {
 export type CompletionAiInput = {
   model?: InputMaybe<Scalars['String']>;
   prompt: Scalars['String'];
+  temperature?: InputMaybe<Scalars['Float']>;
 };
 
 export type CourseBasicInfoInput = {
