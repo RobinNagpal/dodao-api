@@ -55,6 +55,17 @@ type OpenAITextResponse {
   text: String!
 }
 
+type DownloadLinkInfo {
+  link: String!
+  downloadStatus: String!
+  tokenCount: Int!
+}
+
+type DownloadAndCleanContentResponse {
+  content: String!
+  links: [DownloadLinkInfo!]!
+}
+
 enum  ChatCompletionRequestMessageRoleEnum {
   system
   user
@@ -64,7 +75,7 @@ enum  ChatCompletionRequestMessageRoleEnum {
 extend type Mutation {
   askChatCompletionAI(input: ChatCompletionAIInput!): OpenAIChatCompletionResponse!
   askCompletionAI(input: CompletionAIInput!): OpenAICompletionResponse!
-  downloadAndCleanContent(input: String!): OpenAITextResponse!
+  downloadAndCleanContent(input: String!): DownloadAndCleanContentResponse!
   createSummaryOfContent(input: String!): OpenAITextResponse!
   extractRelevantTextForTopic(input: ExtractRelevantTextForTopicInput!): OpenAITextResponse!
 }

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { load } from 'cheerio';
 
 /**
@@ -21,8 +21,8 @@ import { load } from 'cheerio';
 
 const AD_KEYWORDS = ['advertisement', 'promo', 'sponsor']; // list of keywords indicative of ads
 
-export async function getImportantContentUsingCheerio(url: string) {
-  const response = await axios.get(url);
+export async function getImportantContentUsingCheerio(url: string, config?: AxiosRequestConfig<any>) {
+  const response = await axios.get(url, config);
   const $ = load(response.data);
   $('script, style, footer, header, nav, aside, img, style').remove();
   const bodyText = $('body').text();

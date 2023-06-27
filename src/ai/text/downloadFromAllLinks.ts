@@ -1,17 +1,29 @@
+import { getTokenCount } from '@/ai/getTokenCount';
 import { cleanupContent } from '@/ai/text/cleanupContent';
 import getContentsUsingPuppeteer from '@/ai/text/getContentsUsingPuppeteer';
 import { getImportantContentUsingCheerio } from '@/ai/text/getImportantContentUsingCheerio';
 import { formatAxiosError } from '@/helpers/adapters/errorLogger';
 
-export default async function downloadFromAllLinks(content: string) {
+export interface LinkInfo {
+  link: string;
+  downloadStatus: 'success' | 'failed';
+  tokenCount: number;
+}
+export interface DownloadFromAllLinksResponse {
+  content: string;
+  links: LinkInfo[];
+}
+export default async function downloadFromAllLinks(content: string): Promise<DownloadFromAllLinksResponse> {
   const withoutUrls = extractStringContentWithoutUrls(content);
   const urls = extractUrls(content);
   const contents = [];
+  const links: LinkInfo[] = [];
   for (const url of urls) {
     let importantContent = '';
+    const linkInfo: LinkInfo = { link: url, downloadStatus: 'success', tokenCount: 0 };
     try {
       try {
-        importantContent = await getImportantContentUsingCheerio(url);
+        importantContent = await getImportantContentUsingCheerio(url, { timeout: 10000 });
       } catch (e) {
         const formattedAxiosError = formatAxiosError(e);
         console.log('Error while getting content from url', url, formattedAxiosError);
@@ -22,11 +34,15 @@ export default async function downloadFromAllLinks(content: string) {
       }
     } catch (e) {
       console.log('Error while getting content from url', url, e);
+      linkInfo.downloadStatus = 'failed';
     }
+    linkInfo.tokenCount = getTokenCount(importantContent);
+    links.push(linkInfo);
     contents.push(importantContent);
   }
   const combinedContent = [withoutUrls, ...contents].join('\n');
-  return cleanupContent(combinedContent);
+  const cleanedContent = cleanupContent(combinedContent);
+  return { content: cleanedContent, links };
 }
 export function extractStringContentWithoutUrls(content: string): string {
   // Regex to match URLs
