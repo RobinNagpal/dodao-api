@@ -53,20 +53,13 @@ export async function getGitCourseFromRepository(space: Space, courseRepoUrl: st
   return JSON.parse(fs.readFileSync(courseJsonFile, 'utf8'));
 }
 
-export async function readGitCourse(
-  space: Space,
-  rawGitCourseModel: { courseJsonUrl?: string | null; courseRepoUrl?: string | null }
-): Promise<GitCourseModel> {
+export async function readGitCourse(space: Space, rawGitCourseModel: { courseRepoUrl?: string | null }): Promise<GitCourseModel> {
   let courseModel: GitCourseModel | undefined;
   if (rawGitCourseModel.courseRepoUrl) {
     console.log(`load course from git repo - ${rawGitCourseModel.courseRepoUrl} - ${rawGitCourseModel.courseRepoUrl}`);
     courseModel = await getGitCourseFromRepository(space, rawGitCourseModel.courseRepoUrl);
   }
 
-  if (rawGitCourseModel.courseJsonUrl) {
-    console.log(`load course from URL - ${rawGitCourseModel.courseJsonUrl} - ${rawGitCourseModel.courseJsonUrl}`);
-    courseModel = await getCourseFromGitUrl(rawGitCourseModel.courseJsonUrl);
-  }
   if (courseModel) {
     return {
       ...courseModel,

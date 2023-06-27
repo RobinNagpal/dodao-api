@@ -49,10 +49,9 @@ extend type Mutation {
 }
 
 type RawGitCourse {
-  key: String!
+  courseKey: String!
   weight: Int!
-  courseJsonUrl: String
-  courseRepoUrl: String
+  courseRepoUrl: String!
   publishStatus: String!
 }
 
@@ -188,8 +187,7 @@ type CourseIntegrations {
 }
 
 input GitCourseInput {
-  courseJsonUrl: String
-  courseRepoUrl: String
+  courseRepoUrl: String!
   publishStatus: String!
   weight: Int!
 }
