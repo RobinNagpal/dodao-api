@@ -22,7 +22,7 @@ export async function setAcademyGuideInRedis(space: Space, gitGuideModel: GitGui
 
 export async function setAcademyGuidesArrayInRedis(spaceId: string, guideKeysArray: string[]) {
   const guideKey = getRedisKeyForAcademyGuides(spaceId);
-  await setRedisValue(guideKey, JSON.stringify(guideKeysArray));
+  await setRedisValue(guideKey, JSON.stringify(union(guideKeysArray)));
 }
 
 export async function setAcademyGuidesInRedis(space: Space, gitGuideModels: GitGuideModel[]) {
