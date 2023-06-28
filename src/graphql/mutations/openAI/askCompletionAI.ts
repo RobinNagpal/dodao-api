@@ -18,7 +18,6 @@ export default async function askCompletionAI(_: any, args: MutationAskCompletio
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  console.log('payload', createCompletionRequest);
   const openai = new OpenAIApi(configuration);
 
   const completion = await openai.createCompletion(createCompletionRequest, { timeout: 5 * 60 * 1000 });
