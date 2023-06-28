@@ -66,7 +66,7 @@ export async function setAcademyObjectInRedis<T extends AcademyObject>(space: Sp
 
 export async function setAcademyObjectsArrayInRedis(spaceId: string, objectKeysArray: string[], objectType: AcademyObjectTypes) {
   const objectKey = getRedisKeyForAcademyObjects(spaceId, objectType);
-  await setRedisValue(objectKey, JSON.stringify(objectKeysArray));
+  await setRedisValue(objectKey, JSON.stringify(union(objectKeysArray)));
 }
 
 export async function setAcademyObjectsInRedis<T extends AcademyObject>(space: Space, gitObjectModels: T[], objectType: AcademyObjectTypes) {
