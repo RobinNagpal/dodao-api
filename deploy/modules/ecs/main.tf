@@ -72,7 +72,10 @@ resource "aws_ecs_task_definition" "app" {
         { name = "OPENAI_API_KEY", value = var.openai_api_key },
         { name = "DODAO_WHITELISTED_ADMINS", value = "0x470579d16401a36BF63b1428eaA7189FBdE5Fee9" },
         { name = "PUBLIC_AWS_S3_BUCKET", value = "dodao-prod-public-assets" },
-        { name = "DEFAULT_REGION", value = "us-east-1" }
+        { name = "DEFAULT_REGION", value = "us-east-1" },
+        { name = "AWS_ACCESS_KEY_ID", value = var.aws_access_key_id },
+        { name = "AWS_SECRET_ACCESS_KEY", value = var.aws_secret_access_key },
+        { name = "AWS_DEFAULT_REGION", value = var.aws_default_region }
       ]
 
       healthCheck = {

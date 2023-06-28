@@ -36,3 +36,6 @@ variable "rds_init_db" {}
 variable "github_token" {}
 variable "dodao_auth_secret" {}
 variable "dodao_auth_header_name" {}
+variable "aws_access_key_id" {}
+variable "aws_secret_access_key" {}
+variable "aws_default_region" {}

@@ -144,6 +144,9 @@ module "ecs" {
   dodao_auth_secret             = var.dodao_auth_secret
   dodao_auth_header_name        = var.dodao_auth_header_name
   openai_api_key                = var.openai_api_key
+  aws_access_key_id             = var.aws_access_key_id
+  aws_secret_access_key         = var.aws_secret_access_key
+  aws_default_region            = var.aws_default_region
 }
 
 resource "aws_ecr_repository" "main" {
