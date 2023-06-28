@@ -12,6 +12,7 @@ import { slugify } from '@/helpers/space/slugify';
 import { add, commit, push } from 'isomorphic-git';
 import http from 'isomorphic-git/http/node';
 import yaml from 'js-yaml';
+import { union } from 'lodash';
 
 export interface AcademyObject {
   id: string;
@@ -147,7 +148,7 @@ async function appendToAcademyObjects<T extends AcademyObject>({
   console.log(`${objectType} ${objectModel.id} not present in ${objectType}.yaml. Adding a new one`, JSON.stringify(objectYamlFileNamesArray, null, 2));
   const objectsJsonFile = `${repositoryPath}/generated/${objectType}/main/json/${objectType}.json`;
 
-  const updatesObjectsArray = [...objectYamlFileNamesArray, `${slugifiedObjectName}.yaml`];
+  const updatesObjectsArray = union([...objectYamlFileNamesArray, `${slugifiedObjectName}.yaml`]);
   const objectsJson = { [objectType]: updatesObjectsArray };
   const contents: string = yaml.dump(objectsJson);
 

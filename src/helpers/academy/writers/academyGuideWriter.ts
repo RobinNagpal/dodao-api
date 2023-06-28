@@ -12,6 +12,7 @@ import { slugify } from '@/helpers/space/slugify';
 import { add, commit, push } from 'isomorphic-git';
 import http from 'isomorphic-git/http/node';
 import yaml from 'js-yaml';
+import { union } from 'lodash';
 
 export async function setAcademyGuideInRedis(space: Space, gitGuideModel: GitGuideModel) {
   const guideModel = transformGitGuideIntoGuide(gitGuideModel, space, GuideSource.Academy);
@@ -87,7 +88,7 @@ async function appendToAcademyGuides(
   const guidesJsonFile = `${repositoryPath}/generated/guides/main/json/guides.json`;
 
   const updatesGuidesArray = [...guidesArray, `${guideFileName}.yaml`];
-  const guidesJson = { guides: updatesGuidesArray };
+  const guidesJson = { guides: union(updatesGuidesArray) };
   const contents: string = yaml.dump(guidesJson);
 
   await writeToFile(guidesYamlFile, contents);
