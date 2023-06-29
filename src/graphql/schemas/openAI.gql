@@ -72,15 +72,29 @@ enum  ChatCompletionRequestMessageRoleEnum {
   assistant
 }
 
+type GenerateImageResponse {
+  url: String!
+}
+
 extend type Mutation {
   askChatCompletionAI(input: ChatCompletionAIInput!): OpenAIChatCompletionResponse!
   askCompletionAI(input: CompletionAIInput!): OpenAICompletionResponse!
   downloadAndCleanContent(input: String!): DownloadAndCleanContentResponse!
   createSummaryOfContent(input: String!): OpenAITextResponse!
   extractRelevantTextForTopic(input: ExtractRelevantTextForTopicInput!): OpenAITextResponse!
+  generateImage(input: GenerateImageInput!): GenerateImageResponse!
+  generateImageEdit(input: GenerateImageEditInput!): GenerateImageResponse!
 }
 
 
+input GenerateImageInput {
+  prompt: String!
+}
+
+input GenerateImageEditInput {
+  editImageUrl: String!
+  prompt: String!
+}
 
 
 input CompletionAIInput {

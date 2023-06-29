@@ -299,6 +299,20 @@ export type ExtractRelevantTextForTopicInput = {
   topic: Scalars['String'];
 };
 
+export type GenerateImageEditInput = {
+  editImageUrl: Scalars['String'];
+  prompt: Scalars['String'];
+};
+
+export type GenerateImageInput = {
+  prompt: Scalars['String'];
+};
+
+export type GenerateImageResponse = {
+  __typename?: 'GenerateImageResponse';
+  url: Scalars['String'];
+};
+
 export type GenericCourse = {
   __typename?: 'GenericCourse';
   categories: Array<Scalars['String']>;
@@ -761,6 +775,8 @@ export type Mutation = {
   deleteTopicVideo: GitCourse;
   downloadAndCleanContent: DownloadAndCleanContentResponse;
   extractRelevantTextForTopic: OpenAiTextResponse;
+  generateImage: GenerateImageResponse;
+  generateImageEdit: GenerateImageResponse;
   initializeGitCourseSubmission: GitCourseSubmission;
   moveTopic: GitCourse;
   moveTopicExplanation: GitCourse;
@@ -905,6 +921,16 @@ export type MutationDownloadAndCleanContentArgs = {
 
 export type MutationExtractRelevantTextForTopicArgs = {
   input: ExtractRelevantTextForTopicInput;
+};
+
+
+export type MutationGenerateImageArgs = {
+  input: GenerateImageInput;
+};
+
+
+export type MutationGenerateImageEditArgs = {
+  input: GenerateImageEditInput;
 };
 
 
@@ -1819,6 +1845,9 @@ export type ResolversTypes = {
   DownloadLinkInfo: ResolverTypeWrapper<DownloadLinkInfo>;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
+  GenerateImageEditInput: GenerateImageEditInput;
+  GenerateImageInput: GenerateImageInput;
+  GenerateImageResponse: ResolverTypeWrapper<GenerateImageResponse>;
   GenericCourse: ResolverTypeWrapper<GenericCourse>;
   GitCourse: ResolverTypeWrapper<GitCourse>;
   GitCourseExplanation: ResolverTypeWrapper<GitCourseExplanation>;
@@ -1964,6 +1993,9 @@ export type ResolversParentTypes = {
   DownloadLinkInfo: DownloadLinkInfo;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
   Float: Scalars['Float'];
+  GenerateImageEditInput: GenerateImageEditInput;
+  GenerateImageInput: GenerateImageInput;
+  GenerateImageResponse: GenerateImageResponse;
   GenericCourse: GenericCourse;
   GitCourse: GitCourse;
   GitCourseExplanation: GitCourseExplanation;
@@ -2204,6 +2236,11 @@ export type DownloadLinkInfoResolvers<ContextType = any, ParentType extends Reso
   downloadStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tokenCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GenerateImageResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GenerateImageResponse'] = ResolversParentTypes['GenerateImageResponse']> = {
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2526,6 +2563,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   downloadAndCleanContent?: Resolver<ResolversTypes['DownloadAndCleanContentResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
+  generateImage?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
+  generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   moveTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicArgs, 'spaceId' | 'topicInfo'>>;
   moveTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2815,6 +2854,7 @@ export type Resolvers<ContextType = any> = {
   DateTimeISO?: GraphQLScalarType;
   DownloadAndCleanContentResponse?: DownloadAndCleanContentResponseResolvers<ContextType>;
   DownloadLinkInfo?: DownloadLinkInfoResolvers<ContextType>;
+  GenerateImageResponse?: GenerateImageResponseResolvers<ContextType>;
   GenericCourse?: GenericCourseResolvers<ContextType>;
   GitCourse?: GitCourseResolvers<ContextType>;
   GitCourseExplanation?: GitCourseExplanationResolvers<ContextType>;
