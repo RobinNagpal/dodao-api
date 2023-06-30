@@ -787,6 +787,7 @@ export type Mutation = {
   refreshGitCourse: Scalars['Boolean'];
   refreshGitCourses: Scalars['Boolean'];
   refreshGitGuides: Scalars['Boolean'];
+  reloadAcademyRepository: Scalars['Boolean'];
   saveByte: Byte;
   submitByte: ByteSubmission;
   submitGitCourse: GitCourseSubmission;
@@ -988,6 +989,11 @@ export type MutationRefreshGitCoursesArgs = {
 
 
 export type MutationRefreshGitGuidesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationReloadAcademyRepositoryArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2575,6 +2581,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   refreshGitCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCourseArgs, 'courseKey' | 'spaceId'>>;
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   refreshGitGuides?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitGuidesArgs, 'spaceId'>>;
+  reloadAcademyRepository?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReloadAcademyRepositoryArgs, 'spaceId'>>;
   saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
