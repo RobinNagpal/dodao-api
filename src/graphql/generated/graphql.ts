@@ -610,6 +610,7 @@ export type GuideQuestion = {
   answerKeys: Array<Scalars['String']>;
   choices: Array<QuestionChoice>;
   content: Scalars['String'];
+  explanation?: Maybe<Scalars['String']>;
   order: Scalars['Int'];
   type: Scalars['String'];
   uuid: Scalars['String'];
@@ -2470,6 +2471,7 @@ export type GuideQuestionResolvers<ContextType = any, ParentType extends Resolve
   answerKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   choices?: Resolver<Array<ResolversTypes['QuestionChoice']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  explanation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
