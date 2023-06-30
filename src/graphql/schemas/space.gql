@@ -26,6 +26,8 @@ extend type Mutation {
   upsertSpaceAcademyRepository(spaceId: String!, academyRepository: String!): Space!
 
   createSignedUrl(spaceId: String!, input: CreateSignedUrlInput!): String!
+
+  reloadAcademyRepository(spaceId: String!): Boolean!
 }
 
 type Space {

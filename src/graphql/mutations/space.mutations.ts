@@ -6,6 +6,7 @@ import upsertSpaceAcademyRepositoryMutation from '@/graphql/mutations/space/upse
 import upsertSpaceFeaturesMutation from '@/graphql/mutations/space/upsertSpaceFeaturesMutation';
 import upsertSpaceGitGuideRepositoriesMutation from '@/graphql/mutations/space/upsertSpaceGitGuideRepositories';
 import upsertSpaceInviteLinksMutation from '@/graphql/mutations/space/upsertSpaceInviteLinksMutation';
+import reloadAcademyRepository from '@/graphql/mutations/space/reloadAcademyRepository';
 
 export default {
   addDiscordCredentials: (_: unknown, args: any, context: any) => addDiscordCredentials(_, args, context),
@@ -23,4 +24,6 @@ export default {
   upsertSpaceAcademyRepository: (_: unknown, args: any, context: any) => upsertSpaceAcademyRepositoryMutation(_, args, context),
 
   createSignedUrl: (_: unknown, args: any, context: any) => createSignedUrlMutation(_, args, context),
+
+  reloadAcademyRepository,
 };
