@@ -47,6 +47,7 @@ async function transformToGitFormat(spaceId: string, input: GuideInput): Promise
           required: item.required,
           type: item.type,
           uuid: item.uuid,
+          explanation: item.explanation,
         } as GitGuideQuestion | GitUserInput | GitUserDiscordConnect;
       }),
       uuid: step.uuid,
