@@ -1,6 +1,7 @@
 extend type Mutation {
   upsertGuide(spaceId: String!, guideInput: GuideInput!): Guide!
   refreshGitGuides(spaceId: String!): Boolean!
+  upsertGuideRating(spaceId: String!, upsertGuideRatingInput: UpsertGuideRatingInput!): Boolean!
 }
 
 extend type Query {
@@ -8,6 +9,9 @@ extend type Query {
 
   guides(spaceId: String!): [Guide!]!
 
+  guideRating(ratingUuid: String!): [GuideRating!]!
+
+  guideRatings(spaceId: String!, guideUuid: String!): [GuideRating!]!
 }
 
 type QuestionChoice {
@@ -77,6 +81,23 @@ type Guide {
   thumbnail: String
   uuid: String!
   version: Int!
+}
+
+type GuideFeedback {
+  ux: Boolean!
+  content: Boolean!
+  questions: Boolean!
+}
+
+type GuideRating {
+  guideUuid: String!
+  userId: String!
+  ipAddress: String!
+  startRating: Int!
+  endRating: Int!
+  positiveFeedback: GuideFeedback!
+  negativeFeedback: GuideFeedback!
+  createdAt: DateTimeISO!
 }
 
 input GuideIntegrationsInput {
@@ -157,4 +178,22 @@ input GuideInput {
   publishStatus: String!
   thumbnail: String
   uuid: String!
+}
+
+input GuideFeedbackInput {
+  ux: Boolean
+  content: Boolean
+  questions: Boolean
+}
+
+input UpsertGuideRatingInput {
+  ratingUuid: String!
+  guideUuid: String!
+  userId: String!
+  ipAddress: String!
+  startRating: Int!
+  endRating: Int!
+  spaceId: String!
+  positiveFeedback: GuideFeedbackInput!
+  negativeFeedback: GuideFeedbackInput!
 }

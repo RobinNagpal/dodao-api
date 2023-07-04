@@ -261,6 +261,20 @@ model GuideSubmission {
   @@map("guide_submissions")
 }
 
+model GuideRating {
+  ratingUuid       String  @id @map("rating_uuid") @db.VarChar(255)
+  guideUuid        String  @map("guide_uuid") @db.VarChar(255)
+  spaceId          String  @map("space_id") @db.VarChar(255)
+  userId           String? @map("user_id") @db.VarChar(255)
+  ipAddress        String? @map("ip_address") @db.VarChar(64)
+  startRating      Int?    @map("start_rating") @db.Integer
+  endRating        Int?    @map("end_rating") @db.Integer
+  positiveFeedback Json?   @map("positive_feedback") @db.Json
+  negativeFeedback Json?   @map("negative_feedback") @db.Json
+
+  @@map("guide_ratings")
+}
+
 model GuidesGuideStep {
   id          String   @id @db.VarChar(255)
   guideStepId String   @map("guide_step_id") @db.VarChar(66)

@@ -1,4 +1,5 @@
 import { setupGitLoader } from '@/helpers/gitLoader';
+import { Context } from '@/types/Context';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ExpressContextFunctionArgument } from '@apollo/server/src/express4';
@@ -35,8 +36,8 @@ const app = express();
 
   await server.start();
 
-  const context = async ({ req, res }: ExpressContextFunctionArgument) => {
-    return { headers: req.headers };
+  const context = async ({ req, res }: ExpressContextFunctionArgument): Promise<Context> => {
+    return { headers: req.headers, ip: req.ip };
   };
 
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server, { context }));
