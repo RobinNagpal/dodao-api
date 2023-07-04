@@ -11,6 +11,8 @@ import rawGitCourse from '@/graphql/queries/course/rawGitCourse';
 import rawGitCourses from '@/graphql/queries/course/rawGitCourses';
 import courses from '@/graphql/queries/course/summarizedGitCourses';
 import guide from '@/graphql/queries/guide/guide';
+import guideRating from '@/graphql/queries/guide/guideRating';
+import guideRatings from '@/graphql/queries/guide/guideRatings';
 import guides from '@/graphql/queries/guide/guides';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
@@ -39,6 +41,9 @@ export default {
 
   guide,
   guides,
+
+  guideRating,
+  guideRatings,
 
   simulation,
   simulations,

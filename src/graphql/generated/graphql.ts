@@ -575,6 +575,19 @@ export type Guide = {
   version: Scalars['Int'];
 };
 
+export type GuideFeedback = {
+  __typename?: 'GuideFeedback';
+  content: Scalars['Boolean'];
+  questions: Scalars['Boolean'];
+  ux: Scalars['Boolean'];
+};
+
+export type GuideFeedbackInput = {
+  content?: InputMaybe<Scalars['Boolean']>;
+  questions?: InputMaybe<Scalars['Boolean']>;
+  ux?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type GuideInput = {
   categories: Array<Scalars['String']>;
   content: Scalars['String'];
@@ -632,6 +645,18 @@ export type GuideQuestionInput = {
   questionType: Scalars['String'];
   type: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type GuideRating = {
+  __typename?: 'GuideRating';
+  createdAt: Scalars['DateTimeISO'];
+  endRating: Scalars['Int'];
+  guideUuid: Scalars['String'];
+  ipAddress: Scalars['String'];
+  negativeFeedback: GuideFeedback;
+  positiveFeedback: GuideFeedback;
+  startRating: Scalars['Int'];
+  userId: Scalars['String'];
 };
 
 export type GuideSettings = {
@@ -834,6 +859,7 @@ export type Mutation = {
   upsertGitCourseTopicSubmission: GitCourseTopicSubmission;
   upsertGnosisSafeWallets: Space;
   upsertGuide: Guide;
+  upsertGuideRating: Scalars['Boolean'];
   upsertProjectGalaxyAccessToken: Space;
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
@@ -1146,6 +1172,12 @@ export type MutationUpsertGuideArgs = {
 };
 
 
+export type MutationUpsertGuideRatingArgs = {
+  spaceId: Scalars['String'];
+  upsertGuideRatingInput: UpsertGuideRatingInput;
+};
+
+
 export type MutationUpsertProjectGalaxyAccessTokenArgs = {
   accessToken: Scalars['String'];
   spaceId: Scalars['String'];
@@ -1265,6 +1297,8 @@ export type Query = {
   gitCourseSummarized: SummarizedGitCourse;
   gitTopicSubmissions: Array<GitCourseTopicSubmission>;
   guide: Guide;
+  guideRating: Array<GuideRating>;
+  guideRatings: Array<GuideRating>;
   guideSubmissions: Array<GuideSubmission>;
   guides: Array<Guide>;
   rawGitCourse: RawGitCourse;
@@ -1340,6 +1374,17 @@ export type QueryGitTopicSubmissionsArgs = {
 export type QueryGuideArgs = {
   spaceId: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+
+export type QueryGuideRatingArgs = {
+  ratingUuid: Scalars['String'];
+};
+
+
+export type QueryGuideRatingsArgs = {
+  guideUuid: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -1687,6 +1732,18 @@ export type UpsertCourseIntegrationsInput = {
   projectGalaxyOatPassingCount?: InputMaybe<Scalars['Int']>;
 };
 
+export type UpsertGuideRatingInput = {
+  endRating: Scalars['Int'];
+  guideUuid: Scalars['String'];
+  ipAddress: Scalars['String'];
+  negativeFeedback: GuideFeedbackInput;
+  positiveFeedback: GuideFeedbackInput;
+  ratingUuid: Scalars['String'];
+  spaceId: Scalars['String'];
+  startRating: Scalars['Int'];
+  userId: Scalars['String'];
+};
+
 export type UpsertSimulationInput = {
   admins: Array<Scalars['String']>;
   content: Scalars['String'];
@@ -1920,11 +1977,14 @@ export type ResolversTypes = {
   GnosisSafeWallet: ResolverTypeWrapper<GnosisSafeWallet>;
   GnosisSafeWalletInput: GnosisSafeWalletInput;
   Guide: ResolverTypeWrapper<Guide>;
+  GuideFeedback: ResolverTypeWrapper<GuideFeedback>;
+  GuideFeedbackInput: GuideFeedbackInput;
   GuideInput: GuideInput;
   GuideIntegrations: ResolverTypeWrapper<GuideIntegrations>;
   GuideIntegrationsInput: GuideIntegrationsInput;
   GuideQuestion: ResolverTypeWrapper<GuideQuestion>;
   GuideQuestionInput: GuideQuestionInput;
+  GuideRating: ResolverTypeWrapper<GuideRating>;
   GuideSettings: ResolverTypeWrapper<GuideSettings>;
   GuideSettingsInput: GuideSettingsInput;
   GuideStep: ResolverTypeWrapper<Omit<GuideStep, 'stepItems'> & { stepItems: Array<ResolversTypes['GuideStepItem']> }>;
@@ -1992,6 +2052,7 @@ export type ResolversTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
+  UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertSimulationInput: UpsertSimulationInput;
   UpsertSpaceInput: UpsertSpaceInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
@@ -2072,11 +2133,14 @@ export type ResolversParentTypes = {
   GnosisSafeWallet: GnosisSafeWallet;
   GnosisSafeWalletInput: GnosisSafeWalletInput;
   Guide: Guide;
+  GuideFeedback: GuideFeedback;
+  GuideFeedbackInput: GuideFeedbackInput;
   GuideInput: GuideInput;
   GuideIntegrations: GuideIntegrations;
   GuideIntegrationsInput: GuideIntegrationsInput;
   GuideQuestion: GuideQuestion;
   GuideQuestionInput: GuideQuestionInput;
+  GuideRating: GuideRating;
   GuideSettings: GuideSettings;
   GuideSettingsInput: GuideSettingsInput;
   GuideStep: Omit<GuideStep, 'stepItems'> & { stepItems: Array<ResolversParentTypes['GuideStepItem']> };
@@ -2143,6 +2207,7 @@ export type ResolversParentTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
+  UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertSimulationInput: UpsertSimulationInput;
   UpsertSpaceInput: UpsertSpaceInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
@@ -2506,6 +2571,13 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GuideFeedbackResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideFeedback'] = ResolversParentTypes['GuideFeedback']> = {
+  content?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  questions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  ux?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GuideIntegrationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideIntegrations'] = ResolversParentTypes['GuideIntegrations']> = {
   discordRoleIds?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   discordRolePassingCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -2524,6 +2596,18 @@ export type GuideQuestionResolvers<ContextType = any, ParentType extends Resolve
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GuideRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideRating'] = ResolversParentTypes['GuideRating']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  endRating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  guideUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ipAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  negativeFeedback?: Resolver<ResolversTypes['GuideFeedback'], ParentType, ContextType>;
+  positiveFeedback?: Resolver<ResolversTypes['GuideFeedback'], ParentType, ContextType>;
+  startRating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2663,6 +2747,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertGitCourseTopicSubmission?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationUpsertGitCourseTopicSubmissionArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   upsertGnosisSafeWallets?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertGnosisSafeWalletsArgs, 'spaceId' | 'wallets'>>;
   upsertGuide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<MutationUpsertGuideArgs, 'guideInput' | 'spaceId'>>;
+  upsertGuideRating?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpsertGuideRatingArgs, 'spaceId' | 'upsertGuideRatingInput'>>;
   upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
@@ -2739,6 +2824,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   gitCourseSummarized?: Resolver<ResolversTypes['SummarizedGitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseSummarizedArgs, 'key' | 'spaceId'>>;
   gitTopicSubmissions?: Resolver<Array<ResolversTypes['GitCourseTopicSubmission']>, ParentType, ContextType, RequireFields<QueryGitTopicSubmissionsArgs, 'courseKey' | 'spaceId'>>;
   guide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<QueryGuideArgs, 'spaceId' | 'uuid'>>;
+  guideRating?: Resolver<Array<ResolversTypes['GuideRating']>, ParentType, ContextType, RequireFields<QueryGuideRatingArgs, 'ratingUuid'>>;
+  guideRatings?: Resolver<Array<ResolversTypes['GuideRating']>, ParentType, ContextType, RequireFields<QueryGuideRatingsArgs, 'guideUuid' | 'spaceId'>>;
   guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'guideUuid'>>;
   guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
@@ -2945,8 +3032,10 @@ export type Resolvers<ContextType = any> = {
   GitCourseTopicSubmissionJson?: GitCourseTopicSubmissionJsonResolvers<ContextType>;
   GnosisSafeWallet?: GnosisSafeWalletResolvers<ContextType>;
   Guide?: GuideResolvers<ContextType>;
+  GuideFeedback?: GuideFeedbackResolvers<ContextType>;
   GuideIntegrations?: GuideIntegrationsResolvers<ContextType>;
   GuideQuestion?: GuideQuestionResolvers<ContextType>;
+  GuideRating?: GuideRatingResolvers<ContextType>;
   GuideSettings?: GuideSettingsResolvers<ContextType>;
   GuideStep?: GuideStepResolvers<ContextType>;
   GuideStepItem?: GuideStepItemResolvers<ContextType>;

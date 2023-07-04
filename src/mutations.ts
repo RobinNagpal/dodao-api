@@ -1,4 +1,5 @@
 import mutations from '@/graphql/mutations';
+import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
 import createSummaryOfContent from '@/graphql/mutations/openAI/createSummaryOfContent';
@@ -18,6 +19,8 @@ export default {
 
   createSpace,
   updateSpace,
+
+  upsertGuideRating,
 
   ...mutations,
 };
