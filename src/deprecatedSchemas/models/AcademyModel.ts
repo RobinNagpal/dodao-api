@@ -1,6 +1,6 @@
+import { GitGuideModel } from '@/helpers/gitGuides/model/GitGuideModel';
 import { ByteModel } from './byte/ByteModel';
 import { GitCourseModel } from './course/GitCourseModel';
-import { GitGuideModel } from './gitGuides/model/GitGuideModel';
 import { SimulationModel } from './simulation/SimulationModel';
 import { TimelineModel } from './timeline/TimelineModel';
 

@@ -78,6 +78,17 @@ export type AddTopicVideoInput = {
   url: Scalars['String'];
 };
 
+export type AuthSettings = {
+  __typename?: 'AuthSettings';
+  enableLogin?: Maybe<Scalars['Boolean']>;
+  loginOptions?: Maybe<Array<Scalars['String']>>;
+};
+
+export type AuthSettingsInput = {
+  enableLogin: Scalars['Boolean'];
+  loginOptions: Array<Scalars['String']>;
+};
+
 export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
@@ -549,18 +560,15 @@ export type Guide = {
   authors: Array<Scalars['String']>;
   categories: Array<Scalars['String']>;
   content: Scalars['String'];
-  created: Scalars['Int'];
+  createdAt: Scalars['DateTimeISO'];
   guideIntegrations: GuideIntegrations;
   guideSource: Scalars['String'];
   guideType: Scalars['String'];
   id: Scalars['String'];
-  link: Scalars['String'];
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   previousId?: Maybe<Scalars['String']>;
   publishStatus: Scalars['String'];
-  showIncorrectOnCompletion: Scalars['Boolean'];
-  socialShareImage?: Maybe<Scalars['String']>;
   steps: Array<GuideStep>;
   thumbnail?: Maybe<Scalars['String']>;
   uuid: Scalars['String'];
@@ -578,7 +586,6 @@ export type GuideInput = {
   name: Scalars['String'];
   postSubmissionStepContent?: InputMaybe<Scalars['String']>;
   publishStatus: Scalars['String'];
-  showIncorrectOnCompletion: Scalars['Boolean'];
   socialShareImage?: InputMaybe<Scalars['String']>;
   space: Scalars['String'];
   steps: Array<GuideStepInput>;
@@ -625,6 +632,23 @@ export type GuideQuestionInput = {
   questionType: Scalars['String'];
   type: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type GuideSettings = {
+  __typename?: 'GuideSettings';
+  askForLoginToSubmit?: Maybe<Scalars['Boolean']>;
+  captureBeforeAndAfterRating?: Maybe<Scalars['Boolean']>;
+  showCategoriesInSidebar?: Maybe<Scalars['Boolean']>;
+  showIncorrectAfterEachStep?: Maybe<Scalars['Boolean']>;
+  showIncorrectOnCompletion?: Maybe<Scalars['Boolean']>;
+};
+
+export type GuideSettingsInput = {
+  askForLoginToSubmit?: InputMaybe<Scalars['Boolean']>;
+  captureBeforeAndAfterRating?: InputMaybe<Scalars['Boolean']>;
+  showCategoriesInSidebar?: InputMaybe<Scalars['Boolean']>;
+  showIncorrectAfterEachStep?: InputMaybe<Scalars['Boolean']>;
+  showIncorrectOnCompletion?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type GuideStep = {
@@ -794,7 +818,9 @@ export type Mutation = {
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseTopicSubmission;
   submitGuide: GuideSubmission;
+  updateAuthSettings: Space;
   updateCourseBasicInfo: GitCourse;
+  updateGuideSettings: Space;
   updateSpace: Space;
   updateTopicBasicInfo: GitCourse;
   updateTopicExplanation: GitCourse;
@@ -1027,9 +1053,19 @@ export type MutationSubmitGuideArgs = {
 };
 
 
+export type MutationUpdateAuthSettingsArgs = {
+  input: AuthSettingsInput;
+};
+
+
 export type MutationUpdateCourseBasicInfoArgs = {
   courseBasicInfo: CourseBasicInfoInput;
   spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateGuideSettingsArgs = {
+  input: GuideSettingsInput;
 };
 
 
@@ -1415,10 +1451,12 @@ export type Space = {
   __typename?: 'Space';
   adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
+  authSettings: AuthSettings;
   avatar?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
   domains: Array<Scalars['String']>;
   features: Array<Scalars['String']>;
+  guideSettings: GuideSettings;
   id: Scalars['String'];
   inviteLinks?: Maybe<SpaceInviteLinks>;
   name: Scalars['String'];
@@ -1820,6 +1858,8 @@ export type ResolversTypes = {
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
   Any: ResolverTypeWrapper<Scalars['Any']>;
+  AuthSettings: ResolverTypeWrapper<AuthSettings>;
+  AuthSettingsInput: AuthSettingsInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Byte: ResolverTypeWrapper<Byte>;
   ByteQuestion: ResolverTypeWrapper<ByteQuestion>;
@@ -1885,6 +1925,8 @@ export type ResolversTypes = {
   GuideIntegrationsInput: GuideIntegrationsInput;
   GuideQuestion: ResolverTypeWrapper<GuideQuestion>;
   GuideQuestionInput: GuideQuestionInput;
+  GuideSettings: ResolverTypeWrapper<GuideSettings>;
+  GuideSettingsInput: GuideSettingsInput;
   GuideStep: ResolverTypeWrapper<Omit<GuideStep, 'stepItems'> & { stepItems: Array<ResolversTypes['GuideStepItem']> }>;
   GuideStepInput: GuideStepInput;
   GuideStepItem: ResolverTypeWrapper<ResolversUnionTypes['GuideStepItem']>;
@@ -1969,6 +2011,8 @@ export type ResolversParentTypes = {
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
   Any: Scalars['Any'];
+  AuthSettings: AuthSettings;
+  AuthSettingsInput: AuthSettingsInput;
   Boolean: Scalars['Boolean'];
   Byte: Byte;
   ByteQuestion: ByteQuestion;
@@ -2033,6 +2077,8 @@ export type ResolversParentTypes = {
   GuideIntegrationsInput: GuideIntegrationsInput;
   GuideQuestion: GuideQuestion;
   GuideQuestionInput: GuideQuestionInput;
+  GuideSettings: GuideSettings;
+  GuideSettingsInput: GuideSettingsInput;
   GuideStep: Omit<GuideStep, 'stepItems'> & { stepItems: Array<ResolversParentTypes['GuideStepItem']> };
   GuideStepInput: GuideStepInput;
   GuideStepItem: ResolversUnionParentTypes['GuideStepItem'];
@@ -2127,6 +2173,12 @@ export type AcademyTaskResolvers<ContextType = any, ParentType extends Resolvers
 export interface AnyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Any'], any> {
   name: 'Any';
 }
+
+export type AuthSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthSettings'] = ResolversParentTypes['AuthSettings']> = {
+  enableLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  loginOptions?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2438,18 +2490,15 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   authors?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   guideIntegrations?: Resolver<ResolversTypes['GuideIntegrations'], ParentType, ContextType>;
   guideSource?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   guideType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   previousId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  socialShareImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['GuideStep']>, ParentType, ContextType>;
   thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2475,6 +2524,15 @@ export type GuideQuestionResolvers<ContextType = any, ParentType extends Resolve
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GuideSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideSettings'] = ResolversParentTypes['GuideSettings']> = {
+  askForLoginToSubmit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  captureBeforeAndAfterRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showCategoriesInSidebar?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showIncorrectAfterEachStep?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showIncorrectOnCompletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2589,7 +2647,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
+  updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
+  updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateTopicBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicBasicInfoArgs, 'spaceId' | 'topicInfo'>>;
   updateTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2733,10 +2793,12 @@ export type SimulationStepResolvers<ContextType = any, ParentType extends Resolv
 export type SpaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Space'] = ResolversParentTypes['Space']> = {
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  authSettings?: Resolver<ResolversTypes['AuthSettings'], ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   domains?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   features?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  guideSettings?: Resolver<ResolversTypes['GuideSettings'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   inviteLinks?: Resolver<Maybe<ResolversTypes['SpaceInviteLinks']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2849,6 +2911,7 @@ export type UserDiscordInfoResolvers<ContextType = any, ParentType extends Resol
 export type Resolvers<ContextType = any> = {
   AcademyTask?: AcademyTaskResolvers<ContextType>;
   Any?: GraphQLScalarType;
+  AuthSettings?: AuthSettingsResolvers<ContextType>;
   Byte?: ByteResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;
   ByteStep?: ByteStepResolvers<ContextType>;
@@ -2884,6 +2947,7 @@ export type Resolvers<ContextType = any> = {
   Guide?: GuideResolvers<ContextType>;
   GuideIntegrations?: GuideIntegrationsResolvers<ContextType>;
   GuideQuestion?: GuideQuestionResolvers<ContextType>;
+  GuideSettings?: GuideSettingsResolvers<ContextType>;
   GuideStep?: GuideStepResolvers<ContextType>;
   GuideStepItem?: GuideStepItemResolvers<ContextType>;
   GuideStepItemSubmission?: GuideStepItemSubmissionResolvers<ContextType>;

@@ -14,6 +14,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
   const doDAOSuperAdmin = isDoDAOSuperAdmin(context);
 
   const user: DoDaoJwtTokenPayload = decodedJwt;
+
   const spaceInput: Space = {
     admins: args.spaceInput.admins,
     adminUsernames: args.spaceInput.adminUsernames,
@@ -31,6 +32,8 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     discordInvite: null,
     telegramInvite: null,
     domains: doDAOSuperAdmin ? args.spaceInput.domains : space.domains,
+    authSettings: space.authSettings || {},
+    guideSettings: space.guideSettings || {},
   };
   try {
     console.log('Updating space', spaceInput);
@@ -44,6 +47,8 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
           discordInviteLink: null,
           telegramInviteLink: null,
         },
+        guideSettings: spaceInput.guideSettings || {},
+        authSettings: spaceInput.authSettings || {},
       },
       where: {
         id: args.spaceInput.id,

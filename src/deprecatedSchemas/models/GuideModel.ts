@@ -69,6 +69,7 @@ export interface GuideModel {
   categories: string[];
   content: string;
   created: number;
+  createdAt: Date;
   guideIntegrations: GuideIntegrations;
   guideType: GuideType;
   guideSource: GuideSource;
@@ -77,7 +78,6 @@ export interface GuideModel {
   postSubmissionStepContent?: string;
   previousId: string | null;
   publishStatus: PublishStatus;
-  showIncorrectOnCompletion: boolean;
   socialShareImage?: string;
   steps: GuideStep[];
   thumbnail?: string;
