@@ -11,7 +11,11 @@ export async function getAcademyGuideKeysFromRedis(spaceId: string): Promise<str
 export async function getAcademyGuideFromRedis(spaceId: string, guideKey: string): Promise<GuideModel | undefined> {
   const redisKeyForGuide = getRedisKeyForAcademyGuide(spaceId, guideKey);
   const guidesString = await getRedisValue(redisKeyForGuide);
-  return guidesString ? JSON.parse(guidesString) : undefined;
+  if (guidesString) {
+    const guide = JSON.parse(guidesString);
+    guide.createdAt = guide.created ? new Date(guide.created * 1000) : new Date();
+    return guide;
+  }
 }
 
 export async function getAllAcademyGuidesForSpace(spaceId: string): Promise<GuideModel[]> {

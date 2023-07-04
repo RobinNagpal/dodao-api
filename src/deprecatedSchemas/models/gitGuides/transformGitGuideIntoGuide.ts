@@ -1,8 +1,8 @@
+import { GitGuideModel } from '@/helpers/gitGuides/model/GitGuideModel';
+import { GitGuideStep } from '@/helpers/gitGuides/model/GitGuideStep';
 import { Space } from '@prisma/client';
 import { isQuestion } from './../../helpers/stepItemTypes';
 import { GuideModel, GuideQuestion, GuideSource, GuideStep, UserDiscordConnect, UserInput } from './../GuideModel';
-import { GitGuideModel } from './model/GitGuideModel';
-import { GitGuideStep } from './model/GitGuideStep';
 
 export function transformGitGuideIntoGuide(guide: GitGuideModel, space: Space, guideSource: GuideSource): GuideModel {
   const created = parseInt((new Date(guide.created).getTime() / 1000).toFixed());
@@ -18,6 +18,7 @@ export function transformGitGuideIntoGuide(guide: GitGuideModel, space: Space, g
     guideIntegrations: {
       discordRoleIds: [],
     },
+    createdAt: new Date(),
     guideSource,
     steps: guide.steps.map(
       (step: GitGuideStep, i): GuideStep => ({

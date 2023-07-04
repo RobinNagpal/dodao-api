@@ -11,6 +11,10 @@ extend type Mutation {
 
   updateSpace(spaceInput: UpsertSpaceInput!): Space!
 
+  updateGuideSettings(input: GuideSettingsInput!): Space!
+
+  updateAuthSettings(input: AuthSettingsInput!): Space!
+
   addDiscordCredentials(spaceId: String!, code: String!, redirectUri: String!): Space!
 
   upsertGnosisSafeWallets(spaceId: String!, wallets: [GnosisSafeWalletInput!]!): Space!
@@ -39,10 +43,26 @@ type Space {
   features: [String!]!
   name: String!
   skin: String!
+  authSettings: AuthSettings!
   spaceIntegrations: SpaceIntegrations
   inviteLinks: SpaceInviteLinks
   domains: [String!]!
+  guideSettings: GuideSettings!
 }
+
+type AuthSettings {
+  enableLogin: Boolean
+  loginOptions: [String!]
+}
+
+type GuideSettings {
+  showIncorrectOnCompletion: Boolean
+  showIncorrectAfterEachStep: Boolean
+  askForLoginToSubmit: Boolean
+  captureBeforeAndAfterRating: Boolean
+  showCategoriesInSidebar: Boolean
+}
+
 
 type SpaceIntegrations {
   discordGuildId: String
@@ -144,4 +164,17 @@ input  SpaceInviteLinksInput {
   showAnimatedButtonForDiscord: Boolean
   telegramInviteLink: String
   showAnimatedButtonForTelegram: Boolean
+}
+
+input GuideSettingsInput {
+  showIncorrectOnCompletion: Boolean
+  showIncorrectAfterEachStep: Boolean
+  askForLoginToSubmit: Boolean
+  captureBeforeAndAfterRating: Boolean
+  showCategoriesInSidebar: Boolean
+}
+
+input AuthSettingsInput {
+  enableLogin: Boolean!
+  loginOptions: [String!]!
 }

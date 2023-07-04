@@ -29,7 +29,7 @@ async function transformToGitFormat(spaceId: string, input: GuideInput): Promise
     name: input.name,
     postSubmissionStepContent: input.postSubmissionStepContent || undefined,
     publishStatus: input.publishStatus as PublishStatus,
-    showIncorrectOnCompletion: input.showIncorrectOnCompletion,
+
     socialShareImage: input.socialShareImage || undefined,
     steps: input.steps.map((step) => ({
       content: step.content,

@@ -1,4 +1,5 @@
 import { ByteStep as GraphqlByteStep } from '@/graphql/generated/graphql';
+import { AuthSettings as SpaceAuthSettings, GuideSettings as SpaceGuideSettings } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
 import { GuideSubmissionResult as GuideSubmissionResultInterface } from '@/types/guide/GuideSubmissionResult';
 import { GuidesGitRepository as GuidesGitRepositoryInterface } from '@/types/space/GuidesGitRepository';
@@ -12,5 +13,7 @@ declare global {
     type SpaceInviteLinks = SpaceInviteLinksInterface;
     type TempTopicSubmissionModel = TempTopicSubmissionModelInterface;
     type ByteStep = GraphqlByteStep;
+    type AuthSettings = SpaceAuthSettings;
+    type GuideSettings = SpaceGuideSettings;
   }
 }

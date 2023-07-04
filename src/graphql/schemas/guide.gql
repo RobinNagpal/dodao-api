@@ -65,7 +65,7 @@ type Guide {
   categories: [String!]!
   postSubmissionStepContent: String
   content: String!
-  created: Int!
+  createdAt: DateTimeISO!
   guideIntegrations: GuideIntegrations!
   guideSource: String!
   guideType: String!
@@ -73,13 +73,10 @@ type Guide {
   name: String!
   previousId: String
   publishStatus: String!
-  showIncorrectOnCompletion: Boolean!
-  socialShareImage: String
   steps: [GuideStep!]!
   thumbnail: String
   uuid: String!
   version: Int!
-  link: String!
 }
 
 input GuideIntegrationsInput {
@@ -154,7 +151,6 @@ input GuideInput {
   id: String!
   name: String!
   postSubmissionStepContent: String
-  showIncorrectOnCompletion: Boolean!
   socialShareImage: String
   space: String!
   steps: [GuideStepInput!]!

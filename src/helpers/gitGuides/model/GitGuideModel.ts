@@ -13,7 +13,6 @@ export interface GitGuideModel {
   name: string;
   postSubmissionStepContent?: string;
   publishStatus: PublishStatus;
-  showIncorrectOnCompletion: boolean;
   socialShareImage?: string;
   steps: GitGuideStep[];
   thumbnail: string;
