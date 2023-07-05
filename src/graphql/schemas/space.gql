@@ -11,9 +11,9 @@ extend type Mutation {
 
   updateSpace(spaceInput: UpsertSpaceInput!): Space!
 
-  updateGuideSettings(input: GuideSettingsInput!): Space!
+  updateGuideSettings(spaceId: String!, input: GuideSettingsInput!): Space!
 
-  updateAuthSettings(input: AuthSettingsInput!): Space!
+  updateAuthSettings(spaceId: String!, input: AuthSettingsInput!): Space!
 
   addDiscordCredentials(spaceId: String!, code: String!, redirectUri: String!): Space!
 

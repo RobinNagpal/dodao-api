@@ -7,6 +7,8 @@ import downloadAndCleanContent from '@/graphql/mutations/openAI/downloadAndClean
 import extractRelevantTextForTopic from '@/graphql/mutations/openAI/extractRelevantTextForTopic';
 import generateImage from '@/graphql/mutations/openAI/generateImage';
 import createSpace from '@/graphql/mutations/space/createSpace';
+import { updateAuthSettings } from '@/graphql/mutations/space/updateAuthSettings';
+import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
 
 export default {
@@ -21,6 +23,9 @@ export default {
   updateSpace,
 
   upsertGuideRating,
+
+  updateAuthSettings,
+  updateGuideSettings,
 
   ...mutations,
 };
