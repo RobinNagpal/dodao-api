@@ -90,13 +90,15 @@ type GuideFeedback {
 }
 
 type GuideRating {
+  ratingUuid: String!
   guideUuid: String!
+  spaceId: String!
   userId: String!
-  ipAddress: String!
-  startRating: Int!
-  endRating: Int!
-  positiveFeedback: GuideFeedback!
-  negativeFeedback: GuideFeedback!
+  ipAddress: String
+  startRating: Int
+  endRating: Int
+  positiveFeedback: GuideFeedback
+  negativeFeedback: GuideFeedback
   createdAt: DateTimeISO!
 }
 
@@ -190,10 +192,9 @@ input UpsertGuideRatingInput {
   ratingUuid: String!
   guideUuid: String!
   userId: String!
-  ipAddress: String!
-  startRating: Int!
-  endRating: Int!
+  startRating: Int
+  endRating: Int
   spaceId: String!
-  positiveFeedback: GuideFeedbackInput!
-  negativeFeedback: GuideFeedbackInput!
+  positiveFeedback: GuideFeedbackInput
+  negativeFeedback: GuideFeedbackInput
 }

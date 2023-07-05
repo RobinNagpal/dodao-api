@@ -650,12 +650,14 @@ export type GuideQuestionInput = {
 export type GuideRating = {
   __typename?: 'GuideRating';
   createdAt: Scalars['DateTimeISO'];
-  endRating: Scalars['Int'];
+  endRating?: Maybe<Scalars['Int']>;
   guideUuid: Scalars['String'];
-  ipAddress: Scalars['String'];
-  negativeFeedback: GuideFeedback;
-  positiveFeedback: GuideFeedback;
-  startRating: Scalars['Int'];
+  ipAddress?: Maybe<Scalars['String']>;
+  negativeFeedback?: Maybe<GuideFeedback>;
+  positiveFeedback?: Maybe<GuideFeedback>;
+  ratingUuid: Scalars['String'];
+  spaceId: Scalars['String'];
+  startRating?: Maybe<Scalars['Int']>;
   userId: Scalars['String'];
 };
 
@@ -1735,14 +1737,13 @@ export type UpsertCourseIntegrationsInput = {
 };
 
 export type UpsertGuideRatingInput = {
-  endRating: Scalars['Int'];
+  endRating?: InputMaybe<Scalars['Int']>;
   guideUuid: Scalars['String'];
-  ipAddress: Scalars['String'];
-  negativeFeedback: GuideFeedbackInput;
-  positiveFeedback: GuideFeedbackInput;
+  negativeFeedback?: InputMaybe<GuideFeedbackInput>;
+  positiveFeedback?: InputMaybe<GuideFeedbackInput>;
   ratingUuid: Scalars['String'];
   spaceId: Scalars['String'];
-  startRating: Scalars['Int'];
+  startRating?: InputMaybe<Scalars['Int']>;
   userId: Scalars['String'];
 };
 
@@ -2603,12 +2604,14 @@ export type GuideQuestionResolvers<ContextType = any, ParentType extends Resolve
 
 export type GuideRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideRating'] = ResolversParentTypes['GuideRating']> = {
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
-  endRating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  endRating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   guideUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  ipAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  negativeFeedback?: Resolver<ResolversTypes['GuideFeedback'], ParentType, ContextType>;
-  positiveFeedback?: Resolver<ResolversTypes['GuideFeedback'], ParentType, ContextType>;
-  startRating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  ipAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  negativeFeedback?: Resolver<Maybe<ResolversTypes['GuideFeedback']>, ParentType, ContextType>;
+  positiveFeedback?: Resolver<Maybe<ResolversTypes['GuideFeedback']>, ParentType, ContextType>;
+  ratingUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  startRating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
