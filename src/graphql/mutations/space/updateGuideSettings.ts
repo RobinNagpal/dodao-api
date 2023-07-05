@@ -9,7 +9,7 @@ export async function updateGuideSettings(_: unknown, args: MutationUpdateGuideS
 
   checkEditSpacePermission(spaceById, context);
 
-  await prisma.space.update({
+  return prisma.space.update({
     data: {
       guideSettings: {
         askForLoginToSubmit: args.input.askForLoginToSubmit,

@@ -9,7 +9,7 @@ export async function updateAuthSettings(_: unknown, args: MutationUpdateAuthSet
 
   checkEditSpacePermission(spaceById, context);
 
-  await prisma.space.update({
+  return prisma.space.update({
     data: {
       authSettings: {
         enableLogin: args.input.enableLogin,
