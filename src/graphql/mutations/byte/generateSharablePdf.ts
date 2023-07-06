@@ -37,7 +37,7 @@ export default async function generateSharablePdf(_: unknown, args: MutationGene
       content: s.content,
     }));
 
-  writeTextToPdf(backgroundImageUrl, pdfContents, tmpPdfFilePath);
+  await writeTextToPdf(backgroundImageUrl, pdfContents, tmpPdfFilePath);
 
   const s3Key = `academy/${spaceById.id}/Social/${AcademyObjectTypes.bytes}/${filename}`;
 

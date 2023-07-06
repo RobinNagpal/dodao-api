@@ -5,7 +5,7 @@ import { CreateImageRequest } from 'openai/api';
 export default async function generateImage(_: any, args: MutationGenerateImageArgs): Promise<GenerateImageResponse> {
   const createCompletionRequest: CreateImageRequest = {
     prompt: args.input.prompt,
-    size: '256x256',
+    size: '512x512',
     n: 1,
   };
 
