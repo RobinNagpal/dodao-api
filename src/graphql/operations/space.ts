@@ -1,5 +1,6 @@
 import { prisma } from '@/prisma';
+import { Space } from '@prisma/client';
 
-export function getSpaceById(spaceId: string) {
+export async function getSpaceById(spaceId: string): Promise<Space> {
   return prisma.space.findUniqueOrThrow({ where: { id: spaceId } });
 }

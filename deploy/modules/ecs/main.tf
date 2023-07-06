@@ -115,7 +115,7 @@ resource "aws_ecs_service" "main" {
   name            = "${var.project_name}-${var.environment}-app"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.app.arn
-  desired_count   = var.environment == "prod" ? 2 : 1
+  desired_count   = var.environment == "prod" ? 1 : 1 # TODO: Change to 2 for prod when the right time comes
   launch_type     = "FARGATE"
 
   deployment_minimum_healthy_percent = 100

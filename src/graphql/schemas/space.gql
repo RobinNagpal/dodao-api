@@ -15,6 +15,8 @@ extend type Mutation {
 
   updateAuthSettings(spaceId: String!, input: AuthSettingsInput!): Space!
 
+  updateSocialSettings(spaceId: String!, input: SocialSettingsInput!): Space!
+
   addDiscordCredentials(spaceId: String!, code: String!, redirectUri: String!): Space!
 
   upsertGnosisSafeWallets(spaceId: String!, wallets: [GnosisSafeWalletInput!]!): Space!
@@ -43,11 +45,12 @@ type Space {
   features: [String!]!
   name: String!
   skin: String!
-  authSettings: AuthSettings!
   spaceIntegrations: SpaceIntegrations
   inviteLinks: SpaceInviteLinks
   domains: [String!]!
+  authSettings: AuthSettings!
   guideSettings: GuideSettings!
+  socialSettings: SocialSettings!
 }
 
 type AuthSettings {
@@ -99,6 +102,11 @@ type SpaceInviteLinks {
   telegramInviteLink: String
   showAnimatedButtonForTelegram: Boolean
 }
+
+type SocialSettings {
+  linkedSharePdfBackgroundImage: String
+}
+
 input SpaceWhere {
   id: String
   id_in: [String]
@@ -172,6 +180,10 @@ input GuideSettingsInput {
   askForLoginToSubmit: Boolean
   captureBeforeAndAfterRating: Boolean
   showCategoriesInSidebar: Boolean
+}
+
+input SocialSettingsInput {
+  linkedSharePdfBackgroundImage: String
 }
 
 input AuthSettingsInput {

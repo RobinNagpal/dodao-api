@@ -138,6 +138,8 @@ model Space {
   authSettings      Json                @default("{}") @map("auth_settings") @db.Json
   /// [GuideSettings]
   guideSettings     Json                @default("{}") @map("guide_settings") @db.Json
+  /// [SocialSettings]
+  socialSettings    Json                @default("{}") @map("social_settings") @db.Json
   features          String[]
   CourseIntegration CourseIntegration[]
   GitCourse         GitCourse[]
@@ -170,6 +172,21 @@ model Byte {
 
   @@unique([id, publishStatus])
   @@map("bytes")
+}
+
+model ByteSocialShare {
+  uuid           String   @id @default(uuid()) @db.VarChar(255)
+  byteId         String   @map("byte_id") @db.VarChar(255)
+  linkedInImages String[] @default([]) @map("linked_in_images")
+  linkedInPdf    String?  @map("linked_in_pdf") @db.VarChar(1024)
+  twitterImage   String?  @map("twitter_image") @db.VarChar(1024)
+  createdAt      DateTime @default(now()) @map("created_at")
+  createdBy      String?  @map("created_by") @db.VarChar(256)
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  updatedBy      String?  @map("updated_by") @db.VarChar(256)
+
+  @@unique([byteId])
+  @@map("byte_social_shares")
 }
 
 model CourseIntegration {
