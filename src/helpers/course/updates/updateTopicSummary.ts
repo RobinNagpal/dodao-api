@@ -44,7 +44,7 @@ export async function doUpdateTopicSummary<T extends { courseKey: string; topicK
   input: T,
   courseUpdateFn: (updatedCourse: GitCourseModel) => GitCourseModel,
   summariesUpdateFn: (summariesInYaml: TopicSummaryModel[]) => TopicSummaryModel[],
-  addNewSummaryFileIfNotPresent = false
+  addNewSummaryFileIfNotPresent = false,
 ): Promise<GitCourseModel> {
   const spaceId = space.id;
   const { courseFromRepository, repoInfo } = await getCourseAndRepoInfo(space, input.courseKey);
@@ -91,10 +91,10 @@ export async function updateTopicSummary(accountId: string, space: Space, input:
                       shortTitle: input.shortTitle,
                       details: input.details,
                     }
-                  : summary
+                  : summary,
               ),
             }
-          : topic
+          : topic,
       ),
     };
   };
@@ -108,7 +108,7 @@ export async function updateTopicSummary(accountId: string, space: Space, input:
             shortTitle: input.shortTitle,
             details: input.details,
           }
-        : summary
+        : summary,
     );
   };
 

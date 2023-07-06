@@ -87,7 +87,7 @@ export default async function submitGitCourseMutation(_: unknown, args: Mutation
           questionsSkipped: (courseSubmission.questionsSkipped || 0) + (topicSubmission.questionsSkipped || 0),
         };
       },
-      reduceInitValue
+      reduceInitValue,
     );
 
     const spaceIntegration = await prisma.spaceIntegration.findFirst({

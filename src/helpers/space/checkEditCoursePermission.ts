@@ -18,7 +18,7 @@ export async function checkEditCoursePermission(space: Space, context: IncomingM
           JSON.stringify({
             decodedJWT,
             rawCourse: course,
-          })
+          }),
       );
     }
   }

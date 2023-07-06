@@ -159,8 +159,8 @@ async function appendToAcademyObjects<T extends AcademyObject>({
     JSON.stringify(
       updatesObjectsArray.map((objectFileName) => objectFileName.replace('.yaml', '.json')),
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const objectKeys = await getAcademyObjectKeysFromRedis(space.id, objectType);
@@ -172,7 +172,7 @@ export async function writeObjectToAcademyRepo<T extends AcademyObject>(
   space: Space,
   objectModel: T,
   objectType: AcademyObjectTypes,
-  accountId: string
+  accountId: string,
 ): Promise<T> {
   const { repositoryPath } = await getAcademyRepoInfo(space);
 

@@ -76,7 +76,7 @@ export async function logError(
   params: Record<string, any> = {},
   e: Error | null = null,
   spaceId: string | null = null,
-  blockchain: string | null = null
+  blockchain: string | null = null,
 ) {
   console.error(
     e,
@@ -85,7 +85,7 @@ export async function logError(
       blockchain,
       message,
       params,
-    })
+    }),
   );
   await postErrorOnDiscord(e, spaceId, blockchain, message, params);
 }

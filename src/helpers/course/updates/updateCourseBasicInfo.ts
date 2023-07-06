@@ -28,7 +28,7 @@ async function doUpdateCourse<T extends { courseKey: string }>(
   space: Space,
   input: T,
   updateCourseFn: (course: GitCourseModel) => GitCourseModel,
-  updateCourseYamlFn: (course: GitRepoCourse) => GitRepoCourse
+  updateCourseYamlFn: (course: GitRepoCourse) => GitRepoCourse,
 ) {
   const spaceId = space.id;
   const { courseFromRepository, repoInfo } = await getCourseAndRepoInfo(space, input.courseKey);

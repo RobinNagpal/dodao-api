@@ -29,7 +29,7 @@ export default async function gitCourseSubmission(_: any, { spaceId, courseKey }
         courseKey,
         error: e?.toString(),
         jwt: getJwtFromContext(context),
-      })} `
+      })} `,
     );
   }
 }

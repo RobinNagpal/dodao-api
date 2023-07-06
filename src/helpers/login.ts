@@ -14,7 +14,7 @@ export function createJwt(accountId: string, blockchain: string, connector: stri
     process.env.JWT_PRIVATE_KEY!,
     {
       expiresIn: 30 * 24 * 60 * 60, // 30 days
-    }
+    },
   );
 }
 

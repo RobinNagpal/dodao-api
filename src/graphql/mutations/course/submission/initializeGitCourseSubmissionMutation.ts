@@ -42,8 +42,8 @@ export default async function initializeGitCourseSubmissionMutation(_: unknown, 
     if (topicSubmissions.length) {
       throw new Error(
         `There are already existing course topic submissions: ${spaceId} - ${courseKey} - ${decodedJwt.accountId} - ${JSON.stringify(
-          topicSubmissions.map((ts) => ({ uuid: ts.uuid, topicKey: ts.topicKey }))
-        )}`
+          topicSubmissions.map((ts) => ({ uuid: ts.uuid, topicKey: ts.topicKey })),
+        )}`,
       );
     }
 

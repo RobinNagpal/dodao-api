@@ -7,7 +7,7 @@ export async function updateGalaxyCredentialsForGuideSubmissionIfApplicable(
   spaceIntegrations: SpaceIntegrationModel | undefined,
   guide: GuideModel,
   guideSubmission: GuideSubmission,
-  userAddress: string
+  userAddress: string,
 ): Promise<boolean | undefined> {
   const projectGalaxyToken = spaceIntegrations?.projectGalaxyToken;
   const projectGalaxyCredentialId = guide.guideIntegrations.projectGalaxyCredentialId;
@@ -29,7 +29,7 @@ export async function updateGalaxyCredentialsForCourseSubmissionIfApplicable(
   spaceIntegrations: SpaceIntegration | null,
   courseIntegrations: CourseIntegration,
   courseSubmission: GitCourseSubmission,
-  userAddress: string
+  userAddress: string,
 ): Promise<boolean | undefined> {
   const projectGalaxyToken = spaceIntegrations?.projectGalaxyToken;
   const projectGalaxyCredentialId = courseIntegrations.projectGalaxyCredentialId;
@@ -45,7 +45,7 @@ export async function updateGalaxyCredentialsForCourseSubmissionIfApplicable(
       projectGalaxyCredentialId,
       galaxyOatPassingCount,
       projectGalaxyPassed,
-    })
+    }),
   );
   if (projectGalaxyToken && projectGalaxyCredentialId && projectGalaxyPassed) {
     galaxyCredentialsUpdated = false;
