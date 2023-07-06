@@ -1,7 +1,7 @@
 import { MutationCreateSignedUrlArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { logError } from '@/helpers/adapters/errorLogger';
-import { presignedUrlCreator } from '@/helpers/getPresignedUrl';
+import { presignedUrlCreator } from '@/helpers/s3/getPresignedUrl';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { IncomingMessage } from 'http';
 

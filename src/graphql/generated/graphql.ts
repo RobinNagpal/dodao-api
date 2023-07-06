@@ -829,6 +829,7 @@ export type Mutation = {
   extractRelevantTextForTopic: OpenAiTextResponse;
   generateImage: GenerateImageResponse;
   generateImageEdit: GenerateImageResponse;
+  generateSharablePdf: Scalars['String'];
   initializeGitCourseSubmission: GitCourseSubmission;
   moveTopic: GitCourse;
   moveTopicExplanation: GitCourse;
@@ -848,6 +849,7 @@ export type Mutation = {
   updateAuthSettings: Space;
   updateCourseBasicInfo: GitCourse;
   updateGuideSettings: Space;
+  updateSocialSettings: Space;
   updateSpace: Space;
   updateTopicBasicInfo: GitCourse;
   updateTopicExplanation: GitCourse;
@@ -990,6 +992,12 @@ export type MutationGenerateImageEditArgs = {
 };
 
 
+export type MutationGenerateSharablePdfArgs = {
+  byteId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationInitializeGitCourseSubmissionArgs = {
   courseKey: Scalars['String'];
   spaceId: Scalars['String'];
@@ -1095,6 +1103,12 @@ export type MutationUpdateCourseBasicInfoArgs = {
 
 export type MutationUpdateGuideSettingsArgs = {
   input: GuideSettingsInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateSocialSettingsArgs = {
+  input: SocialSettingsInput;
   spaceId: Scalars['String'];
 };
 
@@ -1496,6 +1510,15 @@ export type SimulationStepInput = {
   uuid: Scalars['String'];
 };
 
+export type SocialSettings = {
+  __typename?: 'SocialSettings';
+  linkedSharePdfBackgroundImage?: Maybe<Scalars['String']>;
+};
+
+export type SocialSettingsInput = {
+  linkedSharePdfBackgroundImage?: InputMaybe<Scalars['String']>;
+};
+
 export type Space = {
   __typename?: 'Space';
   adminUsernames: Array<Scalars['String']>;
@@ -1510,6 +1533,7 @@ export type Space = {
   inviteLinks?: Maybe<SpaceInviteLinks>;
   name: Scalars['String'];
   skin: Scalars['String'];
+  socialSettings: SocialSettings;
   spaceIntegrations?: Maybe<SpaceIntegrations>;
 };
 
@@ -2028,6 +2052,8 @@ export type ResolversTypes = {
   Simulation: ResolverTypeWrapper<Simulation>;
   SimulationStep: ResolverTypeWrapper<SimulationStep>;
   SimulationStepInput: SimulationStepInput;
+  SocialSettings: ResolverTypeWrapper<SocialSettings>;
+  SocialSettingsInput: SocialSettingsInput;
   Space: ResolverTypeWrapper<Space>;
   SpaceFilters: ResolverTypeWrapper<SpaceFilters>;
   SpaceGitRepository: ResolverTypeWrapper<SpaceGitRepository>;
@@ -2183,6 +2209,8 @@ export type ResolversParentTypes = {
   Simulation: Simulation;
   SimulationStep: SimulationStep;
   SimulationStepInput: SimulationStepInput;
+  SocialSettings: SocialSettings;
+  SocialSettingsInput: SocialSettingsInput;
   Space: Space;
   SpaceFilters: SpaceFilters;
   SpaceGitRepository: SpaceGitRepository;
@@ -2720,6 +2748,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
   generateImage?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
   generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
+  generateSharablePdf?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationGenerateSharablePdfArgs, 'byteId' | 'spaceId'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   moveTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicArgs, 'spaceId' | 'topicInfo'>>;
   moveTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2739,6 +2768,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
+  updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateTopicBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicBasicInfoArgs, 'spaceId' | 'topicInfo'>>;
   updateTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -2882,6 +2912,11 @@ export type SimulationStepResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SocialSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['SocialSettings'] = ResolversParentTypes['SocialSettings']> = {
+  linkedSharePdfBackgroundImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SpaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Space'] = ResolversParentTypes['Space']> = {
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2895,6 +2930,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   inviteLinks?: Resolver<Maybe<ResolversTypes['SpaceInviteLinks']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   skin?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  socialSettings?: Resolver<ResolversTypes['SocialSettings'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3065,6 +3101,7 @@ export type Resolvers<ContextType = any> = {
   RawGitCourse?: RawGitCourseResolvers<ContextType>;
   Simulation?: SimulationResolvers<ContextType>;
   SimulationStep?: SimulationStepResolvers<ContextType>;
+  SocialSettings?: SocialSettingsResolvers<ContextType>;
   Space?: SpaceResolvers<ContextType>;
   SpaceFilters?: SpaceFiltersResolvers<ContextType>;
   SpaceGitRepository?: SpaceGitRepositoryResolvers<ContextType>;

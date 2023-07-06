@@ -32,6 +32,7 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     domains: input.domains,
     guideSettings: {},
     authSettings: {},
+    socialSettings: {},
   };
 
   await prisma.space.create({

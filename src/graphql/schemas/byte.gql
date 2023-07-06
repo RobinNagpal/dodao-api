@@ -7,6 +7,7 @@ extend type Mutation {
   upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
   saveByte(spaceId: String!, input: UpsertByteInput!): Byte!
   publishByte(spaceId: String!, input: UpsertByteInput!): Byte!
+  generateSharablePdf(spaceId: String!, byteId: String!): String!
 }
 
 type Byte {

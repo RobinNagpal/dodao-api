@@ -28,7 +28,7 @@ export class PresignedUrlCreator {
   async createSignedUrl(spaceId: string, args: CreateSignedUrlInput): Promise<string> {
     const { imageType, contentType, objectId, name } = args;
 
-    const client = new S3Client({
+    const client: S3Client = new S3Client({
       region: s3Config.defaultRegion,
     });
     const command = new PutObjectCommand({
@@ -37,7 +37,7 @@ export class PresignedUrlCreator {
       ContentType: contentType,
       ACL: ObjectCannedACL.public_read,
     });
-    return await getSignedUrl(client, command, { expiresIn: 3600 });
+    return await getSignedUrl(client as any, command as any, { expiresIn: 3600 });
   }
 }
 

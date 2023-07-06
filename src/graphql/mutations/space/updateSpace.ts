@@ -34,6 +34,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     domains: doDAOSuperAdmin ? args.spaceInput.domains : space.domains,
     authSettings: space.authSettings || {},
     guideSettings: space.guideSettings || {},
+    socialSettings: space.socialSettings || {},
   };
   try {
     console.log('Updating space', spaceInput);
