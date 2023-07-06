@@ -58,7 +58,7 @@ export async function loadAllGuidesForSpace(spaceId: string, spaceIntegration: S
 
       await setGuidesArrayForSpaceInRedis(
         spaceId,
-        gitGuideModels.map((guide) => guide.key)
+        gitGuideModels.map((guide) => guide.key),
       );
     } catch (e) {
       console.error(`Failed fetching  guides of - ${space.name} - ${(e as any).message}`);

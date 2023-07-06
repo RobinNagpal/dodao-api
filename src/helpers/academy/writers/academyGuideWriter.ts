@@ -82,7 +82,7 @@ async function appendToAcademyGuides(
   repositoryPath: string,
   guidesArray: string[],
   guideFileName: string,
-  guidesYamlFile: string
+  guidesYamlFile: string,
 ) {
   console.log(`guide ${gitGuide.uuid} not present in guides.yaml. Adding a new one`, JSON.stringify(guides, null, 2));
   const guidesJsonFile = `${repositoryPath}/generated/guides/main/json/guides.json`;
@@ -98,8 +98,8 @@ async function appendToAcademyGuides(
     JSON.stringify(
       updatesGuidesArray.map((guideName) => guideName.replace('.yaml', '.json')),
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const guideKeys = await getAcademyGuideKeysFromRedis(space.id);

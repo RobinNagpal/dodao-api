@@ -56,7 +56,7 @@ export function checkEditSpacePermission(space: Space, context: IncomingMessage)
       'Not allowed to edit space :' +
         JSON.stringify({
           decodedJWT,
-        })
+        }),
     );
   }
 

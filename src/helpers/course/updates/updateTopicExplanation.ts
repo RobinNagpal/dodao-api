@@ -44,7 +44,7 @@ async function doUpdateTopicExplanation<T extends { courseKey: string; topicKey:
   input: T,
   courseUpdateFn: (updatedCourse: GitCourseModel) => GitCourseModel,
   explanationsUpdateFn: (explanations: TopicExplanationModel[]) => TopicExplanationModel[],
-  addNewExplanationFileIfNotPresent = false
+  addNewExplanationFileIfNotPresent = false,
 ): Promise<GitCourseModel> {
   const spaceId = space.id;
   const { courseFromRepository, repoInfo } = await getCourseAndRepoInfo(space, input.courseKey);
@@ -91,10 +91,10 @@ export async function updateTopicExplanation(accountId: string, space: Space, in
                       details: input.details,
                       title: input.title,
                     }
-                  : explanation
+                  : explanation,
               ),
             }
-          : topic
+          : topic,
       ),
     };
   };
@@ -108,7 +108,7 @@ export async function updateTopicExplanation(accountId: string, space: Space, in
             shortTitle: input.shortTitle,
             details: input.details,
           }
-        : explanation
+        : explanation,
     );
   };
 
@@ -120,8 +120,8 @@ export async function addTopicExplanation(accountId: string, space: Space, input
 
   const { courseFromRepository } = await getCourseAndRepoInfo(space, input.courseKey);
 
-  const normalizedExplanationKey = courseFromRepository?.topics.some((topic) =>
-    topic.explanations?.some((explanation) => explanation.key === newExplanationKey)
+  const normalizedExplanationKey = courseFromRepository?.topics.some(
+    (topic) => topic.explanations?.some((explanation) => explanation.key === newExplanationKey),
   )
     ? `${newExplanationKey}-${getRandomInt(1, 100)}`
     : newExplanationKey;

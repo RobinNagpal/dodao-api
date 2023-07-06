@@ -38,11 +38,11 @@ function validateByteSubmission(byte: ByteModel, stepSubmissionsMap: UserByteSte
               item,
               stepResponse: stepSubmissionsMap?.[step.uuid],
               itemResponse: stepSubmissionsMap?.[step.uuid]?.[item.uuid],
-            })}`
+            })}`,
           );
         }
       }
-    })
+    }),
   );
 }
 

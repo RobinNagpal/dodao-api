@@ -61,7 +61,7 @@ export default async function upsertGitCourseTopicSubmission(_: unknown, args: M
               (reading): ReadingSubmission => ({
                 uuid: reading.uuid,
                 status: reading.status as TopicItemStatus,
-              })
+              }),
             ),
             summaries: args.gitCourseTopicSubmission.summaries as SummarySubmission[],
           },

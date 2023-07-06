@@ -16,7 +16,7 @@ export async function appendToGalaxyCredentials(accessToken: string, credentials
         headers: {
           'access-token': accessToken,
         },
-      }
+      },
     );
     console.log('Project galaxy response :', JSON.stringify(response.data));
   } catch (error) {

@@ -12,7 +12,7 @@ export async function getAcademyObjectKeysFromRedis(spaceId: string, objectType:
 export async function getAcademyObjectFromRedis<T extends AcademyObject>(
   spaceId: string,
   objectType: AcademyObjectTypes,
-  objectKey: string
+  objectKey: string,
 ): Promise<T | undefined> {
   const redisKeyForObject = getRedisKeyForAcademyObject(spaceId, objectType, objectKey);
   const objectsString = await getRedisValue(redisKeyForObject);

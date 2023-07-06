@@ -39,7 +39,7 @@ export function transformGitGuideIntoGuide(guide: GitGuideModel, space: Space, g
             order: i,
           };
         }),
-      })
+      }),
     ),
   };
 }

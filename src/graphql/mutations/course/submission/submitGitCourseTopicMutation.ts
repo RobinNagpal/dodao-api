@@ -44,7 +44,7 @@ export default async function submitGitCourseTopicMutation(_: unknown, args: Mut
     }
 
     const submissionQuestionsMap: { [uuid in string]: CourseQuestionSubmission } = Object.fromEntries(
-      topicSubmission.submission.questions.map((q: CourseQuestionSubmission) => [q.uuid, q])
+      topicSubmission.submission.questions.map((q: CourseQuestionSubmission) => [q.uuid, q]),
     );
 
     const correctAndIncorrectQuestions = partition(topicModel.questions, (q: TopicQuestionModel) => {

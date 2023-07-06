@@ -48,7 +48,7 @@ export async function doUpdateTopicQuestion<T extends { courseKey: string; topic
   input: T,
   courseUpdateFn: (updatedCourse: GitCourseModel) => GitCourseModel,
   questionsUpdateFn: (questions: TopicQuestionModel[]) => TopicQuestionModel[],
-  addNewQuestionsFileIfNotPresent = false
+  addNewQuestionsFileIfNotPresent = false,
 ): Promise<GitCourseModel> {
   const spaceId = space.id;
   const { courseFromRepository, repoInfo } = await getCourseAndRepoInfo(space, input.courseKey);
@@ -99,10 +99,10 @@ export async function updateTopicQuestion(accountId: string, space: Space, input
                       difficultyLevel: 'Medium',
                       choices: input.choices,
                     }
-                  : question
+                  : question,
               ),
             }
-          : topic
+          : topic,
       ),
     };
   };
@@ -121,7 +121,7 @@ export async function updateTopicQuestion(accountId: string, space: Space, input
             difficultyLevel: 'Medium',
             choices: input.choices.map((choice): QuestionChoice => ({ key: choice.key, content: choice.content })),
           }
-        : question
+        : question,
     );
   };
 

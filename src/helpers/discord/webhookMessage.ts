@@ -21,7 +21,7 @@ export async function postGuideSubmission(
   guide: GuideModel,
   msg: GuideSubmissionInput,
   guideResult: GuideSubmissionResult,
-  stepSubmissionsMap: UserGuideStepSubmission
+  stepSubmissionsMap: UserGuideStepSubmission,
 ) {
   let author: DiscordAuthor | undefined = undefined;
   const spaceId = msg.space;
@@ -123,7 +123,7 @@ export async function postTopicSubmission(
   space: Space,
   course: GitCourseModel,
   topic: GitCourseTopicModel,
-  submissionModel: GitCourseTopicSubmission
+  submissionModel: GitCourseTopicSubmission,
 ) {
   const embeds = [
     {

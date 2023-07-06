@@ -12,7 +12,7 @@ import { IncomingMessage } from 'http';
 export default async function publishByteMutation(
   _: unknown,
   { spaceId, input }: MutationPublishByteArgs & { input: UpsertByteInput },
-  context: IncomingMessage
+  context: IncomingMessage,
 ) {
   try {
     const spaceById = await prisma.space.findUnique({ where: { id: spaceId } });

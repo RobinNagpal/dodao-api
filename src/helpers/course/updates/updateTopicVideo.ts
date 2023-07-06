@@ -45,7 +45,7 @@ export async function doUpdateTopicVideo<T extends { courseKey: string; topicKey
   input: T,
   courseUpdateFn: (updatedCourse: GitCourseModel) => GitCourseModel,
   readingsUpdateFn: (readings: TopicReadingModel[]) => TopicReadingModel[],
-  addNewReadingsFileIfNotPresent = false
+  addNewReadingsFileIfNotPresent = false,
 ): Promise<GitCourseModel> {
   const spaceId = space.id;
   const { courseFromRepository, repoInfo } = await getCourseAndRepoInfo(space, input.courseKey);
@@ -95,10 +95,10 @@ export async function updateTopicVideo(accountId: string, space: Space, input: U
                       url: input.url,
                       subTopics: [],
                     }
-                  : reading
+                  : reading,
               ),
             }
-          : topic
+          : topic,
       ),
     };
   };
@@ -114,7 +114,7 @@ export async function updateTopicVideo(accountId: string, space: Space, input: U
             url: input.url,
             subTopics: [],
           }
-        : reading
+        : reading,
     );
   };
 
@@ -141,7 +141,7 @@ export async function addTopicVideo(accountId: string, space: Space, input: AddT
               ...topic,
               readings: [...(topic.readings || []), newVideo],
             }
-          : topic
+          : topic,
       ),
     };
   };
@@ -164,7 +164,7 @@ export async function deleteTopicVideo(accountId: string, space: Space, input: D
               ...topic,
               readings: topic.readings?.filter((reading) => reading.uuid !== input.videoUuid),
             }
-          : topic
+          : topic,
       ),
     };
   };

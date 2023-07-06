@@ -25,7 +25,7 @@ function writeFileSyncRecursive(filename: string, content: string, charset: any)
       }
       return folderPath;
     },
-    root // first 'acc', important
+    root, // first 'acc', important
   );
 
   // -- write file

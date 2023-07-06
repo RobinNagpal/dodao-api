@@ -72,7 +72,7 @@ export async function readGitCourse(space: Space, rawGitCourseModel: { courseRep
 
 export async function pullGitCourseAndSetInRedis(
   space: Space,
-  rawGitCourseModel: { courseJsonUrl?: string | null; courseRepoUrl?: string | null }
+  rawGitCourseModel: { courseJsonUrl?: string | null; courseRepoUrl?: string | null },
 ): Promise<GitCourseModel> {
   if (rawGitCourseModel.courseRepoUrl) {
     const repoInfo = getCourseRepoInfo(space.id, rawGitCourseModel.courseRepoUrl);
@@ -116,7 +116,7 @@ export async function doGetGitCourseFromRedis(spaceId: string, courseKey: string
 }
 export async function getAllGitGitCoursesForSpace(
   space: Space,
-  publishStatuses: PublishStatus[] = [PublishStatus.Live, PublishStatus.Draft]
+  publishStatuses: PublishStatus[] = [PublishStatus.Live, PublishStatus.Draft],
 ): Promise<GitCourseModel[]> {
   const spaceId: string = space.id;
   console.log(`read courses for space ${spaceId}`);
@@ -124,7 +124,7 @@ export async function getAllGitGitCoursesForSpace(
   const rawGitCourseModels = await prisma.gitCourse.findMany({ where: { spaceId } });
 
   const filteredCourses: GitCourse[] = (rawGitCourseModels || []).filter((course: GitCourse) =>
-    publishStatuses.includes(course.publishStatus as PublishStatus)
+    publishStatuses.includes(course.publishStatus as PublishStatus),
   );
 
   for (const course of filteredCourses) {
