@@ -10,7 +10,7 @@ export function writeTextToPdf(backgroundImagePath: string, contents: { title: s
   });
 
   doc.pipe(fs.createWriteStream(outputPath));
-  let imgSize = sizeOf(backgroundImagePath);
+  const imgSize = sizeOf(backgroundImagePath);
 
   doc.font('Helvetica');
   doc.fontSize(100);
