@@ -37,5 +37,6 @@ export default async function upsertByteSocialShare(_: unknown, { spaceId, input
       },
     },
   });
+
   return savedObject;
 }

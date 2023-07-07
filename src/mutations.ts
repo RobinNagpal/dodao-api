@@ -1,5 +1,6 @@
 import mutations from '@/graphql/mutations';
 import generateSharablePdf from '@/graphql/mutations/byte/generateSharablePdf';
+import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShare';
 import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
@@ -26,6 +27,7 @@ export default {
 
   upsertGuideRating,
   generateSharablePdf,
+  upsertByteSocialShare,
 
   updateAuthSettings,
   updateGuideSettings,
