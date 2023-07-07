@@ -1805,7 +1805,6 @@ export type UpsertByteSocialShareInput = {
   linkedinPdfContent?: InputMaybe<ByteLinkedinPdfContentInput>;
   spaceId: Scalars['String'];
   twitterImage?: InputMaybe<Scalars['String']>;
-  uuid: Scalars['String'];
 };
 
 export type UpsertCourseIntegrationsInput = {

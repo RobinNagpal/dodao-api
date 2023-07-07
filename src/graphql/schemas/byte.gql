@@ -108,7 +108,6 @@ input ByteLinkedinPdfContentInput {
 }
 
 input UpsertByteSocialShareInput {
-  uuid: String!
   byteId: String!
   spaceId: String!
   linkedinPdfContent: ByteLinkedinPdfContentInput
