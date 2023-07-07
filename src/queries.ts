@@ -2,6 +2,7 @@ import academyTask from '@/graphql/queries/academyTask/academyTask';
 import academyTasks from '@/graphql/queries/academyTask/academyTasks';
 import byte from '@/graphql/queries/byte/byte';
 import bytes from '@/graphql/queries/byte/bytes';
+import byteSocialShare from '@/graphql/queries/byte/byteSocialShare';
 import gitCourse from '@/graphql/queries/course/gitCourse';
 import gitCourseIntegrations from '@/graphql/queries/course/gitCourseIntegrations';
 import gitCourseSubmission from '@/graphql/queries/course/gitCourseSubmission';
@@ -27,6 +28,8 @@ export default {
 
   byte,
   bytes,
+
+  byteSocialShare,
 
   courses,
   gitCourse,

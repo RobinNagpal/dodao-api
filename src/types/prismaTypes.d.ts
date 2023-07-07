@@ -1,5 +1,6 @@
 import { ByteStep as GraphqlByteStep } from '@/graphql/generated/graphql';
 import { AuthSettings as SpaceAuthSettings, GuideSettings as SpaceGuideSettings, SocialSettings as SpaceSocialSettings } from '@/graphql/generated/graphql';
+import { ByteLinkedPdfContent as ByteLinkedPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
 import { GuideSubmissionResult as GuideSubmissionResultInterface } from '@/types/guide/GuideSubmissionResult';
 import { GuidesGitRepository as GuidesGitRepositoryInterface } from '@/types/space/GuidesGitRepository';
@@ -16,5 +17,6 @@ declare global {
     type AuthSettings = SpaceAuthSettings;
     type GuideSettings = SpaceGuideSettings;
     type SocialSettings = SpaceSocialSettings;
+    type ByteLinkedPdfContent = ByteLinkedPdfContentType;
   }
 }
