@@ -1,6 +1,7 @@
 extend type Query {
   byte(spaceId: String!, byteId: String!, includeDraft: Boolean): Byte!
   bytes(spaceId: String!): [Byte!]!
+  byteSocialShare(spaceId: String!, byteId: String!): ByteSocialShare!
 }
 
 extend type Mutation {
@@ -8,6 +9,7 @@ extend type Mutation {
   saveByte(spaceId: String!, input: UpsertByteInput!): Byte!
   publishByte(spaceId: String!, input: UpsertByteInput!): Byte!
   generateSharablePdf(spaceId: String!, byteId: String!): String!
+  upsertByteSocialShare(spaceId: String!, input: UpsertByteSocialShareInput!): ByteSocialShare!
 }
 
 type Byte {
@@ -50,6 +52,29 @@ type ByteStep {
   uuid: String!
 }
 
+
+type ByteLinkedinPdfContentStep {
+  content: String!
+  name: String!
+}
+
+type ByteLinkedinPdfContent {
+  title: String!
+  excerpt: String!
+  steps: [ByteLinkedinPdfContentStep!]!
+}
+
+type ByteSocialShare {
+  uuid: String!
+  byteId: String!
+  spaceId: String!
+  linkedinPdfContent: ByteLinkedinPdfContent
+  linkedInImages: String
+  linkedInPdf: String
+  twitterImage: String
+}
+
+
 input ByteStepInput {
   content: String!
   name: String!
@@ -69,4 +94,25 @@ input UpsertByteInput {
   tags: [String!]!
   priority: Int!
   created: String!
+}
+
+input ByteLinkedinPdfContentStepInput {
+  content: String!
+  name: String!
+}
+
+input ByteLinkedinPdfContentInput {
+  title: String!
+  excerpt: String!
+  steps: [ByteLinkedinPdfContentStepInput!]!
+}
+
+input UpsertByteSocialShareInput {
+  uuid: String!
+  byteId: String!
+  spaceId: String!
+  linkedinPdfContent: ByteLinkedinPdfContentInput
+  linkedInImages: String
+  linkedInPdf: String
+  twitterImage: String
 }

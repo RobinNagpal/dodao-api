@@ -175,17 +175,21 @@ model Byte {
 }
 
 model ByteSocialShare {
-  uuid           String   @id @default(uuid()) @db.VarChar(255)
-  byteId         String   @map("byte_id") @db.VarChar(255)
-  linkedInImages String[] @default([]) @map("linked_in_images")
-  linkedInPdf    String?  @map("linked_in_pdf") @db.VarChar(1024)
-  twitterImage   String?  @map("twitter_image") @db.VarChar(1024)
-  createdAt      DateTime @default(now()) @map("created_at")
-  createdBy      String?  @map("created_by") @db.VarChar(256)
-  updatedAt      DateTime @updatedAt @map("updated_at")
-  updatedBy      String?  @map("updated_by") @db.VarChar(256)
+  uuid               String   @id @default(uuid()) @db.VarChar(255)
+  byteId             String   @map("byte_id") @db.VarChar(255)
+  spaceId            String   @map("space_id") @db.VarChar(255)
+  /// [ByteLinkedPdfContent]
+  linkedinPdfContent Json?    @map("linkedin_pdf_content") @db.Json
+  linkedInImages     String[] @default([]) @map("linked_in_images")
+  linkedInPdf        String?  @map("linked_in_pdf") @db.VarChar(1024)
+  twitterImage       String?  @map("twitter_image") @db.VarChar(1024)
+  createdAt          DateTime @default(now()) @map("created_at")
+  createdBy          String?  @map("created_by") @db.VarChar(256)
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  updatedBy          String?  @map("updated_by") @db.VarChar(256)
 
   @@unique([byteId])
+  @@unique([byteId, spaceId])
   @@map("byte_social_shares")
 }
 

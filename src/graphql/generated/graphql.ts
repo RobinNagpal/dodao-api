@@ -105,6 +105,30 @@ export type Byte = {
   visibility?: Maybe<Scalars['String']>;
 };
 
+export type ByteLinkedinPdfContent = {
+  __typename?: 'ByteLinkedinPdfContent';
+  excerpt: Scalars['String'];
+  steps: Array<ByteLinkedinPdfContentStep>;
+  title: Scalars['String'];
+};
+
+export type ByteLinkedinPdfContentInput = {
+  excerpt: Scalars['String'];
+  steps: Array<ByteLinkedinPdfContentStepInput>;
+  title: Scalars['String'];
+};
+
+export type ByteLinkedinPdfContentStep = {
+  __typename?: 'ByteLinkedinPdfContentStep';
+  content: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type ByteLinkedinPdfContentStepInput = {
+  content: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type ByteQuestion = {
   __typename?: 'ByteQuestion';
   answerKeys: Array<Scalars['String']>;
@@ -112,6 +136,17 @@ export type ByteQuestion = {
   content: Scalars['String'];
   explanation: Scalars['String'];
   type: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
+export type ByteSocialShare = {
+  __typename?: 'ByteSocialShare';
+  byteId: Scalars['String'];
+  linkedInImages?: Maybe<Scalars['String']>;
+  linkedInPdf?: Maybe<Scalars['String']>;
+  linkedinPdfContent?: Maybe<ByteLinkedinPdfContent>;
+  spaceId: Scalars['String'];
+  twitterImage?: Maybe<Scalars['String']>;
   uuid: Scalars['String'];
 };
 
@@ -858,6 +893,7 @@ export type Mutation = {
   updateTopicVideo: GitCourse;
   upsertAcademyTask: AcademyTask;
   upsertByte: Byte;
+  upsertByteSocialShare: ByteSocialShare;
   upsertCourseIntegrations: CourseIntegrations;
   upsertGitCourse?: Maybe<SummarizedGitCourse>;
   upsertGitCourseTopicSubmission: GitCourseTopicSubmission;
@@ -1160,6 +1196,12 @@ export type MutationUpsertByteArgs = {
 };
 
 
+export type MutationUpsertByteSocialShareArgs = {
+  input: UpsertByteSocialShareInput;
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationUpsertCourseIntegrationsArgs = {
   courseIntegrationInput: UpsertCourseIntegrationsInput;
   spaceId: Scalars['String'];
@@ -1307,6 +1349,7 @@ export type Query = {
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
   byte: Byte;
+  byteSocialShare: ByteSocialShare;
   bytes: Array<Byte>;
   courses: Array<GitCourse>;
   gitCourse: GitCourse;
@@ -1345,6 +1388,12 @@ export type QueryAcademyTasksArgs = {
 export type QueryByteArgs = {
   byteId: Scalars['String'];
   includeDraft?: InputMaybe<Scalars['Boolean']>;
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryByteSocialShareArgs = {
+  byteId: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -1749,6 +1798,16 @@ export type UpsertByteInput = {
   visibility?: InputMaybe<Scalars['String']>;
 };
 
+export type UpsertByteSocialShareInput = {
+  byteId: Scalars['String'];
+  linkedInImages?: InputMaybe<Scalars['String']>;
+  linkedInPdf?: InputMaybe<Scalars['String']>;
+  linkedinPdfContent?: InputMaybe<ByteLinkedinPdfContentInput>;
+  spaceId: Scalars['String'];
+  twitterImage?: InputMaybe<Scalars['String']>;
+  uuid: Scalars['String'];
+};
+
 export type UpsertCourseIntegrationsInput = {
   courseKey: Scalars['String'];
   discordRoleIds: Array<Scalars['String']>;
@@ -1946,7 +2005,12 @@ export type ResolversTypes = {
   AuthSettingsInput: AuthSettingsInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Byte: ResolverTypeWrapper<Byte>;
+  ByteLinkedinPdfContent: ResolverTypeWrapper<ByteLinkedinPdfContent>;
+  ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
+  ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
+  ByteLinkedinPdfContentStepInput: ByteLinkedinPdfContentStepInput;
   ByteQuestion: ResolverTypeWrapper<ByteQuestion>;
+  ByteSocialShare: ResolverTypeWrapper<ByteSocialShare>;
   ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversTypes['ByteStepItem']> }>;
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolverTypeWrapper<ResolversUnionTypes['ByteStepItem']>;
@@ -2080,6 +2144,7 @@ export type ResolversTypes = {
   UpdateTopicVideoInput: UpdateTopicVideoInput;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
+  UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertSimulationInput: UpsertSimulationInput;
@@ -2105,7 +2170,12 @@ export type ResolversParentTypes = {
   AuthSettingsInput: AuthSettingsInput;
   Boolean: Scalars['Boolean'];
   Byte: Byte;
+  ByteLinkedinPdfContent: ByteLinkedinPdfContent;
+  ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
+  ByteLinkedinPdfContentStep: ByteLinkedinPdfContentStep;
+  ByteLinkedinPdfContentStepInput: ByteLinkedinPdfContentStepInput;
   ByteQuestion: ByteQuestion;
+  ByteSocialShare: ByteSocialShare;
   ByteStep: Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversParentTypes['ByteStepItem']> };
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolversUnionParentTypes['ByteStepItem'];
@@ -2237,6 +2307,7 @@ export type ResolversParentTypes = {
   UpdateTopicVideoInput: UpdateTopicVideoInput;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
+  UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertSimulationInput: UpsertSimulationInput;
@@ -2292,12 +2363,36 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ByteLinkedinPdfContentResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteLinkedinPdfContent'] = ResolversParentTypes['ByteLinkedinPdfContent']> = {
+  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  steps?: Resolver<Array<ResolversTypes['ByteLinkedinPdfContentStep']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteLinkedinPdfContentStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteLinkedinPdfContentStep'] = ResolversParentTypes['ByteLinkedinPdfContentStep']> = {
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ByteQuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteQuestion'] = ResolversParentTypes['ByteQuestion']> = {
   answerKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   choices?: Resolver<Array<ResolversTypes['QuestionChoice']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   explanation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteSocialShareResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteSocialShare'] = ResolversParentTypes['ByteSocialShare']> = {
+  byteId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  linkedInImages?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkedInPdf?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkedinPdfContent?: Resolver<Maybe<ResolversTypes['ByteLinkedinPdfContent']>, ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  twitterImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -2777,6 +2872,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   upsertAcademyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<MutationUpsertAcademyTaskArgs, 'spaceId' | 'task'>>;
   upsertByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationUpsertByteArgs, 'input' | 'spaceId'>>;
+  upsertByteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<MutationUpsertByteSocialShareArgs, 'input' | 'spaceId'>>;
   upsertCourseIntegrations?: Resolver<ResolversTypes['CourseIntegrations'], ParentType, ContextType, RequireFields<MutationUpsertCourseIntegrationsArgs, 'courseIntegrationInput' | 'spaceId'>>;
   upsertGitCourse?: Resolver<Maybe<ResolversTypes['SummarizedGitCourse']>, ParentType, ContextType, RequireFields<MutationUpsertGitCourseArgs, 'gitCourseInput' | 'spaceId'>>;
   upsertGitCourseTopicSubmission?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationUpsertGitCourseTopicSubmissionArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
@@ -2851,6 +2947,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
+  byteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
@@ -3041,7 +3138,10 @@ export type Resolvers<ContextType = any> = {
   Any?: GraphQLScalarType;
   AuthSettings?: AuthSettingsResolvers<ContextType>;
   Byte?: ByteResolvers<ContextType>;
+  ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
+  ByteLinkedinPdfContentStep?: ByteLinkedinPdfContentStepResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;
+  ByteSocialShare?: ByteSocialShareResolvers<ContextType>;
   ByteStep?: ByteStepResolvers<ContextType>;
   ByteStepItem?: ByteStepItemResolvers<ContextType>;
   ByteStepItemSubmission?: ByteStepItemSubmissionResolvers<ContextType>;
