@@ -4,6 +4,7 @@ import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermissi
 import { prisma } from '@/prisma';
 import { ByteSocialShare } from '@prisma/client';
 import { IncomingMessage } from 'http';
+import { v4 } from 'uuid';
 
 export default async function upsertByteSocialShare(_: unknown, { spaceId, input }: MutationUpsertByteSocialShareArgs, context: IncomingMessage) {
   const spaceById = await getSpaceById(spaceId);
@@ -11,6 +12,7 @@ export default async function upsertByteSocialShare(_: unknown, { spaceId, input
 
   const savedObject: ByteSocialShare = await prisma.byteSocialShare.upsert({
     create: {
+      uuid: v4(),
       byteId: input.byteId,
       spaceId: spaceId,
       linkedinPdfContent: input.linkedinPdfContent || undefined,
