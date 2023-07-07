@@ -1,7 +1,7 @@
 extend type Query {
   byte(spaceId: String!, byteId: String!, includeDraft: Boolean): Byte!
   bytes(spaceId: String!): [Byte!]!
-  byteSocialShare(spaceId: String!, byteId: String!): ByteSocialShare!
+  byteSocialShare(spaceId: String!, byteId: String!): ByteSocialShare
 }
 
 extend type Mutation {
@@ -69,7 +69,7 @@ type ByteSocialShare {
   byteId: String!
   spaceId: String!
   linkedinPdfContent: ByteLinkedinPdfContent
-  linkedInImages: String
+  linkedInImages: [String!]
   linkedInPdf: String
   twitterImage: String
 }
@@ -112,7 +112,7 @@ input UpsertByteSocialShareInput {
   byteId: String!
   spaceId: String!
   linkedinPdfContent: ByteLinkedinPdfContentInput
-  linkedInImages: String
+  linkedInImages: [String!]
   linkedInPdf: String
   twitterImage: String
 }

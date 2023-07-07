@@ -142,7 +142,7 @@ export type ByteQuestion = {
 export type ByteSocialShare = {
   __typename?: 'ByteSocialShare';
   byteId: Scalars['String'];
-  linkedInImages?: Maybe<Scalars['String']>;
+  linkedInImages?: Maybe<Array<Scalars['String']>>;
   linkedInPdf?: Maybe<Scalars['String']>;
   linkedinPdfContent?: Maybe<ByteLinkedinPdfContent>;
   spaceId: Scalars['String'];
@@ -1349,7 +1349,7 @@ export type Query = {
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
   byte: Byte;
-  byteSocialShare: ByteSocialShare;
+  byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
   courses: Array<GitCourse>;
   gitCourse: GitCourse;
@@ -1800,7 +1800,7 @@ export type UpsertByteInput = {
 
 export type UpsertByteSocialShareInput = {
   byteId: Scalars['String'];
-  linkedInImages?: InputMaybe<Scalars['String']>;
+  linkedInImages?: InputMaybe<Array<Scalars['String']>>;
   linkedInPdf?: InputMaybe<Scalars['String']>;
   linkedinPdfContent?: InputMaybe<ByteLinkedinPdfContentInput>;
   spaceId: Scalars['String'];
@@ -2388,7 +2388,7 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
 
 export type ByteSocialShareResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteSocialShare'] = ResolversParentTypes['ByteSocialShare']> = {
   byteId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  linkedInImages?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkedInImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   linkedInPdf?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   linkedinPdfContent?: Resolver<Maybe<ResolversTypes['ByteLinkedinPdfContent']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2947,7 +2947,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
-  byteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
+  byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
