@@ -1701,12 +1701,12 @@ export type Timeline = {
 
 export type TimelineEvent = {
   __typename?: 'TimelineEvent';
-  content: Scalars['String'];
-  date: Scalars['String'];
-  excerpt: Scalars['String'];
+  date: Scalars['DateTimeISO'];
+  fullDetails?: Maybe<Scalars['String']>;
   moreLink?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
   order: Scalars['Int'];
+  summary: Scalars['String'];
+  title: Scalars['String'];
   uuid: Scalars['String'];
 };
 
@@ -1857,11 +1857,11 @@ export type UpsertSpaceInput = {
 };
 
 export type UpsertTimelineEventInput = {
-  content: Scalars['String'];
-  date: Scalars['String'];
-  excerpt: Scalars['String'];
+  date: Scalars['DateTimeISO'];
+  fullDetails: Scalars['String'];
   moreLink?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  summary: Scalars['String'];
+  title: Scalars['String'];
   uuid: Scalars['String'];
 };
 
@@ -3100,12 +3100,12 @@ export type TimelineResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type TimelineEventResolvers<ContextType = any, ParentType extends ResolversParentTypes['TimelineEvent'] = ResolversParentTypes['TimelineEvent']> = {
-  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  fullDetails?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   moreLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  summary?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

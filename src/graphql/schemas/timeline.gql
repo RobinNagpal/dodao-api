@@ -22,11 +22,11 @@ type Timeline {
 }
 
 type TimelineEvent {
-  name: String!
+  title: String!
   uuid: String!
-  date: String!
-  excerpt: String!
-  content: String!
+  date: DateTimeISO!
+  summary: String!
+  fullDetails: String
   moreLink: String
   order: Int!
 }
@@ -46,10 +46,10 @@ input UpsertTimelineInput {
 }
 
 input UpsertTimelineEventInput {
-  name: String!
+  title: String!
   uuid: String!
-  date: String!
-  excerpt: String!
-  content: String!
+  date: DateTimeISO!
+  summary: String!
+  fullDetails: String
   moreLink: String
 }

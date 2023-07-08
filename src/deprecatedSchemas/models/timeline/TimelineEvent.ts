@@ -1,8 +1,8 @@
 export interface TimelineEvent {
-  name: string;
+  title: string;
   uuid: string;
   date: string;
-  excerpt: string;
-  content: string;
+  summary: string;
+  fullDetails?: string;
   moreLink?: string | null;
 }
