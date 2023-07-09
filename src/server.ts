@@ -1,19 +1,19 @@
+import { logError } from '@/helpers/errorLogger';
 import { setupGitLoader } from '@/helpers/gitLoader';
-import { GraphqlContext } from '@/types/GraphqlContext';
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware, ExpressContextFunctionArgument } from '@apollo/server/express4';
+import { ExpressContextFunctionArgument, expressMiddleware } from '@apollo/server/express4';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import { json } from 'body-parser';
 import cors from 'cors';
 import express from 'express';
+import { GraphQLDateTimeISO } from 'graphql-scalars';
 import { GraphQLFormattedError } from 'graphql/error';
 import { IncomingHttpHeaders } from 'http';
 import * as path from 'path';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
-import { GraphQLDateTimeISO } from 'graphql-scalars';
 
 const typesArray = loadFilesSync(path.join(__dirname, './graphql'), { extensions: ['gql'] });
 
@@ -30,6 +30,7 @@ const app = express();
     plugins: [],
     formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
       console.error(error);
+      logError(formattedError?.message, { ...formattedError, error } as any);
       return formattedError;
     },
   });
