@@ -3,6 +3,6 @@ export interface TimelineEvent {
   uuid: string;
   date: string;
   summary: string;
-  fullDetails?: string;
+  fullDetails?: string | null;
   moreLink?: string | null;
 }

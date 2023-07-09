@@ -139,6 +139,19 @@ export type ByteQuestion = {
   uuid: Scalars['String'];
 };
 
+export type ByteSettings = {
+  __typename?: 'ByteSettings';
+  askForLoginToSubmit?: Maybe<Scalars['Boolean']>;
+  captureBeforeAndAfterRating?: Maybe<Scalars['Boolean']>;
+  showCategoriesInSidebar?: Maybe<Scalars['Boolean']>;
+};
+
+export type ByteSettingsInput = {
+  askForLoginToSubmit?: InputMaybe<Scalars['Boolean']>;
+  captureBeforeAndAfterRating?: InputMaybe<Scalars['Boolean']>;
+  showCategoriesInSidebar?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type ByteSocialShare = {
   __typename?: 'ByteSocialShare';
   byteId: Scalars['String'];
@@ -882,6 +895,7 @@ export type Mutation = {
   submitGitCourseTopic: GitCourseTopicSubmission;
   submitGuide: GuideSubmission;
   updateAuthSettings: Space;
+  updateByteSettings: Space;
   updateCourseBasicInfo: GitCourse;
   updateGuideSettings: Space;
   updateSocialSettings: Space;
@@ -1127,6 +1141,12 @@ export type MutationSubmitGuideArgs = {
 
 export type MutationUpdateAuthSettingsArgs = {
   input: AuthSettingsInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateByteSettingsArgs = {
+  input: ByteSettingsInput;
   spaceId: Scalars['String'];
 };
 
@@ -1574,6 +1594,7 @@ export type Space = {
   admins: Array<Scalars['String']>;
   authSettings: AuthSettings;
   avatar?: Maybe<Scalars['String']>;
+  byteSettings: ByteSettings;
   creator: Scalars['String'];
   domains: Array<Scalars['String']>;
   features: Array<Scalars['String']>;
@@ -1858,7 +1879,7 @@ export type UpsertSpaceInput = {
 
 export type UpsertTimelineEventInput = {
   date: Scalars['DateTimeISO'];
-  fullDetails: Scalars['String'];
+  fullDetails?: InputMaybe<Scalars['String']>;
   moreLink?: InputMaybe<Scalars['String']>;
   summary: Scalars['String'];
   title: Scalars['String'];
@@ -2009,6 +2030,8 @@ export type ResolversTypes = {
   ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
   ByteLinkedinPdfContentStepInput: ByteLinkedinPdfContentStepInput;
   ByteQuestion: ResolverTypeWrapper<ByteQuestion>;
+  ByteSettings: ResolverTypeWrapper<ByteSettings>;
+  ByteSettingsInput: ByteSettingsInput;
   ByteSocialShare: ResolverTypeWrapper<ByteSocialShare>;
   ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversTypes['ByteStepItem']> }>;
   ByteStepInput: ByteStepInput;
@@ -2174,6 +2197,8 @@ export type ResolversParentTypes = {
   ByteLinkedinPdfContentStep: ByteLinkedinPdfContentStep;
   ByteLinkedinPdfContentStepInput: ByteLinkedinPdfContentStepInput;
   ByteQuestion: ByteQuestion;
+  ByteSettings: ByteSettings;
+  ByteSettingsInput: ByteSettingsInput;
   ByteSocialShare: ByteSocialShare;
   ByteStep: Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversParentTypes['ByteStepItem']> };
   ByteStepInput: ByteStepInput;
@@ -2382,6 +2407,13 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
   explanation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteSettings'] = ResolversParentTypes['ByteSettings']> = {
+  askForLoginToSubmit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  captureBeforeAndAfterRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showCategoriesInSidebar?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2860,6 +2892,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
+  updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
   updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
@@ -3018,6 +3051,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   authSettings?: Resolver<ResolversTypes['AuthSettings'], ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  byteSettings?: Resolver<ResolversTypes['ByteSettings'], ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   domains?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   features?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
@@ -3140,6 +3174,7 @@ export type Resolvers<ContextType = any> = {
   ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
   ByteLinkedinPdfContentStep?: ByteLinkedinPdfContentStepResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;
+  ByteSettings?: ByteSettingsResolvers<ContextType>;
   ByteSocialShare?: ByteSocialShareResolvers<ContextType>;
   ByteStep?: ByteStepResolvers<ContextType>;
   ByteStepItem?: ByteStepItemResolvers<ContextType>;

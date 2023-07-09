@@ -33,6 +33,7 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     guideSettings: {},
     authSettings: {},
     socialSettings: {},
+    byteSettings: {},
   };
 
   await prisma.space.create({

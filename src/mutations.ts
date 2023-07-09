@@ -10,6 +10,7 @@ import extractRelevantTextForTopic from '@/graphql/mutations/openAI/extractRelev
 import generateImage from '@/graphql/mutations/openAI/generateImage';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import { updateAuthSettings } from '@/graphql/mutations/space/updateAuthSettings';
+import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings';
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
@@ -32,6 +33,7 @@ export default {
   updateAuthSettings,
   updateGuideSettings,
   updateSocialSettings,
+  updateByteSettings,
 
   ...mutations,
 };

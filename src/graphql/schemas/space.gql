@@ -17,6 +17,8 @@ extend type Mutation {
 
   updateSocialSettings(spaceId: String!, input: SocialSettingsInput!): Space!
 
+  updateByteSettings(spaceId: String!, input: ByteSettingsInput!): Space!
+
   addDiscordCredentials(spaceId: String!, code: String!, redirectUri: String!): Space!
 
   upsertGnosisSafeWallets(spaceId: String!, wallets: [GnosisSafeWalletInput!]!): Space!
@@ -51,6 +53,7 @@ type Space {
   authSettings: AuthSettings!
   guideSettings: GuideSettings!
   socialSettings: SocialSettings!
+  byteSettings: ByteSettings!
 }
 
 type AuthSettings {
@@ -61,6 +64,12 @@ type AuthSettings {
 type GuideSettings {
   showIncorrectOnCompletion: Boolean
   showIncorrectAfterEachStep: Boolean
+  askForLoginToSubmit: Boolean
+  captureBeforeAndAfterRating: Boolean
+  showCategoriesInSidebar: Boolean
+}
+
+type ByteSettings {
   askForLoginToSubmit: Boolean
   captureBeforeAndAfterRating: Boolean
   showCategoriesInSidebar: Boolean
@@ -190,3 +199,11 @@ input AuthSettingsInput {
   enableLogin: Boolean!
   loginOptions: [String!]!
 }
+
+input ByteSettingsInput {
+  askForLoginToSubmit: Boolean
+  captureBeforeAndAfterRating: Boolean
+  showCategoriesInSidebar: Boolean
+}
+
+

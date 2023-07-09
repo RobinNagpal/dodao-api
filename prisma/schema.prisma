@@ -140,6 +140,8 @@ model Space {
   guideSettings     Json                @default("{}") @map("guide_settings") @db.Json
   /// [SocialSettings]
   socialSettings    Json                @default("{}") @map("social_settings") @db.Json
+  /// [ByteSettings]
+  byteSettings      Json                @default("{}") @map("byte_settings") @db.Json
   features          String[]
   CourseIntegration CourseIntegration[]
   GitCourse         GitCourse[]
