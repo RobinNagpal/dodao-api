@@ -38,6 +38,9 @@ jobs:
       - name: Run Prettier
         run: yarn prettier-check
 
+      - name: Run Compiler
+        run: yarn tsc
+
   build_and_push_docker:
     needs: lint_and_prettier
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

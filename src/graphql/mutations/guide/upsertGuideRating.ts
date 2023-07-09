@@ -1,8 +1,8 @@
 import { MutationUpsertGuideRatingArgs } from '@/graphql/generated/graphql';
 import { prisma } from '@/prisma';
-import { Context } from '@/types/Context';
+import { GraphqlContext } from '@/types/GraphqlContext';
 
-export default async function upsertGuideRating(_: unknown, args: MutationUpsertGuideRatingArgs, context: Context) {
+export default async function upsertGuideRating(_: unknown, args: MutationUpsertGuideRatingArgs, context: GraphqlContext) {
   return prisma.guideRating.upsert({
     where: {
       ratingUuid: args.upsertGuideRatingInput.ratingUuid,

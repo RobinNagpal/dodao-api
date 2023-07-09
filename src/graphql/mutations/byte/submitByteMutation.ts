@@ -1,96 +1,42 @@
-import { verifyJwt } from '@/helpers/login';
-import { ByteModel, isUserDiscordConnect, isUserInput, UserInput } from '@/deprecatedSchemas/models/byte/ByteModel';
-import { ByteSubmission, ByteSubmissionInput, MutationSubmitByteArgs } from '@/graphql/generated/graphql';
+import { ByteModel } from '@/deprecatedSchemas/models/byte/ByteModel';
+import { MutationSubmitByteArgs } from '@/graphql/generated/graphql';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
-import { logError } from '@/helpers/adapters/errorLogger';
 import { postByteSubmission } from '@/helpers/discord/webhookMessage';
-import { SubmissionItemInfo, UserByteQuestionSubmission, UserByteStepSubmission } from '@/helpers/types/byteSubmisstion';
+import { getOptioanlJwt } from '@/helpers/permissions/getJwtFromContext';
 import { prisma } from '@/prisma';
-import { IncomingMessage } from 'http';
-import { ByteSubmissionWithSteps } from '@/deprecatedSchemas/ByteSubmissionWithSteps';
+import { GraphqlContext } from '@/types/GraphqlContext';
 
-function getByteStepSubmissionMap(msg: ByteSubmissionInput) {
-  const stepEntries = msg.steps.map((step) => {
-    const stepItemEntries = step.itemResponses.map((item) => {
-      const submissionItemInfo: SubmissionItemInfo = {
-        uuid: item.uuid,
-        type: item.type.toString(),
-        value: item.userInput || item.userDiscordInfo,
-      };
-      return [item.uuid, submissionItemInfo];
-    });
-    const itemSubmissionsMap: UserByteQuestionSubmission = Object.fromEntries(stepItemEntries);
-
-    return [step.uuid, itemSubmissionsMap];
+export default async function submitByteMutation(_: unknown, byteInput: MutationSubmitByteArgs, context: GraphqlContext) {
+  const space = await prisma.space.findUniqueOrThrow({
+    where: {
+      id: byteInput.submissionInput.space,
+    },
   });
-  return Object.fromEntries(stepEntries);
-}
-
-function validateByteSubmission(byte: ByteModel, stepSubmissionsMap: UserByteStepSubmission) {
-  byte.steps.forEach((step) =>
-    step.stepItems.forEach((item) => {
-      const isRequiredUserInput = isUserInput(item) && (item as UserInput).required;
-      if (isRequiredUserInput || isUserDiscordConnect(item)) {
-        if (!stepSubmissionsMap?.[step.uuid]?.[item.uuid]?.value) {
-          throw Error(
-            `Field is required ${JSON.stringify({
-              item,
-              stepResponse: stepSubmissionsMap?.[step.uuid],
-              itemResponse: stepSubmissionsMap?.[step.uuid]?.[item.uuid],
-            })}`,
-          );
-        }
-      }
-    }),
-  );
-}
-
-async function doSubmitByte(user: string, msg: ByteSubmissionInput): Promise<ByteSubmission> {
-  const spaceId = msg.space;
-
-  const stepSubmissionsMap: UserByteStepSubmission = getByteStepSubmissionMap(msg);
+  const decodedJWT = getOptioanlJwt(context);
+  const user = decodedJWT?.accountId.toLowerCase();
 
   // eslint-disable-next-line no-undef
-  const byte: ByteModel | undefined = await getAcademyObjectFromRedis(spaceId, AcademyObjectTypes.bytes, msg.byteId);
+  const byte: ByteModel | undefined = await getAcademyObjectFromRedis(space.id, AcademyObjectTypes.bytes, byteInput.submissionInput.byteId);
 
   if (!byte) {
-    throw new Error(`No byte found with uuid ${msg.byteId}`);
+    throw new Error(`No byte found with uuid ${byteInput.submissionInput.byteId}`);
   }
 
-  validateByteSubmission(byte, stepSubmissionsMap);
-
-  const submission: ByteSubmissionWithSteps = {
-    id: msg.uuid,
-    createdBy: user,
-    byteId: byte.id,
-    spaceId: spaceId,
-    steps: msg.steps,
-    created: new Date().toISOString(),
-  };
-
-  await prisma.byteSubmission.create({
-    data: submission,
+  const submission = await prisma.byteSubmission.create({
+    data: {
+      id: byteInput.submissionInput.uuid,
+      createdBy: user || 'anonymous',
+      byteId: byte.id,
+      spaceId: space.id,
+      ipAddress: context.ip,
+      created: new Date().toISOString(),
+    },
   });
 
   if (process.env.ALL_GUIDE_SUBMISSIONS_WEBHOOK) {
-    postByteSubmission(process.env.ALL_GUIDE_SUBMISSIONS_WEBHOOK, byte, msg, stepSubmissionsMap);
+    postByteSubmission(process.env.ALL_GUIDE_SUBMISSIONS_WEBHOOK, byte, byteInput.submissionInput);
   }
 
-  return { ...submission };
-}
-
-export default async function submitByteMutation(_: unknown, byteInput: MutationSubmitByteArgs, context: IncomingMessage) {
-  try {
-    const decodedJWT = verifyJwt(context);
-    const user = decodedJWT.accountId.toLowerCase();
-    if (!user) {
-      throw Error('No accountId present in JWT');
-    }
-
-    return await doSubmitByte(user, byteInput.submissionInput);
-  } catch (e) {
-    await logError((e as any)?.response?.data || 'Error in upsertByte', {}, e as any, null, null);
-    throw e;
-  }
+  return submission;
 }

@@ -180,33 +180,6 @@ export type ByteStepInput = {
 
 export type ByteStepItem = ByteQuestion | ByteUserInput | UserDiscordConnect;
 
-export type ByteStepItemSubmission = {
-  __typename?: 'ByteStepItemSubmission';
-  selectedAnswerKeys?: Maybe<Array<Scalars['String']>>;
-  type: Scalars['String'];
-  userDiscordInfo?: Maybe<UserDiscordInfo>;
-  userInput?: Maybe<Scalars['String']>;
-  uuid: Scalars['String'];
-};
-
-export type ByteStepItemSubmissionInput = {
-  type: Scalars['String'];
-  userDiscordInfo?: InputMaybe<UserDiscordInfoInput>;
-  userInput?: InputMaybe<Scalars['String']>;
-  uuid: Scalars['String'];
-};
-
-export type ByteStepSubmission = {
-  __typename?: 'ByteStepSubmission';
-  itemResponses: Array<ByteStepItemSubmission>;
-  uuid: Scalars['String'];
-};
-
-export type ByteStepSubmissionInput = {
-  itemResponses: Array<ByteStepItemSubmissionInput>;
-  uuid: Scalars['String'];
-};
-
 export type ByteSubmission = {
   __typename?: 'ByteSubmission';
   byteId: Scalars['String'];
@@ -220,7 +193,6 @@ export type ByteSubmissionInput = {
   byteId: Scalars['String'];
   from: Scalars['String'];
   space: Scalars['String'];
-  steps: Array<ByteStepSubmissionInput>;
   timestamp?: InputMaybe<Scalars['String']>;
   uuid: Scalars['String'];
 };
@@ -2036,10 +2008,6 @@ export type ResolversTypes = {
   ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversTypes['ByteStepItem']> }>;
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolverTypeWrapper<ResolversUnionTypes['ByteStepItem']>;
-  ByteStepItemSubmission: ResolverTypeWrapper<ByteStepItemSubmission>;
-  ByteStepItemSubmissionInput: ByteStepItemSubmissionInput;
-  ByteStepSubmission: ResolverTypeWrapper<ByteStepSubmission>;
-  ByteStepSubmissionInput: ByteStepSubmissionInput;
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
@@ -2203,10 +2171,6 @@ export type ResolversParentTypes = {
   ByteStep: Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversParentTypes['ByteStepItem']> };
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolversUnionParentTypes['ByteStepItem'];
-  ByteStepItemSubmission: ByteStepItemSubmission;
-  ByteStepItemSubmissionInput: ByteStepItemSubmissionInput;
-  ByteStepSubmission: ByteStepSubmission;
-  ByteStepSubmissionInput: ByteStepSubmissionInput;
   ByteSubmission: ByteSubmission;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ByteUserInput;
@@ -2438,21 +2402,6 @@ export type ByteStepResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type ByteStepItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStepItem'] = ResolversParentTypes['ByteStepItem']> = {
   __resolveType: TypeResolveFn<'ByteQuestion' | 'ByteUserInput' | 'UserDiscordConnect', ParentType, ContextType>;
-};
-
-export type ByteStepItemSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStepItemSubmission'] = ResolversParentTypes['ByteStepItemSubmission']> = {
-  selectedAnswerKeys?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  userDiscordInfo?: Resolver<Maybe<ResolversTypes['UserDiscordInfo']>, ParentType, ContextType>;
-  userInput?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ByteStepSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStepSubmission'] = ResolversParentTypes['ByteStepSubmission']> = {
-  itemResponses?: Resolver<Array<ResolversTypes['ByteStepItemSubmission']>, ParentType, ContextType>;
-  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ByteSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteSubmission'] = ResolversParentTypes['ByteSubmission']> = {
@@ -3178,8 +3127,6 @@ export type Resolvers<ContextType = any> = {
   ByteSocialShare?: ByteSocialShareResolvers<ContextType>;
   ByteStep?: ByteStepResolvers<ContextType>;
   ByteStepItem?: ByteStepItemResolvers<ContextType>;
-  ByteStepItemSubmission?: ByteStepItemSubmissionResolvers<ContextType>;
-  ByteStepSubmission?: ByteStepSubmissionResolvers<ContextType>;
   ByteSubmission?: ByteSubmissionResolvers<ContextType>;
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;

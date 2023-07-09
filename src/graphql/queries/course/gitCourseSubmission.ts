@@ -1,6 +1,5 @@
 import { QueryGitCourseSubmissionArgs } from '@/graphql/generated/graphql';
-import { getDecodedJwtFromContext } from '@/helpers/permissions/getDecodedJwtFromContext';
-import { getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
+import { getDecodedJwtFromContext, getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
@@ -10,6 +9,7 @@ export default async function gitCourseSubmission(_: any, { spaceId, courseKey }
     if (!jwtString) {
       return;
     }
+
     const decodedJWT = getDecodedJwtFromContext(context);
 
     const courseSubmission = await prisma.gitCourseSubmission.findFirst({ where: { spaceId, courseKey, createdBy: decodedJWT.accountId } });
