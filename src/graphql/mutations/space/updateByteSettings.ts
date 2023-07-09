@@ -1,4 +1,4 @@
-import { MutationUpdateByteSettingsArgs, MutationUpdateSocialSettingsArgs } from '@/graphql/generated/graphql';
+import { MutationUpdateByteSettingsArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
