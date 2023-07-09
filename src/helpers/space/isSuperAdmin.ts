@@ -1,4 +1,4 @@
-import { verifyJwt } from '@/helpers/login';
+import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { IncomingMessage } from 'http';
 import { JwtPayload } from 'jsonwebtoken';
@@ -16,7 +16,7 @@ export function isSuperAdmin(user: string) {
 }
 
 export function isDoDAOSuperAdmin(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
-  const decoded = verifyJwt(context);
+  const decoded = getDecodedJwtFromContext(context);
   if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
     return decoded;
   }

@@ -1,4 +1,3 @@
-import { getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditCoursePermission } from '@/helpers/space/checkEditCoursePermission';
 import { DoDaoJwtTokenPayload } from '@/types/session';

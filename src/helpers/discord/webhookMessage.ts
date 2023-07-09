@@ -70,46 +70,14 @@ export async function postGuideSubmission(
   });
 }
 
-export async function postByteSubmission(url: string, byte: ByteModel, msg: ByteSubmissionInput, stepSubmissionsMap: UserByteStepSubmission) {
-  let author: DiscordAuthor | undefined = undefined;
+export async function postByteSubmission(url: string, byte: ByteModel, msg: ByteSubmissionInput) {
   const spaceId = msg.space;
 
   const space = (await prisma.space.findUnique({ where: { id: spaceId } })) as Space;
 
-  const userInputSteps = byte.steps.filter((step) => step.stepItems.some((item) => isUserInput(item) && item.type === InputType.PublicShortInput));
-
-  const discordConnectStep = byte.steps.find((step: ByteStep) => step.stepItems.some((item) => isUserDiscordConnect(item)));
-  const discordConnectItem = discordConnectStep?.stepItems.find((item) => isUserDiscordConnect(item));
-
-  if (discordConnectStep && discordConnectItem) {
-    const userDiscordInfo: UserDiscordInfo | undefined = stepSubmissionsMap?.[discordConnectStep.uuid]?.[discordConnectItem.uuid].value as UserDiscordInfo;
-    if (userDiscordInfo) {
-      author = {
-        name: userDiscordInfo.username,
-        url: `https://discordapp.com/users/${userDiscordInfo.id}`,
-        icon_url: `https://cdn.discordapp.com/avatars/${userDiscordInfo.id}/${userDiscordInfo.avatar}.png`,
-      };
-    }
-  }
-
-  const embeds = userInputSteps.map((step) => {
-    const fields = step.stepItems
-      .filter((item) => isUserInput(item) && item.type === InputType.PublicShortInput)
-      .map((item) => ({
-        name: (item as ByteUserInput).label,
-        value: stepSubmissionsMap?.[step.uuid]?.[item.uuid]?.value || '----',
-        inline: true,
-      }));
-
-    return {
-      title: step.name,
-      fields,
-    };
-  });
-
   const data = {
     content: `${space.name}: ${byte.name} submitted by ${msg.from}`,
-    embeds: author ? [...embeds, { title: `Discord User - ${author.name}`, author }] : embeds,
+    embeds: [],
   };
 
   axios.post(url, data).catch((err) => {
