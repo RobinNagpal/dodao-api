@@ -35,6 +35,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     authSettings: space.authSettings || {},
     guideSettings: space.guideSettings || {},
     socialSettings: space.socialSettings || {},
+    byteSettings: space.byteSettings || {},
   };
   try {
     console.log('Updating space', spaceInput);
@@ -50,6 +51,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
         },
         guideSettings: spaceInput.guideSettings || {},
         authSettings: spaceInput.authSettings || {},
+        byteSettings: spaceInput.byteSettings || {},
       },
       where: {
         id: args.spaceInput.id,
