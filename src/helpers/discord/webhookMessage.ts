@@ -76,7 +76,7 @@ export async function postByteSubmission(url: string, byte: ByteModel, msg: Byte
   const space = (await prisma.space.findUnique({ where: { id: spaceId } })) as Space;
 
   const data = {
-    content: `${space.name}: ${byte.name} submitted by ${msg.from}`,
+    content: `Byte Submission: ${space.name}: ${byte.name} submitted by ${msg.from}`,
     embeds: [],
   };
 
