@@ -4,7 +4,7 @@ import { appendToGalaxyCredentials } from '@/helpers/galaxy/appendToGalaxyCreden
 import { CourseIntegration, GitCourseSubmission, GuideSubmission, SpaceIntegration } from '@prisma/client';
 
 export async function updateGalaxyCredentialsForGuideSubmissionIfApplicable(
-  spaceIntegrations: SpaceIntegrationModel | undefined,
+  spaceIntegrations: SpaceIntegration | undefined | null,
   guide: GuideModel,
   guideSubmission: GuideSubmission,
   userAddress: string,

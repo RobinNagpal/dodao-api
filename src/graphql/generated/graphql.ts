@@ -750,7 +750,7 @@ export type GuideStepSubmissionInput = {
 
 export type GuideSubmission = {
   __typename?: 'GuideSubmission';
-  created: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
   createdBy: Scalars['String'];
   galaxyCredentialsUpdated?: Maybe<Scalars['Boolean']>;
   guideId: Scalars['String'];
@@ -2759,7 +2759,7 @@ export type GuideStepSubmissionResolvers<ContextType = any, ParentType extends R
 };
 
 export type GuideSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideSubmission'] = ResolversParentTypes['GuideSubmission']> = {
-  created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   galaxyCredentialsUpdated?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   guideId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
