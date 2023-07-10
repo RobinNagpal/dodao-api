@@ -295,8 +295,13 @@ model GuideRating {
   skipEndRating    Boolean? @map("skip_end_rating") @db.Boolean
   startRating      Int?     @map("start_rating") @db.Integer
   endRating        Int?     @map("end_rating") @db.Integer
+  /// [GuideFeedback]
   positiveFeedback Json?    @map("positive_feedback") @db.Json
+  /// [GuideFeedback]
   negativeFeedback Json?    @map("negative_feedback") @db.Json
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  username         String?  @map("username") @db.VarChar(1024)
 
   @@map("guide_ratings")
 }

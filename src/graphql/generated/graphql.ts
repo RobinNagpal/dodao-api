@@ -597,9 +597,9 @@ export type Guide = {
 
 export type GuideFeedback = {
   __typename?: 'GuideFeedback';
-  content: Scalars['Boolean'];
-  questions: Scalars['Boolean'];
-  ux: Scalars['Boolean'];
+  content?: Maybe<Scalars['Boolean']>;
+  questions?: Maybe<Scalars['Boolean']>;
+  ux?: Maybe<Scalars['Boolean']>;
 };
 
 export type GuideFeedbackInput = {
@@ -680,7 +680,9 @@ export type GuideRating = {
   skipStartRating?: Maybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
   startRating?: Maybe<Scalars['Int']>;
-  userId: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+  userId?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type GuideSettings = {
@@ -887,7 +889,7 @@ export type Mutation = {
   upsertGitCourseTopicSubmission: GitCourseTopicSubmission;
   upsertGnosisSafeWallets: Space;
   upsertGuide: Guide;
-  upsertGuideRating: Scalars['Boolean'];
+  upsertGuideRating: GuideRating;
   upsertProjectGalaxyAccessToken: Space;
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
@@ -1823,7 +1825,7 @@ export type UpsertGuideRatingInput = {
   skipStartRating?: InputMaybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
   startRating?: InputMaybe<Scalars['Int']>;
-  userId: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertSimulationInput = {
@@ -2682,9 +2684,9 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type GuideFeedbackResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideFeedback'] = ResolversParentTypes['GuideFeedback']> = {
-  content?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  questions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  ux?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  content?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  questions?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  ux?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2721,7 +2723,9 @@ export type GuideRatingResolvers<ContextType = any, ParentType extends Resolvers
   skipStartRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startRating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2865,7 +2869,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertGitCourseTopicSubmission?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationUpsertGitCourseTopicSubmissionArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   upsertGnosisSafeWallets?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertGnosisSafeWalletsArgs, 'spaceId' | 'wallets'>>;
   upsertGuide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<MutationUpsertGuideArgs, 'guideInput' | 'spaceId'>>;
-  upsertGuideRating?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpsertGuideRatingArgs, 'spaceId' | 'upsertGuideRatingInput'>>;
+  upsertGuideRating?: Resolver<ResolversTypes['GuideRating'], ParentType, ContextType, RequireFields<MutationUpsertGuideRatingArgs, 'spaceId' | 'upsertGuideRatingInput'>>;
   upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;

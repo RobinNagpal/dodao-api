@@ -1,9 +1,12 @@
 import { MutationUpsertGuideRatingArgs } from '@/graphql/generated/graphql';
+import { getOptioanlJwt } from '@/helpers/permissions/getJwtFromContext';
 import { prisma } from '@/prisma';
 import { GraphqlContext } from '@/types/GraphqlContext';
+import { GuideRating } from '@prisma/client';
 
 export default async function upsertGuideRating(_: unknown, args: MutationUpsertGuideRatingArgs, context: GraphqlContext) {
-  return prisma.guideRating.upsert({
+  const decodedJWT = getOptioanlJwt(context);
+  const guideRating: GuideRating = await prisma.guideRating.upsert({
     where: {
       ratingUuid: args.upsertGuideRatingInput.ratingUuid,
     },
@@ -18,6 +21,7 @@ export default async function upsertGuideRating(_: unknown, args: MutationUpsert
       ipAddress: context.ip,
       skipEndRating: args.upsertGuideRatingInput.skipEndRating,
       skipStartRating: args.upsertGuideRatingInput.skipStartRating,
+      username: decodedJWT?.username,
     },
     update: {
       startRating: args.upsertGuideRatingInput.startRating,
@@ -28,6 +32,8 @@ export default async function upsertGuideRating(_: unknown, args: MutationUpsert
       ipAddress: context.ip,
       skipEndRating: args.upsertGuideRatingInput.skipEndRating,
       skipStartRating: args.upsertGuideRatingInput.skipStartRating,
+      username: decodedJWT?.username,
     },
   });
+  return guideRating;
 }
