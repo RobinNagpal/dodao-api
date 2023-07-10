@@ -16,6 +16,8 @@ export default async function upsertGuideRating(_: unknown, args: MutationUpsert
       guideUuid: args.upsertGuideRatingInput.guideUuid,
       spaceId: args.upsertGuideRatingInput.spaceId,
       ipAddress: context.ip,
+      skipEndRating: args.upsertGuideRatingInput.skipEndRating,
+      skipStartRating: args.upsertGuideRatingInput.skipStartRating,
     },
     update: {
       startRating: args.upsertGuideRatingInput.startRating,
@@ -24,6 +26,8 @@ export default async function upsertGuideRating(_: unknown, args: MutationUpsert
       negativeFeedback: args.upsertGuideRatingInput.negativeFeedback || undefined,
       guideUuid: args.upsertGuideRatingInput.guideUuid,
       ipAddress: context.ip,
+      skipEndRating: args.upsertGuideRatingInput.skipEndRating,
+      skipStartRating: args.upsertGuideRatingInput.skipStartRating,
     },
   });
 }
