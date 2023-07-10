@@ -95,6 +95,8 @@ type GuideRating {
   spaceId: String!
   userId: String!
   ipAddress: String
+  skipStartRating: Boolean
+  skipEndRating: Boolean
   startRating: Int
   endRating: Int
   positiveFeedback: GuideFeedback
@@ -197,4 +199,6 @@ input UpsertGuideRatingInput {
   spaceId: String!
   positiveFeedback: GuideFeedbackInput
   negativeFeedback: GuideFeedbackInput
+  skipStartRating: Boolean
+  skipEndRating: Boolean
 }

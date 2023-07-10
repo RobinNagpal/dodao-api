@@ -676,6 +676,8 @@ export type GuideRating = {
   negativeFeedback?: Maybe<GuideFeedback>;
   positiveFeedback?: Maybe<GuideFeedback>;
   ratingUuid: Scalars['String'];
+  skipEndRating?: Maybe<Scalars['Boolean']>;
+  skipStartRating?: Maybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
   startRating?: Maybe<Scalars['Int']>;
   userId: Scalars['String'];
@@ -1817,6 +1819,8 @@ export type UpsertGuideRatingInput = {
   negativeFeedback?: InputMaybe<GuideFeedbackInput>;
   positiveFeedback?: InputMaybe<GuideFeedbackInput>;
   ratingUuid: Scalars['String'];
+  skipEndRating?: InputMaybe<Scalars['Boolean']>;
+  skipStartRating?: InputMaybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
   startRating?: InputMaybe<Scalars['Int']>;
   userId: Scalars['String'];
@@ -2713,6 +2717,8 @@ export type GuideRatingResolvers<ContextType = any, ParentType extends Resolvers
   negativeFeedback?: Resolver<Maybe<ResolversTypes['GuideFeedback']>, ParentType, ContextType>;
   positiveFeedback?: Resolver<Maybe<ResolversTypes['GuideFeedback']>, ParentType, ContextType>;
   ratingUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  skipEndRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  skipStartRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startRating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
