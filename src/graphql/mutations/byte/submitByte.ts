@@ -1,5 +1,6 @@
 import { ByteModel } from '@/deprecatedSchemas/models/byte/ByteModel';
 import { MutationSubmitByteArgs } from '@/graphql/generated/graphql';
+import { getSpaceById } from '@/graphql/operations/space';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
 import { postByteSubmission } from '@/helpers/discord/webhookMessage';
@@ -7,12 +8,8 @@ import { getOptioanlJwt } from '@/helpers/permissions/getJwtFromContext';
 import { prisma } from '@/prisma';
 import { GraphqlContext } from '@/types/GraphqlContext';
 
-export default async function submitByteMutation(_: unknown, byteInput: MutationSubmitByteArgs, context: GraphqlContext) {
-  const space = await prisma.space.findUniqueOrThrow({
-    where: {
-      id: byteInput.submissionInput.space,
-    },
-  });
+export default async function submitByte(_: unknown, byteInput: MutationSubmitByteArgs, context: GraphqlContext) {
+  const space = await getSpaceById(byteInput.submissionInput.space);
   const decodedJWT = getOptioanlJwt(context);
   const user = decodedJWT?.accountId.toLowerCase();
 
