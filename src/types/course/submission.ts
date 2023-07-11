@@ -45,8 +45,11 @@ export type ExplanationSubmission = {
 
 export interface TempTopicSubmissionModel {
   uuid: string;
+  courseKey: string;
+  topicKey: string;
   explanations: ExplanationSubmission[];
   questions: CourseQuestionSubmission[];
   readings: ReadingSubmission[];
   summaries: SummarySubmission[];
+  status: TopicStatus;
 }
