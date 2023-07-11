@@ -42,32 +42,39 @@ export default async function upsertGitCourseTopicSubmission(_: unknown, args: M
     },
   });
 
+  const topicSubmission: TempTopicSubmissionModel = {
+    uuid: args.gitCourseTopicSubmission.uuid,
+    courseKey: args.gitCourseTopicSubmission.courseKey,
+    topicKey: args.gitCourseTopicSubmission.topicKey,
+    explanations: args.gitCourseTopicSubmission.explanations as ExplanationSubmission[],
+    questions: args.gitCourseTopicSubmission.questions as CourseQuestionSubmission[],
+    readings: args.gitCourseTopicSubmission.readings.map(
+      (reading): ReadingSubmission => ({
+        uuid: reading.uuid,
+        status: reading.status as TopicItemStatus,
+      }),
+    ),
+    summaries: args.gitCourseTopicSubmission.summaries as SummarySubmission[],
+    status: args.gitCourseTopicSubmission.status as TopicStatus,
+  };
+
   if (existingTopicSubmission) {
     const courseTopicSubmission = await prisma.gitCourseTopicSubmission.update({
       where: {
         uuid: existingTopicSubmission.uuid,
       },
       data: {
-        ...args.gitCourseTopicSubmission,
+        isLatestSubmission: existingCourseSubmission.isLatestSubmission,
+        topicKey: args.gitCourseTopicSubmission.topicKey,
+        status: args.gitCourseTopicSubmission.status,
+        spaceId: spaceId,
+        createdBy: decodedJWT.accountId,
+        courseSubmissionUuid: existingCourseSubmission.uuid,
+        submission: topicSubmission,
       },
     });
     return courseTopicSubmission;
   } else {
-    const topicSubmission: TempTopicSubmissionModel = {
-      uuid: args.gitCourseTopicSubmission.uuid,
-      courseKey: args.gitCourseTopicSubmission.courseKey,
-      topicKey: args.gitCourseTopicSubmission.topicKey,
-      explanations: args.gitCourseTopicSubmission.explanations as ExplanationSubmission[],
-      questions: args.gitCourseTopicSubmission.questions as CourseQuestionSubmission[],
-      readings: args.gitCourseTopicSubmission.readings.map(
-        (reading): ReadingSubmission => ({
-          uuid: reading.uuid,
-          status: reading.status as TopicItemStatus,
-        }),
-      ),
-      summaries: args.gitCourseTopicSubmission.summaries as SummarySubmission[],
-      status: args.gitCourseTopicSubmission.status as TopicStatus,
-    };
     const courseTopicSubmission = await prisma.gitCourseTopicSubmission.create({
       data: {
         uuid: args.gitCourseTopicSubmission.uuid,
