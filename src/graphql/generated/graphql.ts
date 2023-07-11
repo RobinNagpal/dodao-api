@@ -448,7 +448,7 @@ export type GitCourseReading = {
 
 export type GitCourseReadingsSubmission = {
   __typename?: 'GitCourseReadingsSubmission';
-  questions: Array<GitCourseQuestionsSubmission>;
+  questions?: Maybe<Array<GitCourseQuestionsSubmission>>;
   status: Scalars['String'];
   uuid: Scalars['String'];
 };
@@ -2566,7 +2566,7 @@ export type GitCourseReadingResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type GitCourseReadingsSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['GitCourseReadingsSubmission'] = ResolversParentTypes['GitCourseReadingsSubmission']> = {
-  questions?: Resolver<Array<ResolversTypes['GitCourseQuestionsSubmission']>, ParentType, ContextType>;
+  questions?: Resolver<Maybe<Array<ResolversTypes['GitCourseQuestionsSubmission']>>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

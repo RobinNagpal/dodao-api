@@ -28,7 +28,7 @@ type GitCourseQuestionsSubmission {
 type GitCourseReadingsSubmission {
   uuid: String!
   status: String!
-  questions: [GitCourseQuestionsSubmission!]!
+  questions: [GitCourseQuestionsSubmission!]
 }
 
 type GitCourseSummariesSubmission {
