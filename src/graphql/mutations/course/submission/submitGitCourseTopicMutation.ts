@@ -6,6 +6,7 @@ import { MutationSubmitGitCourseTopicArgs } from '@/graphql/generated/graphql';
 import { verifyJwtForRequest } from '@/helpers/permissions/verifyJwtForRequest';
 import { getGitCourseFromRedis } from '@/helpers/course/gitCourseReader';
 import { postTopicSubmission } from '@/helpers/discord/webhookMessage';
+import { TopicStatus } from '@/types/course/submission';
 import { IncomingMessage } from 'http';
 import intersection from 'lodash/intersection';
 import isEqual from 'lodash/isEqual';
@@ -28,19 +29,21 @@ export default async function submitGitCourseTopicMutation(_: unknown, args: Mut
 
     const topicModel = courseJson.topics.find((topic) => topic.key === topicKey);
 
-    const topicSubmission = await prisma.gitCourseTopicSubmission.findFirst({
+    const topicSubmission = await prisma.gitCourseTopicSubmission.findFirstOrThrow({
       where: {
         uuid: submissionUuid,
         isLatestSubmission: true,
       },
     });
 
+    const existingCourseSubmission = await prisma.gitCourseSubmission.findFirstOrThrow({
+      where: {
+        uuid: topicSubmission.courseSubmissionUuid,
+      },
+    });
+
     if (!topicModel) {
       throw new Error(`No topic found: ${spaceId} - ${courseKey} - ${topicKey}`);
-    }
-
-    if (!topicSubmission) {
-      throw new Error(`No submission found: ${spaceId} - ${courseKey} - ${topicKey}`);
     }
 
     const submissionQuestionsMap: { [uuid in string]: CourseQuestionSubmission } = Object.fromEntries(
@@ -58,20 +61,14 @@ export default async function submitGitCourseTopicMutation(_: unknown, args: Mut
       return isEqual(q.answerKeys.sort(), selectedAnswers.sort());
     });
 
-    const submitTopicArgs = {
-      questionsAttempted: topicSubmission.submission.questions.length,
-      questionsCorrect: correctAndIncorrectQuestions[0].length,
-      questionsIncorrect: correctAndIncorrectQuestions[1].length,
-      questionsSkipped: 0,
-      correctAnswers: (topicModel.questions || []).map((q) => ({ uuid: q.uuid, answerKeys: q.answerKeys })),
-    };
-
     // This is done just to refresh the updated_at
     await prisma.gitCourseSubmission.update({
       where: {
-        uuid: submissionUuid,
+        uuid: existingCourseSubmission.uuid,
       },
-      data: {},
+      data: {
+        updatedAt: new Date(),
+      },
     });
 
     await prisma.gitCourseTopicSubmission.update({
@@ -79,7 +76,12 @@ export default async function submitGitCourseTopicMutation(_: unknown, args: Mut
         uuid: submissionUuid,
       },
       data: {
-        ...submitTopicArgs,
+        questionsAttempted: topicSubmission.submission.questions.length,
+        questionsCorrect: correctAndIncorrectQuestions[0].length,
+        questionsIncorrect: correctAndIncorrectQuestions[1].length,
+        questionsSkipped: 0,
+        correctAnswers: (topicModel.questions || []).map((q) => ({ uuid: q.uuid, answerKeys: q.answerKeys })),
+        status: TopicStatus.Submitted,
       },
     });
 
