@@ -1,3 +1,4 @@
+import deleteAndPullCourseRepo from '@/graphql/mutations/course/deleteAndPullCourseRepo';
 import refreshGitCourseMutation from '@/graphql/mutations/course/refreshGitCourseMutation';
 import refreshGitCourses from '@/graphql/mutations/course/refreshGitCourses';
 
@@ -65,4 +66,6 @@ export default {
   updateTopicSummary: (_: unknown, args: any, context: any) => updateTopicSummaryMutation(_, args, context),
   updateTopicVideo: (_: unknown, args: any, context: any) => updateTopicVideoMutation(_, args, context),
   updateTopicQuestion: (_: unknown, args: any, context: any) => updateTopicQuestionMutation(_, args, context),
+
+  deleteAndPullCourseRepo,
 };

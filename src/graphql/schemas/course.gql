@@ -10,6 +10,7 @@ extend type Query {
   gitCourseSummarized(spaceId: String!, key: String!): SummarizedGitCourse!
 
   gitCourseIntegrations(spaceId: String!, key: String!): CourseIntegrations
+
 }
 
 extend type Mutation {
@@ -46,6 +47,8 @@ extend type Mutation {
   moveTopicQuestion(spaceId: String!, questionInfo: MoveTopicQuestionInput!): GitCourse!
 
   upsertCourseIntegrations(spaceId: String!, courseIntegrationInput: UpsertCourseIntegrationsInput!): CourseIntegrations!
+
+  deleteAndPullCourseRepo(spaceId: String!, courseKey: String!): GitCourse!
 }
 
 type RawGitCourse {
