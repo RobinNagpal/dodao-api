@@ -121,7 +121,7 @@ export async function getAllGitGitCoursesForSpace(
   const spaceId: string = space.id;
   console.log(`read courses for space ${spaceId}`);
   const gitCourses: GitCourseModel[] = [];
-  const rawGitCourseModels = await prisma.gitCourse.findMany({ where: { spaceId } });
+  const rawGitCourseModels = await prisma.gitCourse.findMany({ where: { spaceId }, orderBy: { weight: 'desc' } });
 
   const filteredCourses: GitCourse[] = (rawGitCourseModels || []).filter((course: GitCourse) =>
     publishStatuses.includes(course.publishStatus as PublishStatus),
