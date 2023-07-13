@@ -844,6 +844,7 @@ export type Mutation = {
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
+  deleteAndPullCourseRepo: GitCourse;
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
   deleteTopicQuestion: GitCourse;
@@ -965,6 +966,12 @@ export type MutationCreateSpaceArgs = {
 
 export type MutationCreateSummaryOfContentArgs = {
   input: Scalars['String'];
+};
+
+
+export type MutationDeleteAndPullCourseRepoArgs = {
+  courseKey: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -2824,6 +2831,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
+  deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
