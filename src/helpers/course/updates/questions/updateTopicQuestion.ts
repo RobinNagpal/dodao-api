@@ -1,82 +1,10 @@
 import { GitCourseModel } from '@/deprecatedSchemas/models/course/GitCourseModel';
 import { QuestionChoice, TopicQuestionModel } from '@/deprecatedSchemas/models/course/TopicQuestionModel';
 import { MoveCourseItemDirection } from '@/deprecatedSchemas/models/enums';
-import { Space } from '@prisma/client';
-import fs from 'fs';
 import { AddTopicQuestionInput, DeleteTopicQuestionInput, MoveTopicQuestionInput, UpdateTopicQuestionInput } from '@/graphql/generated/graphql';
-import { CourseRepoInfo } from '@/helpers/course/getCourseHelper';
-import { commitAndPushUpdatedCourse, getCourseAndRepoInfo, getTopicInCourseFile, updateCourseFile } from '@/helpers/course/updates/courseUpdateHelper';
-import { doUpdateCourseYamlFile } from '@/helpers/course/updates/updateCourseBasicInfo';
-import { writeToFile } from '@/helpers/fileWriter';
-import yaml from 'js-yaml';
+import { doUpdateTopicQuestion } from '@/helpers/course/updates/questions/doUpdateTopicQuestion';
+import { Space } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
-
-async function addNewQuestionFile<T>(input: T, repoInfo: CourseRepoInfo) {
-  const addInput = input as any as AddTopicQuestionInput;
-
-  const questionFileName = addInput.topicKey + '.yaml';
-
-  await doUpdateCourseYamlFile(repoInfo, (courseYaml) => ({
-    ...courseYaml,
-    topics: courseYaml.topics.map((topic) => (topic.key === addInput.topicKey ? { ...topic, questions: questionFileName } : topic)),
-  }));
-
-  const questionModels: TopicQuestionModel[] = [
-    {
-      uuid: uuidv4(),
-      type: addInput.questionType,
-      content: addInput.content,
-      hint: addInput.hint,
-      explanation: addInput.explanation,
-      answerKeys: addInput.answerKeys,
-      subTopics: [],
-      difficultyLevel: 'Medium',
-      choices: addInput.choices,
-    },
-  ];
-
-  const newQuestionFile = repoInfo.repositoryPath + '/src/questions/' + questionFileName;
-
-  const updatedSummaries: string = yaml.dump(questionModels);
-
-  await writeToFile(newQuestionFile, updatedSummaries);
-}
-
-export async function doUpdateTopicQuestion<T extends { courseKey: string; topicKey: string }>(
-  accountId: string,
-  space: Space,
-  input: T,
-  courseUpdateFn: (updatedCourse: GitCourseModel) => GitCourseModel,
-  questionsUpdateFn: (questions: TopicQuestionModel[]) => TopicQuestionModel[],
-  addNewQuestionsFileIfNotPresent = false,
-): Promise<GitCourseModel> {
-  const spaceId = space.id;
-  const { courseFromRepository, repoInfo } = await getCourseAndRepoInfo(space, input.courseKey);
-
-  const updatedCourse: GitCourseModel = courseUpdateFn(courseFromRepository);
-  await updateCourseFile(repoInfo, updatedCourse);
-
-  const topicInCourseFile = getTopicInCourseFile(repoInfo, input.courseKey, input.topicKey);
-  if (addNewQuestionsFileIfNotPresent && !topicInCourseFile.questions) {
-    await addNewQuestionFile(input, repoInfo);
-  } else {
-    if (!topicInCourseFile.questions) {
-      throw new Error(`Readings file not present in course.yaml ${input.topicKey}`);
-    }
-
-    const questionYamlFile = repoInfo.repositoryPath + '/src/questions/' + topicInCourseFile.questions;
-    const questionsInYaml = yaml.load(fs.readFileSync(questionYamlFile, 'utf8')) as TopicQuestionModel[];
-
-    if (!questionsInYaml || !questionsInYaml.length) {
-      throw new Error(`No contents present in questions file ${questionYamlFile}.  \n ${JSON.stringify(questionsInYaml)}  \n`);
-    }
-
-    const updatedQuestions: string = yaml.dump(questionsUpdateFn(questionsInYaml));
-
-    await writeToFile(questionYamlFile, updatedQuestions);
-  }
-  return await commitAndPushUpdatedCourse({ accountId, repoInfo, spaceId, updatedCourse, courseKey: input.courseKey });
-}
 
 export async function updateTopicQuestion(accountId: string, space: Space, input: UpdateTopicQuestionInput): Promise<GitCourseModel> {
   const updateCourseFunction = (courseFromRedis: GitCourseModel): GitCourseModel => {

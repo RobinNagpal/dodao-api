@@ -1,6 +1,6 @@
 import { MutationMoveTopicQuestionArgs } from '@/graphql/generated/graphql';
 import { verifyCourseEditPermissions } from '@/helpers/permissions/verifyCourseEditPermissions';
-import { moveTopicQuestion } from '@/helpers/course/updates/updateTopicQuestion';
+import { moveTopicQuestion } from '@/helpers/course/updates/questions/updateTopicQuestion';
 import { IncomingMessage } from 'http';
 
 export default async function moveTopicQuestionMutation(_: unknown, args: MutationMoveTopicQuestionArgs, context: IncomingMessage) {

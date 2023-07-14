@@ -1,6 +1,6 @@
 import { MutationDeleteTopicQuestionArgs } from '@/graphql/generated/graphql';
 import { verifyCourseEditPermissions } from '@/helpers/permissions/verifyCourseEditPermissions';
-import { deleteTopicQuestion } from '@/helpers/course/updates/updateTopicQuestion';
+import { deleteTopicQuestion } from '@/helpers/course/updates/questions/updateTopicQuestion';
 import { IncomingMessage } from 'http';
 
 export default async function deleteTopicQuestionMutation(_: unknown, args: MutationDeleteTopicQuestionArgs, context: IncomingMessage) {

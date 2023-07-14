@@ -6,6 +6,7 @@ import addTopicMutation from '@/graphql/mutations/course/topic/addTopicMutation'
 import moveTopicMutation from '@/graphql/mutations/course/topic/moveTopicMutation';
 import deleteTopicMutation from '@/graphql/mutations/course/topic/deleteTopicMutation';
 import updateTopicBasicInfoMutation from '@/graphql/mutations/course/topic/updateTopicBasicInfoMutation';
+import addTopicQuestionsMutation from '@/graphql/mutations/course/topicItem/add/addTopicQuestionsMutation';
 
 import updateCourseBasicInfoMutation from '@/graphql/mutations/course/updateCourseBasicInfoMutation';
 import upsertCourseIntegrationsMutation from '@/graphql/mutations/course/upsertCourseIntegrationsMutation';
@@ -52,6 +53,7 @@ export default {
   addTopicSummary: (_: unknown, args: any, context: any) => addTopicSummaryMutation(_, args, context),
   addTopicVideo: (_: unknown, args: any, context: any) => addTopicVideoMutation(_, args, context),
   addTopicQuestion: (_: unknown, args: any, context: any) => addTopicQuestionMutation(_, args, context),
+  addTopicQuestions: (_: unknown, args: any, context: any) => addTopicQuestionsMutation(_, args, context),
 
   deleteTopicExplanation: (_: unknown, args: any, context: any) => deleteTopicExplanationMutation(_, args, context),
   deleteTopicSummary: (_: unknown, args: any, context: any) => deleteTopicSummaryMutation(_, args, context),
