@@ -61,6 +61,12 @@ export type AddTopicQuestionInput = {
   topicKey: Scalars['String'];
 };
 
+export type AddTopicQuestionsInput = {
+  courseKey: Scalars['String'];
+  questions: Array<AddTopicQuestionInput>;
+  topicKey: Scalars['String'];
+};
+
 export type AddTopicSummaryInput = {
   courseKey: Scalars['String'];
   details: Scalars['String'];
@@ -836,6 +842,7 @@ export type Mutation = {
   addTopic: GitCourseTopic;
   addTopicExplanation: GitCourseExplanation;
   addTopicQuestion: GitCourseQuestion;
+  addTopicQuestions: Array<GitCourseQuestion>;
   addTopicSummary: GitCourseSummary;
   addTopicVideo: GitCourseReading;
   askChatCompletionAI: OpenAiChatCompletionResponse;
@@ -922,6 +929,12 @@ export type MutationAddTopicExplanationArgs = {
 
 export type MutationAddTopicQuestionArgs = {
   questionInfo: AddTopicQuestionInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationAddTopicQuestionsArgs = {
+  input: AddTopicQuestionsInput;
   spaceId: Scalars['String'];
 };
 
@@ -2003,6 +2016,7 @@ export type ResolversTypes = {
   AddTopicExplanationInput: AddTopicExplanationInput;
   AddTopicInput: AddTopicInput;
   AddTopicQuestionInput: AddTopicQuestionInput;
+  AddTopicQuestionsInput: AddTopicQuestionsInput;
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
   Any: ResolverTypeWrapper<Scalars['Any']>;
@@ -2166,6 +2180,7 @@ export type ResolversParentTypes = {
   AddTopicExplanationInput: AddTopicExplanationInput;
   AddTopicInput: AddTopicInput;
   AddTopicQuestionInput: AddTopicQuestionInput;
+  AddTopicQuestionsInput: AddTopicQuestionsInput;
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
   Any: Scalars['Any'];
@@ -2823,6 +2838,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addTopic?: Resolver<ResolversTypes['GitCourseTopic'], ParentType, ContextType, RequireFields<MutationAddTopicArgs, 'spaceId' | 'topicInfo'>>;
   addTopicExplanation?: Resolver<ResolversTypes['GitCourseExplanation'], ParentType, ContextType, RequireFields<MutationAddTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   addTopicQuestion?: Resolver<ResolversTypes['GitCourseQuestion'], ParentType, ContextType, RequireFields<MutationAddTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
+  addTopicQuestions?: Resolver<Array<ResolversTypes['GitCourseQuestion']>, ParentType, ContextType, RequireFields<MutationAddTopicQuestionsArgs, 'input' | 'spaceId'>>;
   addTopicSummary?: Resolver<ResolversTypes['GitCourseSummary'], ParentType, ContextType, RequireFields<MutationAddTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   addTopicVideo?: Resolver<ResolversTypes['GitCourseReading'], ParentType, ContextType, RequireFields<MutationAddTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;

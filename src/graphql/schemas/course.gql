@@ -35,6 +35,7 @@ extend type Mutation {
   addTopicSummary(spaceId: String!, summaryInfo: AddTopicSummaryInput!): GitCourseSummary!
   addTopicVideo(spaceId: String!, videoInfo: AddTopicVideoInput!): GitCourseReading!
   addTopicQuestion(spaceId: String!, questionInfo: AddTopicQuestionInput!): GitCourseQuestion!
+  addTopicQuestions(spaceId: String!, input: AddTopicQuestionsInput!): [GitCourseQuestion!]!
 
   deleteTopicExplanation(spaceId: String!, explanationInfo: DeleteTopicExplanationInput!): GitCourse!
   deleteTopicSummary(spaceId: String!, summaryInfo: DeleteTopicSummaryInput!): GitCourse!
@@ -321,6 +322,12 @@ input AddTopicQuestionInput {
   questionType: String!
   explanation: String!
   hint: String!
+}
+
+input AddTopicQuestionsInput {
+  courseKey: String!
+  topicKey: String!
+  questions: [AddTopicQuestionInput!]!
 }
 
 input DeleteTopicExplanationInput {

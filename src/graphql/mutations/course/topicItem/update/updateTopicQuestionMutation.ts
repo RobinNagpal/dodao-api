@@ -1,6 +1,6 @@
 import { MutationUpdateTopicQuestionArgs } from '@/graphql/generated/graphql';
 import { verifyCourseEditPermissions } from '@/helpers/permissions/verifyCourseEditPermissions';
-import { updateTopicQuestion } from '@/helpers/course/updates/updateTopicQuestion';
+import { updateTopicQuestion } from '@/helpers/course/updates/questions/updateTopicQuestion';
 import { IncomingMessage } from 'http';
 
 export default async function updateTopicQuestionMutation(_: unknown, args: MutationUpdateTopicQuestionArgs, context: IncomingMessage) {
