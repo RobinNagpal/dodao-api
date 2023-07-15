@@ -11,7 +11,7 @@ export default async function askCompletionAI(_: any, args: MutationAskChatCompl
     frequency_penalty: 0,
     presence_penalty: 0,
     stream: false,
-    n: 1,
+    n: args.input.n || 1,
   };
 
   const configuration = new Configuration({
