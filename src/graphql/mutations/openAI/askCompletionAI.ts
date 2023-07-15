@@ -11,7 +11,7 @@ export default async function askCompletionAI(_: any, args: MutationAskCompletio
     frequency_penalty: 0,
     presence_penalty: 0,
     stream: false,
-    n: 1,
+    n: args.input.n || 1,
   };
 
   const configuration = new Configuration({
@@ -21,11 +21,6 @@ export default async function askCompletionAI(_: any, args: MutationAskCompletio
   console.log('createCompletionRequest', createCompletionRequest);
   const openai = new OpenAIApi(configuration);
 
-  try {
-    const completion = await openai.createCompletion(createCompletionRequest, { timeout: 5 * 60 * 1000 });
-    return completion.data!;
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
+  const completion = await openai.createCompletion(createCompletionRequest, { timeout: 5 * 60 * 1000 });
+  return completion.data!;
 }

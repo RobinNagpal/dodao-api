@@ -1,8 +1,8 @@
-import { GenerateImageResponse, MutationGenerateImageArgs } from '@/graphql/generated/graphql';
+import { ImagesResponse, MutationGenerateImageArgs } from '@/graphql/generated/graphql';
 import { Configuration, OpenAIApi } from 'openai';
 import { CreateImageRequest } from 'openai/api';
 
-export default async function generateImage(_: any, args: MutationGenerateImageArgs): Promise<GenerateImageResponse> {
+export default async function generateImage(_: any, args: MutationGenerateImageArgs): Promise<ImagesResponse> {
   const createCompletionRequest: CreateImageRequest = {
     prompt: args.input.prompt,
     size: '512x512',
@@ -17,5 +17,5 @@ export default async function generateImage(_: any, args: MutationGenerateImageA
 
   const response = await openai.createImage(createCompletionRequest, { timeout: 5 * 60 * 1000 });
 
-  return { url: response.data.data[0].url! };
+  return response.data;
 }

@@ -214,6 +214,7 @@ export type ByteUserInput = {
 export type ChatCompletionAiInput = {
   messages: Array<OpenAiChatMessageInput>;
   model?: InputMaybe<Scalars['String']>;
+  n?: InputMaybe<Scalars['Int']>;
   temperature?: InputMaybe<Scalars['Float']>;
 };
 
@@ -225,6 +226,7 @@ export enum ChatCompletionRequestMessageRoleEnum {
 
 export type CompletionAiInput = {
   model?: InputMaybe<Scalars['String']>;
+  n?: InputMaybe<Scalars['Int']>;
   prompt: Scalars['String'];
   temperature?: InputMaybe<Scalars['Float']>;
 };
@@ -797,6 +799,18 @@ export type GuideUserInput = {
   uuid: Scalars['String'];
 };
 
+export type ImagesResponse = {
+  __typename?: 'ImagesResponse';
+  created: Scalars['Int'];
+  data: Array<ImagesResponseDataInner>;
+};
+
+export type ImagesResponseDataInner = {
+  __typename?: 'ImagesResponseDataInner';
+  b64_json?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
 export type JwtResponse = {
   __typename?: 'JwtResponse';
   jwt: Scalars['String'];
@@ -859,7 +873,7 @@ export type Mutation = {
   deleteTopicVideo: GitCourse;
   downloadAndCleanContent: DownloadAndCleanContentResponse;
   extractRelevantTextForTopic: OpenAiTextResponse;
-  generateImage: GenerateImageResponse;
+  generateImage: ImagesResponse;
   generateImageEdit: GenerateImageResponse;
   generateSharablePdf: Scalars['String'];
   initializeGitCourseSubmission: GitCourseSubmission;
@@ -2107,6 +2121,8 @@ export type ResolversTypes = {
   GuideSubmissionResult: ResolverTypeWrapper<GuideSubmissionResult>;
   GuideUserInput: ResolverTypeWrapper<GuideUserInput>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  ImagesResponse: ResolverTypeWrapper<ImagesResponse>;
+  ImagesResponseDataInner: ResolverTypeWrapper<ImagesResponseDataInner>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
@@ -2270,6 +2286,8 @@ export type ResolversParentTypes = {
   GuideSubmissionResult: GuideSubmissionResult;
   GuideUserInput: GuideUserInput;
   ID: Scalars['ID'];
+  ImagesResponse: ImagesResponse;
+  ImagesResponseDataInner: ImagesResponseDataInner;
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
@@ -2820,6 +2838,18 @@ export type GuideUserInputResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ImagesResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ImagesResponse'] = ResolversParentTypes['ImagesResponse']> = {
+  created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  data?: Resolver<Array<ResolversTypes['ImagesResponseDataInner']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ImagesResponseDataInnerResolvers<ContextType = any, ParentType extends ResolversParentTypes['ImagesResponseDataInner'] = ResolversParentTypes['ImagesResponseDataInner']> = {
+  b64_json?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
@@ -2855,7 +2885,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   downloadAndCleanContent?: Resolver<ResolversTypes['DownloadAndCleanContentResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
-  generateImage?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
+  generateImage?: Resolver<ResolversTypes['ImagesResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
   generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
   generateSharablePdf?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationGenerateSharablePdfArgs, 'byteId' | 'spaceId'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
@@ -3200,6 +3230,8 @@ export type Resolvers<ContextType = any> = {
   GuideSubmission?: GuideSubmissionResolvers<ContextType>;
   GuideSubmissionResult?: GuideSubmissionResultResolvers<ContextType>;
   GuideUserInput?: GuideUserInputResolvers<ContextType>;
+  ImagesResponse?: ImagesResponseResolvers<ContextType>;
+  ImagesResponseDataInner?: ImagesResponseDataInnerResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   JwtResponse?: JwtResponseResolvers<ContextType>;

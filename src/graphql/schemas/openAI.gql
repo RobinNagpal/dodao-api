@@ -76,13 +76,23 @@ type GenerateImageResponse {
   url: String!
 }
 
+type ImagesResponseDataInner {
+  url: String
+  b64_json: String
+}
+
+type ImagesResponse {
+  created: Int!
+  data: [ImagesResponseDataInner!]!
+}
+
 extend type Mutation {
   askChatCompletionAI(input: ChatCompletionAIInput!): OpenAIChatCompletionResponse!
   askCompletionAI(input: CompletionAIInput!): OpenAICompletionResponse!
   downloadAndCleanContent(input: String!): DownloadAndCleanContentResponse!
   createSummaryOfContent(input: String!): OpenAITextResponse!
   extractRelevantTextForTopic(input: ExtractRelevantTextForTopicInput!): OpenAITextResponse!
-  generateImage(input: GenerateImageInput!): GenerateImageResponse!
+  generateImage(input: GenerateImageInput!): ImagesResponse!
   generateImageEdit(input: GenerateImageEditInput!): GenerateImageResponse!
 }
 
@@ -101,12 +111,14 @@ input CompletionAIInput {
   model: String
   temperature: Float
   prompt: String!
+  n: Int
 }
 
 input ChatCompletionAIInput {
   model: String
   temperature: Float
   messages: [OpenAIChatMessageInput!]!
+  n: Int
 }
 
 input OpenAIChatMessageInput {
@@ -118,3 +130,4 @@ input ExtractRelevantTextForTopicInput{
   topic: String!
   content: String!
 }
+
