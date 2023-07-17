@@ -11,7 +11,6 @@ const dodaoTeamMates = [
   'robinnagpal.tiet@gmail.com',
   'shresthv1@gmail.com',
   '0xe273F55D64220983Ba6ce59bB84064DdCA1C8dA8', // Tanay
-  '0xe273F55D64220983Ba6ce59bB84064DdCA1C8dA8'.toLowerCase(), // Tanay
 ];
 
 export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtTokenPayload {
@@ -19,7 +18,7 @@ export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtToke
 
   if (!jwtString) throw new Error('No JWT found in context');
   const decodedJWT: any = jwt.decode(jwtString);
-  if (decodedJWT && decodedJWT.username && dodaoTeamMates.includes(decodedJWT.username)) {
+  if (decodedJWT && decodedJWT.username && dodaoTeamMates.map((t) => t.toLowerCase()).includes(decodedJWT.username.toLowerCase())) {
     return decodedJWT;
   }
   try {
