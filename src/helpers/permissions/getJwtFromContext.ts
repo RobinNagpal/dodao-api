@@ -6,7 +6,13 @@ export function getJwtFromContext(context: IncomingMessage) {
   return (context.headers?.[process.env.DODAO_AUTH_HEADER_NAME!] as string | undefined)?.replace('Bearer ', '');
 }
 
-const dodaoTeamMates = ['2013nibor@gmail.com', 'robinnagpal.tiet@gmail.com', 'shresthv1@gmail.com'];
+const dodaoTeamMates = [
+  '2013nibor@gmail.com',
+  'robinnagpal.tiet@gmail.com',
+  'shresthv1@gmail.com',
+  '0xe273F55D64220983Ba6ce59bB84064DdCA1C8dA8', // Tanay
+  '0xe273F55D64220983Ba6ce59bB84064DdCA1C8dA8'.toLowerCase(), // Tanay
+];
 
 export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtTokenPayload {
   const jwtString = getJwtFromContext(context);
