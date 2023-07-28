@@ -3,7 +3,8 @@ extend type Mutation {
 }
 
 extend type Query {
-  guideSubmissions(guideUuid: String!): [GuideSubmission!]!
+  guideSubmissions(spaceId: String!, guideUuid: String!, filters: GuideSubmissionFiltersInput!): [GuideSubmission!]!
+
 }
 
 
@@ -46,6 +47,7 @@ type GuideSubmission {
   spaceId: String!
   steps: [GuideStepSubmission!]
   uuid: String!
+  correctQuestionsCount: Int!
 }
 
 input UserDiscordInfoInput {
@@ -77,4 +79,12 @@ input GuideSubmissionInput {
   steps: [GuideStepSubmissionInput!]!
   timestamp: String
   uuid: String!
+}
+
+input GuideSubmissionFiltersInput {
+  createdBy: String
+  createdAt: DateTimeFilter
+  correctQuestionsCount: Int,
+  page: Int!,
+  itemsPerPage: Int!
 }
