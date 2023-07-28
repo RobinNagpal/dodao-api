@@ -291,6 +291,11 @@ export type CreateSignedUrlInput = {
   objectId: Scalars['String'];
 };
 
+export type DateTimeFilter = {
+  after?: InputMaybe<Scalars['DateTimeISO']>;
+  before?: InputMaybe<Scalars['DateTimeISO']>;
+};
+
 export type DeleteTopicExplanationInput = {
   courseKey: Scalars['String'];
   explanationKey: Scalars['String'];
@@ -762,6 +767,7 @@ export type GuideStepSubmissionInput = {
 
 export type GuideSubmission = {
   __typename?: 'GuideSubmission';
+  correctQuestionsCount: Scalars['Int'];
   createdAt: Scalars['DateTimeISO'];
   createdBy: Scalars['String'];
   galaxyCredentialsUpdated?: Maybe<Scalars['Boolean']>;
@@ -772,6 +778,14 @@ export type GuideSubmission = {
   spaceId: Scalars['String'];
   steps?: Maybe<Array<GuideStepSubmission>>;
   uuid: Scalars['String'];
+};
+
+export type GuideSubmissionFiltersInput = {
+  correctQuestionsCount?: InputMaybe<Scalars['Int']>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  createdBy?: InputMaybe<Scalars['String']>;
+  itemsPerPage: Scalars['Int'];
+  page: Scalars['Int'];
 };
 
 export type GuideSubmissionInput = {
@@ -1486,7 +1500,9 @@ export type QueryGuideRatingsArgs = {
 
 
 export type QueryGuideSubmissionsArgs = {
+  filters: GuideSubmissionFiltersInput;
   guideUuid: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -2061,6 +2077,7 @@ export type ResolversTypes = {
   CourseSubmissionInput: CourseSubmissionInput;
   CreateCompletionResponseChoice: ResolverTypeWrapper<CreateCompletionResponseChoice>;
   CreateSignedUrlInput: CreateSignedUrlInput;
+  DateTimeFilter: DateTimeFilter;
   DateTimeISO: ResolverTypeWrapper<Scalars['DateTimeISO']>;
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
   DeleteTopicInput: DeleteTopicInput;
@@ -2117,6 +2134,7 @@ export type ResolversTypes = {
   GuideStepSubmission: ResolverTypeWrapper<GuideStepSubmission>;
   GuideStepSubmissionInput: GuideStepSubmissionInput;
   GuideSubmission: ResolverTypeWrapper<GuideSubmission>;
+  GuideSubmissionFiltersInput: GuideSubmissionFiltersInput;
   GuideSubmissionInput: GuideSubmissionInput;
   GuideSubmissionResult: ResolverTypeWrapper<GuideSubmissionResult>;
   GuideUserInput: ResolverTypeWrapper<GuideUserInput>;
@@ -2226,6 +2244,7 @@ export type ResolversParentTypes = {
   CourseSubmissionInput: CourseSubmissionInput;
   CreateCompletionResponseChoice: CreateCompletionResponseChoice;
   CreateSignedUrlInput: CreateSignedUrlInput;
+  DateTimeFilter: DateTimeFilter;
   DateTimeISO: Scalars['DateTimeISO'];
   DeleteTopicExplanationInput: DeleteTopicExplanationInput;
   DeleteTopicInput: DeleteTopicInput;
@@ -2282,6 +2301,7 @@ export type ResolversParentTypes = {
   GuideStepSubmission: GuideStepSubmission;
   GuideStepSubmissionInput: GuideStepSubmissionInput;
   GuideSubmission: GuideSubmission;
+  GuideSubmissionFiltersInput: GuideSubmissionFiltersInput;
   GuideSubmissionInput: GuideSubmissionInput;
   GuideSubmissionResult: GuideSubmissionResult;
   GuideUserInput: GuideUserInput;
@@ -2809,6 +2829,7 @@ export type GuideStepSubmissionResolvers<ContextType = any, ParentType extends R
 };
 
 export type GuideSubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideSubmission'] = ResolversParentTypes['GuideSubmission']> = {
+  correctQuestionsCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   galaxyCredentialsUpdated?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -3003,7 +3024,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   guide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<QueryGuideArgs, 'spaceId' | 'uuid'>>;
   guideRating?: Resolver<Array<ResolversTypes['GuideRating']>, ParentType, ContextType, RequireFields<QueryGuideRatingArgs, 'ratingUuid'>>;
   guideRatings?: Resolver<Array<ResolversTypes['GuideRating']>, ParentType, ContextType, RequireFields<QueryGuideRatingsArgs, 'guideUuid' | 'spaceId'>>;
-  guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'guideUuid'>>;
+  guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'filters' | 'guideUuid' | 'spaceId'>>;
   guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;

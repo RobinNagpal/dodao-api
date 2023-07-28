@@ -269,18 +269,19 @@ model GuideStep {
 }
 
 model GuideSubmission {
-  id        String   @id @db.VarChar(66)
-  createdAt DateTime @default(now()) @map("created_at")
-  createdBy String   @map("created_by") @db.VarChar(64)
-  guideId   String   @map("guide_id") @db.VarChar(64)
-  guideUuid String   @map("guide_uuid") @db.VarChar(255)
+  id                    String   @id @db.VarChar(66)
+  createdAt             DateTime @default(now()) @map("created_at")
+  createdBy             String   @map("created_by") @db.VarChar(64)
+  guideId               String   @map("guide_id") @db.VarChar(64)
+  guideUuid             String   @map("guide_uuid") @db.VarChar(255)
   /// [GuideSubmissionResult]
-  result    Json     @db.Json
-  spaceId   String   @map("space_id") @db.VarChar(64)
-  steps     Json     @db.Json
-  uuid      String   @db.VarChar(255)
-  ipAddress String?  @map("ip_address") @db.VarChar(64)
-  space     Space    @relation(fields: [spaceId], references: [id])
+  result                Json     @db.Json
+  spaceId               String   @map("space_id") @db.VarChar(64)
+  steps                 Json     @db.Json
+  uuid                  String   @db.VarChar(255)
+  ipAddress             String?  @map("ip_address") @db.VarChar(64)
+  space                 Space    @relation(fields: [spaceId], references: [id])
+  correctQuestionsCount Int      @map("correct_questions_count")
 
   @@map("guide_submissions")
 }

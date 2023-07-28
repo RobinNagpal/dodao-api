@@ -15,6 +15,7 @@ import guide from '@/graphql/queries/guide/guide';
 import guideRating from '@/graphql/queries/guide/guideRating';
 import guideRatings from '@/graphql/queries/guide/guideRatings';
 import guides from '@/graphql/queries/guide/guides';
+import guideSubmissions from '@/graphql/queries/guide/guideSubmissions';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
@@ -47,6 +48,8 @@ export default {
 
   guideRating,
   guideRatings,
+
+  guideSubmissions,
 
   simulation,
   simulations,

@@ -111,6 +111,7 @@ async function soSubmitGuide(user: string, msg: GuideSubmissionInput, context: G
       createdAt: new Date().toISOString(),
       uuid: msg.uuid,
       ipAddress: context.ip,
+      correctQuestionsCount: guideResult.correctQuestions.length,
     },
   });
 
