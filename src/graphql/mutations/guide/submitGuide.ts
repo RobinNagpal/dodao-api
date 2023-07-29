@@ -9,7 +9,9 @@ import { getOptioanlJwt } from '@/helpers/permissions/getJwtFromContext';
 import { SubmissionItemInfo, UserGuideQuestionSubmission, UserGuideStepSubmission } from '@/helpers/types/guideSubmisstion';
 import { prisma } from '@/prisma';
 import { GraphqlContext } from '@/types/GraphqlContext';
+import { DoDaoJwtTokenPayload } from '@/types/session';
 import { GuideSubmission } from '@prisma/client';
+import { JwtPayload } from 'jsonwebtoken';
 import intersection from 'lodash/intersection';
 import isEqual from 'lodash/isEqual';
 
@@ -42,7 +44,11 @@ function validateGuideSubmission(guide: GuideModel, stepSubmissionsMap: UserGuid
   );
 }
 
-async function soSubmitGuide(user: string, msg: GuideSubmissionInput, context: GraphqlContext): Promise<GuideSubmission> {
+async function doSubmitGuide(
+  user: (JwtPayload & DoDaoJwtTokenPayload) | undefined,
+  msg: GuideSubmissionInput,
+  context: GraphqlContext,
+): Promise<GuideSubmission> {
   const spaceId = msg.space;
 
   const stepSubmissionsMap: UserGuideStepSubmission = getGuideStepSubmissionMap(msg);
@@ -102,7 +108,8 @@ async function soSubmitGuide(user: string, msg: GuideSubmissionInput, context: G
   const submission: GuideSubmission = await prisma.guideSubmission.create({
     data: {
       id: msg.uuid,
-      createdBy: user,
+      createdBy: user?.accountId.toLowerCase() || 'anonymous',
+      createdByUsername: user?.username || 'anonymous',
       guideId: guide.id,
       guideUuid: msg.guideUuid,
       result: guideResult,
@@ -129,7 +136,12 @@ async function soSubmitGuide(user: string, msg: GuideSubmissionInput, context: G
     },
   });
 
-  const galaxyCredentialsUpdated = await updateGalaxyCredentialsForGuideSubmissionIfApplicable(spaceIntegrations, guide, submission, user);
+  const galaxyCredentialsUpdated = await updateGalaxyCredentialsForGuideSubmissionIfApplicable(
+    spaceIntegrations,
+    guide,
+    submission,
+    user?.accountId || 'anonymous',
+  );
 
   return submission;
 }
@@ -143,5 +155,5 @@ export default async function submitGuide(parent: any, guideInput: MutationSubmi
     throw new Error('You must be logged in to submit a guide');
   }
 
-  return await soSubmitGuide(user || 'anonymous', guideInput.submissionInput, context);
+  return await doSubmitGuide(decodedJWT, guideInput.submissionInput, context);
 }

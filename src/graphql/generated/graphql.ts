@@ -770,6 +770,7 @@ export type GuideSubmission = {
   correctQuestionsCount: Scalars['Int'];
   createdAt: Scalars['DateTimeISO'];
   createdBy: Scalars['String'];
+  createdByUsername: Scalars['String'];
   galaxyCredentialsUpdated?: Maybe<Scalars['Boolean']>;
   guideId: Scalars['String'];
   guideUuid: Scalars['String'];
@@ -783,7 +784,7 @@ export type GuideSubmission = {
 export type GuideSubmissionFiltersInput = {
   correctQuestionsCount?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  createdBy?: InputMaybe<Scalars['String']>;
+  createdByUsername?: InputMaybe<Scalars['String']>;
   itemsPerPage: Scalars['Int'];
   page: Scalars['Int'];
 };
@@ -2832,6 +2833,7 @@ export type GuideSubmissionResolvers<ContextType = any, ParentType extends Resol
   correctQuestionsCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdByUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   galaxyCredentialsUpdated?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   guideId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   guideUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

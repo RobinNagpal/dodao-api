@@ -40,6 +40,7 @@ type GuideSubmission {
   id: String!
   createdAt: DateTimeISO!
   createdBy: String!
+  createdByUsername: String!
   galaxyCredentialsUpdated: Boolean
   guideId: String!
   guideUuid: String!
@@ -82,7 +83,7 @@ input GuideSubmissionInput {
 }
 
 input GuideSubmissionFiltersInput {
-  createdBy: String
+  createdByUsername: String
   createdAt: DateTimeFilter
   correctQuestionsCount: Int,
   page: Int!,
