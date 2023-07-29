@@ -272,6 +272,7 @@ model GuideSubmission {
   id                    String   @id @db.VarChar(66)
   createdAt             DateTime @default(now()) @map("created_at")
   createdBy             String   @map("created_by") @db.VarChar(64)
+  createdByUsername     String   @map("created_by_username") @db.VarChar(128)
   guideId               String   @map("guide_id") @db.VarChar(64)
   guideUuid             String   @map("guide_uuid") @db.VarChar(255)
   /// [GuideSubmissionResult]
