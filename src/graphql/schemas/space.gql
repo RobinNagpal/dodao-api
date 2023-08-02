@@ -29,8 +29,6 @@ extend type Mutation {
 
   upsertSpaceFeatures(spaceId: String!, features: [String!]!): Space!
 
-  upsertSpaceGitGuideRepositories(spaceId: String!, gitGuideRepositories: [SpaceGitRepositoryInput!]!): Space!
-
   upsertSpaceAcademyRepository(spaceId: String!, academyRepository: String!): Space!
 
   createSignedUrl(spaceId: String!, input: CreateSignedUrlInput!): String!

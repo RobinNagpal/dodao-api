@@ -4,7 +4,6 @@ import upsertGnosisSafeWallets from '@/graphql/mutations/space/upsertGnosisSafeW
 import upsertProjectGalaxyAccessToken from '@/graphql/mutations/space/upsertProjectGalaxyAccessToken';
 import upsertSpaceAcademyRepositoryMutation from '@/graphql/mutations/space/upsertSpaceAcademyRepositoryMutation';
 import upsertSpaceFeaturesMutation from '@/graphql/mutations/space/upsertSpaceFeaturesMutation';
-import upsertSpaceGitGuideRepositoriesMutation from '@/graphql/mutations/space/upsertSpaceGitGuideRepositories';
 import upsertSpaceInviteLinksMutation from '@/graphql/mutations/space/upsertSpaceInviteLinksMutation';
 import reloadAcademyRepository from '@/graphql/mutations/space/reloadAcademyRepository';
 
@@ -18,8 +17,6 @@ export default {
   upsertProjectGalaxyAccessToken: (_: unknown, args: any, context: any) => upsertProjectGalaxyAccessToken(_, args, context),
 
   upsertSpaceFeatures: (_: unknown, args: any, context: any) => upsertSpaceFeaturesMutation(_, args, context),
-
-  upsertSpaceGitGuideRepositories: (_: unknown, args: any, context: any) => upsertSpaceGitGuideRepositoriesMutation(_, args, context),
 
   upsertSpaceAcademyRepository: (_: unknown, args: any, context: any) => upsertSpaceAcademyRepositoryMutation(_, args, context),
 
