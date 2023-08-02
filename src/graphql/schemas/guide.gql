@@ -1,6 +1,5 @@
 extend type Mutation {
   upsertGuide(spaceId: String!, guideInput: GuideInput!): Guide!
-  refreshGitGuides(spaceId: String!): Boolean!
   upsertGuideRating(spaceId: String!, upsertGuideRatingInput: UpsertGuideRatingInput!): GuideRating!
 }
 
