@@ -881,6 +881,7 @@ export type Mutation = {
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
   deleteAndPullCourseRepo: GitCourse;
+  deleteGuide: Scalars['Boolean'];
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
   deleteTopicQuestion: GitCourse;
@@ -900,7 +901,6 @@ export type Mutation = {
   publishByte: Byte;
   refreshGitCourse: Scalars['Boolean'];
   refreshGitCourses: Scalars['Boolean'];
-  refreshGitGuides: Scalars['Boolean'];
   reloadAcademyRepository: Scalars['Boolean'];
   saveByte: Byte;
   submitByte: ByteSubmission;
@@ -931,7 +931,6 @@ export type Mutation = {
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
   upsertSpaceFeatures: Space;
-  upsertSpaceGitGuideRepositories: Space;
   upsertSpaceInviteLinks: Space;
   upsertTimeline: Timeline;
 };
@@ -1014,6 +1013,12 @@ export type MutationCreateSummaryOfContentArgs = {
 export type MutationDeleteAndPullCourseRepoArgs = {
   courseKey: Scalars['String'];
   spaceId: Scalars['String'];
+};
+
+
+export type MutationDeleteGuideArgs = {
+  spaceId: Scalars['String'];
+  uuid: Scalars['String'];
 };
 
 
@@ -1122,11 +1127,6 @@ export type MutationRefreshGitCourseArgs = {
 
 
 export type MutationRefreshGitCoursesArgs = {
-  spaceId: Scalars['String'];
-};
-
-
-export type MutationRefreshGitGuidesArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -1303,12 +1303,6 @@ export type MutationUpsertSpaceAcademyRepositoryArgs = {
 
 export type MutationUpsertSpaceFeaturesArgs = {
   features: Array<Scalars['String']>;
-  spaceId: Scalars['String'];
-};
-
-
-export type MutationUpsertSpaceGitGuideRepositoriesArgs = {
-  gitGuideRepositories: Array<SpaceGitRepositoryInput>;
   spaceId: Scalars['String'];
 };
 
@@ -2901,6 +2895,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
+  deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
@@ -2920,7 +2915,6 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   publishByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationPublishByteArgs, 'input' | 'spaceId'>>;
   refreshGitCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCourseArgs, 'courseKey' | 'spaceId'>>;
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
-  refreshGitGuides?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitGuidesArgs, 'spaceId'>>;
   reloadAcademyRepository?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReloadAcademyRepositoryArgs, 'spaceId'>>;
   saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
@@ -2951,7 +2945,6 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
   upsertSpaceFeatures?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceFeaturesArgs, 'features' | 'spaceId'>>;
-  upsertSpaceGitGuideRepositories?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceGitGuideRepositoriesArgs, 'gitGuideRepositories' | 'spaceId'>>;
   upsertSpaceInviteLinks?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceInviteLinksArgs, 'spaceId' | 'spaceInviteArgs'>>;
   upsertTimeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<MutationUpsertTimelineArgs, 'input' | 'spaceId'>>;
 };
