@@ -125,7 +125,9 @@ export async function writeGuideToAcademyRepo(space: Space, gitGuide: GitGuideMo
   };
 
   if (!guidesArray.includes(gitGuide.uuid + '.yaml')) {
-    const newGuideFileName = slugify(gitGuide.name + ' ' + space.name);
+    const randomThreeDifit = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+
+    const newGuideFileName = slugify(gitGuide.name + ' ' + space.name + ' ' + randomThreeDifit);
 
     writeParams.absoluteGuidePath = `${repositoryPath}/src/guides/main/${newGuideFileName}.yaml`;
 
@@ -142,4 +144,42 @@ export async function writeGuideToAcademyRepo(space: Space, gitGuide: GitGuideMo
   await setAcademyGuideInRedis(space, gitGuide);
 
   return gitGuide;
+}
+
+export async function deleteGuideFromAcademyRepo(space: Space, guideUuid: string): Promise<boolean> {
+  const { repositoryPath } = await getAcademyRepoInfo(space);
+
+  console.log(`deleting guide ${guideUuid} from github repo`);
+
+  const guidesYamlRelativePath = `src/guides/main/guides.yaml`;
+  const guidesYamlFile = `${repositoryPath}/${guidesYamlRelativePath}`;
+  const guides: any = yaml.load(fs.readFileSync(guidesYamlFile, 'utf8'));
+  const guidesArray: string[] = guides?.guides?.length ? guides?.guides : [];
+
+  console.log(`guides array before delete`, JSON.stringify(guidesArray));
+  const guidesJsonFile = `${repositoryPath}/generated/guides/main/json/guides.json`;
+
+  const withoutDeletedFile = guidesArray.filter((guide) => guide !== guideUuid + '.yaml');
+
+  const guidesJson = { guides: withoutDeletedFile };
+  const contents: string = yaml.dump(guidesJson);
+  await writeToFile(guidesYamlFile, contents);
+
+  await writeToFile(
+    guidesJsonFile,
+    JSON.stringify(
+      withoutDeletedFile.map((guideName) => guideName.replace('.yaml', '.json')),
+      null,
+      2,
+    ),
+  );
+
+  console.log(`guides array after delete`, JSON.stringify(withoutDeletedFile));
+
+  await setAcademyGuidesArrayInRedis(
+    space.id,
+    withoutDeletedFile.map((guideName) => guideName.replace('.yaml', '')),
+  );
+
+  return true;
 }
