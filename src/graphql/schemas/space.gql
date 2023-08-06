@@ -34,6 +34,8 @@ extend type Mutation {
   createSignedUrl(spaceId: String!, input: CreateSignedUrlInput!): String!
 
   reloadAcademyRepository(spaceId: String!): Boolean!
+
+  sendEmail(input: SendEmailInput!): Boolean!
 }
 
 type Space {
@@ -204,4 +206,9 @@ input ByteSettingsInput {
   showCategoriesInSidebar: Boolean
 }
 
-
+input SendEmailInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  message: String!
+}

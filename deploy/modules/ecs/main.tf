@@ -75,7 +75,19 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DEFAULT_REGION", value = "us-east-1" },
         { name = "AWS_ACCESS_KEY_ID", value = var.aws_access_key_id },
         { name = "AWS_SECRET_ACCESS_KEY", value = var.aws_secret_access_key },
-        { name = "AWS_DEFAULT_REGION", value = var.aws_default_region }
+        { name = "AWS_DEFAULT_REGION", value = var.aws_default_region },
+        { name = "GOOGLE_TYPE", value="service_account"},
+        { name = "GOOGLE_PROJECT_ID", value="dodao-email-sender"},
+        { name = "GOOGLE_PRIVATE_KEY_ID", value=var.google_private_key_id},
+        { name = "GOOGLE_PRIVATE_KEY", value=var.google_private_key},
+        { name = "GOOGLE_CLIENT_EMAIL", value="emailsender@dodao-email-sender.iam.gserviceaccount.com"},
+        { name = "GOOGLE_CLIENT_ID", value=var.google_client_id},
+        { name = "GOOGLE_AUTH_URI", value="https://accounts.google.com/o/oauth2/auth"},
+        { name = "GOOGLE_TOKEN_URI", value="https://oauth2.googleapis.com/token"},
+        { name = "GOOGLE_AUTH_PROVIDER_X509_CERT_URL", value="https://www.googleapis.com/oauth2/v1/certs"},
+        { name = "GOOGLE_CLIENT_X509_CERT_URL", value="https://www.googleapis.com/robot/v1/metadata/x509/emailsender%40dodao-email-sender.iam.gserviceaccount.com"},
+        { name = "GOOGLE_UNIVERSE_DOMAIN", value="googleapis.com"},
+
       ]
 
       healthCheck = {

@@ -12,6 +12,7 @@ import downloadAndCleanContent from '@/graphql/mutations/openAI/downloadAndClean
 import extractRelevantTextForTopic from '@/graphql/mutations/openAI/extractRelevantTextForTopic';
 import generateImage from '@/graphql/mutations/openAI/generateImage';
 import createSpace from '@/graphql/mutations/space/createSpace';
+import sendEmail from '@/graphql/mutations/space/sendEmail';
 import { updateAuthSettings } from '@/graphql/mutations/space/updateAuthSettings';
 import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings';
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
@@ -28,6 +29,7 @@ export default {
 
   createSpace,
   updateSpace,
+  sendEmail,
 
   upsertGuideRating,
   generateSharablePdf,

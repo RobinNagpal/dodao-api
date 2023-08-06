@@ -903,6 +903,7 @@ export type Mutation = {
   refreshGitCourses: Scalars['Boolean'];
   reloadAcademyRepository: Scalars['Boolean'];
   saveByte: Byte;
+  sendEmail: Scalars['Boolean'];
   submitByte: ByteSubmission;
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseTopicSubmission;
@@ -1139,6 +1140,11 @@ export type MutationReloadAcademyRepositoryArgs = {
 export type MutationSaveByteArgs = {
   input: UpsertByteInput;
   spaceId: Scalars['String'];
+};
+
+
+export type MutationSendEmailArgs = {
+  input: SendEmailInput;
 };
 
 
@@ -1566,6 +1572,13 @@ export type RawGitCourse = {
   courseRepoUrl: Scalars['String'];
   publishStatus: Scalars['String'];
   weight: Scalars['Int'];
+};
+
+export type SendEmailInput = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type Simulation = {
@@ -2159,6 +2172,7 @@ export type ResolversTypes = {
   QuestionChoice: ResolverTypeWrapper<QuestionChoice>;
   QuestionChoiceInput: QuestionChoiceInput;
   RawGitCourse: ResolverTypeWrapper<RawGitCourse>;
+  SendEmailInput: SendEmailInput;
   Simulation: ResolverTypeWrapper<Simulation>;
   SimulationStep: ResolverTypeWrapper<SimulationStep>;
   SimulationStepInput: SimulationStepInput;
@@ -2325,6 +2339,7 @@ export type ResolversParentTypes = {
   QuestionChoice: QuestionChoice;
   QuestionChoiceInput: QuestionChoiceInput;
   RawGitCourse: RawGitCourse;
+  SendEmailInput: SendEmailInput;
   Simulation: Simulation;
   SimulationStep: SimulationStep;
   SimulationStepInput: SimulationStepInput;
@@ -2917,6 +2932,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   reloadAcademyRepository?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReloadAcademyRepositoryArgs, 'spaceId'>>;
   saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
+  sendEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendEmailArgs, 'input'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseTopicSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;

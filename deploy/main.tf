@@ -147,6 +147,9 @@ module "ecs" {
   aws_access_key_id             = var.aws_access_key_id
   aws_secret_access_key         = var.aws_secret_access_key
   aws_default_region            = var.aws_default_region
+  google_private_key_id         = var.google_private_key_id
+  google_private_key            = var.google_private_key
+  google_client_id              = var.google_client_id
 }
 
 resource "aws_ecr_repository" "main" {

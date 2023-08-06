@@ -23,4 +23,6 @@ variable "openai_api_key" {}
 variable "aws_access_key_id" {}
 variable "aws_secret_access_key" {}
 variable "aws_default_region" {}
-
+variable "google_private_key_id" {}
+variable "google_private_key" {}
+variable "google_client_id" {}

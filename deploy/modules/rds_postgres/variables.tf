@@ -9,7 +9,7 @@ variable "engine" { default = "postgres" }
 
 variable "engine_version" {
   description = "The PostgreSQL engine version"
-  default     = "13.7"
+  default     = "13.10"
 }
 
 variable "instance_class" {
