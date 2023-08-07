@@ -148,13 +148,15 @@ export type ByteQuestion = {
 export type ByteSettings = {
   __typename?: 'ByteSettings';
   askForLoginToSubmit?: Maybe<Scalars['Boolean']>;
+  /** @deprecated Use captureRating instead */
   captureBeforeAndAfterRating?: Maybe<Scalars['Boolean']>;
+  captureRating?: Maybe<Scalars['Boolean']>;
   showCategoriesInSidebar?: Maybe<Scalars['Boolean']>;
 };
 
 export type ByteSettingsInput = {
   askForLoginToSubmit?: InputMaybe<Scalars['Boolean']>;
-  captureBeforeAndAfterRating?: InputMaybe<Scalars['Boolean']>;
+  captureRating?: InputMaybe<Scalars['Boolean']>;
   showCategoriesInSidebar?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -701,7 +703,9 @@ export type GuideRating = {
 export type GuideSettings = {
   __typename?: 'GuideSettings';
   askForLoginToSubmit?: Maybe<Scalars['Boolean']>;
+  /** @deprecated Use captureRating instead */
   captureBeforeAndAfterRating?: Maybe<Scalars['Boolean']>;
+  captureRating?: Maybe<Scalars['Boolean']>;
   showCategoriesInSidebar?: Maybe<Scalars['Boolean']>;
   showIncorrectAfterEachStep?: Maybe<Scalars['Boolean']>;
   showIncorrectOnCompletion?: Maybe<Scalars['Boolean']>;
@@ -709,7 +713,7 @@ export type GuideSettings = {
 
 export type GuideSettingsInput = {
   askForLoginToSubmit?: InputMaybe<Scalars['Boolean']>;
-  captureBeforeAndAfterRating?: InputMaybe<Scalars['Boolean']>;
+  captureRating?: InputMaybe<Scalars['Boolean']>;
   showCategoriesInSidebar?: InputMaybe<Scalars['Boolean']>;
   showIncorrectAfterEachStep?: InputMaybe<Scalars['Boolean']>;
   showIncorrectOnCompletion?: InputMaybe<Scalars['Boolean']>;
@@ -867,6 +871,7 @@ export type MoveTopicVideoInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  _empty?: Maybe<Scalars['String']>;
   addDiscordCredentials: Space;
   addTopic: GitCourseTopic;
   addTopicExplanation: GitCourseExplanation;
@@ -1391,6 +1396,7 @@ export enum OrderDirection {
 
 export type Query = {
   __typename?: 'Query';
+  _empty?: Maybe<Scalars['String']>;
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
   byte: Byte;
@@ -2453,6 +2459,7 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
 export type ByteSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteSettings'] = ResolversParentTypes['ByteSettings']> = {
   askForLoginToSubmit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   captureBeforeAndAfterRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  captureRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   showCategoriesInSidebar?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -2802,6 +2809,7 @@ export type GuideRatingResolvers<ContextType = any, ParentType extends Resolvers
 export type GuideSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['GuideSettings'] = ResolversParentTypes['GuideSettings']> = {
   askForLoginToSubmit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   captureBeforeAndAfterRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  captureRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   showCategoriesInSidebar?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   showIncorrectAfterEachStep?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   showIncorrectOnCompletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2896,6 +2904,7 @@ export type JwtResponseResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   addDiscordCredentials?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationAddDiscordCredentialsArgs, 'code' | 'redirectUri' | 'spaceId'>>;
   addTopic?: Resolver<ResolversTypes['GitCourseTopic'], ParentType, ContextType, RequireFields<MutationAddTopicArgs, 'spaceId' | 'topicInfo'>>;
   addTopicExplanation?: Resolver<ResolversTypes['GitCourseExplanation'], ParentType, ContextType, RequireFields<MutationAddTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
@@ -3021,6 +3030,7 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;

@@ -13,7 +13,7 @@ export async function updateByteSettings(_: unknown, args: MutationUpdateByteSet
     data: {
       byteSettings: {
         askForLoginToSubmit: args.input.askForLoginToSubmit,
-        captureBeforeAndAfterRating: args.input.captureBeforeAndAfterRating,
+        captureRating: args.input.captureRating,
         showCategoriesInSidebar: args.input.showCategoriesInSidebar,
       },
     },
