@@ -4,9 +4,13 @@ scalar JSONObject
 scalar DateTimeISO
 
 # Queries
-type Query
+type Query {
+  _empty: String
+}
 
-type Mutation
+type Mutation {
+  _empty: String
+}
 
 enum OrderDirection {
   asc

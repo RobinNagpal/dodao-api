@@ -13,7 +13,7 @@ export async function updateGuideSettings(_: unknown, args: MutationUpdateGuideS
     data: {
       guideSettings: {
         askForLoginToSubmit: args.input.askForLoginToSubmit,
-        captureBeforeAndAfterRating: args.input.captureBeforeAndAfterRating,
+        captureRating: args.input.captureRating,
         showCategoriesInSidebar: args.input.showCategoriesInSidebar,
         showIncorrectAfterEachStep: args.input.showIncorrectAfterEachStep,
         showIncorrectOnCompletion: args.input.showIncorrectOnCompletion,

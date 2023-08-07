@@ -65,13 +65,15 @@ type GuideSettings {
   showIncorrectOnCompletion: Boolean
   showIncorrectAfterEachStep: Boolean
   askForLoginToSubmit: Boolean
-  captureBeforeAndAfterRating: Boolean
+  captureBeforeAndAfterRating: Boolean @deprecated(reason: "Use captureRating instead")
+  captureRating: Boolean
   showCategoriesInSidebar: Boolean
 }
 
 type ByteSettings {
   askForLoginToSubmit: Boolean
-  captureBeforeAndAfterRating: Boolean
+  captureBeforeAndAfterRating: Boolean @deprecated(reason: "Use captureRating instead")
+  captureRating: Boolean
   showCategoriesInSidebar: Boolean
 }
 
@@ -187,7 +189,7 @@ input GuideSettingsInput {
   showIncorrectOnCompletion: Boolean
   showIncorrectAfterEachStep: Boolean
   askForLoginToSubmit: Boolean
-  captureBeforeAndAfterRating: Boolean
+  captureRating: Boolean
   showCategoriesInSidebar: Boolean
 }
 
@@ -202,7 +204,7 @@ input AuthSettingsInput {
 
 input ByteSettingsInput {
   askForLoginToSubmit: Boolean
-  captureBeforeAndAfterRating: Boolean
+  captureRating: Boolean
   showCategoriesInSidebar: Boolean
 }
 
