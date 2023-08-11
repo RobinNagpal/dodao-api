@@ -5,7 +5,7 @@ export default async function guideSubmissions(_: any, args: QueryGuideSubmissio
   const { page, itemsPerPage, createdByUsername, createdAt, correctQuestionsCount } = args.filters || {};
   const submissions = await prisma.guideSubmission.findMany({
     skip: page * itemsPerPage,
-    take: itemsPerPage,
+    take: itemsPerPage && itemsPerPage < 200 ? itemsPerPage : 200,
     where: {
       guideUuid: args.guideUuid,
       spaceId: args.spaceId,
