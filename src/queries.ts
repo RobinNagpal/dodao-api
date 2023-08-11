@@ -19,7 +19,9 @@ import guideSubmissions from '@/graphql/queries/guide/guideSubmissions';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
+import route53Records from '@/graphql/queries/space/route53Records';
 import spaces from '@/graphql/queries/space/spaces';
+import vercelDomainRecords from '@/graphql/queries/space/vercelDomainRecords';
 import timeline from '@/graphql/queries/timeline/timeline';
 import timelines from '@/graphql/queries/timeline/timelines';
 
@@ -59,4 +61,6 @@ export default {
 
   space: getSpace,
   spaces,
+  route53Records,
+  vercelDomainRecords,
 };
