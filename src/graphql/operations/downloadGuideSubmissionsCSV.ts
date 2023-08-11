@@ -18,7 +18,7 @@ function convertToCSV(objArray: Record<string, any>[]) {
   // Rows
   for (let i = 0; i < array.length; i++) {
     let line = '';
-    for (let index in array[i]) {
+    for (const index in array[i]) {
       if (line !== '') line += ',';
 
       // Escape double quotes and encapsulate fields with double quotes
