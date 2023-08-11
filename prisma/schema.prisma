@@ -354,7 +354,8 @@ model SpaceIntegration {
 }
 
 model DiscourseIndexRun {
-    id      Int             @id @default(autoincrement()) @db.Integer
+    id      String          @id @db.VarChar(255)
+    spaceId String          @map("space_id") @db.VarChar(66)
     url     String          @unique @db.VarChar(1024)
     runDate DateTime        @default(now()) @map("run_date")
     posts   DiscoursePost[]
@@ -363,12 +364,13 @@ model DiscourseIndexRun {
 }
 
 model DiscoursePost {
-    id                  Int                    @id @default(autoincrement()) @db.Integer
+    id                  String                 @id @db.VarChar(255)
+    spaceId             String                 @map("space_id") @db.VarChar(66)
     url                 String                 @unique @db.VarChar(1024)
     fullContent         String                 @db.Text
     author              String                 @db.VarChar(255)
     datePublished       DateTime               @map("date_published")
-    discourseIndexRunId Int                    @map("discourse_index_run_id") @db.Integer
+    discourseIndexRunId String                 @map("discourse_index_run_id") @db.VarChar(255)
     discourseIndexRun   DiscourseIndexRun      @relation(fields: [discourseIndexRunId], references: [id])
     comments            DiscoursePostComment[]
 
@@ -376,11 +378,12 @@ model DiscoursePost {
 }
 
 model DiscoursePostComment {
-    id      Int           @id @default(autoincrement()) @db.Integer
+    id      String        @id @db.VarChar(255)
+    spaceId String        @map("space_id") @db.VarChar(66)
     content String        @db.Text
     author  String        @db.VarChar(255)
     date    DateTime
-    postId  Int           @map("post_id") @db.Integer
+    postId  String        @map("post_id") @db.VarChar(255)
     post    DiscoursePost @relation(fields: [postId], references: [id])
 
     @@map("discourse_post_comments")
