@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "main" {
 resource "aws_ecs_task_definition" "app" {
   family = local.family
   cpu    = "1024" # 1 vCPU
-  memory = "3072" # 3 GB of RAM
+  memory = "4096" # 3 GB of RAM
 
 
   volume {
@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "app" {
 
       resources = {
         cpu    = 1024 # 1 vCPU
-        memory = 3072 # 3 GB of RAM
+        memory = 4096 # 3 GB of RAM
       }
 
       linuxParameters = {
