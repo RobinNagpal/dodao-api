@@ -26,6 +26,7 @@ export interface DiscourseThread {
   url: string;
   postContentFull: string;
   author: string;
+  // dateElement: any;
   date: string;
   comments: Comment[];
 }
@@ -40,7 +41,7 @@ export interface DiscourseIndexRunWithPosts {
 async function checkIfExists(url: string): Promise<DiscourseIndexRunWithPosts | null> {
   return (await prisma.discourseIndexRun.findUnique({
     where: { url: url },
-    include: { posts: { include: { comments: true } } },
+    // include: { posts: { include: { comments: true } } },
   })) as DiscourseIndexRunWithPosts | null;
 }
 
@@ -174,12 +175,19 @@ export async function getDiscoursePostWithComments(browser: Browser, url: string
     const author = (await page.evaluate((element) => element!.textContent, authorElement)) as string;
 
     const dateElement = await commentElement.$('.post-date [data-time]');
+    console.log(dateElement);
+    // console.log(typeof dateElement);
     const date = (await page.evaluate((element) => element!.getAttribute('title'), dateElement)) as string;
 
     const contentElement = await commentElement.$('.cooked');
     const replyFullContent = (await page.evaluate((element) => element!.textContent, contentElement)) as string;
 
-    comments.push({ replyFullContent, author, date });
+    comments.push({
+      replyFullContent,
+      author,
+      date,
+      // dateElement
+    });
   }
 
   await page.close();
@@ -188,14 +196,15 @@ export async function getDiscoursePostWithComments(browser: Browser, url: string
     url,
     postContentFull,
     author,
+    // dateElement,
     date,
     comments,
   };
 }
 
-async function getHrefs(page: Page, selector: string): Promise<string[]> {
-  return (await page.$$eval(selector, (anchors) => [].map.call(anchors, (a: HTMLAnchorElement) => a.href))) as string[];
-}
+// async function getHrefs(page: Page, selector: string): Promise<string[]> {
+//   return (await page.$$eval(selector, (anchors) => [].map.call(anchors, (a: HTMLAnchorElement) => a.href))) as string[];
+// }
 
 async function getAllPosts(discourseUrl: string): Promise<DiscourseThread[]> {
   console.log('Came to getAllthreads Function');
@@ -213,53 +222,39 @@ async function getAllPosts(discourseUrl: string): Promise<DiscourseThread[]> {
 
   await autoScroll(page, 600);
 
-  //   const hrefs: string[] = await getHrefs(page, 'tr.topic-list-item > td.main-link > span > a');
-
-  //   const epochTimes = await page.$$eval('tr.topic-list-item > td.topic-list-data > a > span[data-time]', (spans) => {
-  //     return spans
-  //       .map((span) => {
-  //         const dataTimeAttr = span.getAttribute('data-time');
-  //         return dataTimeAttr ? parseInt(dataTimeAttr) : null;
-  //       })
-  //       .filter((time) => time && time >= lastRunTime);
-  //   });
-
-  async function getFilteredHrefs(page: Page, hrefSelector: string, timeSelector: string, lastRunTime: number): Promise<string[]> {
+  async function getFilteredHrefs(page: Page, topicSelector: string, hrefSubSelector: string, timeSubSelector: string, lastRunTime: number): Promise<string[]> {
     return await page.$$eval(
-      timeSelector,
-      (timeElements, hrefSelector, lastRunTime) => {
+      topicSelector,
+      (topics, hrefSubSelector, timeSubSelector, lastRunTime) => {
         const validHrefs: string[] = [];
 
-        timeElements.forEach((timeElement: Element) => {
-          console.log(timeElement);
-          const dataTimeAttr = (timeElement as HTMLElement).getAttribute('data-time');
+        topics.forEach((topic: Element) => {
+          const timeElement = topic.querySelector(timeSubSelector);
+          const dataTimeAttr = timeElement ? (timeElement as HTMLElement).getAttribute('data-time') : null;
           const epochTime = dataTimeAttr ? parseInt(dataTimeAttr) : null;
-          console.log(epochTime);
 
           if (epochTime && epochTime >= lastRunTime) {
-            const closestTr = timeElement.closest('tr.topic-list-item');
-            if (closestTr) {
-              const hrefElement = closestTr.querySelector(hrefSelector) as HTMLAnchorElement;
-              if (hrefElement) {
-                validHrefs.push(hrefElement.href);
-              }
+            const hrefElement = topic.querySelector(hrefSubSelector) as HTMLAnchorElement | null;
+            if (hrefElement && hrefElement.href) {
+              validHrefs.push(hrefElement.href);
             }
           }
         });
 
         return validHrefs;
       },
-      hrefSelector,
+      hrefSubSelector,
+      timeSubSelector,
       lastRunTime,
     );
   }
 
   const lastRunTime = lastRunDate.getTime();
-  console.log(lastRunTime);
   const hrefs: string[] = await getFilteredHrefs(
     page,
-    'tr.topic-list-item > td.topic-list-data > a',
-    'tr.topic-list-item > td.topic-list-data > a > span[data-time]',
+    'tr.topic-list-item',
+    'td.main-link > span > a',
+    'td.topic-list-data > a > span[data-time]',
     lastRunTime,
   );
 
