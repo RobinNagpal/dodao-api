@@ -17,21 +17,7 @@ function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPay
   return null;
 }
 
-export function canEditGitSpace(context: IncomingMessage, space: Space) {
-  const doDAOMember = isDoDAOMember(context);
-
-  if (doDAOMember && space.id === 'test-academy-eth') {
-    return { decodedJWT: doDAOMember, canEditSpace: true, user: doDAOMember.accountId.toLowerCase() };
-  }
-
-  const doDAOAdmin = isDoDAOSuperAdmin(context);
-
-  if (doDAOAdmin) {
-    return { decodedJWT: doDAOAdmin, canEditSpace: true, user: doDAOAdmin.accountId.toLowerCase() };
-  }
-
-  const decodedJWT = getDecodedJwtFromContext(context);
-
+export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Space) {
   const user = decodedJWT.accountId.toLowerCase();
 
   const superAdmin = isSuperAdmin(user);
@@ -47,6 +33,24 @@ export function canEditGitSpace(context: IncomingMessage, space: Space) {
 
   const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || superAdmin;
   return { decodedJWT, canEditSpace, user };
+}
+
+export function canEditGitSpace(context: IncomingMessage, space: Space) {
+  const doDAOMember = isDoDAOMember(context);
+
+  if (doDAOMember && space.id === 'test-academy-eth') {
+    return { decodedJWT: doDAOMember, canEditSpace: true, user: doDAOMember.accountId.toLowerCase() };
+  }
+
+  const doDAOAdmin = isDoDAOSuperAdmin(context);
+
+  if (doDAOAdmin) {
+    return { decodedJWT: doDAOAdmin, canEditSpace: true, user: doDAOAdmin.accountId.toLowerCase() };
+  }
+
+  const decodedJWT = getDecodedJwtFromContext(context);
+
+  return isUserAdminOfSpace(decodedJWT, space);
 }
 
 export function checkEditSpacePermission(space: Space, context: IncomingMessage): JwtPayload & DoDaoJwtTokenPayload {

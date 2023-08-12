@@ -1,4 +1,5 @@
 import { DoDaoJwtTokenPayload } from '@/types/session';
+import { Request } from 'express-serve-static-core';
 import { IncomingMessage } from 'http';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
@@ -13,9 +14,7 @@ const dodaoTeamMates = [
   '0xe273F55D64220983Ba6ce59bB84064DdCA1C8dA8', // Tanay
 ];
 
-export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtTokenPayload {
-  const jwtString = getJwtFromContext(context);
-
+function validateJwtTokenString(jwtString?: string): DoDaoJwtTokenPayload {
   if (!jwtString) throw new Error('No JWT found in context');
   const decodedJWT: any = jwt.decode(jwtString);
   if (decodedJWT && decodedJWT.username && dodaoTeamMates.map((t) => t.toLowerCase()).includes(decodedJWT.username.toLowerCase())) {
@@ -28,6 +27,16 @@ export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtToke
     console.error('Failed to decode JWT:', err);
     throw err;
   }
+}
+
+export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtTokenPayload {
+  const jwtString = getJwtFromContext(context);
+  return validateJwtTokenString(jwtString);
+}
+
+export function getDecodedJwtFromExpressReq(req: Request): DoDaoJwtTokenPayload {
+  const jwtString = (req.headers?.[process.env.DODAO_AUTH_HEADER_NAME!] as string | undefined)?.replace('Bearer ', '');
+  return validateJwtTokenString(jwtString);
 }
 
 export function getOptioanlJwt(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | undefined {
