@@ -1,3 +1,4 @@
+import downloadGuideSubmissionsCSV from '@/graphql/operations/downloadGuideSubmissionsCSV';
 import { logError } from '@/helpers/errorLogger';
 import { setupGitLoader } from '@/helpers/gitLoader';
 import { ApolloServer } from '@apollo/server';
@@ -41,11 +42,14 @@ const app = express();
     return { headers: req.headers, ip: req.ip };
   };
 
+  app.use(cors<cors.CorsRequest>());
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server, { context }));
 
   app.use('/health', (req, res) => {
     return res.status(200).send('5');
   });
+
+  app.get('/download-guide-submissions-csv', cors(), downloadGuideSubmissionsCSV);
 
   setupGitLoader();
 

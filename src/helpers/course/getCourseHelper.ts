@@ -1,5 +1,3 @@
-import { MAIN_GIT_FOLDER_PATH } from '@/helpers/git/gitConstants';
-
 export interface CourseRepoInfo {
   repositoryFolderName: string;
   parentDirectory: string;
@@ -12,7 +10,7 @@ export function getCourseRepoInfo(spaceId: string, courseRepoUrl: string): Cours
   if (!repositoryFolderName) {
     throw new Error(`something wrong with the url of course - ${spaceId} - ${courseRepoUrl}`);
   }
-  const parentDirectory = `${MAIN_GIT_FOLDER_PATH}/dodao-courses-repos/${spaceId}`;
+  const parentDirectory = `${process.env.MAIN_GIT_FOLDER_PATH}/dodao-courses-repos/${spaceId}`;
   const repositoryPath = `${parentDirectory}/${repositoryFolderName}`;
 
   return {

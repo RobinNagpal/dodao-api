@@ -1,6 +1,5 @@
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { ensureDirectoryExistence } from '@/helpers/git/ensureDirectoryExistence';
-import { MAIN_GIT_FOLDER_PATH } from '@/helpers/git/gitConstants';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
 import fs from 'fs';
@@ -22,7 +21,7 @@ export async function getAcademyRepoInfo(space: Space): Promise<AcademyRepoInfo>
   }
 
   const repositoryFolderName = academyRepository.split('/').pop() || '';
-  const parentDirectory = `${MAIN_GIT_FOLDER_PATH}/dodao-academy-repos/${space.id}`;
+  const parentDirectory = `${process.env.MAIN_GIT_FOLDER_PATH}/dodao-academy-repos/${space.id}`;
   const repositoryPath = `${parentDirectory}/${repositoryFolderName}`;
 
   return {
