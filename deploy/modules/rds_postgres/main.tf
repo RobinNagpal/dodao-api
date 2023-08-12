@@ -1,15 +1,16 @@
 resource "aws_db_instance" "postgres" {
-  identifier             = "${var.project_name}-${var.environment}-db"
-  allocated_storage      = var.allocated_storage
-  engine                 = var.engine
-  instance_class         = var.instance_class
-  username               = var.username
-  password               = var.password
-  engine_version         = var.engine_version
-  vpc_security_group_ids = [var.security_group_id]
-  db_subnet_group_name   = aws_db_subnet_group.postgres.name
-
-  tags = {
+  identifier              = "${var.project_name}-${var.environment}-db"
+  allocated_storage       = var.allocated_storage
+  engine                  = var.engine
+  instance_class          = var.instance_class
+  username                = var.username
+  password                = var.password
+  engine_version          = var.engine_version
+  vpc_security_group_ids  = [var.security_group_id]
+  db_subnet_group_name    = aws_db_subnet_group.postgres.name
+  backup_retention_period = 7
+  backup_window           = "05:00-06:00" # 1-hour window starting at 5:00 AM UTC (which is midnight EST)
+  tags                    = {
     Name = var.db_name
   }
 
