@@ -4,6 +4,10 @@ extend type Query {
   spaceDiscordGuild(spaceId: String!): Any
 
   spaces: [Space!]
+
+  route53Records: [Route53Record!]!
+
+  vercelDomainRecords: [VercelDomain!]!
 }
 
 extend type Mutation {
@@ -116,6 +120,24 @@ type SpaceInviteLinks {
 
 type SocialSettings {
   linkedSharePdfBackgroundImage: String
+}
+
+type Route53Record {
+  name: String
+  type: String
+  ttl: Int
+  records: [String]
+}
+
+type VercelDomain {
+  name: String!
+  apexName: String!
+  projectId: String!
+  redirect: String
+  gitBranch: String
+  updatedAt: Int
+  createdAt: Int
+  verified: Boolean!
 }
 
 input SpaceWhere {

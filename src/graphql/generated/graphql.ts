@@ -1415,6 +1415,7 @@ export type Query = {
   guides: Array<Guide>;
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
+  route53Records: Array<Route53Record>;
   simulation: Simulation;
   simulations: Array<Simulation>;
   space?: Maybe<Space>;
@@ -1422,6 +1423,7 @@ export type Query = {
   spaces?: Maybe<Array<Space>>;
   timeline: Timeline;
   timelines: Array<Timeline>;
+  vercelDomainRecords: Array<VercelDomain>;
 };
 
 
@@ -1578,6 +1580,14 @@ export type RawGitCourse = {
   courseRepoUrl: Scalars['String'];
   publishStatus: Scalars['String'];
   weight: Scalars['Int'];
+};
+
+export type Route53Record = {
+  __typename?: 'Route53Record';
+  name?: Maybe<Scalars['String']>;
+  records?: Maybe<Array<Maybe<Scalars['String']>>>;
+  ttl?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type SendEmailInput = {
@@ -1975,6 +1985,18 @@ export type UserInputInput = {
   uuid: Scalars['String'];
 };
 
+export type VercelDomain = {
+  __typename?: 'VercelDomain';
+  apexName: Scalars['String'];
+  createdAt?: Maybe<Scalars['Int']>;
+  gitBranch?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  projectId: Scalars['String'];
+  redirect?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Int']>;
+  verified: Scalars['Boolean'];
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -2178,6 +2200,7 @@ export type ResolversTypes = {
   QuestionChoice: ResolverTypeWrapper<QuestionChoice>;
   QuestionChoiceInput: QuestionChoiceInput;
   RawGitCourse: ResolverTypeWrapper<RawGitCourse>;
+  Route53Record: ResolverTypeWrapper<Route53Record>;
   SendEmailInput: SendEmailInput;
   Simulation: ResolverTypeWrapper<Simulation>;
   SimulationStep: ResolverTypeWrapper<SimulationStep>;
@@ -2221,6 +2244,7 @@ export type ResolversTypes = {
   UserDiscordInfo: ResolverTypeWrapper<UserDiscordInfo>;
   UserDiscordInfoInput: UserDiscordInfoInput;
   UserInputInput: UserInputInput;
+  VercelDomain: ResolverTypeWrapper<VercelDomain>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -2345,6 +2369,7 @@ export type ResolversParentTypes = {
   QuestionChoice: QuestionChoice;
   QuestionChoiceInput: QuestionChoiceInput;
   RawGitCourse: RawGitCourse;
+  Route53Record: Route53Record;
   SendEmailInput: SendEmailInput;
   Simulation: Simulation;
   SimulationStep: SimulationStep;
@@ -2388,6 +2413,7 @@ export type ResolversParentTypes = {
   UserDiscordInfo: UserDiscordInfo;
   UserDiscordInfoInput: UserDiscordInfoInput;
   UserInputInput: UserInputInput;
+  VercelDomain: VercelDomain;
 };
 
 export type AcademyTaskResolvers<ContextType = any, ParentType extends ResolversParentTypes['AcademyTask'] = ResolversParentTypes['AcademyTask']> = {
@@ -3049,6 +3075,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
+  route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, Partial<QuerySpaceArgs>>;
@@ -3056,6 +3083,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   spaces?: Resolver<Maybe<Array<ResolversTypes['Space']>>, ParentType, ContextType>;
   timeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<QueryTimelineArgs, 'spaceId' | 'timelineId'>>;
   timelines?: Resolver<Array<ResolversTypes['Timeline']>, ParentType, ContextType, RequireFields<QueryTimelinesArgs, 'spaceId'>>;
+  vercelDomainRecords?: Resolver<Array<ResolversTypes['VercelDomain']>, ParentType, ContextType>;
 };
 
 export type QuestionChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuestionChoice'] = ResolversParentTypes['QuestionChoice']> = {
@@ -3069,6 +3097,14 @@ export type RawGitCourseResolvers<ContextType = any, ParentType extends Resolver
   courseRepoUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   weight?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Route53RecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['Route53Record'] = ResolversParentTypes['Route53Record']> = {
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  records?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  ttl?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3221,6 +3257,18 @@ export type UserDiscordInfoResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type VercelDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes['VercelDomain'] = ResolversParentTypes['VercelDomain']> = {
+  apexName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  gitBranch?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  projectId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  redirect?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  verified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   AcademyTask?: AcademyTaskResolvers<ContextType>;
   Any?: GraphQLScalarType;
@@ -3288,6 +3336,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   QuestionChoice?: QuestionChoiceResolvers<ContextType>;
   RawGitCourse?: RawGitCourseResolvers<ContextType>;
+  Route53Record?: Route53RecordResolvers<ContextType>;
   Simulation?: SimulationResolvers<ContextType>;
   SimulationStep?: SimulationStepResolvers<ContextType>;
   SocialSettings?: SocialSettingsResolvers<ContextType>;
@@ -3303,5 +3352,6 @@ export type Resolvers<ContextType = any> = {
   TopicConfig?: TopicConfigResolvers<ContextType>;
   UserDiscordConnect?: UserDiscordConnectResolvers<ContextType>;
   UserDiscordInfo?: UserDiscordInfoResolvers<ContextType>;
+  VercelDomain?: VercelDomainResolvers<ContextType>;
 };
 
