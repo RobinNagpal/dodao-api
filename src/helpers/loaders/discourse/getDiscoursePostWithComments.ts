@@ -1,0 +1,108 @@
+import { DiscourseThread } from '@/helpers/loaders/discourse/discourseLoader';
+import unionBy from 'lodash/unionBy';
+import { Browser, Page } from 'puppeteer';
+
+export interface Comment {
+  [x: string]: string;
+
+  replyFullContent: string;
+  author: string;
+  date: string;
+}
+
+export async function scrollAndCapture(page: Page): Promise<Comment[]> {
+  const commentWithDuplicates = await page.evaluate(() => {
+    return new Promise<Comment[]>((resolve) => {
+      const allComments: Comment[] = [];
+      let totalHeight = 0;
+      const distance = 100;
+      const timer = setInterval(() => {
+        const comments = document.querySelectorAll('.topic-post.clearfix.regular');
+        const scrollHeight = document.body.scrollHeight;
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+
+        for (let i = 0; i < comments.length; i++) {
+          const comment = comments[i];
+          const fullContentElement = comment.querySelector('.cooked');
+          const fullContent = fullContentElement ? fullContentElement.textContent : '';
+
+          const authorElement = comment.querySelector('.first.username a');
+          const author = authorElement ? authorElement.textContent : '';
+
+          const dateElement = comment.querySelector('.post-date [data-time]');
+          const date = dateElement ? dateElement.textContent : '';
+
+          allComments.push({
+            author: author || '',
+            date: date || '',
+            replyFullContent: fullContent || '',
+          });
+        }
+
+        if (totalHeight >= scrollHeight - window.innerHeight) {
+          clearInterval(timer);
+          resolve(allComments);
+        }
+      }, 300);
+    });
+  });
+  unionBy(commentWithDuplicates, 'replyFullContent');
+  return commentWithDuplicates;
+}
+
+export async function getDiscoursePostWithComments(browser: Browser, url: string): Promise<DiscourseThread> {
+  const page = await browser.newPage();
+  await page.goto(url);
+  await page.setViewport({
+    width: 1200,
+    height: 800,
+  });
+
+  // const comments: Comment[] = [];
+
+  const contentElement = await page.$('.regular.contents');
+  const postContentFull = (await page.evaluate((element) => element!.textContent, contentElement)) as string;
+  const mainAuthorElement = await page.$('.first.username a');
+  const author = (mainAuthorElement ? await page.evaluate((element) => element.textContent, mainAuthorElement) : '') as string;
+
+  const mainDateElement = await page.$('.post-date [data-time]');
+  const date = (mainDateElement ? await page.evaluate((element) => element.getAttribute('title'), mainDateElement) : '') as string;
+  await scrollAndCapture(page);
+  // Scrape comments
+  const commentElements = await page.$$('.topic-post.clearfix.regular');
+  const comments: Comment[] = [];
+
+  for (let i = 1; i < commentElements.length; i++) {
+    const commentElement = commentElements[i];
+
+    const authorElement = await commentElement.$('.first.username a');
+    const author = (await page.evaluate((element) => element!.textContent, authorElement)) as string;
+
+    const dateElement = await commentElement.$('.post-date [data-time]');
+    console.log(dateElement);
+    // console.log(typeof dateElement);
+    const date = (await page.evaluate((element) => element!.getAttribute('title'), dateElement)) as string;
+
+    const contentElement = await commentElement.$('.cooked');
+    const replyFullContent = (await page.evaluate((element) => element!.textContent, contentElement)) as string;
+
+    comments.push({
+      replyFullContent,
+      author,
+      date,
+      // dateElement
+    });
+  }
+
+  await page.close();
+
+  return {
+    url,
+    postContentFull,
+    author,
+    // dateElement,
+    date,
+    comments,
+  };
+}
