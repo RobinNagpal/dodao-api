@@ -7,5 +7,9 @@ export default async function guideRatings(_: any, args: QueryGuideRatingsArgs) 
       guideUuid: args.guideUuid,
       spaceId: args.spaceId,
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 200,
   });
 }

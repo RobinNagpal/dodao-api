@@ -233,6 +233,16 @@ export type CompletionAiInput = {
   temperature?: InputMaybe<Scalars['Float']>;
 };
 
+export type ConsolidatedGuideRating = {
+  __typename?: 'ConsolidatedGuideRating';
+  avgRating: Scalars['Float'];
+  endRatingFeedbackCount: Scalars['Int'];
+  negativeFeedbackCount: Scalars['Int'];
+  negativeRatingDistribution: RatingDistribution;
+  positiveFeedbackCount: Scalars['Int'];
+  positiveRatingDistribution: RatingDistribution;
+};
+
 export type CourseBasicInfoInput = {
   courseAdmins: Array<Scalars['String']>;
   courseFailContent?: InputMaybe<Scalars['String']>;
@@ -1402,6 +1412,7 @@ export type Query = {
   byte: Byte;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
+  consolidatedGuideRating: ConsolidatedGuideRating;
   courses: Array<GitCourse>;
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
@@ -1452,6 +1463,12 @@ export type QueryByteSocialShareArgs = {
 
 
 export type QueryBytesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryConsolidatedGuideRatingArgs = {
+  guideUuid: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -1572,6 +1589,13 @@ export type QuestionChoice = {
 export type QuestionChoiceInput = {
   content: Scalars['String'];
   key: Scalars['String'];
+};
+
+export type RatingDistribution = {
+  __typename?: 'RatingDistribution';
+  content: Scalars['Float'];
+  questions: Scalars['Float'];
+  ux: Scalars['Float'];
 };
 
 export type RawGitCourse = {
@@ -2107,6 +2131,7 @@ export type ResolversTypes = {
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
   CompletionAIInput: CompletionAiInput;
+  ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
   CourseReadingQuestion: ResolverTypeWrapper<CourseReadingQuestion>;
@@ -2199,6 +2224,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   QuestionChoice: ResolverTypeWrapper<QuestionChoice>;
   QuestionChoiceInput: QuestionChoiceInput;
+  RatingDistribution: ResolverTypeWrapper<RatingDistribution>;
   RawGitCourse: ResolverTypeWrapper<RawGitCourse>;
   Route53Record: ResolverTypeWrapper<Route53Record>;
   SendEmailInput: SendEmailInput;
@@ -2277,6 +2303,7 @@ export type ResolversParentTypes = {
   ByteUserInput: ByteUserInput;
   ChatCompletionAIInput: ChatCompletionAiInput;
   CompletionAIInput: CompletionAiInput;
+  ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
   CourseReadingQuestion: CourseReadingQuestion;
@@ -2368,6 +2395,7 @@ export type ResolversParentTypes = {
   Query: {};
   QuestionChoice: QuestionChoice;
   QuestionChoiceInput: QuestionChoiceInput;
+  RatingDistribution: RatingDistribution;
   RawGitCourse: RawGitCourse;
   Route53Record: Route53Record;
   SendEmailInput: SendEmailInput;
@@ -2527,6 +2555,16 @@ export type ByteUserInputResolvers<ContextType = any, ParentType extends Resolve
   required?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConsolidatedGuideRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConsolidatedGuideRating'] = ResolversParentTypes['ConsolidatedGuideRating']> = {
+  avgRating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  endRatingFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  negativeFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  negativeRatingDistribution?: Resolver<ResolversTypes['RatingDistribution'], ParentType, ContextType>;
+  positiveFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  positiveRatingDistribution?: Resolver<ResolversTypes['RatingDistribution'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3062,6 +3100,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
+  consolidatedGuideRating?: Resolver<ResolversTypes['ConsolidatedGuideRating'], ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
@@ -3089,6 +3128,13 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type QuestionChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuestionChoice'] = ResolversParentTypes['QuestionChoice']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RatingDistributionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RatingDistribution'] = ResolversParentTypes['RatingDistribution']> = {
+  content?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  questions?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  ux?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3283,6 +3329,7 @@ export type Resolvers<ContextType = any> = {
   ByteStepItem?: ByteStepItemResolvers<ContextType>;
   ByteSubmission?: ByteSubmissionResolvers<ContextType>;
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
+  ConsolidatedGuideRating?: ConsolidatedGuideRatingResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
   CreateCompletionResponseChoice?: CreateCompletionResponseChoiceResolvers<ContextType>;
@@ -3335,6 +3382,7 @@ export type Resolvers<ContextType = any> = {
   OpenAIUsage?: OpenAiUsageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuestionChoice?: QuestionChoiceResolvers<ContextType>;
+  RatingDistribution?: RatingDistributionResolvers<ContextType>;
   RawGitCourse?: RawGitCourseResolvers<ContextType>;
   Route53Record?: Route53RecordResolvers<ContextType>;
   Simulation?: SimulationResolvers<ContextType>;

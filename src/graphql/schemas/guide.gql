@@ -12,6 +12,8 @@ extend type Query {
   guideRating(ratingUuid: String!): [GuideRating!]!
 
   guideRatings(spaceId: String!, guideUuid: String!): [GuideRating!]!
+
+  consolidatedGuideRating(spaceId: String!, guideUuid: String!): ConsolidatedGuideRating!
 }
 
 type QuestionChoice {
@@ -104,6 +106,21 @@ type GuideRating {
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
   username: String
+}
+
+type ConsolidatedGuideRating {
+  avgRating: Float!
+  positiveRatingDistribution: RatingDistribution!
+  negativeRatingDistribution: RatingDistribution!
+  positiveFeedbackCount: Int!
+  negativeFeedbackCount: Int!
+  endRatingFeedbackCount: Int!
+}
+
+type RatingDistribution {
+  ux: Float!
+  content: Float!
+  questions: Float!
 }
 
 input GuideIntegrationsInput {
