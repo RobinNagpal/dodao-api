@@ -374,6 +374,7 @@ model DiscoursePost {
   author               String?                @db.VarChar(255)
   datePublished        DateTime               @map("date_published")
   createdAt            DateTime               @default(now()) @map("created_at")
+  indexedAt            DateTime?              @map("indexed_at")
   status               String                 @db.VarChar(255)
   DiscoursePostComment DiscoursePostComment[]
 

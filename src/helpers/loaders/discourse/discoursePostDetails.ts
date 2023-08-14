@@ -1,6 +1,8 @@
 import { DiscourseThread } from '@/helpers/loaders/discourse/models';
+import { prisma } from '@/prisma';
 import unionBy from 'lodash/unionBy';
 import puppeteer, { Page } from 'puppeteer';
+import { v4 } from 'uuid';
 
 const DISCOURSE_SELECTORS = {
   POST_CONTENT_SELECTOR: 'div.topic-post',
@@ -31,7 +33,7 @@ export async function getPostDetails(page: Page): Promise<PostTopic[]> {
           const idValue = topic.querySelector(idSelector);
           const author = topic.querySelector(authorSelector)?.textContent;
 
-          localElements.push({ content: content?.textContent!, id: idValue?.attributes?.getNamedItem('data-post-id')?.value!, author: author! });
+          localElements.push({ content: content?.textContent!, id: idValue?.attributes?.getNamedItem('id')?.value!, author: author! });
         });
 
         return localElements;
@@ -50,9 +52,27 @@ export async function getPostDetails(page: Page): Promise<PostTopic[]> {
     currentScrollHeight = await page.evaluate(() => document.body.scrollHeight);
   }
 
-  return elements;
+  return unionBy(elements, 'id');
 }
 
+export async function storePostDetails(postUrl: string, postTopics: PostTopic[]): Promise<void> {
+  const mainPost = postTopics.find((post) => post.id === 'post_1');
+
+  if (!mainPost) {
+    throw new Error('Main post not found');
+  }
+
+  await prisma.discoursePost.update({
+    where: {
+      url: postUrl,
+    },
+    data: {
+      fullContent: mainPost.content,
+    },
+  });
+
+  const comments = postTopics.filter((post) => post.id !== 'post_1');
+}
 export async function indexAllPosts(): Promise<void> {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
