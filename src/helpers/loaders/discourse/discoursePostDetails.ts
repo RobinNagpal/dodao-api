@@ -2,7 +2,7 @@ import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { prisma } from '@/prisma';
 import { DiscoursePost } from '@prisma/client';
 import unionBy from 'lodash/unionBy';
-import puppeteer, { Page } from 'puppeteer';
+import { Page } from 'puppeteer';
 import { v4 } from 'uuid';
 
 const DISCOURSE_SELECTORS = {
