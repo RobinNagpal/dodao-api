@@ -13,7 +13,7 @@ extend type Query {
 
   guideRatings(spaceId: String!, guideUuid: String!): [GuideRating!]!
 
-  consolidatedGuideRating(spaceId: String!, guideUuid: String!): ConsolidatedGuideRating!
+  consolidatedGuideRating(spaceId: String!, guideUuid: String!): ConsolidatedGuideRating
 }
 
 type QuestionChoice {
