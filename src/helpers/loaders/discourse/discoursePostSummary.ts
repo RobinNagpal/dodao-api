@@ -35,7 +35,16 @@ export async function getSummaryOfAllPosts(page: Page, lastRunTime: number): Pro
           const epochTime = dataTimeAttr ? parseInt(dataTimeAttr) : null;
 
           const hrefElement = topic.querySelector(hrefSubSelector) as HTMLAnchorElement | null;
-          localElements.push({ href: hrefElement?.href!, title: hrefElement?.text!, epochTime: new Date(epochTime!).toISOString() });
+
+          if (!hrefElement?.href || !hrefElement?.text || !epochTime) {
+            throw new Error('Href, title or epochTime not found');
+          }
+
+          localElements.push({
+            href: hrefElement.href,
+            title: hrefElement.text,
+            epochTime: new Date(epochTime).toISOString(),
+          });
         });
 
         return localElements;
@@ -96,8 +105,8 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
   console.log('few posts', JSON.stringify(fewPosts.map((post) => post.url)));
   for (const post of fewPosts) {
     console.log('going to', post.url);
-    await page.goto(post.url);
-    const postTopics = await getPostDetails(page);
+
+    const postTopics = await getPostDetails(page, post);
     await storePostDetails(post, postTopics);
   }
 

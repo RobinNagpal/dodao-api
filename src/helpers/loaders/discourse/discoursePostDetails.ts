@@ -17,7 +17,8 @@ export interface PostTopic {
   id: string;
   author: string;
 }
-export async function getPostDetails(page: Page): Promise<PostTopic[]> {
+export async function getPostDetails(page: Page, post: DiscoursePost): Promise<PostTopic[]> {
+  await page.goto(post.url);
   const elements: PostTopic[] = [];
 
   let previousScrollHeight = -1;
@@ -34,7 +35,13 @@ export async function getPostDetails(page: Page): Promise<PostTopic[]> {
           const idValue = topic.querySelector(idSelector);
           const author = topic.querySelector(authorSelector)?.textContent;
 
-          localElements.push({ content: content?.textContent!, id: idValue?.attributes?.getNamedItem('id')?.value!, author: author! });
+          const postId = idValue?.attributes?.getNamedItem('id')?.value;
+
+          if (!content?.textContent || !postId || !author) {
+            throw new Error('Content, id or author not found :' + post.url);
+          }
+
+          localElements.push({ content: content.textContent, id: postId, author: author });
         });
 
         return localElements;
@@ -88,5 +95,16 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
       createdAt: new Date(),
       postId: post.id,
     })),
+  });
+
+  await prisma.discoursePost.update({
+    where: {
+      id: post.id,
+    },
+    data: {
+      fullContent: mainPost.content,
+      indexedAt: new Date(),
+      status: PostStatus.INDEXING_SUCCESS,
+    },
   });
 }
