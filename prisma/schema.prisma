@@ -382,13 +382,16 @@ model DiscoursePost {
 }
 
 model DiscoursePostComment {
-  id      String        @id @db.VarChar(255)
-  spaceId String        @map("space_id") @db.VarChar(66)
-  content String        @db.Text
-  author  String        @db.VarChar(255)
-  date    DateTime
-  postId  String        @map("post_id") @db.VarChar(255)
-  post    DiscoursePost @relation(fields: [postId], references: [id])
+  id            String        @id @db.VarChar(255)
+  commentPostId String        @map("comment_post_id") @db.VarChar(255)
+  spaceId       String        @map("space_id") @db.VarChar(66)
+  content       String        @db.Text
+  author        String        @db.VarChar(255)
+  datePublished DateTime      @map("date_published")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  indexedAt     DateTime?     @map("indexed_at")
+  postId        String        @map("post_id") @db.VarChar(255)
+  post          DiscoursePost @relation(fields: [postId], references: [id])
 
   @@map("discourse_post_comments")
 }
