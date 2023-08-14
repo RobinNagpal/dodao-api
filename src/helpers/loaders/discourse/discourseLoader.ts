@@ -1,20 +1,12 @@
 import { autoScroll } from '@/helpers/loaders/discourse/autoScroll';
-import { getFilteredPostHrefs, PostInfo } from '@/helpers/loaders/discourse/discoursePost';
+import { getSummaryOfAllPosts, PostInfo } from '@/helpers/loaders/discourse/discoursePostSummary';
 import { Comment, getDiscoursePostWithComments } from '@/helpers/loaders/discourse/getDiscoursePostWithComments';
-import { DiscourseIndexRunWithPosts, DiscoursePost, DiscourseThread } from '@/helpers/loaders/discourse/models';
+import { DiscoursePost, DiscourseThread } from '@/helpers/loaders/discourse/models';
 import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import puppeteer from 'puppeteer';
-import { v4 } from 'uuid';
 
 const prisma = new PrismaClient();
-
-async function checkIfExists(url: string): Promise<DiscourseIndexRunWithPosts | null> {
-  return (await prisma.discourseIndexRun.findUnique({
-    where: { url: url },
-    // include: { posts: { include: { comments: true } } },
-  })) as DiscourseIndexRunWithPosts | null;
-}
 
 async function getLastRunDate(): Promise<Date> {
   const lastRun = await prisma.discourseIndexRun.findFirst({
@@ -46,7 +38,7 @@ async function getAllPosts(discourseUrl: string): Promise<DiscourseThread[]> {
   await autoScroll(page, 600);
 
   const lastRunTime = lastRunDate.getTime();
-  const hrefs: PostInfo[] = await getFilteredPostHrefs(
+  const hrefs: PostInfo[] = await getSummaryOfAllPosts(
     page,
 
     lastRunTime,
@@ -61,34 +53,13 @@ async function getAllPosts(discourseUrl: string): Promise<DiscourseThread[]> {
   //   console.log('epoch times: ', epochTimes.join('\n'));
 
   for (const url of limitedHrefs) {
-    const existingPost = await checkIfExists(url.href!);
+    const existingPost = true;
     const threadDetails = await getDiscoursePostWithComments(browser, url.href!);
     if (!existingPost) {
       // If the post doesn't exist, and is newer than the last run date, store it.
       if (new Date(threadDetails.date) > (lastRunDate || new Date(0))) {
       }
     } else {
-      // Handle updating the post if new comments are found.
-      const existingComments = existingPost.posts[0].comments;
-      const newComments = threadDetails.comments.filter(
-        (comment: Comment) => !existingComments.some((existingComment) => existingComment.content === comment.replyFullContent),
-      );
-
-      if (newComments.length) {
-        // Add the new comments to the post.
-        await prisma.discoursePost.update({
-          where: { id: existingPost.posts[0].id },
-          data: {
-            comments: {
-              create: newComments.map((comment: any) => ({
-                content: comment.replyFullContent,
-                author: comment.author,
-                date: new Date(comment.date),
-              })),
-            },
-          },
-        });
-      }
     }
   }
 

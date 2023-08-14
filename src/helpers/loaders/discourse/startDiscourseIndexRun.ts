@@ -1,4 +1,4 @@
-import { indexAllPosts } from '@/helpers/loaders/discourse/discoursePost';
+import { indexAllPosts } from '@/helpers/loaders/discourse/discoursePostSummary';
 import { prisma } from '@/prisma';
 import { v4 } from 'uuid';
 
