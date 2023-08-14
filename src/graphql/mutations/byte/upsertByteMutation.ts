@@ -39,7 +39,7 @@ export default async function upsertByteMutation(_: unknown, { spaceId, input }:
   try {
     const spaceById = await getSpaceById(spaceId);
 
-    //const decodedJwt = checkEditSpacePermission(spaceById, context);
+    checkEditSpacePermission(spaceById, context);
     const transformedByte = await transformInput(spaceId, input);
 
     const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedByte, AcademyObjectTypes.bytes, '123456789');
