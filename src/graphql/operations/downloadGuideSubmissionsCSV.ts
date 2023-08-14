@@ -93,53 +93,62 @@ export default async function downloadGuideSubmissionsCSV(req: Request, res: Res
     res.setHeader('Content-Disposition', 'attachment; filename=guide_submissions.csv');
 
     const guideUuid = req.query['guideUuid'];
-    // Get your data from Prisma
-    const submissions: GuideSubmission[] = await prisma.guideSubmission.findMany({
-      where: {
-        spaceId: spaceId as string,
-        guideUuid: guideUuid as string,
-      },
-    });
 
     const guide = await getAcademyGuideFromRedis(spaceId as string, guideUuid as string);
 
     if (!guide) throw new Error('Guide not found');
 
-    const firstElement = submissions.slice(0, 1);
-    const csvHeaders = convertToCSVRowToHeaders(processSubmissions(guide, firstElement)[0]); // processSubmissions is the logic you have for processing and preparing the data
-
-    // Convert the data to CSV in a streaming manner
     // Set up a readable stream
+    let skipCount = 0;
+    let hasNext = true;
+
     const readableStream = new Readable({
       async read() {
-        let skipCount = 0;
-        let hasNext = true;
-        this.push(csvHeaders);
-
-        while (hasNext) {
-          // Fetch data in chunks
-          const submissionsChunk: GuideSubmission[] = await prisma.guideSubmission.findMany({
+        if (skipCount === 0) {
+          const firstChunk: GuideSubmission[] = await prisma.guideSubmission.findMany({
             where: {
               spaceId: spaceId as string,
               guideUuid: guideUuid as string,
+            },
+            orderBy: {
+              createdAt: 'desc',
             },
             skip: skipCount,
             take: CHUNK_SIZE,
           });
 
-          // If the fetched chunk is smaller than CHUNK_SIZE, we're on the last page
-          if (submissionsChunk.length < CHUNK_SIZE) {
-            hasNext = false;
-          }
-
-          const csvEntriesChunk = processSubmissions(guide, submissionsChunk); // processSubmissions is the logic you have for processing and preparing the data
-
-          // Send the chunk to the client
-          this.push(convertToCSVRows(csvEntriesChunk));
-
-          skipCount += CHUNK_SIZE;
+          const csvHeaders = convertToCSVRowToHeaders(processSubmissions(guide, firstChunk)[0]);
+          this.push(csvHeaders);
         }
-        this.push(null); // indicates the end of the data
+
+        console.log('Fetching with skipCount', skipCount);
+        // Fetch data in chunks
+        const submissionsChunk: GuideSubmission[] = await prisma.guideSubmission.findMany({
+          where: {
+            spaceId: spaceId as string,
+            guideUuid: guideUuid as string,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          skip: skipCount,
+          take: CHUNK_SIZE,
+        });
+
+        // If the fetched chunk is smaller than CHUNK_SIZE, we're on the last page
+        if (submissionsChunk.length < CHUNK_SIZE) {
+          hasNext = false;
+        }
+
+        const csvEntriesChunk = processSubmissions(guide, submissionsChunk);
+        this.push(convertToCSVRows(csvEntriesChunk));
+
+        if (!hasNext) {
+          this.push(null); // indicates the end of the data
+        }
+
+        skipCount += CHUNK_SIZE;
+        console.log('Processed ' + skipCount + ' submissions');
       },
     });
 
