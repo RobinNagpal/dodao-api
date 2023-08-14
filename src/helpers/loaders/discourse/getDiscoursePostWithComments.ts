@@ -1,6 +1,5 @@
-import { DiscourseThread } from '@/helpers/loaders/discourse/discourseLoader';
-import unionBy from 'lodash/unionBy';
-import { Browser, Page } from 'puppeteer';
+import { DiscourseThread } from '@/helpers/loaders/discourse/models';
+import { Browser } from 'puppeteer';
 
 export interface Comment {
   [x: string]: string;
@@ -8,47 +7,6 @@ export interface Comment {
   replyFullContent: string;
   author: string;
   date: string;
-}
-
-export async function scrollAndCapture(page: Page): Promise<Comment[]> {
-  const commentWithDuplicates = await page.evaluate(() => {
-    return new Promise<Comment[]>((resolve) => {
-      const allComments: Comment[] = [];
-      let totalHeight = 0;
-      const distance = 100;
-      const timer = setInterval(() => {
-        const comments = document.querySelectorAll('.topic-post.clearfix.regular');
-        const scrollHeight = document.body.scrollHeight;
-        window.scrollBy(0, distance);
-        totalHeight += distance;
-
-        for (let i = 0; i < comments.length; i++) {
-          const comment = comments[i];
-          const fullContentElement = comment.querySelector('.cooked');
-          const fullContent = fullContentElement ? fullContentElement.textContent : '';
-
-          const authorElement = comment.querySelector('.first.username a');
-          const author = authorElement ? authorElement.textContent : '';
-
-          const dateElement = comment.querySelector('.post-date [data-time]');
-          const date = dateElement ? dateElement.textContent : '';
-
-          allComments.push({
-            author: author || '',
-            date: date || '',
-            replyFullContent: fullContent || '',
-          });
-        }
-
-        if (totalHeight >= scrollHeight - window.innerHeight) {
-          clearInterval(timer);
-          resolve(allComments);
-        }
-      }, 300);
-    });
-  });
-  unionBy(commentWithDuplicates, 'replyFullContent');
-  return commentWithDuplicates;
 }
 
 export async function getDiscoursePostWithComments(browser: Browser, url: string): Promise<DiscourseThread> {
@@ -68,7 +26,7 @@ export async function getDiscoursePostWithComments(browser: Browser, url: string
 
   const mainDateElement = await page.$('.post-date [data-time]');
   const date = (mainDateElement ? await page.evaluate((element) => element.getAttribute('title'), mainDateElement) : '') as string;
-  await scrollAndCapture(page);
+  // await scrollAndCaptureComments(page);
   // Scrape comments
   const commentElements = await page.$$('.topic-post.clearfix.regular');
   const comments: Comment[] = [];
