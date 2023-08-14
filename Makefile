@@ -22,4 +22,8 @@ describe_task:
         --region us-east-1 \
         --tasks 1c67f19dc92c44628b310c502b9c1477
 
-ecs_ssh_setup:
+dump_database:
+	@PGPASSWORD=$$DB_PASSWORD pg_dump -h $$DB_HOST -U $$DB_USER -d $$DB_NAME --inserts -f backup.sql
+
+read_backup:
+	PGPASSWORD=admin psql -h localhost -U admin -d dodao_api_localhost_db < backup.sql
