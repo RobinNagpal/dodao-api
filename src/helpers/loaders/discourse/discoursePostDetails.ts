@@ -1,5 +1,6 @@
-import { DiscourseThread } from '@/helpers/loaders/discourse/models';
+import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { prisma } from '@/prisma';
+import { DiscoursePost } from '@prisma/client';
 import unionBy from 'lodash/unionBy';
 import puppeteer, { Page } from 'puppeteer';
 import { v4 } from 'uuid';
@@ -55,7 +56,7 @@ export async function getPostDetails(page: Page): Promise<PostTopic[]> {
   return unionBy(elements, 'id');
 }
 
-export async function storePostDetails(postUrl: string, postTopics: PostTopic[]): Promise<void> {
+export async function storePostDetails(post: DiscoursePost, postTopics: PostTopic[]): Promise<void> {
   const mainPost = postTopics.find((post) => post.id === 'post_1');
 
   if (!mainPost) {
@@ -64,28 +65,28 @@ export async function storePostDetails(postUrl: string, postTopics: PostTopic[])
 
   await prisma.discoursePost.update({
     where: {
-      url: postUrl,
+      id: post.id,
     },
     data: {
       fullContent: mainPost.content,
+      indexedAt: new Date(),
+      status: PostStatus.STARTED_INDEXING,
     },
   });
 
   const comments = postTopics.filter((post) => post.id !== 'post_1');
-}
-export async function indexAllPosts(): Promise<void> {
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.goto('https://gov.uniswap.org/t/what-do-you-think-of-the-initial-airdrop/11164');
-  await page.setViewport({
-    width: 1200,
-    height: 800,
+
+  await prisma.discoursePostComment.createMany({
+    data: comments.map((comment) => ({
+      id: v4(),
+      commentPostId: comment.id,
+      spaceId: 'dodao-test',
+      content: comment.content,
+      author: comment.author,
+      datePublished: new Date(),
+      indexedAt: new Date(),
+      createdAt: new Date(),
+      postId: post.id,
+    })),
   });
-
-  const postTopics = await getPostDetails(page);
-  console.log('postTopics', postTopics);
-
-  await browser.close();
 }
-
-indexAllPosts();

@@ -1,4 +1,5 @@
-import { DiscourseThread } from '@/helpers/loaders/discourse/models';
+import { getPostDetails, storePostDetails } from '@/helpers/loaders/discourse/discoursePostDetails';
+import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { prisma } from '@/prisma';
 import unionBy from 'lodash/unionBy';
 import puppeteer, { Page } from 'puppeteer';
@@ -56,7 +57,7 @@ export async function getSummaryOfAllPosts(page: Page, lastRunTime: number): Pro
   return unionBy(elements, 'href');
 }
 
-export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Promise<DiscourseThread[]> {
+export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Promise<void> {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto(discourseUrl);
@@ -69,23 +70,36 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
 
   const lastRunTime = lastRunDate.getTime();
   const hrefs: PostInfo[] = await getSummaryOfAllPosts(page, lastRunTime);
-  console.log('hrefs', hrefs);
 
-  await prisma.discoursePost.createMany({
+  const posts = await prisma.discoursePost.createMany({
     data: hrefs.map((href) => ({
       id: v4(),
       url: href.href!,
       datePublished: new Date(href.epochTime),
       createdAt: new Date(),
       spaceId: 'dodao-test',
-      status: 'NEW',
+      status: PostStatus.NEEDS_INDEXING,
       title: href.title,
     })),
   });
 
-  const allPageContents: DiscourseThread[] = [];
+  console.log('saved posts', posts.count);
+
+  const dbPosts = await prisma.discoursePost.findMany({
+    where: {
+      spaceId: 'dodao-test',
+    },
+  });
+
+  const fewPosts = dbPosts.slice(0, 5);
+
+  console.log('few posts', JSON.stringify(fewPosts.map((post) => post.url)));
+  for (const post of fewPosts) {
+    console.log('going to', post.url);
+    await page.goto(post.url);
+    const postTopics = await getPostDetails(page);
+    await storePostDetails(post, postTopics);
+  }
 
   await browser.close();
-
-  return allPageContents;
 }
