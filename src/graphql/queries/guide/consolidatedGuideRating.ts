@@ -31,8 +31,8 @@ export default async function consolidatedGuideRating(
   const totalRatings = ratings.length;
   let totalRatingSum = 0;
 
-  let positiveCount = { ux: 0, content: 0, questions: 0 };
-  let negativeCount = { ux: 0, content: 0, questions: 0 };
+  const positiveCount = { ux: 0, content: 0, questions: 0 };
+  const negativeCount = { ux: 0, content: 0, questions: 0 };
 
   let positiveFeedbackCount = 0;
   let negativeFeedbackCount = 0;
