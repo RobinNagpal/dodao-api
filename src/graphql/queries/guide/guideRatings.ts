@@ -4,6 +4,9 @@ import { prisma } from '@/prisma';
 export default async function guideRatings(_: any, args: QueryGuideRatingsArgs) {
   return prisma.guideRating.findMany({
     where: {
+      NOT: {
+        endRating: null,
+      },
       guideUuid: args.guideUuid,
       spaceId: args.spaceId,
     },
