@@ -22,6 +22,5 @@ export default async function guideSubmissions(_: any, args: QueryGuideSubmissio
       createdAt: 'desc',
     },
   });
-  console.log('submissions', JSON.stringify(submissions));
   return submissions;
 }
