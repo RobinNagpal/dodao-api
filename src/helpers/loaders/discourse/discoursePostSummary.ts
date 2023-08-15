@@ -75,8 +75,6 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
     height: 800,
   });
 
-  // await autoScroll(page, 50600);
-
   const lastRunTime = lastRunDate.getTime();
   const hrefs: PostInfo[] = await getSummaryOfAllPosts(page, lastRunTime);
 
@@ -107,10 +105,7 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
     },
   });
 
-  const fewPosts = dbPosts.slice(0, 5);
-
-  console.log('few posts', JSON.stringify(fewPosts.map((post) => post.url)));
-  for (const post of fewPosts) {
+  for (const post of dbPosts) {
     console.log('going to', post.url);
 
     const postTopics = await getPostDetails(page, post);
