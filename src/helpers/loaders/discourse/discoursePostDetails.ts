@@ -10,14 +10,14 @@ const DISCOURSE_SELECTORS = {
   CONTENT_SELECTOR: 'div.cooked',
   ID_SELECTOR: 'article[id]',
   AUTHOR_SELECTOR: 'div.names span.username a',
-  POST_DATE_SELECTOR: 'div.post-date > a > span[data-time]',
+  POST_DATE_SELECTOR: 'a.post-date span[data-time]',
 };
 
 export interface PostTopic {
   content: string;
   id: string;
   author: string;
-  commentDate: Date;
+  commentDate: string;
 }
 export async function getPostDetails(page: Page, post: DiscoursePost): Promise<PostTopic[]> {
   await page.goto(post.url);
@@ -39,15 +39,14 @@ export async function getPostDetails(page: Page, post: DiscoursePost): Promise<P
 
           const postId = idValue?.attributes?.getNamedItem('id')?.value;
 
-          const timeElement = topic.querySelector(postDateSelector);
-          const dataTimeAttr = timeElement ? (timeElement as HTMLElement).getAttribute('data-time') : null;
+          const dataTimeAttr = topic.querySelector(postDateSelector)?.getAttribute('data-time');
           const epochTime = dataTimeAttr ? parseInt(dataTimeAttr) : null;
 
           if (!content?.textContent || !postId || !author || !epochTime) {
             throw new Error('Content, id or author not found :' + post.url);
           }
 
-          localElements.push({ content: content.textContent, id: postId, author: author, commentDate: new Date(epochTime) });
+          localElements.push({ content: content.textContent, id: postId, author: author, commentDate: new Date(epochTime).toISOString() });
         });
 
         return localElements;
@@ -90,6 +89,7 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
 
   const comments = postTopics.filter((post) => post.id !== 'post_1');
 
+  console.log('Upserting comments', JSON.stringify(comments, null, 2));
   for (const comment of comments) {
     console.log('Upserting comment', JSON.stringify(comment));
     await prisma.discoursePostComment.upsert({
@@ -102,7 +102,7 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
       update: {
         content: comment.content,
         author: comment.author,
-        datePublished: comment.commentDate,
+        datePublished: new Date(comment.commentDate),
         indexedAt: new Date(),
         createdAt: new Date(),
       },
@@ -112,7 +112,7 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
         spaceId: 'dodao-test',
         content: comment.content,
         author: comment.author,
-        datePublished: comment.commentDate,
+        datePublished: new Date(comment.commentDate),
         indexedAt: new Date(),
         createdAt: new Date(),
         postId: post.id,
