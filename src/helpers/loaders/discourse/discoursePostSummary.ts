@@ -80,19 +80,26 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
   const lastRunTime = lastRunDate.getTime();
   const hrefs: PostInfo[] = await getSummaryOfAllPosts(page, lastRunTime);
 
-  const posts = await prisma.discoursePost.createMany({
-    data: hrefs.map((href) => ({
-      id: v4(),
-      url: href.href!,
-      datePublished: new Date(href.epochTime),
-      createdAt: new Date(),
-      spaceId: 'dodao-test',
-      status: PostStatus.NEEDS_INDEXING,
-      title: href.title,
-    })),
-  });
-
-  console.log('saved posts', posts.count);
+  for (const href of hrefs) {
+    await prisma.discoursePost.upsert({
+      where: {
+        url: href.href!,
+      },
+      update: {
+        datePublished: new Date(href.epochTime),
+        status: PostStatus.NEEDS_INDEXING,
+      },
+      create: {
+        id: v4(),
+        url: href.href!,
+        datePublished: new Date(href.epochTime),
+        createdAt: new Date(),
+        spaceId: 'dodao-test',
+        status: PostStatus.NEEDS_INDEXING,
+        title: href.title,
+      },
+    });
+  }
 
   const dbPosts = await prisma.discoursePost.findMany({
     where: {
