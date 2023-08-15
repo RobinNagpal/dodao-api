@@ -15,8 +15,7 @@
     "prettier-check": "prettier --check 'src/**/*.ts'",
     "start": "prisma generate && graphql-codegen --config codegen.yml && ts-node -r tsconfig-paths/register src/server.ts",
     "download": "ts-node src/ai/text/downloadFromAllLinks.ts",
-    "discourse": "ts-node src/helpers/loaders/discourse/index.ts",
-    "post-details": "ts-node src/helpers/loaders/discourse/discoursePostDetails.ts"
+    "discourse": "ts-node src/helpers/loaders/discourse/index.ts"
   },
   "keywords": [],
   "author": "robin",
