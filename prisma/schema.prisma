@@ -395,3 +395,12 @@ model DiscoursePostComment {
 
   @@map("discourse_post_comments")
 }
+
+model DiscordMessage {
+  id               String   @id @db.VarChar(255)
+  createdTimestamp DateTime
+  type             Int      @db.Integer
+  content          String   @db.Text
+  author           String   @db.VarChar(255)
+  atachments       String   @db.Text
+}
