@@ -1,24 +1,23 @@
-import { Message } from 'discord.js';
+import { TextChannel } from 'discord.js';
 import client from './client'
+import { loadData } from './discordloader';
+// import { loadData } from './discordloader';
+// import { DiscordMessage } from '@prisma/client'
+// import { prisma } from '@/prisma';
+import getChannelId from './getId';
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user?.tag}`);
+client.on('ready', async () => {
+	console.log(`Logged in as ${client.user?.tag}`);
+	const channelIds = await getChannelId()
+	const results = await loadData(channelIds, client)
+	console.log(results)
+	// const cha = client.channels.cache.get(channelIds[4]) as TextChannel
+	// const messages = await cha?.messages.fetch()
+	// messages.map((msg) => {
+	// 	// console.log(msg.content)
+	// })
+
 });
-client.on("messageCreate", (msg: Message) => {
-  console.log(msg.content)
-})
-//
-// const res = loadData(["1141046406153502733", "1141064439639048213"], client)
-// console.log(res)
-// client.on('message', async (message: Message) => {
-//
-//   console.log(message.channel.awaitMessages())
-//
-// });
-//
-// const res = client.channels.fetch("1141046406153502733")
-// console.log(res)
-
 
 
 
