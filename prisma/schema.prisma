@@ -399,6 +399,10 @@ model DiscoursePostComment {
 
 model DiscordMessage {
   id               String   @id @db.VarChar(255)
+  serverId         String   @db.VarChar(255)
+  serverName       String   @db.VarChar(255)
+  channelId        String   @db.VarChar(255)
+  channelName      String   @db.VarChar(255)
   createdTimestamp BigInt
   type             Int      @db.Integer
   content          String   @db.Text

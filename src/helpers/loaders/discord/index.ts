@@ -20,6 +20,10 @@ async function sendDiscordMessages(results: Document<Record<string, any>>[]) {
 		data: results.map((result) => {
 			return {
 				id: result.metadata.id,
+				serverId: result.metadata.serverId,
+				serverName: result.metadata.serverName,
+				channelId: result.metadata.channelId,
+				channelName: result.metadata.channelName,
 				createdTimestamp: result.metadata.createdTimestamp,
 				type: result.metadata.type,
 				content: result.pageContent,
