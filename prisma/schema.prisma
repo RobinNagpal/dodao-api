@@ -152,6 +152,9 @@ model Space {
   SpaceDiscord      SpaceDiscord[]
   SpaceIntegration  SpaceIntegration?
   Byte              Byte[]
+  DiscordServer     DiscordServer[]
+  DiscordChannel    DiscordChannel[]
+  DiscordMessae     DiscordMessage[]
 
   @@map("spaces")
 }
@@ -393,14 +396,59 @@ model DiscoursePostComment {
   postId        String        @map("post_id") @db.VarChar(255)
   post          DiscoursePost @relation(fields: [postId], references: [id])
 
+  @@unique([commentPostId, postId])
   @@map("discourse_post_comments")
 }
 
+// ################## All related to discord data indexing ##################
+
+model DiscordServer {
+  id              String           @id @db.VarChar(255)
+  discordServerId String           @map("discord_server_id") @db.VarChar(255)
+  spaceId         String           @map("space_id") @db.VarChar(66)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  name            String           @db.VarChar(255)
+  space           Space            @relation(fields: [spaceId], references: [id])
+  status          String           @db.VarChar(255)
+  DiscordChannel  DiscordChannel[]
+  DiscordMessae   DiscordMessage[]
+
+  @@unique([discordServerId])
+  @@map("discord_servers")
+}
+
+model DiscordChannel {
+  id               String           @id @db.VarChar(255)
+  discordChannelId String           @map("discord_channel_id") @db.VarChar(255)
+  serverId         String           @map("server_id") @db.VarChar(255)
+  spaceId          String           @map("space_id") @db.VarChar(66)
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  name             String           @db.VarChar(255)
+  type             String           @db.VarChar(255)
+  status           String           @db.VarChar(255)
+  space            Space            @relation(fields: [spaceId], references: [id])
+  discordServer    DiscordServer    @relation(fields: [serverId], references: [id])
+  DiscordMessae    DiscordMessage[]
+
+  @@unique([discordChannelId])
+  @@map("discord_channels")
+}
+
 model DiscordMessage {
-  id               String   @id @db.VarChar(255)
-  createdTimestamp BigInt
-  type             Int      @db.Integer
-  content          String   @db.Text
-  author           String   @db.VarChar(255)
-  atachments       String[] @db.Text
+  id               String         @id @db.VarChar(255)
+  discordMessageId String         @map("discord_message_id") @db.VarChar(255)
+  channelId        String         @map("channel_id") @db.VarChar(255)
+  serverId         String         @map("server_id") @db.VarChar(255)
+  spaceId          String         @map("space_id") @db.VarChar(66)
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+  content          String         @db.VarChar(255)
+  space            Space          @relation(fields: [spaceId], references: [id])
+  discordServer    DiscordServer  @relation(fields: [serverId], references: [id])
+  discordChannel   DiscordChannel @relation(fields: [channelId], references: [id])
+
+  @@unique([discordMessageId])
+  @@map("discord_messages")
 }

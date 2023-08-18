@@ -22,10 +22,24 @@ export async function loadData(channelIds: string[], BOT: Client): Promise<Docum
     //https://discord.com/developers/docs/resources/channel#channel-object-channel-types
     if (channel.type == 0) {
       // const channelContent = await readChannel(channel);
-      const channelContent = await getMessages(channel)
+      const channelContent = await getMessages(channel);
       // console.log(`Downloaded chats from channel ${cha.name}, ${channelContent.length} messages`);
       results = results.concat(channelContent);
     }
+  }
+  results = await split(results);
+  return results;
+}
+
+export async function loadMessages(channelId: string, BOT: Client): Promise<Document[]> {
+  let results: Document[] = [];
+  const channel = BOT.channels.cache.get(channelId) as TextChannel;
+  //https://discord.com/developers/docs/resources/channel#channel-object-channel-types
+  if (channel.type == 0) {
+    // const channelContent = await readChannel(channel);
+    const channelContent = await getMessages(channel);
+    // console.log(`Downloaded chats from channel ${cha.name}, ${channelContent.length} messages`);
+    results = results.concat(channelContent);
   }
   results = await split(results);
   return results;
@@ -75,12 +89,12 @@ async function readChannel(channel: TextChannel): Promise<Document[]> {
 //getMesage functions gets the messages from the given channel
 //
 
-async function getMessages(channel: TextChannel): Promise<Document[]> {
-  const messages = await channel?.messages.fetch()
+export async function getMessages(channel: TextChannel): Promise<Document[]> {
+  const messages = await channel?.messages.fetch();
 
   let result: Document[] = [];
   const res = messages.map(async (msg) => {
-    console.log(msg.content)
+    console.log(msg.content);
 
     if (msg.content.length > 15) {
       const metadata: Metadata = {
@@ -92,17 +106,16 @@ async function getMessages(channel: TextChannel): Promise<Document[]> {
         atachments: msg.attachments.map((a) => a.url),
       };
 
-      console.log(metadata)
+      console.log(metadata);
 
       const doc = new Document({ pageContent: msg.content, metadata: metadata });
 
-      console.log(doc)
-      result.push(doc)
-      return doc
+      console.log(doc);
+      result.push(doc);
+      return doc;
     }
-
-  })
-  return result
+  });
+  return result;
 }
 
 async function split(docs: LGCDocument[]) {
