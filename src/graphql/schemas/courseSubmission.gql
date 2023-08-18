@@ -11,6 +11,8 @@ extend type Mutation {
 
   initializeGitCourseSubmission(spaceId: String!, courseKey: String!): GitCourseSubmission!
 
+  deleteGitCourseSubmission(spaceId: String!, courseKey: String!): Boolean!
+
   submitGitCourse(spaceId: String!, input: CourseSubmissionInput!): GitCourseSubmission!
 }
 

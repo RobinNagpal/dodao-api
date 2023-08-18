@@ -6,13 +6,61 @@ import { MutationSubmitGitCourseTopicArgs } from '@/graphql/generated/graphql';
 import { verifyJwtForRequest } from '@/helpers/permissions/verifyJwtForRequest';
 import { getGitCourseFromRedis } from '@/helpers/course/gitCourseReader';
 import { postTopicSubmission } from '@/helpers/discord/webhookMessage';
-import { TopicStatus } from '@/types/course/submission';
+import { CourseStatus, TempTopicSubmissionModel, TopicStatus } from '@/types/course/submission';
+import { DoDaoJwtTokenPayload } from '@/types/session';
 import { IncomingMessage } from 'http';
+import { JwtPayload } from 'jsonwebtoken';
 import intersection from 'lodash/intersection';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
+import { v4 } from 'uuid';
 
 export default async function submitGitCourseTopicMutation(_: unknown, args: MutationSubmitGitCourseTopicArgs, context: IncomingMessage) {
+  async function createNewEmptyTopicSubmission(spaceId: string, courseKey: string, decodedJwt: JwtPayload & DoDaoJwtTokenPayload, topicKey: string) {
+    const existingCourseSubmission = await prisma.gitCourseSubmission.findFirstOrThrow({
+      where: {
+        spaceId: spaceId,
+        courseKey: courseKey,
+        createdBy: decodedJwt.userId,
+        status: {
+          not: CourseStatus.Submitted,
+        },
+      },
+    });
+
+    const submission: TempTopicSubmissionModel = {
+      uuid: v4(),
+      questions: [],
+      explanations: [],
+      readings: [],
+      summaries: [],
+      topicKey: topicKey,
+      courseKey: courseKey,
+      status: TopicStatus.Submitted,
+    };
+
+    return prisma.gitCourseTopicSubmission.create({
+      data: {
+        uuid: v4(),
+        courseKey: courseKey,
+        courseSubmissionUuid: existingCourseSubmission.uuid,
+        createdAt: new Date(),
+        createdBy: decodedJwt.userId,
+        isLatestSubmission: true,
+        questionsAttempted: 0,
+        questionsCorrect: 0,
+        questionsIncorrect: 0,
+        questionsSkipped: 0,
+        submission: submission,
+        spaceId: spaceId,
+        topicKey: topicKey,
+        updatedAt: new Date(),
+        status: TopicStatus.Submitted,
+        correctAnswers: [],
+      },
+    });
+  }
+
   try {
     const spaceId = args.spaceId;
     const courseKey = args.gitCourseTopicSubmission.courseKey;
@@ -29,12 +77,20 @@ export default async function submitGitCourseTopicMutation(_: unknown, args: Mut
 
     const topicModel = courseJson.topics.find((topic) => topic.key === topicKey);
 
-    const topicSubmission = await prisma.gitCourseTopicSubmission.findFirstOrThrow({
+    const topicSubmission = await prisma.gitCourseTopicSubmission.findFirst({
       where: {
         uuid: submissionUuid,
         isLatestSubmission: true,
       },
     });
+
+    if (!topicSubmission && courseJson.topics.find((t) => t.key === topicKey)?.questions?.length === 0) {
+      return await createNewEmptyTopicSubmission(spaceId, courseKey, decodedJwt, topicKey);
+    }
+
+    if (!topicSubmission) {
+      throw new Error(`No topic submission found: ${spaceId} - ${courseKey} - ${topicKey} - ${decodedJwt.accountId}`);
+    }
 
     const existingCourseSubmission = await prisma.gitCourseSubmission.findFirstOrThrow({
       where: {
