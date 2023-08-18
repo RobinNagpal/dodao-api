@@ -2,6 +2,7 @@ import mutations from '@/graphql/mutations';
 import generateSharablePdf from '@/graphql/mutations/byte/generateSharablePdf';
 import submitByte from '@/graphql/mutations/byte/submitByte';
 import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShare';
+import deleteGitCourseSubmission from '@/graphql/mutations/course/submission/deleteGitCourseSubmission';
 import deleteGuide from '@/graphql/mutations/guide/deleteGuide';
 import submitGuide from '@/graphql/mutations/guide/submitGuide';
 import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
@@ -43,6 +44,8 @@ export default {
   submitByte,
   submitGuide,
   deleteGuide,
+
+  deleteGitCourseSubmission,
 
   ...mutations,
 };
