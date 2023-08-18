@@ -393,6 +393,7 @@ model DiscoursePostComment {
   postId        String        @map("post_id") @db.VarChar(255)
   post          DiscoursePost @relation(fields: [postId], references: [id])
 
+  @@unique([commentPostId, postId])
   @@map("discourse_post_comments")
 }
 
