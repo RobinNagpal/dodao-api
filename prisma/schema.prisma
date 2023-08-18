@@ -398,9 +398,9 @@ model DiscoursePostComment {
 
 model DiscordMessage {
   id               String   @id @db.VarChar(255)
-  createdTimestamp DateTime
+  createdTimestamp BigInt
   type             Int      @db.Integer
   content          String   @db.Text
   author           String   @db.VarChar(255)
-  atachments       String   @db.Text
+  atachments       String[] @db.Text
 }

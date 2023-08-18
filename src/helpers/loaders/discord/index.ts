@@ -1,24 +1,34 @@
-import { TextChannel } from 'discord.js';
+// import { TextChannel } from 'discord.js';
 import client from './client'
 import { loadData } from './discordloader';
-// import { loadData } from './discordloader';
-// import { DiscordMessage } from '@prisma/client'
-// import { prisma } from '@/prisma';
+import { PrismaClient, Prisma } from '@prisma/client'
 import getChannelId from './getId';
-
+import { Document } from 'langchain/document';
 client.on('ready', async () => {
 	console.log(`Logged in as ${client.user?.tag}`);
 	const channelIds = await getChannelId()
 	const results = await loadData(channelIds, client)
 	console.log(results)
-	// const cha = client.channels.cache.get(channelIds[4]) as TextChannel
-	// const messages = await cha?.messages.fetch()
-	// messages.map((msg) => {
-	// 	// console.log(msg.content)
-	// })
+	sendDiscordMessages(results)
 
 });
 
+async function sendDiscordMessages(results: Document<Record<string, any>>[]) {
+	const prisma = new PrismaClient()
+	let discordMessage = Prisma.DiscordMessageScalarFieldEnum
+	const messages = await prisma.discordMessage.createMany({
+		data: results.map((result) => {
+			return {
+				id: result.metadata.id,
+				createdTimestamp: result.metadata.createdTimestamp,
+				type: result.metadata.type,
+				content: result.pageContent,
+				author: result.metadata.author,
+				atachments: result.metadata.atachments,
+			}
+		})
+	})
 
+}
 
 

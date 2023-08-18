@@ -95,6 +95,7 @@ async function getMessages(channel: TextChannel): Promise<Document[]> {
       console.log(metadata)
 
       const doc = new Document({ pageContent: msg.content, metadata: metadata });
+
       console.log(doc)
       result.push(doc)
       return doc
