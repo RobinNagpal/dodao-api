@@ -33,11 +33,16 @@ export async function loadData(channelIds: string[], BOT: Client): Promise<Docum
 
 export interface Metadata {
   id: string;
+  serverId: string;
+  serverName: string;
+  channelId: string;
+  channelName?: string;
   createdTimestamp: number;
   type: number;
   content: string;
   author: string;
   atachments: string[] | undefined;
+
 }
 
 //readChannel reads all messages from a discord channel and returns them as an array of Documents with metadata
@@ -49,11 +54,14 @@ async function readChannel(channel: TextChannel): Promise<Document[]> {
   while (message) {
     await channel.messages.fetch({ limit: 100, before: message.id }).then((messagePage) => {
       messagePage.forEach((msg) => {
-        // console.log(msg.content)
+        console.log('flgs : ', msg.flags.bitfield)
         //filter out messages with content less than 15 characters
         if (msg.content.length > 15) {
           const metadata: Metadata = {
             id: msg.id,
+            serverId: msg.guildId,
+            serverName: msg.guild.name,
+            channelId: msg.channelId,
             createdTimestamp: msg.createdTimestamp,
             type: msg.type,
             content: msg.content,
@@ -80,11 +88,16 @@ async function getMessages(channel: TextChannel): Promise<Document[]> {
 
   let result: Document[] = [];
   const res = messages.map(async (msg) => {
-    console.log(msg.content)
+    console.log(msg.guild)
 
     if (msg.content.length > 15) {
+      console.log(msg)
       const metadata: Metadata = {
         id: msg.id,
+        serverId: msg.guildId,
+        serverName: msg.guild.name,
+        channelId: msg.channelId,
+        channelName: msg.channel.name,
         createdTimestamp: msg.createdTimestamp,
         type: msg.type,
         content: msg.content,
@@ -92,11 +105,11 @@ async function getMessages(channel: TextChannel): Promise<Document[]> {
         atachments: msg.attachments.map((a) => a.url),
       };
 
-      console.log(metadata)
+      // console.log(metadata)
 
       const doc = new Document({ pageContent: msg.content, metadata: metadata });
 
-      console.log(doc)
+      // console.log(doc)
       result.push(doc)
       return doc
     }
