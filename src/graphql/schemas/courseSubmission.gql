@@ -5,9 +5,9 @@ extend type Query {
 }
 
 extend type Mutation {
-  upsertGitCourseTopicSubmission(spaceId: String!, gitCourseTopicSubmission: GitCourseTopicSubmissionInput!): GitCourseTopicSubmission!
+  upsertGitCourseTopicSubmission(spaceId: String!, gitCourseTopicSubmission: GitCourseTopicSubmissionInput!): GitCourseSubmission!
 
-  submitGitCourseTopic(spaceId: String!, gitCourseTopicSubmission: GitCourseTopicSubmissionInput!): GitCourseTopicSubmission!
+  submitGitCourseTopic(spaceId: String!, gitCourseTopicSubmission: GitCourseTopicSubmissionInput!): GitCourseSubmission!
 
   initializeGitCourseSubmission(spaceId: String!, courseKey: String!): GitCourseSubmission!
 

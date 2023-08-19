@@ -59,7 +59,7 @@ export default async function upsertGitCourseTopicSubmission(_: unknown, args: M
   };
 
   if (existingTopicSubmission) {
-    const courseTopicSubmission = await prisma.gitCourseTopicSubmission.update({
+    await prisma.gitCourseTopicSubmission.update({
       where: {
         uuid: existingTopicSubmission.uuid,
       },
@@ -73,9 +73,8 @@ export default async function upsertGitCourseTopicSubmission(_: unknown, args: M
         submission: topicSubmission,
       },
     });
-    return courseTopicSubmission;
   } else {
-    const courseTopicSubmission = await prisma.gitCourseTopicSubmission.create({
+    await prisma.gitCourseTopicSubmission.create({
       data: {
         uuid: args.gitCourseTopicSubmission.uuid,
         courseKey: args.gitCourseTopicSubmission.courseKey,
@@ -89,6 +88,13 @@ export default async function upsertGitCourseTopicSubmission(_: unknown, args: M
         submission: topicSubmission,
       },
     });
-    return courseTopicSubmission;
   }
+
+  const courseSubmission = await prisma.gitCourseSubmission.findFirstOrThrow({ where: { spaceId, courseKey, createdBy: decodedJWT.accountId } });
+  const topicSubmissions = await prisma.gitCourseTopicSubmission.findMany({ where: { spaceId, courseKey, createdBy: decodedJWT.accountId } });
+
+  return {
+    ...courseSubmission,
+    topicSubmissions: topicSubmissions,
+  };
 }
