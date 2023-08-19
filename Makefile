@@ -11,7 +11,7 @@ ssh:
 	aws ecs execute-command  \
 		--region us-east-1 \
 		--cluster v2-api-prod \
-		--task 9e189605a2f540d28f4229a713f98f0b \
+		--task caa271e740e9495f97a7b555db7d5b3f \
 		--container v2-api-prod \
 		--command "/bin/bash" \
 		--interactive
