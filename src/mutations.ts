@@ -6,6 +6,7 @@ import deleteGitCourseSubmission from '@/graphql/mutations/course/submission/del
 import deleteGuide from '@/graphql/mutations/guide/deleteGuide';
 import submitGuide from '@/graphql/mutations/guide/submitGuide';
 import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
+import triggerDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerDiscourseIndexRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
 import createSummaryOfContent from '@/graphql/mutations/openAI/createSummaryOfContent';
@@ -46,6 +47,8 @@ export default {
   deleteGuide,
 
   deleteGitCourseSubmission,
+
+  triggerDiscourseIndexRun,
 
   ...mutations,
 };
