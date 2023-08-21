@@ -1,0 +1,51 @@
+extend type Query {
+  discourseIndexRuns(spaceId: String!): [DiscourseIndexRun!]!
+  discoursePosts(spaceId: String!): [DiscoursePost!]!
+  discoursePostComments(spaceId: String!, postId: String!): [DiscoursePostComment!]!
+}
+
+extend type Mutation  {
+  triggerDiscourseIndexRun(spaceId: String!, indexRunId: String!): DiscourseIndexRun!
+  createNewDiscourseIndexRun(spaceId: String!, input: DiscourseIndexRunInput!): DiscourseIndexRun!
+}
+
+
+type DiscourseIndexRun {
+  id: String!
+  spaceId: String!
+  url: String!
+  runDate: DateTimeISO
+  createdAt: DateTimeISO!
+  status: String!
+}
+
+type DiscoursePost {
+  id: String!
+  spaceId: String!
+  title: String!
+  url: String!
+  fullContent: String
+  author: String
+  datePublished: DateTimeISO!
+  createdAt: DateTimeISO!
+  indexedAt: DateTimeISO
+  status: String!
+}
+
+type DiscoursePostComment {
+  id: String!
+  commentPostId: String!
+  spaceId: String!
+  content: String!
+  author: String!
+  datePublished: DateTimeISO!
+  createdAt: DateTimeISO!
+  indexedAt: DateTimeISO!
+  postId: String!
+}
+
+input DiscourseIndexRunInput {
+  spaceId: String!
+  url: String!
+  runDate: String!
+}

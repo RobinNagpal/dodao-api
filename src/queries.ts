@@ -17,6 +17,9 @@ import guideRating from '@/graphql/queries/guide/guideRating';
 import guideRatings from '@/graphql/queries/guide/guideRatings';
 import guides from '@/graphql/queries/guide/guides';
 import guideSubmissions from '@/graphql/queries/guide/guideSubmissions';
+import discourseIndexRuns from '@/graphql/queries/loaders/discourse/discourseIndexRuns';
+import discoursePostComments from '@/graphql/queries/loaders/discourse/discoursePostComments';
+import discoursePosts from '@/graphql/queries/loaders/discourse/discoursePosts';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
@@ -65,4 +68,8 @@ export default {
   spaces,
   route53Records,
   vercelDomainRecords,
+
+  discourseIndexRuns,
+  discoursePosts,
+  discoursePostComments,
 };

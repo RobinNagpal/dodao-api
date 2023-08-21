@@ -337,6 +337,49 @@ export type DeleteTopicVideoInput = {
   videoUuid: Scalars['String'];
 };
 
+export type DiscourseIndexRun = {
+  __typename?: 'DiscourseIndexRun';
+  createdAt: Scalars['DateTimeISO'];
+  id: Scalars['String'];
+  runDate?: Maybe<Scalars['DateTimeISO']>;
+  spaceId: Scalars['String'];
+  status: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type DiscourseIndexRunInput = {
+  runDate: Scalars['String'];
+  spaceId: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type DiscoursePost = {
+  __typename?: 'DiscoursePost';
+  author?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTimeISO'];
+  datePublished: Scalars['DateTimeISO'];
+  fullContent?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  indexedAt?: Maybe<Scalars['DateTimeISO']>;
+  spaceId: Scalars['String'];
+  status: Scalars['String'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type DiscoursePostComment = {
+  __typename?: 'DiscoursePostComment';
+  author: Scalars['String'];
+  commentPostId: Scalars['String'];
+  content: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  datePublished: Scalars['DateTimeISO'];
+  id: Scalars['String'];
+  indexedAt: Scalars['DateTimeISO'];
+  postId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
 export type DownloadAndCleanContentResponse = {
   __typename?: 'DownloadAndCleanContentResponse';
   content: Scalars['String'];
@@ -892,6 +935,7 @@ export type Mutation = {
   askChatCompletionAI: OpenAiChatCompletionResponse;
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
+  createNewDiscourseIndexRun: DiscourseIndexRun;
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
@@ -924,6 +968,7 @@ export type Mutation = {
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseSubmission;
   submitGuide: GuideSubmission;
+  triggerDiscourseIndexRun: DiscourseIndexRun;
   updateAuthSettings: Space;
   updateByteSettings: Space;
   updateCourseBasicInfo: GitCourse;
@@ -1008,6 +1053,12 @@ export type MutationAskCompletionAiArgs = {
 
 export type MutationAuthenticateWithUnstoppableArgs = {
   idToken: Scalars['String'];
+};
+
+
+export type MutationCreateNewDiscourseIndexRunArgs = {
+  input: DiscourseIndexRunInput;
+  spaceId: Scalars['String'];
 };
 
 
@@ -1189,6 +1240,12 @@ export type MutationSubmitGitCourseTopicArgs = {
 
 export type MutationSubmitGuideArgs = {
   submissionInput: GuideSubmissionInput;
+};
+
+
+export type MutationTriggerDiscourseIndexRunArgs = {
+  indexRunId: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -1421,6 +1478,9 @@ export type Query = {
   bytes: Array<Byte>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
+  discourseIndexRuns: Array<DiscourseIndexRun>;
+  discoursePostComments: Array<DiscoursePostComment>;
+  discoursePosts: Array<DiscoursePost>;
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
@@ -1481,6 +1541,22 @@ export type QueryConsolidatedGuideRatingArgs = {
 
 
 export type QueryCoursesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryDiscourseIndexRunsArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryDiscoursePostCommentsArgs = {
+  postId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryDiscoursePostsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2152,6 +2228,10 @@ export type ResolversTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  DiscourseIndexRun: ResolverTypeWrapper<DiscourseIndexRun>;
+  DiscourseIndexRunInput: DiscourseIndexRunInput;
+  DiscoursePost: ResolverTypeWrapper<DiscoursePost>;
+  DiscoursePostComment: ResolverTypeWrapper<DiscoursePostComment>;
   DownloadAndCleanContentResponse: ResolverTypeWrapper<DownloadAndCleanContentResponse>;
   DownloadLinkInfo: ResolverTypeWrapper<DownloadLinkInfo>;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
@@ -2324,6 +2404,10 @@ export type ResolversParentTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  DiscourseIndexRun: DiscourseIndexRun;
+  DiscourseIndexRunInput: DiscourseIndexRunInput;
+  DiscoursePost: DiscoursePost;
+  DiscoursePostComment: DiscoursePostComment;
   DownloadAndCleanContentResponse: DownloadAndCleanContentResponse;
   DownloadLinkInfo: DownloadLinkInfo;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
@@ -2609,6 +2693,43 @@ export type CreateCompletionResponseChoiceResolvers<ContextType = any, ParentTyp
 export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTimeISO'], any> {
   name: 'DateTimeISO';
 }
+
+export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscourseIndexRun'] = ResolversParentTypes['DiscourseIndexRun']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  runDate?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DiscoursePostResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscoursePost'] = ResolversParentTypes['DiscoursePost']> = {
+  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  datePublished?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  fullContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  indexedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DiscoursePostCommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscoursePostComment'] = ResolversParentTypes['DiscoursePostComment']> = {
+  author?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  commentPostId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  datePublished?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  indexedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type DownloadAndCleanContentResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DownloadAndCleanContentResponse'] = ResolversParentTypes['DownloadAndCleanContentResponse']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2986,6 +3107,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
+  createNewDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationCreateNewDiscourseIndexRunArgs, 'input' | 'spaceId'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
@@ -3018,6 +3140,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
+  triggerDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationTriggerDiscourseIndexRunArgs, 'indexRunId' | 'spaceId'>>;
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
@@ -3110,6 +3233,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
+  discourseIndexRuns?: Resolver<Array<ResolversTypes['DiscourseIndexRun']>, ParentType, ContextType, RequireFields<QueryDiscourseIndexRunsArgs, 'spaceId'>>;
+  discoursePostComments?: Resolver<Array<ResolversTypes['DiscoursePostComment']>, ParentType, ContextType, RequireFields<QueryDiscoursePostCommentsArgs, 'postId' | 'spaceId'>>;
+  discoursePosts?: Resolver<Array<ResolversTypes['DiscoursePost']>, ParentType, ContextType, RequireFields<QueryDiscoursePostsArgs, 'spaceId'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
@@ -3342,6 +3468,9 @@ export type Resolvers<ContextType = any> = {
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
   CreateCompletionResponseChoice?: CreateCompletionResponseChoiceResolvers<ContextType>;
   DateTimeISO?: GraphQLScalarType;
+  DiscourseIndexRun?: DiscourseIndexRunResolvers<ContextType>;
+  DiscoursePost?: DiscoursePostResolvers<ContextType>;
+  DiscoursePostComment?: DiscoursePostCommentResolvers<ContextType>;
   DownloadAndCleanContentResponse?: DownloadAndCleanContentResponseResolvers<ContextType>;
   DownloadLinkInfo?: DownloadLinkInfoResolvers<ContextType>;
   GenerateImageResponse?: GenerateImageResponseResolvers<ContextType>;
