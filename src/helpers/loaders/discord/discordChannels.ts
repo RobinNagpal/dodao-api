@@ -27,7 +27,6 @@ export async function mapAndStoreDiscordChannels(server: DiscordServer) {
         name: channel.name,
         createdAt: new Date(),
         updatedAt: new Date(),
-        spaceId: 'dodao',
         status: 'IN_PROGRESS',
         serverId: server.id,
         type: channel.type.toString(),
