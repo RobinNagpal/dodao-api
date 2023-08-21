@@ -18,7 +18,6 @@ export async function mapAndStoreDiscordServers() {
         name: oAuth2Guild.name,
         createdAt: new Date(),
         updatedAt: new Date(),
-        spaceId: 'dodao',
         status: 'IN_PROGRESS',
       },
     });
