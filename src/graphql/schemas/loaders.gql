@@ -1,7 +1,7 @@
 extend type Query {
   discourseIndexRuns(spaceId: String!): [DiscourseIndexRun!]!
-  discoursePosts(spaceId: String!): [DiscourseIndexRun!]!
-  discoursePostComments(spaceId: String!, postId: String!): [DiscourseIndexRun!]!
+  discoursePosts(spaceId: String!): [DiscoursePost!]!
+  discoursePostComments(spaceId: String!, postId: String!): [DiscoursePostComment!]!
 }
 
 extend type Mutation  {
@@ -14,8 +14,8 @@ type DiscourseIndexRun {
   id: String!
   spaceId: String!
   url: String!
-  runDate: String!
-  createdAt: String!
+  runDate: DateTimeISO
+  createdAt: DateTimeISO!
   status: String!
 }
 
@@ -26,8 +26,8 @@ type DiscoursePost {
   url: String!
   fullContent: String
   author: String
-  datePublished: String!
-  createdAt: String!
+  datePublished: DateTimeISO!
+  createdAt: DateTimeISO!
   indexedAt: DateTimeISO
   status: String!
 }
@@ -38,9 +38,9 @@ type DiscoursePostComment {
   spaceId: String!
   content: String!
   author: String!
-  datePublished: String!
-  createdAt: String!
-  indexedAt: String!
+  datePublished: DateTimeISO!
+  createdAt: DateTimeISO!
+  indexedAt: DateTimeISO!
   postId: String!
 }
 
