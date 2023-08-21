@@ -339,9 +339,9 @@ export type DeleteTopicVideoInput = {
 
 export type DiscourseIndexRun = {
   __typename?: 'DiscourseIndexRun';
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
   id: Scalars['String'];
-  runDate: Scalars['String'];
+  runDate?: Maybe<Scalars['DateTimeISO']>;
   spaceId: Scalars['String'];
   status: Scalars['String'];
   url: Scalars['String'];
@@ -356,8 +356,8 @@ export type DiscourseIndexRunInput = {
 export type DiscoursePost = {
   __typename?: 'DiscoursePost';
   author?: Maybe<Scalars['String']>;
-  createdAt: Scalars['String'];
-  datePublished: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  datePublished: Scalars['DateTimeISO'];
   fullContent?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   indexedAt?: Maybe<Scalars['DateTimeISO']>;
@@ -372,10 +372,10 @@ export type DiscoursePostComment = {
   author: Scalars['String'];
   commentPostId: Scalars['String'];
   content: Scalars['String'];
-  createdAt: Scalars['String'];
-  datePublished: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  datePublished: Scalars['DateTimeISO'];
   id: Scalars['String'];
-  indexedAt: Scalars['String'];
+  indexedAt: Scalars['DateTimeISO'];
   postId: Scalars['String'];
   spaceId: Scalars['String'];
 };
@@ -1479,8 +1479,8 @@ export type Query = {
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
   discourseIndexRuns: Array<DiscourseIndexRun>;
-  discoursePostComments: Array<DiscourseIndexRun>;
-  discoursePosts: Array<DiscourseIndexRun>;
+  discoursePostComments: Array<DiscoursePostComment>;
+  discoursePosts: Array<DiscoursePost>;
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
@@ -2695,9 +2695,9 @@ export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<Resolve
 }
 
 export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscourseIndexRun'] = ResolversParentTypes['DiscourseIndexRun']> = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  runDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  runDate?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2706,8 +2706,8 @@ export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends Res
 
 export type DiscoursePostResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscoursePost'] = ResolversParentTypes['DiscoursePost']> = {
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  datePublished?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  datePublished?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   fullContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   indexedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
@@ -2722,10 +2722,10 @@ export type DiscoursePostCommentResolvers<ContextType = any, ParentType extends 
   author?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   commentPostId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  datePublished?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  datePublished?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  indexedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  indexedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -3234,8 +3234,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   discourseIndexRuns?: Resolver<Array<ResolversTypes['DiscourseIndexRun']>, ParentType, ContextType, RequireFields<QueryDiscourseIndexRunsArgs, 'spaceId'>>;
-  discoursePostComments?: Resolver<Array<ResolversTypes['DiscourseIndexRun']>, ParentType, ContextType, RequireFields<QueryDiscoursePostCommentsArgs, 'postId' | 'spaceId'>>;
-  discoursePosts?: Resolver<Array<ResolversTypes['DiscourseIndexRun']>, ParentType, ContextType, RequireFields<QueryDiscoursePostsArgs, 'spaceId'>>;
+  discoursePostComments?: Resolver<Array<ResolversTypes['DiscoursePostComment']>, ParentType, ContextType, RequireFields<QueryDiscoursePostCommentsArgs, 'postId' | 'spaceId'>>;
+  discoursePosts?: Resolver<Array<ResolversTypes['DiscoursePost']>, ParentType, ContextType, RequireFields<QueryDiscoursePostsArgs, 'spaceId'>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
