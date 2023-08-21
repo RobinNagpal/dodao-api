@@ -147,7 +147,13 @@ export default async function submitGitCourseTopicMutation(_: unknown, args: Mut
       postTopicSubmission(process.env.ALL_GUIDE_SUBMISSIONS_WEBHOOK, space, courseJson, topicModel, submittiedTopic!);
     }
 
-    return submittiedTopic;
+    const courseSubmission = await prisma.gitCourseSubmission.findFirstOrThrow({ where: { spaceId, courseKey, createdBy: decodedJwt.accountId } });
+    const topicSubmissions = await prisma.gitCourseTopicSubmission.findMany({ where: { spaceId, courseKey, createdBy: decodedJwt.accountId } });
+
+    return {
+      ...courseSubmission,
+      topicSubmissions: topicSubmissions,
+    };
   } catch (e) {
     console.error((e as any)?.response?.data);
     throw e;
