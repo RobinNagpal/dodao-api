@@ -5,8 +5,22 @@ import { indexAllPosts } from '@/helpers/loaders/discourse/discoursePostSummary'
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 
 import { prisma } from '@/prisma';
+import { DiscourseIndexRun } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { v4 } from 'uuid';
+
+async function indexAllDiscoursePosts(discourseUrl: string, spaceId: string, discourseIndexRun: DiscourseIndexRun) {
+  await indexAllPosts(discourseUrl, spaceId, discourseIndexRun?.createdAt || new Date(0));
+
+  await prisma.discourseIndexRun.update({
+    where: {
+      id: discourseIndexRun.id,
+    },
+    data: {
+      status: DiscourseIndexRunStatus.SUCCESS,
+    },
+  });
+}
 
 export default async function triggerNewDiscourseIndexRun(_: any, args: MutationTriggerNewDiscourseIndexRunArgs, context: IncomingMessage) {
   const space = await getSpaceById(args.spaceId);
@@ -28,14 +42,7 @@ export default async function triggerNewDiscourseIndexRun(_: any, args: Mutation
     },
   });
 
-  await indexAllPosts(discourseUrl, discourseIndexRun?.createdAt || new Date(0));
+  indexAllDiscoursePosts(discourseUrl, space.id, discourseIndexRun);
 
-  await prisma.discourseIndexRun.update({
-    where: {
-      id: discourseIndexRun.id,
-    },
-    data: {
-      status: DiscourseIndexRunStatus.SUCCESS,
-    },
-  });
+  return discourseIndexRun;
 }
