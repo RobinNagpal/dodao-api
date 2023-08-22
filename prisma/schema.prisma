@@ -347,6 +347,8 @@ model SpaceIntegration {
   /// [GitGuideRepository]
   gitGuideRepositories       Json[]   @map("git_guide_repositories") @db.Json
   academyRepository          String?  @map("academy_repository") @db.VarChar(2048)
+  /// [SpaceLoadersInfo]
+  loadersInfo                Json?    @db.Json
   space                      Space    @relation(fields: [spaceId], references: [id])
 
   @@unique([spaceId])
@@ -357,7 +359,6 @@ model SpaceIntegration {
 model DiscourseIndexRun {
   id        String   @id @db.VarChar(255)
   spaceId   String   @map("space_id") @db.VarChar(66)
-  url       String   @db.VarChar(1024)
   runDate   DateTime @default(now()) @map("run_date")
   createdAt DateTime @default(now()) @map("created_at")
   status    String   @db.VarChar(255)
