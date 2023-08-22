@@ -33,20 +33,29 @@ export async function getPostDetails(page: Page, post: DiscoursePost): Promise<P
         const localElements: PostTopic[] = [];
 
         topics.forEach((topic: Element) => {
-          const content = topic.querySelector(contentSelector);
-          const idValue = topic.querySelector(idSelector);
-          const author = topic.querySelector(authorSelector)?.textContent;
+          try {
+            const content = topic.querySelector(contentSelector);
+            const idValue = topic.querySelector(idSelector);
+            const author = topic.querySelector(authorSelector)?.textContent;
 
-          const postId = idValue?.attributes?.getNamedItem('id')?.value;
+            const postId = idValue?.attributes?.getNamedItem('id')?.value;
 
-          const dataTimeAttr = topic.querySelector(postDateSelector)?.getAttribute('data-time');
-          const epochTime = dataTimeAttr ? parseInt(dataTimeAttr) : null;
+            const dataTimeAttr = topic.querySelector(postDateSelector)?.getAttribute('data-time');
+            const epochTime = dataTimeAttr ? parseInt(dataTimeAttr) : null;
 
-          if (!content?.textContent || !postId || !author || !epochTime) {
-            throw new Error('Content, id or author not found :' + post.url);
+            if (!content?.textContent || !postId || !author || !epochTime) {
+              return;
+            }
+
+            localElements.push({
+              content: content.textContent,
+              id: postId,
+              author: author,
+              commentDate: new Date(epochTime).toISOString(),
+            });
+          } catch (error) {
+            console.log('Error', error);
           }
-
-          localElements.push({ content: content.textContent, id: postId, author: author, commentDate: new Date(epochTime).toISOString() });
         });
 
         return localElements;
@@ -72,16 +81,12 @@ export async function getPostDetails(page: Page, post: DiscoursePost): Promise<P
 export async function storePostDetails(post: DiscoursePost, postTopics: PostTopic[]): Promise<void> {
   const mainPost = postTopics.find((post) => post.id === 'post_1');
 
-  if (!mainPost) {
-    throw new Error('Main post not found');
-  }
-
   await prisma.discoursePost.update({
     where: {
       id: post.id,
     },
     data: {
-      fullContent: mainPost.content,
+      fullContent: mainPost?.content,
       indexedAt: new Date(),
       status: PostStatus.STARTED_INDEXING,
     },
@@ -109,7 +114,7 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
       create: {
         id: v4(),
         commentPostId: comment.id,
-        spaceId: 'dodao-test',
+        spaceId: post.spaceId,
         content: comment.content,
         author: comment.author,
         datePublished: new Date(comment.commentDate),
@@ -124,7 +129,7 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
       id: post.id,
     },
     data: {
-      fullContent: mainPost.content,
+      fullContent: mainPost?.content,
       indexedAt: new Date(),
       status: PostStatus.INDEXING_SUCCESS,
     },

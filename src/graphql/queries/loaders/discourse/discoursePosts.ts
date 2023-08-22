@@ -11,5 +11,8 @@ export default async function discoursePosts(_: any, args: QueryDiscourseIndexRu
     where: {
       spaceId: args.spaceId,
     },
+    orderBy: {
+      indexedAt: 'desc',
+    },
   });
 }

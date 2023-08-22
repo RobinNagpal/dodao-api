@@ -7,5 +7,9 @@ import { IncomingMessage } from 'http';
 export default async function discourseIndexRuns(_: any, args: QueryDiscourseIndexRunsArgs, context: IncomingMessage) {
   const space = await getSpaceById(args.spaceId);
   checkEditSpacePermission(space, context);
-  return prisma.discourseIndexRun.findMany();
+  return prisma.discourseIndexRun.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 }

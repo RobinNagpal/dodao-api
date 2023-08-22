@@ -66,8 +66,8 @@ export async function getSummaryOfAllPosts(page: Page, lastRunTime: number): Pro
   return unionBy(elements, 'href');
 }
 
-export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Promise<void> {
-  const browser = await puppeteer.launch({ headless: false });
+export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.goto(discourseUrl);
   await page.setViewport({
@@ -92,7 +92,7 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
         url: href.href!,
         datePublished: new Date(href.epochTime),
         createdAt: new Date(),
-        spaceId: 'dodao-test',
+        spaceId,
         status: PostStatus.NEEDS_INDEXING,
         title: href.title,
       },
@@ -101,7 +101,7 @@ export async function indexAllPosts(discourseUrl: string, lastRunDate: Date): Pr
 
   const dbPosts = await prisma.discoursePost.findMany({
     where: {
-      spaceId: 'dodao-test',
+      spaceId,
     },
   });
 
