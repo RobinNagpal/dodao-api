@@ -344,13 +344,6 @@ export type DiscourseIndexRun = {
   runDate?: Maybe<Scalars['DateTimeISO']>;
   spaceId: Scalars['String'];
   status: Scalars['String'];
-  url: Scalars['String'];
-};
-
-export type DiscourseIndexRunInput = {
-  runDate: Scalars['String'];
-  spaceId: Scalars['String'];
-  url: Scalars['String'];
 };
 
 export type DiscoursePost = {
@@ -935,7 +928,6 @@ export type Mutation = {
   askChatCompletionAI: OpenAiChatCompletionResponse;
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
-  createNewDiscourseIndexRun: DiscourseIndexRun;
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
@@ -968,7 +960,7 @@ export type Mutation = {
   submitGitCourse: GitCourseSubmission;
   submitGitCourseTopic: GitCourseSubmission;
   submitGuide: GuideSubmission;
-  triggerDiscourseIndexRun: DiscourseIndexRun;
+  triggerNewDiscourseIndexRun: DiscourseIndexRun;
   updateAuthSettings: Space;
   updateByteSettings: Space;
   updateCourseBasicInfo: GitCourse;
@@ -994,6 +986,7 @@ export type Mutation = {
   upsertSpaceAcademyRepository: Space;
   upsertSpaceFeatures: Space;
   upsertSpaceInviteLinks: Space;
+  upsertSpaceLoaderInfo: Space;
   upsertTimeline: Timeline;
 };
 
@@ -1053,12 +1046,6 @@ export type MutationAskCompletionAiArgs = {
 
 export type MutationAuthenticateWithUnstoppableArgs = {
   idToken: Scalars['String'];
-};
-
-
-export type MutationCreateNewDiscourseIndexRunArgs = {
-  input: DiscourseIndexRunInput;
-  spaceId: Scalars['String'];
 };
 
 
@@ -1243,8 +1230,7 @@ export type MutationSubmitGuideArgs = {
 };
 
 
-export type MutationTriggerDiscourseIndexRunArgs = {
-  indexRunId: Scalars['String'];
+export type MutationTriggerNewDiscourseIndexRunArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -1395,6 +1381,12 @@ export type MutationUpsertSpaceFeaturesArgs = {
 export type MutationUpsertSpaceInviteLinksArgs = {
   spaceId: Scalars['String'];
   spaceInviteArgs: SpaceInviteArgs;
+};
+
+
+export type MutationUpsertSpaceLoaderInfoArgs = {
+  input: SpaceLoadersInfoInput;
+  spaceId: Scalars['String'];
 };
 
 
@@ -1789,6 +1781,7 @@ export type SpaceIntegrations = {
   discordGuildId?: Maybe<Scalars['String']>;
   gitGuideRepositories?: Maybe<Array<SpaceGitRepository>>;
   gnosisSafeWallets?: Maybe<Array<GnosisSafeWallet>>;
+  loadersInfo?: Maybe<SpaceLoadersInfo>;
   projectGalaxyTokenLastFour?: Maybe<Scalars['String']>;
 };
 
@@ -1820,6 +1813,15 @@ export type SpaceInviteLinksInput = {
   showAnimatedButtonForDiscord?: InputMaybe<Scalars['Boolean']>;
   showAnimatedButtonForTelegram?: InputMaybe<Scalars['Boolean']>;
   telegramInviteLink?: InputMaybe<Scalars['String']>;
+};
+
+export type SpaceLoadersInfo = {
+  __typename?: 'SpaceLoadersInfo';
+  discourseUrl?: Maybe<Scalars['String']>;
+};
+
+export type SpaceLoadersInfoInput = {
+  discourseUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type SpaceWhere = {
@@ -2229,7 +2231,6 @@ export type ResolversTypes = {
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
   DiscourseIndexRun: ResolverTypeWrapper<DiscourseIndexRun>;
-  DiscourseIndexRunInput: DiscourseIndexRunInput;
   DiscoursePost: ResolverTypeWrapper<DiscoursePost>;
   DiscoursePostComment: ResolverTypeWrapper<DiscoursePostComment>;
   DownloadAndCleanContentResponse: ResolverTypeWrapper<DownloadAndCleanContentResponse>;
@@ -2329,6 +2330,8 @@ export type ResolversTypes = {
   SpaceInviteArgs: SpaceInviteArgs;
   SpaceInviteLinks: ResolverTypeWrapper<SpaceInviteLinks>;
   SpaceInviteLinksInput: SpaceInviteLinksInput;
+  SpaceLoadersInfo: ResolverTypeWrapper<SpaceLoadersInfo>;
+  SpaceLoadersInfoInput: SpaceLoadersInfoInput;
   SpaceWhere: SpaceWhere;
   StepItemInputGenericInput: StepItemInputGenericInput;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -2405,7 +2408,6 @@ export type ResolversParentTypes = {
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
   DiscourseIndexRun: DiscourseIndexRun;
-  DiscourseIndexRunInput: DiscourseIndexRunInput;
   DiscoursePost: DiscoursePost;
   DiscoursePostComment: DiscoursePostComment;
   DownloadAndCleanContentResponse: DownloadAndCleanContentResponse;
@@ -2504,6 +2506,8 @@ export type ResolversParentTypes = {
   SpaceInviteArgs: SpaceInviteArgs;
   SpaceInviteLinks: SpaceInviteLinks;
   SpaceInviteLinksInput: SpaceInviteLinksInput;
+  SpaceLoadersInfo: SpaceLoadersInfo;
+  SpaceLoadersInfoInput: SpaceLoadersInfoInput;
   SpaceWhere: SpaceWhere;
   StepItemInputGenericInput: StepItemInputGenericInput;
   String: Scalars['String'];
@@ -2700,7 +2704,6 @@ export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends Res
   runDate?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3107,7 +3110,6 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
-  createNewDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationCreateNewDiscourseIndexRunArgs, 'input' | 'spaceId'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
@@ -3140,7 +3142,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
-  triggerDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationTriggerDiscourseIndexRunArgs, 'indexRunId' | 'spaceId'>>;
+  triggerNewDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationTriggerNewDiscourseIndexRunArgs, 'spaceId'>>;
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
@@ -3166,6 +3168,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
   upsertSpaceFeatures?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceFeaturesArgs, 'features' | 'spaceId'>>;
   upsertSpaceInviteLinks?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceInviteLinksArgs, 'spaceId' | 'spaceInviteArgs'>>;
+  upsertSpaceLoaderInfo?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceLoaderInfoArgs, 'input' | 'spaceId'>>;
   upsertTimeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<MutationUpsertTimelineArgs, 'input' | 'spaceId'>>;
 };
 
@@ -3354,6 +3357,7 @@ export type SpaceIntegrationsResolvers<ContextType = any, ParentType extends Res
   discordGuildId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   gitGuideRepositories?: Resolver<Maybe<Array<ResolversTypes['SpaceGitRepository']>>, ParentType, ContextType>;
   gnosisSafeWallets?: Resolver<Maybe<Array<ResolversTypes['GnosisSafeWallet']>>, ParentType, ContextType>;
+  loadersInfo?: Resolver<Maybe<ResolversTypes['SpaceLoadersInfo']>, ParentType, ContextType>;
   projectGalaxyTokenLastFour?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3363,6 +3367,11 @@ export type SpaceInviteLinksResolvers<ContextType = any, ParentType extends Reso
   showAnimatedButtonForDiscord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   showAnimatedButtonForTelegram?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   telegramInviteLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SpaceLoadersInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['SpaceLoadersInfo'] = ResolversParentTypes['SpaceLoadersInfo']> = {
+  discourseUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3530,6 +3539,7 @@ export type Resolvers<ContextType = any> = {
   SpaceGitRepository?: SpaceGitRepositoryResolvers<ContextType>;
   SpaceIntegrations?: SpaceIntegrationsResolvers<ContextType>;
   SpaceInviteLinks?: SpaceInviteLinksResolvers<ContextType>;
+  SpaceLoadersInfo?: SpaceLoadersInfoResolvers<ContextType>;
   SummarizedGitCourse?: SummarizedGitCourseResolvers<ContextType>;
   SummarizedGitCourseTopic?: SummarizedGitCourseTopicResolvers<ContextType>;
   Timeline?: TimelineResolvers<ContextType>;

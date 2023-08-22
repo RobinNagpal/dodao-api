@@ -40,6 +40,8 @@ extend type Mutation {
   reloadAcademyRepository(spaceId: String!): Boolean!
 
   sendEmail(input: SendEmailInput!): Boolean!
+
+  upsertSpaceLoaderInfo(spaceId: String!, input: SpaceLoadersInfoInput!): Space!
 }
 
 type Space {
@@ -88,6 +90,7 @@ type SpaceIntegrations {
   gnosisSafeWallets: [GnosisSafeWallet!]
   gitGuideRepositories: [SpaceGitRepository!]
   academyRepository: String
+  loadersInfo: SpaceLoadersInfo
 }
 
 type GnosisSafeWallet {
@@ -138,6 +141,10 @@ type VercelDomain {
   updatedAt: Int
   createdAt: Int
   verified: Boolean!
+}
+
+type SpaceLoadersInfo {
+  discourseUrl: String
 }
 
 input SpaceWhere {
@@ -235,4 +242,8 @@ input SendEmailInput {
   lastName: String!
   email: String!
   message: String!
+}
+
+input SpaceLoadersInfoInput {
+  discourseUrl: String
 }

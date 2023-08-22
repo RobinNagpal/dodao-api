@@ -5,15 +5,13 @@ extend type Query {
 }
 
 extend type Mutation  {
-  triggerDiscourseIndexRun(spaceId: String!, indexRunId: String!): DiscourseIndexRun!
-  createNewDiscourseIndexRun(spaceId: String!, input: DiscourseIndexRunInput!): DiscourseIndexRun!
+  triggerNewDiscourseIndexRun(spaceId: String!): DiscourseIndexRun!
 }
 
 
 type DiscourseIndexRun {
   id: String!
   spaceId: String!
-  url: String!
   runDate: DateTimeISO
   createdAt: DateTimeISO!
   status: String!
@@ -44,8 +42,3 @@ type DiscoursePostComment {
   postId: String!
 }
 
-input DiscourseIndexRunInput {
-  spaceId: String!
-  url: String!
-  runDate: String!
-}
