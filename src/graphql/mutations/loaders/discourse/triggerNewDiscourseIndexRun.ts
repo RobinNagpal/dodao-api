@@ -9,12 +9,12 @@ import { DiscourseIndexRun } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { v4 } from 'uuid';
 
-async function indexAllDiscoursePosts(discourseUrl: string, spaceId: string, discourseIndexRun: DiscourseIndexRun) {
-  await indexAllPosts(discourseUrl, spaceId, discourseIndexRun?.createdAt || new Date(0));
+async function indexAllDiscoursePosts(discourseUrl: string, spaceId: string, newIndexRun: DiscourseIndexRun, lastIndexRun: DiscourseIndexRun | null) {
+  await indexAllPosts(discourseUrl, spaceId, lastIndexRun?.runDate || new Date(0));
 
   await prisma.discourseIndexRun.update({
     where: {
-      id: discourseIndexRun.id,
+      id: newIndexRun.id,
     },
     data: {
       status: DiscourseIndexRunStatus.SUCCESS,
@@ -33,7 +33,15 @@ export default async function triggerNewDiscourseIndexRun(_: any, args: Mutation
     throw new Error('Discourse integration is not enabled for this space');
   }
 
-  const discourseIndexRun = await prisma.discourseIndexRun.create({
+  const lastIndexRun = await prisma.discourseIndexRun.findFirst({
+    where: {
+      spaceId: args.spaceId,
+    },
+    orderBy: {
+      runDate: 'desc',
+    },
+  });
+  const newIndexRun = await prisma.discourseIndexRun.create({
     data: {
       id: v4(),
       spaceId: args.spaceId,
@@ -42,7 +50,7 @@ export default async function triggerNewDiscourseIndexRun(_: any, args: Mutation
     },
   });
 
-  indexAllDiscoursePosts(discourseUrl, space.id, discourseIndexRun);
+  indexAllDiscoursePosts(discourseUrl, space.id, newIndexRun, lastIndexRun);
 
-  return discourseIndexRun;
+  return newIndexRun;
 }

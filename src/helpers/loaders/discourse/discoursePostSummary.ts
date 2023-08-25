@@ -17,7 +17,7 @@ export interface PostInfo {
   title: string;
 }
 
-export async function getSummaryOfAllPosts(page: Page, lastRunTime: number): Promise<PostInfo[]> {
+export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
   const elements: PostInfo[] = [];
 
   let previousScrollHeight = -1;
@@ -26,7 +26,7 @@ export async function getSummaryOfAllPosts(page: Page, lastRunTime: number): Pro
   while (previousScrollHeight !== currentScrollHeight) {
     const newElements = await page.$$eval(
       DISCOURSE_SELECTORS.POST_SELECTOR,
-      (topics, hrefSubSelector, timeSubSelector, lastRunTime) => {
+      (topics, hrefSubSelector, timeSubSelector) => {
         const localElements: PostInfo[] = [];
 
         topics.forEach((topic: Element) => {
@@ -51,7 +51,6 @@ export async function getSummaryOfAllPosts(page: Page, lastRunTime: number): Pro
       },
       DISCOURSE_SELECTORS.HREF_SUB_SELECTOR,
       DISCOURSE_SELECTORS.TIME_SUB_SELECTOR,
-      lastRunTime,
     );
 
     elements.push(...newElements);
@@ -75,8 +74,7 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
     height: 800,
   });
 
-  const lastRunTime = lastRunDate.getTime();
-  const hrefs: PostInfo[] = await getSummaryOfAllPosts(page, lastRunTime);
+  const hrefs: PostInfo[] = await getSummaryOfAllPosts(page);
 
   for (const href of hrefs) {
     await prisma.discoursePost.upsert({
@@ -85,7 +83,7 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
       },
       update: {
         datePublished: new Date(href.epochTime),
-        status: PostStatus.NEEDS_INDEXING,
+        status: lastRunDate <= new Date(href.epochTime) ? PostStatus.NEEDS_INDEXING : PostStatus.INDEXING_SUCCESS,
       },
       create: {
         id: v4(),
@@ -107,9 +105,10 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
 
   for (const post of dbPosts) {
     console.log('going to', post.url);
-
-    const postTopics = await getPostDetails(page, post);
-    await storePostDetails(post, postTopics);
+    if (post.status === PostStatus.NEEDS_INDEXING) {
+      const postTopics = await getPostDetails(page, post);
+      await storePostDetails(post, postTopics);
+    }
   }
 
   await browser.close();
