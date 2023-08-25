@@ -12,7 +12,7 @@ export default async function discoursePosts(_: any, args: QueryDiscourseIndexRu
       spaceId: args.spaceId,
     },
     orderBy: {
-      indexedAt: 'desc',
+      datePublished: 'desc',
     },
   });
 }
