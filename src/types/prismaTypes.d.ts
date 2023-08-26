@@ -5,6 +5,7 @@ import {
   SocialSettings as SpaceSocialSettings,
   ByteSettings as SpaceByteSettings,
   GuideFeedback as GuideFeedbackType,
+  SpaceLoadersInfo as SpaceLoadersInfoType,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
@@ -26,5 +27,6 @@ declare global {
     type ByteLinkedinPdfContent = ByteLinkedinPdfContentType;
     type ByteSettings = SpaceByteSettings;
     type GuideFeedback = GuideFeedbackType;
+    type SpaceLoadersInfo = SpaceLoadersInfoType;
   }
 }

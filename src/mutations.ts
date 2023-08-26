@@ -6,6 +6,7 @@ import deleteGitCourseSubmission from '@/graphql/mutations/course/submission/del
 import deleteGuide from '@/graphql/mutations/guide/deleteGuide';
 import submitGuide from '@/graphql/mutations/guide/submitGuide';
 import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
+import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
 import createSummaryOfContent from '@/graphql/mutations/openAI/createSummaryOfContent';
@@ -19,6 +20,7 @@ import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
+import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
 
 export default {
   askCompletionAI,
@@ -31,6 +33,8 @@ export default {
   createSpace,
   updateSpace,
   sendEmail,
+
+  upsertSpaceLoaderInfo,
 
   upsertGuideRating,
   generateSharablePdf,
@@ -46,6 +50,8 @@ export default {
   deleteGuide,
 
   deleteGitCourseSubmission,
+
+  triggerNewDiscourseIndexRun,
 
   ...mutations,
 };

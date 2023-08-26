@@ -55,3 +55,15 @@ const app = express();
 
   app.listen({ port: 8000 }, () => console.log(`🚀 Server ready at http://localhost:8000/graphql`));
 })();
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught exception:', error);
+  logError(error?.message, { error } as any);
+
+  // Here you can add any cleanup code if needed
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled rejection at:', promise, 'reason:', reason);
+  logError(`${'Unhandled rejection at:' + promise + ' reason:' + reason}`, { reason } as any);
+});
