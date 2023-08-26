@@ -1,5 +1,15 @@
 version: "3.7"
 services:
+#  app:
+#    image: local-v2-api-image:latest
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      - DATABASE_URL=postgresql://admin:admin@db:5432/dodao_api_localhost_db?sslmode=verify-full
+#      - REDIS_URL=redis://redis:6379
+#    depends_on:
+#      - db
+#      - redis
   db:
     image: postgres
     restart: always
