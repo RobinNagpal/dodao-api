@@ -8,7 +8,6 @@ import client from './client';
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user?.tag}`);
 
-
   storeDiscordMessages();
 });
 
@@ -23,7 +22,7 @@ async function storeDiscordMessages() {
   const channels = await prisma.discordChannel.findMany();
 
   for (const channel of channels) {
-    const channelId = channel.discordChannelId
+    const channelId = channel.discordChannelId;
     await storeDiscordMessagesForChannel(channel);
   }
 }
