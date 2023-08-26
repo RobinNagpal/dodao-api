@@ -66,7 +66,7 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
 }
 
 export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
   const page = await browser.newPage();
   await page.goto(discourseUrl);
   await page.setViewport({
