@@ -9,10 +9,9 @@ export async function storeDiscordMessagesForChannel(channel: DiscordChannel) {
   if (!discordChannel) throw new Error('Discord channel not found');
 
   if (discordChannel.type === 0) {
-
     const messages = await discordChannel?.messages.fetch();
 
-    console.log(messages)
+    console.log(messages);
 
     for (const [messageId, message] of messages) {
       await prisma.discordMessage.upsert({
