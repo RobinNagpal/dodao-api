@@ -337,6 +337,40 @@ export type DeleteTopicVideoInput = {
   videoUuid: Scalars['String'];
 };
 
+export type DiscordChannel = {
+  __typename?: 'DiscordChannel';
+  createdAt: Scalars['DateTimeISO'];
+  discordChannelId: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  serverId: Scalars['String'];
+  shouldIndex: Scalars['Boolean'];
+  status: Scalars['String'];
+  type: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
+export type DiscordMessage = {
+  __typename?: 'DiscordMessage';
+  channelId: Scalars['String'];
+  content: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  discordMessageId: Scalars['String'];
+  id: Scalars['String'];
+  serverId: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
+export type DiscordServer = {
+  __typename?: 'DiscordServer';
+  createdAt: Scalars['DateTimeISO'];
+  discordServerId: Scalars['String'];
+  iconUrl?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
 export type DiscourseIndexRun = {
   __typename?: 'DiscourseIndexRun';
   createdAt: Scalars['DateTimeISO'];
@@ -951,6 +985,9 @@ export type Mutation = {
   moveTopicSummary: GitCourse;
   moveTopicVideo: GitCourse;
   publishByte: Byte;
+  reFetchDiscordChannels: Array<DiscordChannel>;
+  reFetchDiscordMessages: Scalars['Boolean'];
+  reFetchDiscordServers: Array<DiscordServer>;
   refreshGitCourse: Scalars['Boolean'];
   refreshGitCourses: Scalars['Boolean'];
   reloadAcademyRepository: Scalars['Boolean'];
@@ -1177,6 +1214,18 @@ export type MutationMoveTopicVideoArgs = {
 
 export type MutationPublishByteArgs = {
   input: UpsertByteInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationReFetchDiscordChannelsArgs = {
+  serverId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationReFetchDiscordMessagesArgs = {
+  serverId: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -1470,6 +1519,9 @@ export type Query = {
   bytes: Array<Byte>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
+  discordChannels: Array<DiscordChannel>;
+  discordMessages: Array<DiscordMessage>;
+  discordServer: DiscordServer;
   discourseIndexRuns: Array<DiscourseIndexRun>;
   discoursePostComments: Array<DiscoursePostComment>;
   discoursePosts: Array<DiscoursePost>;
@@ -1533,6 +1585,24 @@ export type QueryConsolidatedGuideRatingArgs = {
 
 
 export type QueryCoursesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryDiscordChannelsArgs = {
+  serverId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryDiscordMessagesArgs = {
+  channelId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryDiscordServerArgs = {
+  id: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -1817,10 +1887,12 @@ export type SpaceInviteLinksInput = {
 
 export type SpaceLoadersInfo = {
   __typename?: 'SpaceLoadersInfo';
+  discordServerId?: Maybe<Scalars['String']>;
   discourseUrl?: Maybe<Scalars['String']>;
 };
 
 export type SpaceLoadersInfoInput = {
+  discordServerId?: InputMaybe<Scalars['String']>;
   discourseUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -2230,6 +2302,9 @@ export type ResolversTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  DiscordChannel: ResolverTypeWrapper<DiscordChannel>;
+  DiscordMessage: ResolverTypeWrapper<DiscordMessage>;
+  DiscordServer: ResolverTypeWrapper<DiscordServer>;
   DiscourseIndexRun: ResolverTypeWrapper<DiscourseIndexRun>;
   DiscoursePost: ResolverTypeWrapper<DiscoursePost>;
   DiscoursePostComment: ResolverTypeWrapper<DiscoursePostComment>;
@@ -2407,6 +2482,9 @@ export type ResolversParentTypes = {
   DeleteTopicQuestionInput: DeleteTopicQuestionInput;
   DeleteTopicSummaryInput: DeleteTopicSummaryInput;
   DeleteTopicVideoInput: DeleteTopicVideoInput;
+  DiscordChannel: DiscordChannel;
+  DiscordMessage: DiscordMessage;
+  DiscordServer: DiscordServer;
   DiscourseIndexRun: DiscourseIndexRun;
   DiscoursePost: DiscoursePost;
   DiscoursePostComment: DiscoursePostComment;
@@ -2697,6 +2775,40 @@ export type CreateCompletionResponseChoiceResolvers<ContextType = any, ParentTyp
 export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTimeISO'], any> {
   name: 'DateTimeISO';
 }
+
+export type DiscordChannelResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscordChannel'] = ResolversParentTypes['DiscordChannel']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  discordChannelId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  serverId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  shouldIndex?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DiscordMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscordMessage'] = ResolversParentTypes['DiscordMessage']> = {
+  channelId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  discordMessageId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  serverId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DiscordServerResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscordServer'] = ResolversParentTypes['DiscordServer']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  discordServerId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  iconUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscourseIndexRun'] = ResolversParentTypes['DiscourseIndexRun']> = {
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
@@ -3133,6 +3245,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   moveTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   moveTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   publishByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationPublishByteArgs, 'input' | 'spaceId'>>;
+  reFetchDiscordChannels?: Resolver<Array<ResolversTypes['DiscordChannel']>, ParentType, ContextType, RequireFields<MutationReFetchDiscordChannelsArgs, 'serverId' | 'spaceId'>>;
+  reFetchDiscordMessages?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReFetchDiscordMessagesArgs, 'serverId' | 'spaceId'>>;
+  reFetchDiscordServers?: Resolver<Array<ResolversTypes['DiscordServer']>, ParentType, ContextType>;
   refreshGitCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCourseArgs, 'courseKey' | 'spaceId'>>;
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   reloadAcademyRepository?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReloadAcademyRepositoryArgs, 'spaceId'>>;
@@ -3236,6 +3351,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
+  discordChannels?: Resolver<Array<ResolversTypes['DiscordChannel']>, ParentType, ContextType, RequireFields<QueryDiscordChannelsArgs, 'serverId' | 'spaceId'>>;
+  discordMessages?: Resolver<Array<ResolversTypes['DiscordMessage']>, ParentType, ContextType, RequireFields<QueryDiscordMessagesArgs, 'channelId' | 'spaceId'>>;
+  discordServer?: Resolver<ResolversTypes['DiscordServer'], ParentType, ContextType, RequireFields<QueryDiscordServerArgs, 'id' | 'spaceId'>>;
   discourseIndexRuns?: Resolver<Array<ResolversTypes['DiscourseIndexRun']>, ParentType, ContextType, RequireFields<QueryDiscourseIndexRunsArgs, 'spaceId'>>;
   discoursePostComments?: Resolver<Array<ResolversTypes['DiscoursePostComment']>, ParentType, ContextType, RequireFields<QueryDiscoursePostCommentsArgs, 'postId' | 'spaceId'>>;
   discoursePosts?: Resolver<Array<ResolversTypes['DiscoursePost']>, ParentType, ContextType, RequireFields<QueryDiscoursePostsArgs, 'spaceId'>>;
@@ -3371,6 +3489,7 @@ export type SpaceInviteLinksResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type SpaceLoadersInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['SpaceLoadersInfo'] = ResolversParentTypes['SpaceLoadersInfo']> = {
+  discordServerId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discourseUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3477,6 +3596,9 @@ export type Resolvers<ContextType = any> = {
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
   CreateCompletionResponseChoice?: CreateCompletionResponseChoiceResolvers<ContextType>;
   DateTimeISO?: GraphQLScalarType;
+  DiscordChannel?: DiscordChannelResolvers<ContextType>;
+  DiscordMessage?: DiscordMessageResolvers<ContextType>;
+  DiscordServer?: DiscordServerResolvers<ContextType>;
   DiscourseIndexRun?: DiscourseIndexRunResolvers<ContextType>;
   DiscoursePost?: DiscoursePostResolvers<ContextType>;
   DiscoursePostComment?: DiscoursePostCommentResolvers<ContextType>;

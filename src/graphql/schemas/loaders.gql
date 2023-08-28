@@ -2,12 +2,54 @@ extend type Query {
   discourseIndexRuns(spaceId: String!): [DiscourseIndexRun!]!
   discoursePosts(spaceId: String!): [DiscoursePost!]!
   discoursePostComments(spaceId: String!, postId: String!): [DiscoursePostComment!]!
+
+  discordServer(spaceId: String!, id: String!): DiscordServer!
+
+  discordChannels(spaceId: String!, serverId: String!): [DiscordChannel!]!
+
+  discordMessages(spaceId: String!, channelId: String!): [DiscordMessage!]!
 }
 
 extend type Mutation  {
   triggerNewDiscourseIndexRun(spaceId: String!): DiscourseIndexRun!
+
+  reFetchDiscordServers: [DiscordServer!]!
+
+  reFetchDiscordChannels(spaceId: String!, serverId: String!): [DiscordChannel!]!
+
+  reFetchDiscordMessages(spaceId: String!, serverId: String!): Boolean!
 }
 
+type DiscordServer {
+  id: String!
+  discordServerId: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  name: String!
+  iconUrl: String
+}
+
+type DiscordChannel {
+  id: String!
+  discordChannelId: String!
+  serverId: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  name: String!
+  type: String!
+  status: String!
+  shouldIndex: Boolean!
+}
+
+type DiscordMessage {
+  id: String!
+  discordMessageId: String!
+  channelId: String!
+  serverId: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  content: String!
+}
 
 type DiscourseIndexRun {
   id: String!

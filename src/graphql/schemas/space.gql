@@ -145,6 +145,7 @@ type VercelDomain {
 
 type SpaceLoadersInfo {
   discourseUrl: String
+  discordServerId: String
 }
 
 input SpaceWhere {
@@ -246,4 +247,5 @@ input SendEmailInput {
 
 input SpaceLoadersInfoInput {
   discourseUrl: String
+  discordServerId: String
 }
