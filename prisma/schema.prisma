@@ -406,7 +406,7 @@ model DiscordServer {
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
   name            String           @db.VarChar(255)
-  status          String           @db.VarChar(255)
+  iconUrl         String?          @map("icon_url") @db.VarChar(1024)
   DiscordChannel  DiscordChannel[]
   DiscordMessage  DiscordMessage[]
 
@@ -424,6 +424,7 @@ model DiscordChannel {
   type             String           @db.VarChar(255)
   status           String           @db.VarChar(255)
   discordServer    DiscordServer    @relation(fields: [serverId], references: [id])
+  shouldIndex      Boolean          @map("should_index") @db.Boolean
   DiscordMessage   DiscordMessage[]
 
   @@unique([discordChannelId])
@@ -437,7 +438,7 @@ model DiscordMessage {
   serverId         String         @map("server_id") @db.VarChar(255)
   createdAt        DateTime       @default(now()) @map("created_at")
   updatedAt        DateTime       @updatedAt @map("updated_at")
-  content          String         @db.VarChar(255)
+  content          String         @db.Text
   discordServer    DiscordServer  @relation(fields: [serverId], references: [id])
   discordChannel   DiscordChannel @relation(fields: [channelId], references: [id])
 

@@ -1,8 +1,8 @@
-import client from '@/helpers/loaders/discord/client';
 import { prisma } from '@/prisma';
+import { Client } from 'discord.js';
 import { v4 } from 'uuid';
 
-export async function mapAndStoreDiscordServers() {
+export async function mapAndStoreDiscordServers(client: Client) {
   const guilds = await client.guilds.fetch();
 
   for (const [guildId, oAuth2Guild] of guilds) {
@@ -16,9 +16,9 @@ export async function mapAndStoreDiscordServers() {
         id: v4(),
         discordServerId: guildId,
         name: oAuth2Guild.name,
+        iconUrl: oAuth2Guild.iconURL(),
         createdAt: new Date(),
         updatedAt: new Date(),
-        status: 'IN_PROGRESS',
       },
     });
   }
