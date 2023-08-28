@@ -17,6 +17,9 @@ import guideRating from '@/graphql/queries/guide/guideRating';
 import guideRatings from '@/graphql/queries/guide/guideRatings';
 import guides from '@/graphql/queries/guide/guides';
 import guideSubmissions from '@/graphql/queries/guide/guideSubmissions';
+import discordChannels from '@/graphql/queries/loaders/discord/discordChannels';
+import discordMessages from '@/graphql/queries/loaders/discord/discordMessages';
+import discordServer from '@/graphql/queries/loaders/discord/discordServer';
 import discourseIndexRuns from '@/graphql/queries/loaders/discourse/discourseIndexRuns';
 import discoursePostComments from '@/graphql/queries/loaders/discourse/discoursePostComments';
 import discoursePosts from '@/graphql/queries/loaders/discourse/discoursePosts';
@@ -72,4 +75,8 @@ export default {
   discourseIndexRuns,
   discoursePosts,
   discoursePostComments,
+
+  discordServer,
+  discordChannels,
+  discordMessages,
 };

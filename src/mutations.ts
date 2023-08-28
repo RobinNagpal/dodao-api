@@ -6,6 +6,9 @@ import deleteGitCourseSubmission from '@/graphql/mutations/course/submission/del
 import deleteGuide from '@/graphql/mutations/guide/deleteGuide';
 import submitGuide from '@/graphql/mutations/guide/submitGuide';
 import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
+import reFetchDiscordChannels from '@/graphql/mutations/loaders/discord/reFetchDiscordChannels';
+import reFetchDiscordMessages from '@/graphql/mutations/loaders/discord/reFetchDiscordMessages';
+import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDiscordServers';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
@@ -52,6 +55,10 @@ export default {
   deleteGitCourseSubmission,
 
   triggerNewDiscourseIndexRun,
+
+  reFetchDiscordServers,
+  reFetchDiscordChannels,
+  reFetchDiscordMessages,
 
   ...mutations,
 };

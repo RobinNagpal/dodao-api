@@ -397,3 +397,51 @@ model DiscoursePostComment {
   @@unique([commentPostId, postId])
   @@map("discourse_post_comments")
 }
+
+// ################## All related to discord data indexing ##################
+
+model DiscordServer {
+  id              String           @id @db.VarChar(255)
+  discordServerId String           @map("discord_server_id") @db.VarChar(255)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  name            String           @db.VarChar(255)
+  iconUrl         String?          @map("icon_url") @db.VarChar(1024)
+  DiscordChannel  DiscordChannel[]
+  DiscordMessage  DiscordMessage[]
+
+  @@unique([discordServerId])
+  @@map("discord_servers")
+}
+
+model DiscordChannel {
+  id               String           @id @db.VarChar(255)
+  discordChannelId String           @map("discord_channel_id") @db.VarChar(255)
+  serverId         String           @map("server_id") @db.VarChar(255)
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  name             String           @db.VarChar(255)
+  type             String           @db.VarChar(255)
+  status           String           @db.VarChar(255)
+  discordServer    DiscordServer    @relation(fields: [serverId], references: [id])
+  shouldIndex      Boolean          @map("should_index") @db.Boolean
+  DiscordMessage   DiscordMessage[]
+
+  @@unique([discordChannelId])
+  @@map("discord_channels")
+}
+
+model DiscordMessage {
+  id               String         @id @db.VarChar(255)
+  discordMessageId String         @map("discord_message_id") @db.VarChar(255)
+  channelId        String         @map("channel_id") @db.VarChar(255)
+  serverId         String         @map("server_id") @db.VarChar(255)
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+  content          String         @db.Text
+  discordServer    DiscordServer  @relation(fields: [serverId], references: [id])
+  discordChannel   DiscordChannel @relation(fields: [channelId], references: [id])
+
+  @@unique([discordMessageId])
+  @@map("discord_messages")
+}
