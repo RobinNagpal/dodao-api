@@ -14,4 +14,3 @@ export default async function discordServer(_: any, args: QueryDiscordServerArgs
     },
   });
 }
-
