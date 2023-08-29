@@ -9,6 +9,7 @@ import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
 import reFetchDiscordChannels from '@/graphql/mutations/loaders/discord/reFetchDiscordChannels';
 import reFetchDiscordMessages from '@/graphql/mutations/loaders/discord/reFetchDiscordMessages';
 import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDiscordServers';
+import updateIndexingOfDiscordChannel from '@/graphql/mutations/loaders/discord/updateIndexingOfDiscordChannel';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
@@ -59,6 +60,7 @@ export default {
   reFetchDiscordServers,
   reFetchDiscordChannels,
   reFetchDiscordMessages,
+  updateIndexingOfDiscordChannel,
 
   ...mutations,
 };
