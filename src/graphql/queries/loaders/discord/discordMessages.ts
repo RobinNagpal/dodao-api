@@ -12,5 +12,8 @@ export default async function discordMessages(_: any, args: QueryDiscordMessages
     where: {
       channelId: args.channelId,
     },
+    orderBy: {
+      messageDate: 'desc',
+    },
   });
 }

@@ -439,6 +439,8 @@ model DiscordMessage {
   createdAt        DateTime       @default(now()) @map("created_at")
   updatedAt        DateTime       @updatedAt @map("updated_at")
   content          String         @db.Text
+  messageDate      DateTime       @map("message_date")
+  authorUsername   String         @map("author_username") @db.VarChar(255)
   discordServer    DiscordServer  @relation(fields: [serverId], references: [id])
   discordChannel   DiscordChannel @relation(fields: [channelId], references: [id])
 

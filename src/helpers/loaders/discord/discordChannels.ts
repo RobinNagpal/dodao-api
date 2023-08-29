@@ -28,7 +28,7 @@ export async function mapAndStoreDiscordChannels(client: Client, server: Discord
         },
         create: {
           id: v4(),
-          discordChannelId: channelId,
+          discordChannelId: channel.id,
           name: channel.name,
           createdAt: new Date(),
           updatedAt: new Date(),

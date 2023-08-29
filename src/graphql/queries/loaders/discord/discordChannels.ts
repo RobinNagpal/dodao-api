@@ -12,5 +12,8 @@ export default async function discordChannels(_: any, args: QueryDiscordChannels
     where: {
       serverId: args.serverId,
     },
+    orderBy: {
+      shouldIndex: 'desc',
+    },
   });
 }
