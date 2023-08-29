@@ -1,14 +1,14 @@
 import { prisma } from '@/prisma';
 import { DiscordChannel } from '@prisma/client';
-import { Client, TextChannel } from 'discord.js';
+import { Client, Collection, Message, TextChannel } from 'discord.js';
 import { v4 } from 'uuid';
 
 export async function storeDiscordMessagesForChannel(client: Client, channel: DiscordChannel) {
-  const discordChannel = client.channels.cache.get(channel.discordChannelId) as TextChannel;
+  const discordChannel = (await client.channels.fetch(channel.discordChannelId)) as TextChannel;
   if (!discordChannel) throw new Error('Discord channel not found');
 
   if (discordChannel.type === 0) {
-    const messages = await discordChannel?.messages.fetch();
+    const messages: Collection<string, Message> = await discordChannel?.messages.fetch();
 
     try {
       for (const [messageId, message] of messages) {
@@ -26,7 +26,9 @@ export async function storeDiscordMessagesForChannel(client: Client, channel: Di
             serverId: channel.serverId,
             content: message.content,
             createdAt: new Date(),
+            messageDate: message.createdAt,
             updatedAt: new Date(),
+            authorUsername: message.author.username,
           },
         });
       }

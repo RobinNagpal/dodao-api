@@ -51,6 +51,8 @@ type DiscordMessage {
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
   content: String!
+  messageDate: DateTimeISO!
+  authorUsername: String!
 }
 
 type DiscourseIndexRun {

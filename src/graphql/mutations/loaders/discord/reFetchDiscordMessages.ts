@@ -10,8 +10,7 @@ export default async function reFetchDiscordMessages(_: any, args: MutationReFet
     throw new Error('Not authorized');
   }
   const client = await getDiscordClient();
-  const channel = await prisma.discordChannel.findFirst({ where: { shouldIndex: true, id: args.channelId } });
-  if (!channel) throw new Error('Channel not found or should not be indexed');
+  const channel = await prisma.discordChannel.findFirstOrThrow({ where: { shouldIndex: true, id: args.channelId } });
   await storeDiscordMessagesForChannel(client, channel);
   return true;
 }

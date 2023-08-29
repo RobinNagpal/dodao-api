@@ -352,11 +352,13 @@ export type DiscordChannel = {
 
 export type DiscordMessage = {
   __typename?: 'DiscordMessage';
+  authorUsername: Scalars['String'];
   channelId: Scalars['String'];
   content: Scalars['String'];
   createdAt: Scalars['DateTimeISO'];
   discordMessageId: Scalars['String'];
   id: Scalars['String'];
+  messageDate: Scalars['DateTimeISO'];
   serverId: Scalars['String'];
   updatedAt: Scalars['DateTimeISO'];
 };
@@ -2798,11 +2800,13 @@ export type DiscordChannelResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type DiscordMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscordMessage'] = ResolversParentTypes['DiscordMessage']> = {
+  authorUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   channelId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   discordMessageId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  messageDate?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   serverId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
