@@ -17,7 +17,9 @@ extend type Mutation  {
 
   reFetchDiscordChannels(spaceId: String!, serverId: String!): [DiscordChannel!]!
 
-  reFetchDiscordMessages(spaceId: String!, serverId: String!): Boolean!
+  reFetchDiscordMessages(spaceId: String!, channelId: String!): Boolean!
+
+  updateIndexingOfDiscordChannel(spaceId: String!, channelId: String!, shouldIndex: Boolean!): DiscordChannel!
 }
 
 type DiscordServer {
