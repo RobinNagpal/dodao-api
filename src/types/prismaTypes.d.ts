@@ -12,6 +12,7 @@ import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@
 import { GuideSubmissionResult as GuideSubmissionResultInterface } from '@/types/guide/GuideSubmissionResult';
 import { GuidesGitRepository as GuidesGitRepositoryInterface } from '@/types/space/GuidesGitRepository';
 import { SpaceInviteLinks as SpaceInviteLinksInterface } from '@/types/space/SpaceInviteLinks';
+import { GuideStepSubmission as GuideStepSubmissionInterface } from '@/types/space/SpaceInviteLinks';
 
 declare global {
   namespace PrismaJson {
@@ -28,5 +29,6 @@ declare global {
     type ByteSettings = SpaceByteSettings;
     type GuideFeedback = GuideFeedbackType;
     type SpaceLoadersInfo = SpaceLoadersInfoType;
+    type GuideStepSubmissionArray = GuideStepSubmissionInterface[];
   }
 }

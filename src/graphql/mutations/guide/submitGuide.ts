@@ -1,6 +1,6 @@
 import { isQuestion, isUserDiscordConnect, isUserInput } from '@/deprecatedSchemas/helpers/stepItemTypes';
 import { GuideModel, GuideQuestion, UserInput } from '@/deprecatedSchemas/models/GuideModel';
-import { GuideSubmissionInput, GuideSubmissionResult, MutationSubmitGuideArgs } from '@/graphql/generated/graphql';
+import { GuideSubmissionInput, GuideSubmissionResult, MutationSubmitGuideArgs, GuideSubmission as GuideSubmissionGraphql } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { getAcademyGuideFromRedis } from '@/helpers/academy/readers/academyGuideReader';
 import { postGuideSubmission } from '@/helpers/discord/webhookMessage';
@@ -48,7 +48,7 @@ async function doSubmitGuide(
   user: (JwtPayload & DoDaoJwtTokenPayload) | undefined,
   msg: GuideSubmissionInput,
   context: GraphqlContext,
-): Promise<GuideSubmission> {
+): Promise<GuideSubmissionGraphql> {
   const spaceId = msg.space;
 
   const stepSubmissionsMap: UserGuideStepSubmission = getGuideStepSubmissionMap(msg);
@@ -143,7 +143,7 @@ async function doSubmitGuide(
     user?.accountId || 'anonymous',
   );
 
-  return submission;
+  return { ...submission, galaxyCredentialsUpdated: !!galaxyCredentialsUpdated };
 }
 
 export default async function submitGuide(parent: any, guideInput: MutationSubmitGuideArgs, context: GraphqlContext) {
