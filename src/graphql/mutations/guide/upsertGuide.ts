@@ -80,7 +80,7 @@ export default async function upsertGuide(parent: any, { spaceId, guideInput }: 
 
     const savedGuide = await saveToAcademyRepo(spaceById, transformedToGit, decodedJwt);
 
-    prisma.guideIntegration.upsert({
+    const integrations = await prisma.guideIntegration.upsert({
       create: {
         id: v4(),
         guideUuid: savedGuide.uuid,
@@ -112,7 +112,7 @@ export default async function upsertGuide(parent: any, { spaceId, guideInput }: 
       },
     });
 
-    return savedGuide;
+    return { ...savedGuide, guideIntegrations: integrations };
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in upsertGuide', {}, e as any, null, null);
     throw e;

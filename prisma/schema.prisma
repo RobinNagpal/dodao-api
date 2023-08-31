@@ -278,6 +278,7 @@ model GuideSubmission {
   /// [GuideSubmissionResult]
   result                Json     @db.Json
   spaceId               String   @map("space_id") @db.VarChar(64)
+  /// [GuideStepSubmissionArray]
   steps                 Json     @db.Json
   uuid                  String   @db.VarChar(255)
   ipAddress             String?  @map("ip_address") @db.VarChar(64)

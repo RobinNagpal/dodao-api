@@ -1,6 +1,7 @@
 import { GuideModel } from '@/deprecatedSchemas/models/GuideModel';
 import { getRedisKeyForAcademyGuide, getRedisKeyForAcademyGuides } from '@/helpers/academy/gitAcademyRepoWrapper';
 import { getRedisValue } from '@/helpers/redis';
+import { prisma } from '@/prisma';
 
 export async function getAcademyGuideKeysFromRedis(spaceId: string): Promise<string[]> {
   const guidesArrayKey = getRedisKeyForAcademyGuides(spaceId);
@@ -14,7 +15,8 @@ export async function getAcademyGuideFromRedis(spaceId: string, guideKey: string
   if (guidesString) {
     const guide = JSON.parse(guidesString);
     guide.createdAt = guide.created ? new Date(guide.created * 1000) : new Date();
-    return guide;
+    const guideIntegration = await prisma.guideIntegration.findFirst({ where: { guideUuid: guide.uuid } });
+    return { ...guide, guideIntegrations: guideIntegration || {} };
   }
 }
 
