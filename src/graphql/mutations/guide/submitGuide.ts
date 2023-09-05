@@ -44,23 +44,7 @@ function validateGuideSubmission(guide: GuideModel, stepSubmissionsMap: UserGuid
   );
 }
 
-async function doSubmitGuide(
-  user: (JwtPayload & DoDaoJwtTokenPayload) | undefined,
-  msg: GuideSubmissionInput,
-  context: GraphqlContext,
-): Promise<GuideSubmissionGraphql> {
-  const spaceId = msg.space;
-
-  const stepSubmissionsMap: UserGuideStepSubmission = getGuideStepSubmissionMap(msg);
-
-  const guide = await getAcademyGuideFromRedis(spaceId, msg.guideUuid);
-
-  if (!guide) {
-    throw new Error(`No guide found with uuid ${msg.guideUuid}`);
-  }
-
-  validateGuideSubmission(guide, stepSubmissionsMap);
-
+function getGuideResult(guide: GuideModel, stepSubmissionsMap: UserGuideStepSubmission) {
   const initial: GuideSubmissionResult = {
     correctQuestions: [],
     wrongQuestions: [],
@@ -104,6 +88,27 @@ async function doSubmitGuide(
 
     return mergedResult;
   }, initial);
+  return guideResult;
+}
+
+async function doSubmitGuide(
+  user: (JwtPayload & DoDaoJwtTokenPayload) | undefined,
+  msg: GuideSubmissionInput,
+  context: GraphqlContext,
+): Promise<GuideSubmissionGraphql> {
+  const spaceId = msg.space;
+
+  const stepSubmissionsMap: UserGuideStepSubmission = getGuideStepSubmissionMap(msg);
+
+  const guide = await getAcademyGuideFromRedis(spaceId, msg.guideUuid);
+
+  if (!guide) {
+    throw new Error(`No guide found with uuid ${msg.guideUuid}`);
+  }
+
+  validateGuideSubmission(guide, stepSubmissionsMap);
+
+  const guideResult = getGuideResult(guide, stepSubmissionsMap);
 
   const submission: GuideSubmission = await prisma.guideSubmission.create({
     data: {
