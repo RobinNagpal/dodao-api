@@ -20,6 +20,11 @@ export async function updateGalaxyCredentialsForGuideSubmissionIfApplicable(
     galaxyCredentialsUpdated = false;
     await appendToGalaxyCredentials(projectGalaxyToken, projectGalaxyCredentialId, userAddress);
     galaxyCredentialsUpdated = true;
+  } else {
+    console.log(
+      'No galaxy update needed - ',
+      JSON.stringify({ projectGalaxyToken, projectGalaxyCredentialId, galaxyOatPassingCount, projectGalaxyPassed, galaxyCredentialsUpdated }),
+    );
   }
 
   return galaxyCredentialsUpdated;
