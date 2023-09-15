@@ -6,7 +6,7 @@ export type Metadata = {
   chunk: string;
 };
 
-const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: PineconeClient, topK: number): Promise<ScoredVector[]> => {
+const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: PineconeClient, topK: number, spaceId: string): Promise<ScoredVector[]> => {
   if (!process.env.PINECONE_INDEX_NAME) {
     throw new Error('PINECONE_INDEX_NAME is not set');
   }
@@ -16,7 +16,7 @@ const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: Pinecone
     vector: embeddings,
     topK,
     includeMetadata: true,
-    namespace: 'uniswapV3',
+    namespace: spaceId,
   };
   try {
     const queryResult = await index.query({
