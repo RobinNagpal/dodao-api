@@ -10,6 +10,7 @@ import reFetchDiscordChannels from '@/graphql/mutations/loaders/discord/reFetchD
 import reFetchDiscordMessages from '@/graphql/mutations/loaders/discord/reFetchDiscordMessages';
 import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDiscordServers';
 import updateIndexingOfDiscordChannel from '@/graphql/mutations/loaders/discord/updateIndexingOfDiscordChannel';
+import indexDiscoursePost from '@/graphql/mutations/loaders/discourse/indexDiscoursePost';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
@@ -61,6 +62,7 @@ export default {
   reFetchDiscordChannels,
   reFetchDiscordMessages,
   updateIndexingOfDiscordChannel,
+  indexDiscoursePost,
 
   ...mutations,
 };

@@ -34,7 +34,7 @@ const handler = async (req: Request, res: Response) => {
 
     console.log('body', req.body);
 
-    const { model, messages, prompt, temperature } = req.body as ChatBody;
+    const { model, messages, prompt, temperature, spaceId } = req.body as ChatBody;
 
     console.log('messages', messages);
     const encoding = encoding_for_model(model.id as TiktokenModel);
@@ -59,7 +59,7 @@ const handler = async (req: Request, res: Response) => {
     const embeddings = await embedder.embedQuery(inquiry);
 
     console.log('embeddings', embeddings.length);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 3);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 3, spaceId);
 
     console.log('matches', matches.length);
 

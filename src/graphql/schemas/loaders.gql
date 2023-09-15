@@ -13,6 +13,8 @@ extend type Query {
 extend type Mutation  {
   triggerNewDiscourseIndexRun(spaceId: String!): DiscourseIndexRun!
 
+  indexDiscoursePost(spaceId: String!, postId: String!): Boolean!
+
   reFetchDiscordServers: [DiscordServer!]!
 
   reFetchDiscordChannels(spaceId: String!, serverId: String!): [DiscordChannel!]!
@@ -20,6 +22,8 @@ extend type Mutation  {
   reFetchDiscordMessages(spaceId: String!, channelId: String!): Boolean!
 
   updateIndexingOfDiscordChannel(spaceId: String!, channelId: String!, shouldIndex: Boolean!): DiscordChannel!
+
+
 }
 
 type DiscordServer {

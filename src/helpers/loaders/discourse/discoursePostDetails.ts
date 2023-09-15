@@ -1,9 +1,14 @@
 import { PostStatus } from '@/helpers/loaders/discourse/models';
+import { indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
+import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
+import { split } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
+import { PageMetadata } from '@/types/chat/projectsContents';
 import { DiscoursePost } from '@prisma/client';
 import unionBy from 'lodash/unionBy';
 import { Page } from 'puppeteer';
 import { v4 } from 'uuid';
+import { Document as LGCDocument } from 'langchain/document';
 
 const DISCOURSE_SELECTORS = {
   POST_CONTENT_SELECTOR: 'div.topic-post',
@@ -92,9 +97,21 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
     },
   });
 
+  const metadata: Omit<PageMetadata, 'chunk'> = {
+    url: post.url,
+    fullContent: mainPost?.content || '',
+    source: post.url,
+  };
+
+  const postDocument: LGCDocument<Omit<PageMetadata, 'chunk'>> = {
+    pageContent: mainPost?.content || '',
+    metadata,
+  };
+
   const comments = postTopics.filter((post) => post.id !== 'post_1');
 
   console.log('Upserting comments', JSON.stringify(comments, null, 2));
+
   for (const comment of comments) {
     console.log('Upserting comment', JSON.stringify(comment));
     await prisma.discoursePostComment.upsert({
@@ -134,4 +151,24 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
       status: PostStatus.INDEXING_SUCCESS,
     },
   });
+
+  const commentDocuments: LGCDocument<Omit<PageMetadata, 'chunk'>>[] = comments.map((comment, index) => {
+    const url = `${post.url}/${index + 2}}`;
+    const metadata: Omit<PageMetadata, 'chunk'> = {
+      url: url,
+      fullContent: comment.content,
+      source: url,
+    };
+
+    return {
+      pageContent: comment.content,
+      metadata,
+    };
+  });
+
+  const allDocuments = [postDocument, ...commentDocuments];
+
+  const splitDocs = await split(allDocuments);
+  const index = await initPineconeClient();
+  await indexDocsInPinecone(splitDocs, index, post.spaceId);
 }
