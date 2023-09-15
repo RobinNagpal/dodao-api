@@ -150,6 +150,7 @@ module "ecs" {
   google_private_key_id         = var.google_private_key_id
   google_private_key            = var.google_private_key
   google_client_id              = var.google_client_id
+  pinecone_api_key              = var.pinecone_api_key
 }
 
 resource "aws_ecr_repository" "main" {

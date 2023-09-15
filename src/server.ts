@@ -12,6 +12,7 @@ import { GraphQLDateTimeISO } from 'graphql-scalars';
 import { GraphQLFormattedError } from 'graphql/error';
 import { IncomingHttpHeaders } from 'http';
 import * as path from 'path';
+import chat from './chat/chat';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
@@ -44,6 +45,7 @@ const app = express();
 
   app.use(cors<cors.CorsRequest>());
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server, { context }));
+  app.use('/chat', cors<cors.CorsRequest>(), json(), chat);
 
   app.use('/health', (req, res) => {
     return res.status(200).send('5');

@@ -90,7 +90,12 @@ resource "aws_ecs_task_definition" "app" {
           value = "https://www.googleapis.com/robot/v1/metadata/x509/emailsender%40dodao-email-sender.iam.gserviceaccount.com"
         },
         { name = "GOOGLE_UNIVERSE_DOMAIN", value = "googleapis.com" },
-        { name = "NODE_OPTIONS", value = "–max_old_space_size=2048" }
+        { name = "NODE_OPTIONS", value = "–max_old_space_size=2048" },
+
+        { name = "PINECONE_API_KEY", value = var.pinecone_api_key },
+        { name = "PINECONE_ENVIRONMENT", value = "eu-west1-gcp" },
+        { name = "PINECONE_INDEX_NAME", value = "dodao-test" },
+
       ]
 
       healthCheck = {

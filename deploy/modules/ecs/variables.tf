@@ -26,3 +26,5 @@ variable "aws_default_region" {}
 variable "google_private_key_id" {}
 variable "google_private_key" {}
 variable "google_client_id" {}
+
+variable "pinecone_api_key" {}
