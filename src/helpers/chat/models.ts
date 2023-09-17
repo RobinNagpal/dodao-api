@@ -1,6 +1,6 @@
-import { OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from './utils/app/const';
+import { OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '@/helpers/chat/utils/app/const';
 
-import { OpenAIModel, OpenAIModelID, OpenAIModels } from './types/openai';
+import { OpenAIModel, OpenAIModelID, OpenAIModels } from '@/helpers/chat/types/openai';
 
 export const config = {
   runtime: 'edge',

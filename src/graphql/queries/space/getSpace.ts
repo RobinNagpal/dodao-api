@@ -2,7 +2,7 @@ import { QuerySpaceArgs } from '@/graphql/generated/graphql';
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
 import { prisma } from '@/prisma';
 
-async function getSpaceIdForDomain(domain: string) {
+export async function getSpaceIdForDomain(domain: string) {
   const space = await prisma.space.findFirst({
     where: {
       domains: {
