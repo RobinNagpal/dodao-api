@@ -34,7 +34,6 @@ const summarize = async (document: string, inquiry: string, onSummaryDone: (valu
       inquiry,
     });
 
-    onSummaryDone(result.text);
     return result.text;
   } catch (e) {
     console.log(e);
@@ -44,7 +43,7 @@ const summarize = async (document: string, inquiry: string, onSummaryDone: (valu
 const summarizeLongDocument = async (document: string, inquiry: string, onSummaryDone: (value: string) => void): Promise<string> => {
   // Chunk document into 4000 character chunks
   try {
-    if (document.length > 3000) {
+    if (document.length > 12000) {
       const chunks = chunkSubstr(document, 4000);
       const summarizedChunks: string[] = [];
       for (const chunk of chunks) {
@@ -54,7 +53,7 @@ const summarizeLongDocument = async (document: string, inquiry: string, onSummar
 
       const result = summarizedChunks.join('\n');
 
-      if (result.length > 4000) {
+      if (result.length > 12000) {
         return await summarizeLongDocument(result, inquiry, onSummaryDone);
       } else return result;
     } else {
