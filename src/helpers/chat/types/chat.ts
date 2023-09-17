@@ -1,4 +1,4 @@
-import { OpenAIModel } from './openai';
+import { OpenAIModel } from '@/helpers/chat/types/openai';
 
 export interface Message {
   role: Role;

@@ -1,4 +1,6 @@
-import downloadGuideSubmissionsCSV from '@/graphql/operations/downloadGuideSubmissionsCSV';
+import extendedSpace from '@/api/extendedSpace';
+import health from '@/api/health';
+import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
 import { logError } from '@/helpers/errorLogger';
 import { setupGitLoader } from '@/helpers/gitLoader';
 import { ApolloServer } from '@apollo/server';
@@ -12,7 +14,7 @@ import { GraphQLDateTimeISO } from 'graphql-scalars';
 import { GraphQLFormattedError } from 'graphql/error';
 import { IncomingHttpHeaders } from 'http';
 import * as path from 'path';
-import chat from './chat/chat';
+import chat from '@/api/chat';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
@@ -46,12 +48,9 @@ const app = express();
   app.use(cors<cors.CorsRequest>());
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server, { context }));
   app.use('/chat', cors<cors.CorsRequest>(), json(), chat);
-
-  app.use('/health', (req, res) => {
-    return res.status(200).send('5');
-  });
-
+  app.use('/health', cors<cors.CorsRequest>(), health);
   app.get('/download-guide-submissions-csv', cors(), downloadGuideSubmissionsCSV);
+  app.get('/extended-space', cors(), json(), extendedSpace);
 
   setupGitLoader();
 

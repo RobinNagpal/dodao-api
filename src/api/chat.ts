@@ -1,10 +1,10 @@
-import { ChatBody } from './types/chat';
+import { ChatBody } from '@/helpers/chat/types/chat';
 
-import { OpenAIError } from './utils/server';
+import { OpenAIError } from '@/helpers/chat/utils/server';
 
-import { getMatchesFromEmbeddings, Metadata } from './matches';
-import { summarizeLongDocument } from './summarizer';
-import { templates } from './templates';
+import { getMatchesFromEmbeddings, Metadata } from '@/helpers/chat/matches';
+import { summarizeLongDocument } from '@/helpers/chat/summarizer';
+import { templates } from '@/helpers/chat/templates';
 
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
 import { PineconeClient } from '@pinecone-database/pinecone';
@@ -15,6 +15,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
 import { Request, Response } from 'express-serve-static-core';
+
 const llm = new OpenAI({});
 let pinecone: PineconeClient | null = null;
 

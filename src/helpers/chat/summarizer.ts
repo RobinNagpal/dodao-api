@@ -1,4 +1,4 @@
-import { templates } from './templates';
+import { templates } from '@/helpers/chat/templates';
 
 import { LLMChain } from 'langchain/chains';
 import { OpenAI } from 'langchain/llms/openai';
