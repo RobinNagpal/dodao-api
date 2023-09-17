@@ -59,7 +59,7 @@ const handler = async (req: Request, res: Response) => {
     const embeddings = await embedder.embedQuery(inquiry);
 
     console.log('embeddings', embeddings.length);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 3, spaceId);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 5, spaceId);
 
     console.log('matches', matches.length);
 
@@ -104,9 +104,9 @@ const handler = async (req: Request, res: Response) => {
         ),
       );
 
-    const promptQA = PromptTemplate.fromTemplate(templates.qaTemplate);
+    const promptQA = PromptTemplate.fromTemplate(templates.lastTemplate);
 
-    const summary = await summarizeLongDocument(fullDocuments!.join('\n'), inquiry, () => {
+    const summary = await summarizeLongDocument(fullDocuments!.join('\n'), messages[0].content, () => {
       console.log('onSummaryDone');
     });
 
@@ -123,7 +123,6 @@ const handler = async (req: Request, res: Response) => {
       modelName: 'gpt-3.5-turbo',
       callbackManager: CallbackManager.fromHandlers({
         async handleLLMNewToken(token) {
-          console.log(token);
           res.write(token);
         },
         async handleLLMEnd(result) {
@@ -136,11 +135,15 @@ const handler = async (req: Request, res: Response) => {
       prompt: promptQA,
       llm: chat,
     });
+    console.log('**************************************************************************************************************');
+    console.log('question :', prompt);
+    console.log('**************************************************************************************************************');
+    console.log('summary :', summary);
+    console.log('**************************************************************************************************************');
 
     await chain.call({
       summaries: summary,
       question: prompt,
-      conversationHistory: messages.map((m) => m.content),
       urls,
     });
   } catch (error) {

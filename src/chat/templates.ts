@@ -27,13 +27,26 @@ const templates = {
         URLS: {urls}
 
         Final Answer: `,
+
+  lastTemplate: `Summarize answer of the question based on the ANSWERS provided. You should follow ALL the following rules when generating and answer:
+        - The final answer must always be styled using markdown.
+        - Do not make up any answers if the ANSWERS does not have relevant information.
+        - Use bullet points, lists, paragraphs and text styling to present the answer in markdown.
+        - The URLs are the URLs of the pages that contain the ANSWERS. Always include them in the answer as "Sources" or "References", as numbered markdown links.
+
+        ANSWERS: {summaries}
+
+        QUESTION: {question}
+
+        URLS: {urls}
+
+        Final Answer: `,
   summarizerTemplate: `Shorten the text in the CONTENT, attempting to answer the INQUIRY. You should follow the following rules when generating the summary:
     - Any code found in the CONTENT should ALWAYS be preserved in the summary, unchanged.
     - Code will be surrounded by backticks (\`) or triple backticks (\`\`\`).
-    - Summary should include code examples that are relevant to the INQUIRY, based on the content. Do not make up any code examples on your own.
     - The summary will answer the INQUIRY. If it cannot be answered, the summary should be empty.
     - If the INQUIRY cannot be answered, the final answer should be empty.
-    - The summary should be under 4000 characters.
+    - The summary should be less than 1000 words.
 
     INQUIRY: {inquiry}
     CONTENT: {document}
