@@ -33,11 +33,8 @@ const handler = async (req: Request, res: Response) => {
       await initPineconeClient();
     }
 
-    console.log('body', req.body);
-
     const { model, messages, prompt, temperature, spaceId } = req.body as ChatBody;
 
-    console.log('messages', messages);
     const encoding = encoding_for_model(model.id as TiktokenModel);
 
     // Build an LLM chain that will improve the user prompt
@@ -60,38 +57,17 @@ const handler = async (req: Request, res: Response) => {
     const embeddings = await embedder.embedQuery(inquiry);
 
     console.log('embeddings', embeddings.length);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 5, spaceId);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 7, spaceId);
 
     console.log('matches', matches.length);
 
     // const urls = docs && Array.from(new Set(docs.map(doc => doc.metadata.url)))
 
-    const urls =
-      matches &&
-      Array.from(
-        new Set(
-          matches.map((match) => {
-            const metadata = match.metadata as Metadata;
-            const { url } = metadata;
-            return url;
-          }),
-        ),
-      );
-
-    console.log(urls);
-
-    const fullDocuments =
-      matches &&
-      Array.from(
-        matches.reduce((map, match) => {
-          const metadata = match.metadata as Metadata;
-          const { text, url } = metadata;
-          if (!map.has(url)) {
-            map.set(url, text);
-          }
-          return map;
-        }, new Map()),
-      ).map(([_, text]) => text);
+    const fullDocuments = matches.map((match) => {
+      const metadata = match.metadata as Metadata;
+      const { text, url } = metadata;
+      return { text, url };
+    });
 
     const chunkedDocs =
       matches &&
@@ -99,17 +75,17 @@ const handler = async (req: Request, res: Response) => {
         new Set(
           matches.map((match) => {
             const metadata = match.metadata as Metadata;
-            const { chunk } = metadata;
-            return chunk;
+            const { chunk, url } = metadata;
+            return { text: chunk, url: url };
           }),
         ),
       );
 
     const promptQA = PromptTemplate.fromTemplate(templates.lastTemplate);
 
-    const summary = await summarizeLongDocument(fullDocuments!.join('\n'), messages[0].content, () => {
-      console.log('onSummaryDone');
-    });
+    // const summary = await summarizeLongDocument(chunkedDocs!.join('\n'), messages[0].content, () => {
+    //   console.log('onSummaryDone');
+    // });
 
     encoding.free();
 
@@ -120,7 +96,6 @@ const handler = async (req: Request, res: Response) => {
 
     const chat = new ChatOpenAI({
       streaming: true,
-      verbose: true,
       modelName: 'gpt-3.5-turbo',
       callbackManager: CallbackManager.fromHandlers({
         async handleLLMNewToken(token) {
@@ -137,15 +112,14 @@ const handler = async (req: Request, res: Response) => {
       llm: chat,
     });
     console.log('**************************************************************************************************************');
-    console.log('question :', prompt);
+    console.log('question :', JSON.stringify(prompt));
     console.log('**************************************************************************************************************');
-    console.log('summary :', summary);
+    console.log('summary :', JSON.stringify(chunkedDocs));
     console.log('**************************************************************************************************************');
 
     await chain.call({
-      summaries: summary,
+      summaries: JSON.stringify(chunkedDocs, null, 2),
       question: prompt,
-      urls,
     });
   } catch (error) {
     console.error(error);

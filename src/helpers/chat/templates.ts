@@ -24,23 +24,23 @@ const templates = {
 
         QUESTION: {question}
 
-        URLS: {urls}
-
         Final Answer: `,
 
-  lastTemplate: `Summarize answer of the question based on the ANSWERS provided. You should follow ALL the following rules when generating and answer:
+  lastTemplate: `Summarize answer of the question based on the 'text' field in ANSWERS json provided. You should follow ALL the following rules when generating and answer:
         - The final answer must always be styled using markdown.
-        - Do not make up any answers if the ANSWERS does not have relevant information.
+        - Do not make up any answers if any of  the 'text' field in ANSWERS json does not have relevant information.
         - Use bullet points, lists, paragraphs and text styling to present the answer in markdown.
-        - The URLs are the URLs of the pages that contain the ANSWERS. Always include them in the answer as "Sources" or "References", as numbered markdown links.
+        - 'url' field in ANSWERS json is the URLs of the pages that contain the 'text'. 
+        - Always include the most relevant three links at the end as "Sources" or "References", as numbered markdown links. 
+        - Return max of 3 urls in the "Sources" or "References" section.
+        - Answer as if you are a human and not a bot 
 
         ANSWERS: {summaries}
 
         QUESTION: {question}
 
-        URLS: {urls}
-
         Final Answer: `,
+
   summarizerTemplate: `Shorten the text in the CONTENT, attempting to answer the INQUIRY. You should follow the following rules when generating the summary:
     - Any code found in the CONTENT should ALWAYS be preserved in the summary, unchanged.
     - Code will be surrounded by backticks (\`) or triple backticks (\`\`\`).

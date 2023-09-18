@@ -10,17 +10,14 @@ export async function indexDocsInPinecone(allDocs: Document<PageMetadata>[], ind
     const chunk = await getEmbeddingVector(doc);
 
     try {
-      /*const response = await index._delete({
+      await index._delete({
         deleteRequest: {
           namespace,
           filter: {
-            metadata: {
-              url: doc.metadata.url,
-            },
+            url: { $eq: doc.metadata.url },
           },
         },
       });
-      console.log('deleted', response);*/
       await index.upsert({
         upsertRequest: {
           namespace,
