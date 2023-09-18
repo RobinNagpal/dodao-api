@@ -96,7 +96,7 @@ const handler = async (req: Request, res: Response) => {
 
     const chat = new ChatOpenAI({
       streaming: true,
-      modelName: 'gpt-3.5-turbo',
+      modelName: 'gpt-4',
       callbackManager: CallbackManager.fromHandlers({
         async handleLLMNewToken(token) {
           res.write(token);
