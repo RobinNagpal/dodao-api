@@ -26,13 +26,14 @@ const templates = {
 
         Final Answer: `,
 
-  lastTemplate: `Summarize answer of the question based on the 'text' field in ANSWERS json provided. You should follow ALL the following rules when generating and answer:
+  lastTemplate: `Summarize answer of the QUESTION based on the 'text' field in ANSWERS json provided. You should follow ALL the following rules when generating and answer:
         - The final answer must always be styled using markdown.
         - Do not make up any answers if any of  the 'text' field in ANSWERS json does not have relevant information.
+        - Make sure to pull the 'text' fields that are relevant to the QUESTION from the ANSWERS json.
         - Use bullet points, lists, paragraphs and text styling to present the answer in markdown.
+        - Combine all the relevant 'text' field in ANSWERS json and rewrite it to make it easier to read, but don't omit any information.
         - 'url' field in ANSWERS json is the URLs of the pages that contain the 'text'. 
-        - Always include the most relevant three links at the end as "Sources" or "References", as numbered markdown links. 
-        - Return max of 3 urls in the "Sources" or "References" section.
+        - Always include the most relevant three links at the end as "Sources" or "References". Add the name of the source and the link as numbered markdown links. 
         - Answer as if you are a human and not a bot 
 
         ANSWERS: {summaries}
