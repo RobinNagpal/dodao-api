@@ -5,9 +5,18 @@ import { prisma } from '@/prisma';
 export async function getSpaceIdForDomain(domain: string) {
   const space = await prisma.space.findFirst({
     where: {
-      domains: {
-        has: domain,
-      },
+      OR: [
+        {
+          domains: {
+            has: domain,
+          },
+        },
+        {
+          botDomains: {
+            has: domain,
+          },
+        },
+      ],
     },
   });
   if (space) {
@@ -16,14 +25,6 @@ export async function getSpaceIdForDomain(domain: string) {
 
   if (domain === 'dodao-ui-robinnagpal.vercel.app' || domain === 'localhost') {
     return 'test-academy-eth';
-  }
-
-  if (domain === 'uniswap-localhost.university') {
-    return 'uniswap-eth-1';
-  }
-
-  if (domain === 'dodao-localhost.academy') {
-    return 'dodao-academy-eth-1';
   }
 
   return 'test-academy-eth';

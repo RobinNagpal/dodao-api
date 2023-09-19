@@ -3,9 +3,9 @@ import { loadAllGitCourses } from '@/helpers/course/gitCourseReader';
 import { setupRedis } from '@/helpers/redis';
 
 export function setupGitLoader() {
-  // setTimeout(() => loadAllGitCourses(), 90 * 1000);
+  setTimeout(() => loadAllGitCourses(), 90 * 1000);
 
-  // setTimeout(() => loadAllAcademyWebsites(), 60 * 1000);
+  setTimeout(() => loadAllAcademyWebsites(), 60 * 1000);
   /*
 
   setInterval(() => {

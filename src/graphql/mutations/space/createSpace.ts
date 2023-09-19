@@ -30,6 +30,7 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     discordInvite: null,
     telegramInvite: null,
     domains: input.domains,
+    botDomains: input.botDomains || [],
     guideSettings: {},
     authSettings: {},
     socialSettings: {},
