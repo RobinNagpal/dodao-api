@@ -1830,6 +1830,7 @@ export type Space = {
   admins: Array<Scalars['String']>;
   authSettings: AuthSettings;
   avatar?: Maybe<Scalars['String']>;
+  botDomains?: Maybe<Array<Scalars['String']>>;
   byteSettings: ByteSettings;
   creator: Scalars['String'];
   domains: Array<Scalars['String']>;
@@ -2117,6 +2118,7 @@ export type UpsertSpaceInput = {
   adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
   avatar: Scalars['String'];
+  botDomains?: InputMaybe<Array<Scalars['String']>>;
   creator: Scalars['String'];
   domains: Array<Scalars['String']>;
   features: Array<Scalars['String']>;
@@ -3464,6 +3466,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   authSettings?: Resolver<ResolversTypes['AuthSettings'], ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  botDomains?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   byteSettings?: Resolver<ResolversTypes['ByteSettings'], ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   domains?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;

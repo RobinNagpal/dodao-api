@@ -32,6 +32,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     discordInvite: null,
     telegramInvite: null,
     domains: doDAOSuperAdmin ? args.spaceInput.domains : space.domains,
+    botDomains: doDAOSuperAdmin ? args.spaceInput.botDomains || [] : space.botDomains || [],
     authSettings: space.authSettings || {},
     guideSettings: space.guideSettings || {},
     socialSettings: space.socialSettings || {},
