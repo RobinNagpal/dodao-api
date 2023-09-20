@@ -23,6 +23,9 @@ import discordServer from '@/graphql/queries/loaders/discord/discordServer';
 import discourseIndexRuns from '@/graphql/queries/loaders/discourse/discourseIndexRuns';
 import discoursePostComments from '@/graphql/queries/loaders/discourse/discoursePostComments';
 import discoursePosts from '@/graphql/queries/loaders/discourse/discoursePosts';
+import scrapedUrlInfos from '@/graphql/queries/loaders/websiteScrape/scrapedUrlInfos';
+import siteScrapingRuns from '@/graphql/queries/loaders/websiteScrape/siteScrapingRuns';
+import websiteScrapingInfos from '@/graphql/queries/loaders/websiteScrape/websiteScrapingInfos';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
@@ -79,4 +82,8 @@ export default {
   discordServer,
   discordChannels,
   discordMessages,
+
+  websiteScrapingInfos,
+  siteScrapingRuns,
+  scrapedUrlInfos,
 };

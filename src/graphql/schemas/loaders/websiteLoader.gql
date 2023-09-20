@@ -1,0 +1,55 @@
+extend type Query {
+  websiteScrapingInfos(spaceId: String!): [WebsiteScrapingInfo!]!
+  siteScrapingRuns(spaceId: String!, websiteScrapingInfoId: String!): [SiteScrapingRun!]!
+  scrapedUrlInfos(spaceId: String!, websiteScrapingInfoId: String!): [ScrapedUrlInfo!]!
+}
+
+extend type Mutation {
+  createWebsiteScrapingInfo(
+        spaceId: String!
+        host: String!
+        scrapingStartUrl: String!
+        ignoreHashInUrl: Boolean!
+  ): WebsiteScrapingInfo!
+
+  triggerSiteScrapingRun(
+    spaceId: String!
+    websiteScrapingInfoId: String!
+  ): SiteScrapingRun!
+}
+
+type WebsiteScrapingInfo {
+  id: String!
+  spaceId: String!
+  host: String!
+  scrapingStartUrl: String!
+  ignoreHashInUrl: Boolean!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  scrapingRuns: [SiteScrapingRun!]!
+  scrapedUrlInfos: [ScrapedUrlInfo!]!
+}
+
+type SiteScrapingRun {
+  id: String!
+  spaceId: String!
+  websiteScrapingInfoId: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  scrapingStartUrl: String!
+  scrapingRunDate: DateTimeISO!
+  status: String!
+  websiteScrapingInfo: WebsiteScrapingInfo!
+}
+
+type ScrapedUrlInfo {
+  id: String!
+  spaceId: String!
+  websiteScrapingInfoId: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  url: String!
+  text: String!
+  textLength: Int!
+  websiteScrapingInfo: WebsiteScrapingInfo!
+}
