@@ -967,6 +967,7 @@ export type Mutation = {
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
+  createWebsiteScrapingInfo: WebsiteScrapingInfo;
   deleteAndPullCourseRepo: GitCourse;
   deleteGitCourseSubmission: Scalars['Boolean'];
   deleteGuide: Scalars['Boolean'];
@@ -1001,6 +1002,7 @@ export type Mutation = {
   submitGitCourseTopic: GitCourseSubmission;
   submitGuide: GuideSubmission;
   triggerNewDiscourseIndexRun: DiscourseIndexRun;
+  triggerSiteScrapingRun: SiteScrapingRun;
   updateAuthSettings: Space;
   updateByteSettings: Space;
   updateCourseBasicInfo: GitCourse;
@@ -1103,6 +1105,14 @@ export type MutationCreateSpaceArgs = {
 
 export type MutationCreateSummaryOfContentArgs = {
   input: Scalars['String'];
+};
+
+
+export type MutationCreateWebsiteScrapingInfoArgs = {
+  host: Scalars['String'];
+  ignoreHashInUrl: Scalars['Boolean'];
+  scrapingStartUrl: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -1291,6 +1301,12 @@ export type MutationSubmitGuideArgs = {
 
 export type MutationTriggerNewDiscourseIndexRunArgs = {
   spaceId: Scalars['String'];
+};
+
+
+export type MutationTriggerSiteScrapingRunArgs = {
+  spaceId: Scalars['String'];
+  websiteScrapingInfoId: Scalars['String'];
 };
 
 
@@ -1555,14 +1571,17 @@ export type Query = {
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
   route53Records: Array<Route53Record>;
+  scrapedUrlInfos: Array<ScrapedUrlInfo>;
   simulation: Simulation;
   simulations: Array<Simulation>;
+  siteScrapingRuns: Array<SiteScrapingRun>;
   space?: Maybe<Space>;
   spaceDiscordGuild?: Maybe<Scalars['Any']>;
   spaces?: Maybe<Array<Space>>;
   timeline: Timeline;
   timelines: Array<Timeline>;
   vercelDomainRecords: Array<VercelDomain>;
+  websiteScrapingInfos: Array<WebsiteScrapingInfo>;
 };
 
 
@@ -1710,6 +1729,12 @@ export type QueryRawGitCoursesArgs = {
 };
 
 
+export type QueryScrapedUrlInfosArgs = {
+  spaceId: Scalars['String'];
+  websiteScrapingInfoId: Scalars['String'];
+};
+
+
 export type QuerySimulationArgs = {
   simulationId: Scalars['String'];
   spaceId: Scalars['String'];
@@ -1718,6 +1743,12 @@ export type QuerySimulationArgs = {
 
 export type QuerySimulationsArgs = {
   spaceId: Scalars['String'];
+};
+
+
+export type QuerySiteScrapingRunsArgs = {
+  spaceId: Scalars['String'];
+  websiteScrapingInfoId: Scalars['String'];
 };
 
 
@@ -1739,6 +1770,11 @@ export type QueryTimelineArgs = {
 
 
 export type QueryTimelinesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryWebsiteScrapingInfosArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -1774,6 +1810,19 @@ export type Route53Record = {
   records?: Maybe<Array<Maybe<Scalars['String']>>>;
   ttl?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
+};
+
+export type ScrapedUrlInfo = {
+  __typename?: 'ScrapedUrlInfo';
+  createdAt: Scalars['DateTimeISO'];
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
+  text: Scalars['String'];
+  textLength: Scalars['Int'];
+  updatedAt: Scalars['DateTimeISO'];
+  url: Scalars['String'];
+  websiteScrapingInfo: WebsiteScrapingInfo;
+  websiteScrapingInfoId: Scalars['String'];
 };
 
 export type SendEmailInput = {
@@ -1813,6 +1862,19 @@ export type SimulationStepInput = {
   name: Scalars['String'];
   order: Scalars['Int'];
   uuid: Scalars['String'];
+};
+
+export type SiteScrapingRun = {
+  __typename?: 'SiteScrapingRun';
+  createdAt: Scalars['DateTimeISO'];
+  id: Scalars['String'];
+  scrapingRunDate: Scalars['DateTimeISO'];
+  scrapingStartUrl: Scalars['String'];
+  spaceId: Scalars['String'];
+  status: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+  websiteScrapingInfo: WebsiteScrapingInfo;
+  websiteScrapingInfoId: Scalars['String'];
 };
 
 export type SocialSettings = {
@@ -2197,6 +2259,19 @@ export type VercelDomain = {
   verified: Scalars['Boolean'];
 };
 
+export type WebsiteScrapingInfo = {
+  __typename?: 'WebsiteScrapingInfo';
+  createdAt: Scalars['DateTimeISO'];
+  host: Scalars['String'];
+  id: Scalars['String'];
+  ignoreHashInUrl: Scalars['Boolean'];
+  scrapedUrlInfos: Array<ScrapedUrlInfo>;
+  scrapingRuns: Array<SiteScrapingRun>;
+  scrapingStartUrl: Scalars['String'];
+  spaceId: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -2409,10 +2484,12 @@ export type ResolversTypes = {
   RatingDistribution: ResolverTypeWrapper<RatingDistribution>;
   RawGitCourse: ResolverTypeWrapper<RawGitCourse>;
   Route53Record: ResolverTypeWrapper<Route53Record>;
+  ScrapedUrlInfo: ResolverTypeWrapper<ScrapedUrlInfo>;
   SendEmailInput: SendEmailInput;
   Simulation: ResolverTypeWrapper<Simulation>;
   SimulationStep: ResolverTypeWrapper<SimulationStep>;
   SimulationStepInput: SimulationStepInput;
+  SiteScrapingRun: ResolverTypeWrapper<SiteScrapingRun>;
   SocialSettings: ResolverTypeWrapper<SocialSettings>;
   SocialSettingsInput: SocialSettingsInput;
   Space: ResolverTypeWrapper<Space>;
@@ -2455,6 +2532,7 @@ export type ResolversTypes = {
   UserDiscordInfoInput: UserDiscordInfoInput;
   UserInputInput: UserInputInput;
   VercelDomain: ResolverTypeWrapper<VercelDomain>;
+  WebsiteScrapingInfo: ResolverTypeWrapper<WebsiteScrapingInfo>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -2588,10 +2666,12 @@ export type ResolversParentTypes = {
   RatingDistribution: RatingDistribution;
   RawGitCourse: RawGitCourse;
   Route53Record: Route53Record;
+  ScrapedUrlInfo: ScrapedUrlInfo;
   SendEmailInput: SendEmailInput;
   Simulation: Simulation;
   SimulationStep: SimulationStep;
   SimulationStepInput: SimulationStepInput;
+  SiteScrapingRun: SiteScrapingRun;
   SocialSettings: SocialSettings;
   SocialSettingsInput: SocialSettingsInput;
   Space: Space;
@@ -2634,6 +2714,7 @@ export type ResolversParentTypes = {
   UserDiscordInfoInput: UserDiscordInfoInput;
   UserInputInput: UserInputInput;
   VercelDomain: VercelDomain;
+  WebsiteScrapingInfo: WebsiteScrapingInfo;
 };
 
 export type AcademyTaskResolvers<ContextType = any, ParentType extends ResolversParentTypes['AcademyTask'] = ResolversParentTypes['AcademyTask']> = {
@@ -3246,6 +3327,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
+  createWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationCreateWebsiteScrapingInfoArgs, 'host' | 'ignoreHashInUrl' | 'scrapingStartUrl' | 'spaceId'>>;
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
@@ -3280,6 +3362,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGitCourseTopic?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseTopicArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
   triggerNewDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationTriggerNewDiscourseIndexRunArgs, 'spaceId'>>;
+  triggerSiteScrapingRun?: Resolver<ResolversTypes['SiteScrapingRun'], ParentType, ContextType, RequireFields<MutationTriggerSiteScrapingRunArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
@@ -3393,14 +3476,17 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
   route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
+  scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
+  siteScrapingRuns?: Resolver<Array<ResolversTypes['SiteScrapingRun']>, ParentType, ContextType, RequireFields<QuerySiteScrapingRunsArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, Partial<QuerySpaceArgs>>;
   spaceDiscordGuild?: Resolver<Maybe<ResolversTypes['Any']>, ParentType, ContextType, RequireFields<QuerySpaceDiscordGuildArgs, 'spaceId'>>;
   spaces?: Resolver<Maybe<Array<ResolversTypes['Space']>>, ParentType, ContextType>;
   timeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<QueryTimelineArgs, 'spaceId' | 'timelineId'>>;
   timelines?: Resolver<Array<ResolversTypes['Timeline']>, ParentType, ContextType, RequireFields<QueryTimelinesArgs, 'spaceId'>>;
   vercelDomainRecords?: Resolver<Array<ResolversTypes['VercelDomain']>, ParentType, ContextType>;
+  websiteScrapingInfos?: Resolver<Array<ResolversTypes['WebsiteScrapingInfo']>, ParentType, ContextType, RequireFields<QueryWebsiteScrapingInfosArgs, 'spaceId'>>;
 };
 
 export type QuestionChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuestionChoice'] = ResolversParentTypes['QuestionChoice']> = {
@@ -3432,6 +3518,19 @@ export type Route53RecordResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ScrapedUrlInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ScrapedUrlInfo'] = ResolversParentTypes['ScrapedUrlInfo']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  textLength?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  websiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType>;
+  websiteScrapingInfoId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SimulationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Simulation'] = ResolversParentTypes['Simulation']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3453,6 +3552,19 @@ export type SimulationStepResolvers<ContextType = any, ParentType extends Resolv
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SiteScrapingRunResolvers<ContextType = any, ParentType extends ResolversParentTypes['SiteScrapingRun'] = ResolversParentTypes['SiteScrapingRun']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  scrapingRunDate?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  scrapingStartUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  websiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType>;
+  websiteScrapingInfoId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3601,6 +3713,19 @@ export type VercelDomainResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type WebsiteScrapingInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['WebsiteScrapingInfo'] = ResolversParentTypes['WebsiteScrapingInfo']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  host?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ignoreHashInUrl?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType>;
+  scrapingRuns?: Resolver<Array<ResolversTypes['SiteScrapingRun']>, ParentType, ContextType>;
+  scrapingStartUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   AcademyTask?: AcademyTaskResolvers<ContextType>;
   Any?: GraphQLScalarType;
@@ -3677,8 +3802,10 @@ export type Resolvers<ContextType = any> = {
   RatingDistribution?: RatingDistributionResolvers<ContextType>;
   RawGitCourse?: RawGitCourseResolvers<ContextType>;
   Route53Record?: Route53RecordResolvers<ContextType>;
+  ScrapedUrlInfo?: ScrapedUrlInfoResolvers<ContextType>;
   Simulation?: SimulationResolvers<ContextType>;
   SimulationStep?: SimulationStepResolvers<ContextType>;
+  SiteScrapingRun?: SiteScrapingRunResolvers<ContextType>;
   SocialSettings?: SocialSettingsResolvers<ContextType>;
   Space?: SpaceResolvers<ContextType>;
   SpaceFilters?: SpaceFiltersResolvers<ContextType>;
@@ -3694,5 +3821,6 @@ export type Resolvers<ContextType = any> = {
   UserDiscordConnect?: UserDiscordConnectResolvers<ContextType>;
   UserDiscordInfo?: UserDiscordInfoResolvers<ContextType>;
   VercelDomain?: VercelDomainResolvers<ContextType>;
+  WebsiteScrapingInfo?: WebsiteScrapingInfoResolvers<ContextType>;
 };
 

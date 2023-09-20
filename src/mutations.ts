@@ -12,6 +12,8 @@ import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDi
 import updateIndexingOfDiscordChannel from '@/graphql/mutations/loaders/discord/updateIndexingOfDiscordChannel';
 import indexDiscoursePost from '@/graphql/mutations/loaders/discourse/indexDiscoursePost';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
+import createWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/createWebsiteScrapingInfo';
+import triggerSiteScrapingRun from '@/graphql/mutations/loaders/websiteScrape/triggerSiteScrapingRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
 import createSummaryOfContent from '@/graphql/mutations/openAI/createSummaryOfContent';
@@ -63,6 +65,9 @@ export default {
   reFetchDiscordMessages,
   updateIndexingOfDiscordChannel,
   indexDiscoursePost,
+
+  createWebsiteScrapingInfo,
+  triggerSiteScrapingRun,
 
   ...mutations,
 };

@@ -49,12 +49,6 @@ async function getContentsFromLink(
   collector: { url: string; text: string }[],
   ignoreHash: boolean,
 ): Promise<{ url: string; text: string }[]> {
-  console.log('scraping url: ', url);
-
-  if (collector.length > 15) {
-    return collector;
-  }
-
   await page.goto(url, { waitUntil: 'load', timeout: 10000 });
   // try {
   //   await page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 });
@@ -103,19 +97,12 @@ async function filterLinksByHost(host: string, links: string[]): Promise<string[
   return links.filter((link) => new URL(link).host === host);
 }
 
-async function main(host: string, startUrl: string, ignoreHash: boolean): Promise<{ url: string; text: string }[]> {
+export async function scrapeUsingPuppeteer(host: string, startUrl: string, ignoreHash: boolean): Promise<{ url: string; text: string }[]> {
   const browser = await launchBrowser();
   const page = await createPage(browser);
 
   try {
     const allPages = await getContentsFromLink(page, host, startUrl, [], ignoreHash);
-    const toPrint = allPages.map((p) => ({
-      url: p.url,
-      text: p.text.substring(0, 10),
-      textLength: p.text.length,
-    }));
-
-    console.log('allPages: ', JSON.stringify(toPrint, null, 2));
 
     return allPages;
   } catch (error) {

@@ -449,3 +449,45 @@ model DiscordMessage {
   @@unique([discordMessageId])
   @@map("discord_messages")
 }
+
+model WebsiteScrapingInfo {
+  id               String            @id @db.VarChar(255)
+  spaceId          String            @map("space_id") @db.VarChar(66)
+  host             String            @db.VarChar(1024)
+  scrapingStartUrl String            @map("scraping_start_url") @db.VarChar(1024)
+  ignoreHashInUrl  Boolean           @default(true) @map("ignore_hash_in_url") @db.Boolean
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+  scrapingRuns     SiteScrapingRun[]
+  ScrapedUrlInfo   ScrapedUrlInfo[]
+
+  @@unique([host, scrapingStartUrl])
+  @@map("website_scraping_infos")
+}
+
+model SiteScrapingRun {
+  id                    String              @id @db.VarChar(255)
+  spaceId               String              @map("space_id") @db.VarChar(66)
+  websiteScrapingInfoId String              @map("website_scraping_info_id") @db.VarChar(255)
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @updatedAt @map("updated_at")
+  scrapingRunDate       DateTime            @map("scraping_run_date")
+  status                String              @db.VarChar(255)
+  websiteScrapingInfo   WebsiteScrapingInfo @relation(fields: [websiteScrapingInfoId], references: [id])
+
+  @@map("site_scraping_runs")
+}
+
+model ScrapedUrlInfo {
+  id                    String              @id @db.VarChar(255)
+  spaceId               String              @map("space_id") @db.VarChar(66)
+  websiteScrapingInfoId String              @map("website_scraping_info_id") @db.VarChar(255)
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @updatedAt @map("updated_at")
+  url                   String              @db.VarChar(1024)
+  text                  String              @db.Text
+  websiteScrapingInfo   WebsiteScrapingInfo @relation(fields: [websiteScrapingInfoId], references: [id])
+
+  @@unique([url, websiteScrapingInfoId])
+  @@map("scraped_url_infos")
+}
