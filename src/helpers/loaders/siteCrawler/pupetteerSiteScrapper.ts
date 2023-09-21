@@ -56,9 +56,22 @@ async function getContentsFromLink(
   page: Page,
   host: string,
   url: string,
-  collector: { url: string; text: string }[],
+  collector: string[],
   ignoreHash: boolean,
-): Promise<{ url: string; text: string }[]> {
+  indexInPinecone: (content: { url: string; text: string }) => Promise<void>,
+): Promise<void> {
+  let comparableLink: string = url;
+  if (ignoreHash) {
+    const urlObj = new URL(url);
+    urlObj.hash = ''; // remove hash part
+    comparableLink = urlObj.toString();
+  }
+
+  if (collector.includes(comparableLink)) {
+    console.log('Already indexed', comparableLink);
+    return;
+  }
+
   console.log('getContentsFromLink', url);
 
   await page.goto(url, { waitUntil: 'load', timeout: 10000 });
@@ -69,49 +82,35 @@ async function getContentsFromLink(
 
   const contentsOnPage = await getContentsOfPage(page, url);
 
-  let storedUrl = url;
-  if (ignoreHash) {
-    const urlObj = new URL(url);
-    urlObj.hash = ''; // remove hash part
-    storedUrl = urlObj.toString();
-  }
-  collector.push({ url: storedUrl, text: contentsOnPage });
+  collector.push(comparableLink);
+  await indexInPinecone({ url: comparableLink, text: contentsOnPage });
 
   for (const link of filteredLinks) {
     try {
-      let comparableLink = link;
-      if (ignoreHash) {
-        const urlObj = new URL(link);
-        urlObj.hash = ''; // remove hash part
-        comparableLink = urlObj.toString();
-      }
-
-      if (collector.find((c) => c.url === comparableLink)) {
-        continue;
-      }
-
-      await getContentsFromLink(page, host, link, collector, ignoreHash);
+      await getContentsFromLink(page, host, link, collector, ignoreHash, indexInPinecone);
     } catch (error) {
       console.error(`Failed to fetch the content of the URL: ${link}`, error);
     }
   }
-
-  return collector;
 }
 
 async function filterLinksByHost(host: string, links: string[]): Promise<string[]> {
   return links.filter((link) => new URL(link).host === host);
 }
 
-export async function scrapeUsingPuppeteer(host: string, startUrl: string, ignoreHash: boolean): Promise<{ url: string; text: string }[]> {
+export async function scrapeUsingPuppeteer(
+  host: string,
+  startUrl: string,
+  ignoreHash: boolean,
+  indexInPinecone: (content: { url: string; text: string }) => Promise<void>,
+): Promise<void> {
   const browser = await launchBrowser();
   const page = await createPage(browser);
 
   try {
-    return await getContentsFromLink(page, host, startUrl, [], ignoreHash);
+    await getContentsFromLink(page, host, startUrl, [], ignoreHash, indexInPinecone);
   } catch (error) {
     console.error(error);
-    return [];
   } finally {
     await browser.close();
   }

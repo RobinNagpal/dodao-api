@@ -13,9 +13,7 @@ import { Document as LGCDocument } from 'langchain/document';
 import { v4 } from 'uuid';
 
 async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScrapingInfo, newRun: SiteScrapingRun) {
-  const contents = await scrapeUsingPuppeteer(websiteScrappingInfo.host, websiteScrappingInfo.scrapingStartUrl, websiteScrappingInfo.ignoreHashInUrl);
-
-  for (const content of contents) {
+  const indexInPinecone = async (content: { url: string; text: string }) => {
     await prisma.scrapedUrlInfo.create({
       data: {
         id: v4(),
@@ -45,14 +43,16 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
     if ((fullDoc?.metadata?.fullContent?.length || 0) > 100 * 1024) {
       console.log('Skipping indexing of ', url, ' because it is too big');
       // too big to index
-      continue;
+      return;
     }
 
     const fullContentSplits = splitFullContent(fullDoc);
     const splitDocs = await split(fullContentSplits);
 
     await indexDocsInPinecone(splitDocs, index, websiteScrappingInfo.spaceId);
-  }
+  };
+
+  await scrapeUsingPuppeteer(websiteScrappingInfo.host, websiteScrappingInfo.scrapingStartUrl, websiteScrappingInfo.ignoreHashInUrl, indexInPinecone);
 
   await prisma.siteScrapingRun.update({
     where: {
