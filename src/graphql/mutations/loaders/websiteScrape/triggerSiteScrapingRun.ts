@@ -2,9 +2,9 @@ import { MutationTriggerSiteScrapingRunArgs } from '@/graphql/generated/graphql'
 import { getSpaceById } from '@/graphql/operations/space';
 import { scrapeUsingPuppeteer } from '@/helpers/loaders/siteCrawler/pupetteerSiteScrapper';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
-import { indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
+import { deleteDocWithUrlInPinecone, indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
 import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
-import { split } from '@/helpers/vectorIndexers/splitter';
+import { split, splitFullContent } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
 import { PageMetadata } from '@/types/chat/projectsContents';
 import { SiteScrapingRun, WebsiteScrapingInfo } from '@prisma/client';
@@ -39,9 +39,18 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
       pageContent: content.text,
       metadata,
     };
-
-    const splitDocs = await split([fullDoc]);
     const index = await initPineconeClient();
+    await deleteDocWithUrlInPinecone(url, index, websiteScrappingInfo.spaceId);
+
+    if ((fullDoc?.metadata?.fullContent?.length || 0) > 100 * 1024) {
+      console.log('Skipping indexing of ', url, ' because it is too big');
+      // too big to index
+      continue;
+    }
+
+    const fullContentSplits = splitFullContent(fullDoc);
+    const splitDocs = await split(fullContentSplits);
+
     await indexDocsInPinecone(splitDocs, index, websiteScrappingInfo.spaceId);
   }
 
@@ -74,6 +83,11 @@ export default async function triggerSiteScrapingRun(_: any, args: MutationTrigg
       createdAt: new Date(),
       updatedAt: new Date(),
       scrapingRunDate: new Date(),
+    },
+  });
+  await prisma.scrapedUrlInfo.deleteMany({
+    where: {
+      websiteScrapingInfoId: args.websiteScrapingInfoId,
     },
   });
   scrapeWebsiteUsingPuppeteer(websiteScrappingInfo, newRun);
