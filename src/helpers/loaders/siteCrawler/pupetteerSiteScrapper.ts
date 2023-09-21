@@ -1,7 +1,7 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 
 async function launchBrowser(): Promise<Browser> {
-  return await puppeteer.launch();
+  return await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 }
 
 async function createPage(browser: Browser): Promise<Page> {
