@@ -1,5 +1,5 @@
 import { PostStatus } from '@/helpers/loaders/discourse/models';
-import { indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
+import { deleteDocWithUrlInPinecone, indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
 import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
 import { split } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
@@ -168,7 +168,11 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
 
   const allDocuments = [postDocument, ...commentDocuments];
 
-  const splitDocs = await split(allDocuments);
   const index = await initPineconeClient();
+  for (const doc of allDocuments) {
+    await deleteDocWithUrlInPinecone(doc.metadata.url, index, post.spaceId);
+  }
+  const splitDocs = await split(allDocuments);
+
   await indexDocsInPinecone(splitDocs, index, post.spaceId);
 }

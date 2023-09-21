@@ -10,7 +10,20 @@ async function createPage(browser: Browser): Promise<Page> {
 
 async function getContentsOfPage(page: Page, link: string): Promise<string> {
   await page.goto(link, { waitUntil: 'load', timeout: 0 });
-  return await page.evaluate(() => document.body.textContent || '');
+  return await page.evaluate(() => {
+    let textContent = '';
+
+    const queue = Array.from(document.body.querySelectorAll('div'));
+    while (queue.length > 0) {
+      const element = queue.shift();
+      if (element) {
+        textContent += element.innerText + '\n';
+        // If you want to go deeper, uncomment the next line
+        queue.push(...Array.from(element.querySelectorAll('div')));
+      }
+    }
+    return textContent;
+  });
 }
 
 // https://stackoverflow.com/a/61304202/440432
@@ -26,15 +39,12 @@ const waitTillHTMLRendered = async (page: Page, timeout = 30000) => {
     const html = await page.content();
     const currentHTMLSize = html.length;
 
-    const bodyHTMLSize = await page.evaluate(() => document.body.innerHTML.length);
-
-    console.log('last: ', lastHTMLSize, ' <> curr: ', currentHTMLSize, ' body html size: ', bodyHTMLSize);
+    await page.evaluate(() => document.body.innerHTML.length);
 
     if (lastHTMLSize != 0 && currentHTMLSize == lastHTMLSize) countStableSizeIterations++;
     else countStableSizeIterations = 0; //reset the counter
 
     if (countStableSizeIterations >= minStableSizeIterations) {
-      console.log('Page rendered fully..');
       break;
     }
 
@@ -49,10 +59,9 @@ async function getContentsFromLink(
   collector: { url: string; text: string }[],
   ignoreHash: boolean,
 ): Promise<{ url: string; text: string }[]> {
+  console.log('getContentsFromLink', url);
+
   await page.goto(url, { waitUntil: 'load', timeout: 10000 });
-  // try {
-  //   await page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 });
-  // } catch (error) {}
   await waitTillHTMLRendered(page);
   const links = await page.evaluate(() => Array.from(document.querySelectorAll('a')).map((a) => a.href));
 
@@ -68,9 +77,6 @@ async function getContentsFromLink(
   }
   collector.push({ url: storedUrl, text: contentsOnPage });
 
-  if (collector.length > 15) {
-    return collector;
-  }
   for (const link of filteredLinks) {
     try {
       let comparableLink = link;
@@ -102,9 +108,7 @@ export async function scrapeUsingPuppeteer(host: string, startUrl: string, ignor
   const page = await createPage(browser);
 
   try {
-    const allPages = await getContentsFromLink(page, host, startUrl, [], ignoreHash);
-
-    return allPages;
+    return await getContentsFromLink(page, host, startUrl, [], ignoreHash);
   } catch (error) {
     console.error(error);
     return [];
@@ -113,4 +117,4 @@ export async function scrapeUsingPuppeteer(host: string, startUrl: string, ignor
   }
 }
 
-// main('docs.compound.finance', 'https://docs.compound.finance', true);
+// scrapeUsingPuppeteer('docs.compound.finance', 'https://docs.compound.finance', true);

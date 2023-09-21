@@ -4,20 +4,10 @@ import { VectorOperationsApi } from '@pinecone-database/pinecone/dist/pinecone-g
 import { Document } from 'langchain/document';
 
 export async function indexDocsInPinecone(allDocs: Document<PageMetadata>[], index: VectorOperationsApi, namespace: string) {
-  // const chunks = sliceIntoChunks(vectors, 2);
-
   for (const doc of allDocs) {
     const chunk = await getEmbeddingVector(doc);
 
     try {
-      await index._delete({
-        deleteRequest: {
-          namespace,
-          filter: {
-            url: { $eq: doc.metadata.url },
-          },
-        },
-      });
       await index.upsert({
         upsertRequest: {
           namespace,
@@ -28,5 +18,23 @@ export async function indexDocsInPinecone(allDocs: Document<PageMetadata>[], ind
       console.error(e);
       console.error('Error indexing chunk', chunk);
     }
+  }
+}
+
+export async function deleteDocWithUrlInPinecone(url: string, index: VectorOperationsApi, namespace: string) {
+  // const chunks = sliceIntoChunks(vectors, 2);
+
+  try {
+    await index._delete({
+      deleteRequest: {
+        namespace,
+        filter: {
+          url: { $eq: url },
+        },
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    console.error('Error deleting the content in pinecone: ', url);
   }
 }
