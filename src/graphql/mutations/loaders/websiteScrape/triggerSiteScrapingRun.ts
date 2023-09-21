@@ -50,6 +50,28 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
     const splitDocs = await split(fullContentSplits);
 
     await indexDocsInPinecone(splitDocs, index, websiteScrappingInfo.spaceId);
+
+    await prisma.scrapedUrlInfo.upsert({
+      where: {
+        url_websiteScrapingInfoId: {
+          url: content.url,
+          websiteScrapingInfoId: websiteScrappingInfo.id,
+        },
+      },
+      create: {
+        id: v4(),
+        spaceId: websiteScrappingInfo.spaceId,
+        websiteScrapingInfoId: websiteScrappingInfo.id,
+        url: content.url,
+        text: content.text,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      update: {
+        text: content.text,
+        updatedAt: new Date(),
+      },
+    });
   };
 
   await scrapeUsingPuppeteer(websiteScrappingInfo.host, websiteScrappingInfo.scrapingStartUrl, websiteScrappingInfo.ignoreHashInUrl, indexInPinecone);
