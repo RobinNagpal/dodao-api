@@ -20,5 +20,6 @@ export default async function scrapedUrlInfos(_: any, args: QueryScrapedUrlInfos
   return scrapedUrlInfos.map((scrapedUrlInfo) => ({
     ...scrapedUrlInfo,
     textLength: scrapedUrlInfo.text.length,
+    text: scrapedUrlInfo.text.slice(0, 200),
   }));
 }

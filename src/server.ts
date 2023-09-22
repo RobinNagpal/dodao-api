@@ -3,7 +3,7 @@ import health from '@/api/health';
 import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
 import { logError } from '@/helpers/errorLogger';
 import { setupGitLoader } from '@/helpers/gitLoader';
-import { ApolloServer } from '@apollo/server';
+import { ApolloServer, ApolloServerPlugin } from '@apollo/server';
 import { ExpressContextFunctionArgument, expressMiddleware } from '@apollo/server/express4';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs } from '@graphql-tools/merge';
@@ -18,6 +18,8 @@ import chat from '@/api/chat';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
+import { ApolloServerPluginLandingPageGraphQLPlayground } from '@apollo/server-plugin-landing-page-graphql-playground';
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 
 const typesArray = loadFilesSync(path.join(__dirname, './graphql'), { extensions: ['gql'] });
 
@@ -28,10 +30,14 @@ const app = express();
 (async () => {
   const rootValue = { Mutation, Query, ...resolvers, DateTimeISO: GraphQLDateTimeISO };
 
+  const plugin: ApolloServerPlugin =
+    process?.env?.NODE_ENV === 'local' ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageDisabled();
+
   const server = new ApolloServer({
     typeDefs,
     resolvers: rootValue,
-    plugins: [],
+    plugins: [plugin],
+
     formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
       console.error(error);
       logError(formattedError?.message, { ...formattedError, error } as any);
