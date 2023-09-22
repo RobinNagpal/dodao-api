@@ -1,58 +1,7 @@
-import puppeteer, { Browser, Page } from 'puppeteer';
+import { createPage, getContentsOfPage, launchBrowser, waitTillHTMLRendered } from '@/helpers/puppeteer/launchBrowser';
+import { Page } from 'puppeteer';
 
-async function launchBrowser(): Promise<Browser> {
-  return await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-}
-
-async function createPage(browser: Browser): Promise<Page> {
-  return await browser.newPage();
-}
-
-async function getContentsOfPage(page: Page, link: string): Promise<string> {
-  await page.goto(link, { waitUntil: 'load', timeout: 0 });
-  return await page.evaluate(() => {
-    let textContent = '';
-
-    const queue = Array.from(document.body.querySelectorAll('div'));
-    while (queue.length > 0) {
-      const element = queue.shift();
-      if (element) {
-        textContent += element.innerText + '\n';
-        // If you want to go deeper, uncomment the next line
-        queue.push(...Array.from(element.querySelectorAll('div')));
-      }
-    }
-    return textContent;
-  });
-}
-
-// https://stackoverflow.com/a/61304202/440432
-const waitTillHTMLRendered = async (page: Page, timeout = 30000) => {
-  const checkDurationMsecs = 1000;
-  const maxChecks = timeout / checkDurationMsecs;
-  let lastHTMLSize = 0;
-  let checkCounts = 1;
-  let countStableSizeIterations = 0;
-  const minStableSizeIterations = 3;
-
-  while (checkCounts++ <= maxChecks) {
-    const html = await page.content();
-    const currentHTMLSize = html.length;
-
-    await page.evaluate(() => document.body.innerHTML.length);
-
-    if (lastHTMLSize != 0 && currentHTMLSize == lastHTMLSize) countStableSizeIterations++;
-    else countStableSizeIterations = 0; //reset the counter
-
-    if (countStableSizeIterations >= minStableSizeIterations) {
-      break;
-    }
-
-    lastHTMLSize = currentHTMLSize;
-    await page.waitForTimeout(checkDurationMsecs);
-  }
-};
-async function getContentsFromLink(
+async function getContentsRecursivelyFromLink(
   page: Page,
   host: string,
   url: string,
@@ -72,7 +21,7 @@ async function getContentsFromLink(
     return;
   }
 
-  console.log('getContentsFromLink', url);
+  console.log('getContentsRecursivelyFromLink', url);
 
   await page.goto(url, { waitUntil: 'load', timeout: 10000 });
   await waitTillHTMLRendered(page);
@@ -87,7 +36,7 @@ async function getContentsFromLink(
 
   for (const link of filteredLinks) {
     try {
-      await getContentsFromLink(page, host, link, collector, ignoreHash, indexInPinecone);
+      await getContentsRecursivelyFromLink(page, host, link, collector, ignoreHash, indexInPinecone);
     } catch (error) {
       console.error(`Failed to fetch the content of the URL: ${link}`, error);
     }
@@ -108,7 +57,7 @@ export async function scrapeUsingPuppeteer(
   const page = await createPage(browser);
 
   try {
-    await getContentsFromLink(page, host, startUrl, [], ignoreHash, indexInPinecone);
+    await getContentsRecursivelyFromLink(page, host, startUrl, [], ignoreHash, indexInPinecone);
   } catch (error) {
     console.error(error);
   } finally {

@@ -75,6 +75,13 @@
     "@apollo/utils.keyvaluecache" "^2.1.0"
     "@apollo/utils.logger" "^2.0.0"
 
+"@apollo/server-plugin-landing-page-graphql-playground@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@apollo/server-plugin-landing-page-graphql-playground/-/server-plugin-landing-page-graphql-playground-4.0.1.tgz#1d3c98fe93e1bc3c9be3470e220b9578360d175e"
+  integrity sha512-tWhQzD7DtiTO/wfbGvasryz7eJSuEh9XJHgRTMZI7+Wu/omylG5gH6K6ksg1Vccg8/Xuglfi2f1M5Nm/IlBBGw==
+  dependencies:
+    "@apollographql/graphql-playground-html" "1.6.29"
+
 "@apollo/server@4.7.5":
   version "4.7.5"
   resolved "https://registry.yarnpkg.com/@apollo/server/-/server-4.7.5.tgz#b3f679dd50898f55b6d11dd61efb1f05e59503b5"
