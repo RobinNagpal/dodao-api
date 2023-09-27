@@ -4,9 +4,9 @@ import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { getAllAcademyObjectsForSpace } from '@/helpers/academy/readers/academyObjectReader';
 import { prisma } from '@/prisma';
 
-export default async function bytes(_: any, args: QueryBytesArgs) {
-  const bytesInRedis = (await getAllAcademyObjectsForSpace(args.spaceId, AcademyObjectTypes.bytes)) as Byte[];
-  const draftBytes = await prisma.byte.findMany({ where: { spaceId: args.spaceId, publishStatus: PublishStatus.Draft } });
+export async function getBytes(spaceId: string) {
+  const bytesInRedis = (await getAllAcademyObjectsForSpace(spaceId, AcademyObjectTypes.bytes)) as Byte[];
+  const draftBytes = await prisma.byte.findMany({ where: { spaceId: spaceId, publishStatus: PublishStatus.Draft } });
 
   // replace bytes in redis with draft bytes
   const combinedBytes = bytesInRedis.map((byte) => {
@@ -18,4 +18,8 @@ export default async function bytes(_: any, args: QueryBytesArgs) {
   const onlyInDBBytes = draftBytes.filter((dbByte) => !bytesInRedis.find((redisByte) => redisByte.id === dbByte.id));
 
   return [...combinedBytes, ...onlyInDBBytes];
+}
+
+export default async function bytes(_: any, args: QueryBytesArgs) {
+  return getBytes(args.spaceId);
 }

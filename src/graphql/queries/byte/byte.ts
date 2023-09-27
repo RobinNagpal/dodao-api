@@ -3,13 +3,13 @@ import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
 import { prisma } from '@/prisma';
 
-export default async function byte(_: any, args: QueryByteArgs) {
+export async function getByte(spaceId: string, byteId: string, includeDraft: boolean = false) {
   let byte;
-  if (args.includeDraft) {
+  if (includeDraft) {
     byte = await prisma.byte.findUnique({
       where: {
         id_publishStatus: {
-          id: args.byteId,
+          id: byteId,
           publishStatus: 'Draft',
         },
       },
@@ -17,7 +17,7 @@ export default async function byte(_: any, args: QueryByteArgs) {
   }
 
   if (!byte) {
-    byte = await getAcademyObjectFromRedis(args.spaceId, AcademyObjectTypes.bytes, args.byteId);
+    byte = await getAcademyObjectFromRedis(spaceId, AcademyObjectTypes.bytes, byteId);
   }
 
   // If byte is still not found, try to get it from the database
@@ -25,7 +25,7 @@ export default async function byte(_: any, args: QueryByteArgs) {
     byte = await prisma.byte.findUnique({
       where: {
         id_publishStatus: {
-          id: args.byteId,
+          id: byteId,
           publishStatus: 'Draft',
         },
       },
@@ -38,4 +38,7 @@ export default async function byte(_: any, args: QueryByteArgs) {
   }
 
   return byte;
+}
+export default async function byte(_: any, args: QueryByteArgs) {
+  return getByte(args.spaceId, args.byteId, !!args.includeDraft);
 }
