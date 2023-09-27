@@ -119,7 +119,6 @@ export async function getAllGitGitCoursesForSpace(
   publishStatuses: PublishStatus[] = [PublishStatus.Live, PublishStatus.Draft],
 ): Promise<GitCourseModel[]> {
   const spaceId: string = space.id;
-  console.log(`read courses for space ${spaceId}`);
   const gitCourses: GitCourseModel[] = [];
   const rawGitCourseModels = await prisma.gitCourse.findMany({ where: { spaceId }, orderBy: { weight: 'desc' } });
 
@@ -128,7 +127,6 @@ export async function getAllGitGitCoursesForSpace(
   );
 
   for (const course of filteredCourses) {
-    console.log(`read courses from redis - ${spaceId} - ${course.courseKey} `);
     const courseModel = await getGitCourseFromRedis(spaceId, course.courseKey);
     if (courseModel) {
       console.log(`course found in redis - ${spaceId} - ${course.courseKey} `);

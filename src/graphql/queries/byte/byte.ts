@@ -3,7 +3,7 @@ import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
 import { prisma } from '@/prisma';
 
-export async function getByte(spaceId: string, byteId: string, includeDraft: boolean = false) {
+export async function getByte(spaceId: string, byteId: string, includeDraft = false) {
   let byte;
   if (includeDraft) {
     byte = await prisma.byte.findUnique({
