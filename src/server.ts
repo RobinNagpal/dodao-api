@@ -1,4 +1,5 @@
-import extendedSpace from '@/api/extendedSpace';
+import { registerApiRoutes } from '@/api/registerApiRoutes';
+import extendedSpace from '@/api/space/extendedSpace';
 import health from '@/api/health';
 import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
 import { logError } from '@/helpers/errorLogger';
@@ -53,10 +54,8 @@ const app = express();
 
   app.use(cors<cors.CorsRequest>());
   app.use('/graphql', cors<cors.CorsRequest>(), json(), expressMiddleware(server, { context }));
-  app.use('/chat', cors<cors.CorsRequest>(), json(), chat);
-  app.use('/health', cors<cors.CorsRequest>(), health);
-  app.get('/download-guide-submissions-csv', cors(), downloadGuideSubmissionsCSV);
-  app.get('/extended-space', cors(), json(), extendedSpace);
+
+  registerApiRoutes(app);
 
   setupGitLoader();
 

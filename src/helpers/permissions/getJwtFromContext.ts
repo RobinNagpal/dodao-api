@@ -3,7 +3,7 @@ import { Request } from 'express-serve-static-core';
 import { IncomingMessage } from 'http';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-export function getJwtFromContext(context: IncomingMessage) {
+export function getJwtFromContext(context: IncomingMessage | Request) {
   return (context.headers?.[process.env.DODAO_AUTH_HEADER_NAME!] as string | undefined)?.replace('Bearer ', '');
 }
 
@@ -29,7 +29,7 @@ function validateJwtTokenString(jwtString?: string): DoDaoJwtTokenPayload {
   }
 }
 
-export function getDecodedJwtFromContext(context: IncomingMessage): DoDaoJwtTokenPayload {
+export function getDecodedJwtFromContext(context: IncomingMessage | Request): DoDaoJwtTokenPayload {
   const jwtString = getJwtFromContext(context);
   return validateJwtTokenString(jwtString);
 }
