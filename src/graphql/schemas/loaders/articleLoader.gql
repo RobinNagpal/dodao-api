@@ -1,0 +1,20 @@
+extend type Query {
+  articleIndexingInfos(spaceId: String!): [ArticleIndexingInfo!]!
+}
+
+extend type Mutation {
+  createArticleIndexingInfo(spaceId: String!, articleUrl: String!): ArticleIndexingInfo!
+
+  editArticleIndexingInfo(spaceId: String!, articleIndexingInfoId: String!, articleUrl: String!): ArticleIndexingInfo!
+}
+
+type ArticleIndexingInfo {
+  id: String!
+  spaceId: String!
+  articleUrl: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  status: String!
+  text: String
+  textLength: Int
+}
