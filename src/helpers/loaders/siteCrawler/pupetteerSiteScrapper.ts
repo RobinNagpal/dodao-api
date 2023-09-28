@@ -44,7 +44,17 @@ async function getContentsRecursivelyFromLink(
 }
 
 async function filterLinksByHost(host: string, links: string[]): Promise<string[]> {
-  return links.filter((link) => new URL(link).host === host);
+  return links
+    .filter(Boolean)
+    .filter((a) => a.startsWith('https://'))
+    .filter((link) => {
+      try {
+        return new URL(link).host === host;
+      } catch (e) {
+        console.log('filterLinksByHost - Failed to parse URL', link);
+        return false;
+      }
+    });
 }
 
 export async function scrapeUsingPuppeteer(
