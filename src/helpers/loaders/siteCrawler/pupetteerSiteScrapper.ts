@@ -7,12 +7,18 @@ async function getContentsRecursivelyFromLink(
   url: string,
   collector: string[],
   ignoreHash: boolean,
+  ignoreQueryParams: boolean,
   indexInPinecone: (content: { url: string; text: string }) => Promise<void>,
 ): Promise<void> {
   let comparableLink: string = url;
-  if (ignoreHash) {
+  if (ignoreHash || ignoreQueryParams) {
     const urlObj = new URL(url);
-    urlObj.hash = ''; // remove hash part
+    if (ignoreHash) {
+      urlObj.hash = ''; // remove hash part
+    }
+    if (ignoreQueryParams) {
+      urlObj.search = ''; // remove query parameters
+    }
     comparableLink = urlObj.toString();
   }
 
@@ -21,7 +27,7 @@ async function getContentsRecursivelyFromLink(
     return;
   }
 
-  console.log('getContentsRecursivelyFromLink', url);
+  console.log(`getContentsRecursivelyFromLink ignoreHash:${ignoreHash} ignoreQueryParams:${ignoreQueryParams}`, comparableLink);
 
   await page.goto(url, { waitUntil: 'load', timeout: 10000 });
   await waitTillHTMLRendered(page);
@@ -36,7 +42,7 @@ async function getContentsRecursivelyFromLink(
 
   for (const link of filteredLinks) {
     try {
-      await getContentsRecursivelyFromLink(page, host, link, collector, ignoreHash, indexInPinecone);
+      await getContentsRecursivelyFromLink(page, host, link, collector, ignoreHash, ignoreQueryParams, indexInPinecone);
     } catch (error) {
       console.error(`Failed to fetch the content of the URL: ${link}`, error);
     }
@@ -61,13 +67,14 @@ export async function scrapeUsingPuppeteer(
   host: string,
   startUrl: string,
   ignoreHash: boolean,
+  ignoreQueryParams: boolean,
   indexInPinecone: (content: { url: string; text: string }) => Promise<void>,
 ): Promise<void> {
   const browser = await launchBrowser();
   const page = await createPage(browser);
 
   try {
-    await getContentsRecursivelyFromLink(page, host, startUrl, [], ignoreHash, indexInPinecone);
+    await getContentsRecursivelyFromLink(page, host, startUrl, [], ignoreHash, ignoreQueryParams, indexInPinecone);
   } catch (error) {
     console.error(error);
   } finally {

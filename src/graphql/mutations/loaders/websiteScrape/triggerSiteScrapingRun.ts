@@ -74,7 +74,13 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
     });
   };
 
-  await scrapeUsingPuppeteer(websiteScrappingInfo.host, websiteScrappingInfo.scrapingStartUrl, websiteScrappingInfo.ignoreHashInUrl, indexInPinecone);
+  await scrapeUsingPuppeteer(
+    websiteScrappingInfo.host,
+    websiteScrappingInfo.scrapingStartUrl,
+    websiteScrappingInfo.ignoreHashInUrl,
+    websiteScrappingInfo.ignoreQueryParams,
+    indexInPinecone,
+  );
 
   await prisma.siteScrapingRun.update({
     where: {
