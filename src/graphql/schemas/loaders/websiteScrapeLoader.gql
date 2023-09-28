@@ -5,17 +5,17 @@ extend type Query {
 }
 
 extend type Mutation {
-  createWebsiteScrapingInfo(
-        spaceId: String!
-        host: String!
-        scrapingStartUrl: String!
-        ignoreHashInUrl: Boolean!
-  ): WebsiteScrapingInfo!
+  createWebsiteScrapingInfo(spaceId: String!, host: String!, scrapingStartUrl: String!, ignoreHashInUrl: Boolean!): WebsiteScrapingInfo!
 
-  triggerSiteScrapingRun(
+  editWebsiteScrapingInfo(
     spaceId: String!
     websiteScrapingInfoId: String!
-  ): SiteScrapingRun!
+    host: String!
+    scrapingStartUrl: String!
+    ignoreHashInUrl: Boolean!
+  ): WebsiteScrapingInfo!
+
+  triggerSiteScrapingRun(spaceId: String!, websiteScrapingInfoId: String!): SiteScrapingRun!
 }
 
 type WebsiteScrapingInfo {

@@ -62,15 +62,24 @@ export async function getContentsOfPage(page: Page, link: string): Promise<strin
   return await page.evaluate(() => {
     let textContent = '';
 
-    const queue = Array.from(document.body.querySelectorAll('div'));
-    while (queue.length > 0) {
-      const element = queue.shift();
-      if (element) {
+    const divElements = Array.from(document.body.querySelectorAll('div'));
+
+    divElements.forEach((element) => {
+      // Check if the element is a leaf node (i.e., does not contain any child div elements)
+      if (element.querySelectorAll('div').length === 0) {
         textContent += element.innerText + '\n';
-        // If you want to go deeper, uncomment the next line
-        queue.push(...Array.from(element.querySelectorAll('div')));
       }
-    }
+    });
+
+    const pElements = Array.from(document.body.querySelectorAll('p'));
+
+    pElements.forEach((element) => {
+      // Check if the element is a leaf node (i.e., does not contain any child div elements)
+      if (element.querySelectorAll('p').length === 0) {
+        textContent += element.innerText + '\n';
+      }
+    });
+
     return textContent;
   });
 }

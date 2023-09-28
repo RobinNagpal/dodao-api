@@ -491,3 +491,16 @@ model ScrapedUrlInfo {
   @@unique([url, websiteScrapingInfoId])
   @@map("scraped_url_infos")
 }
+
+model ArticleIndexingInfo {
+  id         String   @id @db.VarChar(255)
+  spaceId    String   @map("space_id") @db.VarChar(66)
+  articleUrl String   @map("scraping_start_url") @db.VarChar(1024)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  status     String   @db.VarChar(255)
+  text       String?  @db.Text
+
+  @@unique([spaceId, articleUrl])
+  @@map("article_indexing_infos")
+}

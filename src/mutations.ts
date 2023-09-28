@@ -6,6 +6,8 @@ import deleteGitCourseSubmission from '@/graphql/mutations/course/submission/del
 import deleteGuide from '@/graphql/mutations/guide/deleteGuide';
 import submitGuide from '@/graphql/mutations/guide/submitGuide';
 import upsertGuideRating from '@/graphql/mutations/guide/upsertGuideRating';
+import createArticleIndexingInfo from '@/graphql/mutations/loaders/article/createArticleIndexingInfo';
+import editArticleIndexingInfo from '@/graphql/mutations/loaders/article/editArticleIndexingInfo';
 import reFetchDiscordChannels from '@/graphql/mutations/loaders/discord/reFetchDiscordChannels';
 import reFetchDiscordMessages from '@/graphql/mutations/loaders/discord/reFetchDiscordMessages';
 import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDiscordServers';
@@ -13,6 +15,7 @@ import updateIndexingOfDiscordChannel from '@/graphql/mutations/loaders/discord/
 import indexDiscoursePost from '@/graphql/mutations/loaders/discourse/indexDiscoursePost';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import createWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/createWebsiteScrapingInfo';
+import editWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/editWebsiteScrapingInfo';
 import triggerSiteScrapingRun from '@/graphql/mutations/loaders/websiteScrape/triggerSiteScrapingRun';
 import askChatCompletionAI from '@/graphql/mutations/openAI/askChatCompletionAI';
 import askCompletionAI from '@/graphql/mutations/openAI/askCompletionAI';
@@ -67,7 +70,11 @@ export default {
   indexDiscoursePost,
 
   createWebsiteScrapingInfo,
+  editWebsiteScrapingInfo,
   triggerSiteScrapingRun,
+
+  createArticleIndexingInfo,
+  editArticleIndexingInfo,
 
   ...mutations,
 };

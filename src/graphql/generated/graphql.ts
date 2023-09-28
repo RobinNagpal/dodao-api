@@ -84,6 +84,18 @@ export type AddTopicVideoInput = {
   url: Scalars['String'];
 };
 
+export type ArticleIndexingInfo = {
+  __typename?: 'ArticleIndexingInfo';
+  articleUrl: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
+  status: Scalars['String'];
+  text?: Maybe<Scalars['String']>;
+  textLength?: Maybe<Scalars['Int']>;
+  updatedAt: Scalars['DateTimeISO'];
+};
+
 export type AuthSettings = {
   __typename?: 'AuthSettings';
   enableLogin?: Maybe<Scalars['Boolean']>;
@@ -964,6 +976,7 @@ export type Mutation = {
   askChatCompletionAI: OpenAiChatCompletionResponse;
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
+  createArticleIndexingInfo: ArticleIndexingInfo;
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
@@ -977,6 +990,8 @@ export type Mutation = {
   deleteTopicSummary: GitCourse;
   deleteTopicVideo: GitCourse;
   downloadAndCleanContent: DownloadAndCleanContentResponse;
+  editArticleIndexingInfo: ArticleIndexingInfo;
+  editWebsiteScrapingInfo: WebsiteScrapingInfo;
   extractRelevantTextForTopic: OpenAiTextResponse;
   generateImage: ImagesResponse;
   generateImageEdit: GenerateImageResponse;
@@ -1092,6 +1107,12 @@ export type MutationAuthenticateWithUnstoppableArgs = {
 };
 
 
+export type MutationCreateArticleIndexingInfoArgs = {
+  articleUrl: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationCreateSignedUrlArgs = {
   input: CreateSignedUrlInput;
   spaceId: Scalars['String'];
@@ -1166,6 +1187,22 @@ export type MutationDeleteTopicVideoArgs = {
 
 export type MutationDownloadAndCleanContentArgs = {
   input: Scalars['String'];
+};
+
+
+export type MutationEditArticleIndexingInfoArgs = {
+  articleIndexingInfoId: Scalars['String'];
+  articleUrl: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationEditWebsiteScrapingInfoArgs = {
+  host: Scalars['String'];
+  ignoreHashInUrl: Scalars['Boolean'];
+  scrapingStartUrl: Scalars['String'];
+  spaceId: Scalars['String'];
+  websiteScrapingInfoId: Scalars['String'];
 };
 
 
@@ -1547,6 +1584,7 @@ export type Query = {
   _empty?: Maybe<Scalars['String']>;
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
+  articleIndexingInfos: Array<ArticleIndexingInfo>;
   byte: Byte;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
@@ -1593,6 +1631,11 @@ export type QueryAcademyTaskArgs = {
 export type QueryAcademyTasksArgs = {
   spaceId: Scalars['String'];
   status?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryArticleIndexingInfosArgs = {
+  spaceId: Scalars['String'];
 };
 
 
@@ -2361,6 +2404,7 @@ export type ResolversTypes = {
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
   Any: ResolverTypeWrapper<Scalars['Any']>;
+  ArticleIndexingInfo: ResolverTypeWrapper<ArticleIndexingInfo>;
   AuthSettings: ResolverTypeWrapper<AuthSettings>;
   AuthSettingsInput: AuthSettingsInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -2545,6 +2589,7 @@ export type ResolversParentTypes = {
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
   Any: Scalars['Any'];
+  ArticleIndexingInfo: ArticleIndexingInfo;
   AuthSettings: AuthSettings;
   AuthSettingsInput: AuthSettingsInput;
   Boolean: Scalars['Boolean'];
@@ -2737,6 +2782,18 @@ export type AcademyTaskResolvers<ContextType = any, ParentType extends Resolvers
 export interface AnyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Any'], any> {
   name: 'Any';
 }
+
+export type ArticleIndexingInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ArticleIndexingInfo'] = ResolversParentTypes['ArticleIndexingInfo']> = {
+  articleUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  textLength?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type AuthSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthSettings'] = ResolversParentTypes['AuthSettings']> = {
   enableLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -3324,6 +3381,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
+  createArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationCreateArticleIndexingInfoArgs, 'articleUrl' | 'spaceId'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
@@ -3337,6 +3395,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   downloadAndCleanContent?: Resolver<ResolversTypes['DownloadAndCleanContentResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
+  editArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationEditArticleIndexingInfoArgs, 'articleIndexingInfoId' | 'articleUrl' | 'spaceId'>>;
+  editWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationEditWebsiteScrapingInfoArgs, 'host' | 'ignoreHashInUrl' | 'scrapingStartUrl' | 'spaceId' | 'websiteScrapingInfoId'>>;
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
   generateImage?: Resolver<ResolversTypes['ImagesResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
   generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
@@ -3452,6 +3512,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
+  articleIndexingInfos?: Resolver<Array<ResolversTypes['ArticleIndexingInfo']>, ParentType, ContextType, RequireFields<QueryArticleIndexingInfosArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
@@ -3729,6 +3790,7 @@ export type WebsiteScrapingInfoResolvers<ContextType = any, ParentType extends R
 export type Resolvers<ContextType = any> = {
   AcademyTask?: AcademyTaskResolvers<ContextType>;
   Any?: GraphQLScalarType;
+  ArticleIndexingInfo?: ArticleIndexingInfoResolvers<ContextType>;
   AuthSettings?: AuthSettingsResolvers<ContextType>;
   Byte?: ByteResolvers<ContextType>;
   ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
