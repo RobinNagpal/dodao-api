@@ -3,6 +3,8 @@ import academyTasks from '@/graphql/queries/academyTask/academyTasks';
 import byte from '@/graphql/queries/byte/byte';
 import bytes from '@/graphql/queries/byte/bytes';
 import byteSocialShare from '@/graphql/queries/byte/byteSocialShare';
+import byteCollection from '@/graphql/queries/byteCollection/byteCollection';
+import byteCollections from '@/graphql/queries/byteCollection/byteCollections';
 import gitCourse from '@/graphql/queries/course/gitCourse';
 import gitCourseIntegrations from '@/graphql/queries/course/gitCourseIntegrations';
 import gitCourseSubmission from '@/graphql/queries/course/gitCourseSubmission';
@@ -89,4 +91,7 @@ export default {
   scrapedUrlInfos,
 
   articleIndexingInfos,
+
+  byteCollections,
+  byteCollection,
 };

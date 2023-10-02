@@ -505,3 +505,17 @@ model ArticleIndexingInfo {
   @@unique([spaceId, articleUrl])
   @@map("article_indexing_infos")
 }
+
+model ByteCollection {
+  id          String   @id @db.VarChar(255)
+  spaceId     String   @map("space_id") @db.VarChar(66)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  name        String   @db.VarChar(255)
+  description String   @db.Text
+  byteIds     String[] @map("byte_ids") @db.VarChar(255)
+  status      String   @db.VarChar(255)
+  order       Int      @db.Integer
+
+  @@map("byte_collections")
+}

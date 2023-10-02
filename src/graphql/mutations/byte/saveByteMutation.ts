@@ -2,7 +2,9 @@ import { PublishStatus, VisibilityEnum } from '@/deprecatedSchemas/models/enums'
 import { ByteStep, MutationSaveByteArgs } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
+import { getSpaceById } from '@/graphql/operations/space';
 import { logError } from '@/helpers/adapters/errorLogger';
+import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { slugify } from '@/helpers/space/slugify';
 import { prisma } from '@/prisma';
 import { Byte } from '@prisma/client';
@@ -10,10 +12,9 @@ import { IncomingMessage } from 'http';
 
 export default async function saveByteMutation(_: unknown, { spaceId, input }: MutationSaveByteArgs, context: IncomingMessage) {
   try {
-    const spaceById = await prisma.space.findUnique({ where: { id: spaceId } });
-    if (!spaceById) {
-      throw new Error('Space not found');
-    }
+    const spaceById = await getSpaceById(spaceId);
+
+    checkEditSpacePermission(spaceById, context);
 
     await validateInput(spaceId, input);
 
