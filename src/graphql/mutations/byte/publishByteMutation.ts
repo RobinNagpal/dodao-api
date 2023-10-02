@@ -1,11 +1,11 @@
-import { PublishStatus, VisibilityEnum } from '@/deprecatedSchemas/models/enums';
 import { ByteStep, MutationPublishByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
+import { getByte } from '@/graphql/queries/byte/byte';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { writeObjectToAcademyRepo } from '@/helpers/academy/writers/academyObjectWriter';
 import { logError } from '@/helpers/adapters/errorLogger';
-import { slugify } from '@/helpers/space/slugify';
+import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
@@ -20,13 +20,15 @@ export default async function publishByteMutation(
       throw new Error('Space not found');
     }
 
+    const jwt = checkEditSpacePermission(spaceById, context);
     await validateInput(spaceId, input);
 
     const steps: ByteStep[] = transformByteInputSteps(input);
-    const existingLiveByte = await prisma.byte.findUnique({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Live } } });
+    const existingLiveByte = await getByte(spaceId, input.id!);
 
     let savedByte;
 
+    /*
     if (existingLiveByte) {
       savedByte = await prisma.byte.update({
         where: {
@@ -68,10 +70,11 @@ export default async function publishByteMutation(
         },
       });
     }
+*/
 
-    await writeObjectToAcademyRepo(spaceById, savedByte, AcademyObjectTypes.bytes, '123456789');
+    const newByte = await writeObjectToAcademyRepo(spaceById, existingLiveByte, AcademyObjectTypes.bytes, jwt.accountId);
 
-    return savedByte;
+    return newByte;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in publishByte', {}, e as any, null, null);
     throw e;
