@@ -21,6 +21,9 @@ export async function setupRedis() {
 export async function setRedisValue(key: string, value: string) {
   await client.set(key, value);
 }
+export async function deleteRedisValue(key: string) {
+  await client.del(key);
+}
 
 export async function getRedisValue(key: string): Promise<string | null> {
   return await client.get(key);

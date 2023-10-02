@@ -1,0 +1,45 @@
+extend type Query {
+  byteCollections(spaceId: String!): [ByteCollection!]!
+  byteCollection(spaceId: String!, byteCollectionId: String!): ByteCollection!
+}
+
+extend type Mutation {
+  createByteCollection(input: CreateByteCollectionInput!): ByteCollection!
+  updateByteCollection(input: UpdateByteCollectionInput!): ByteCollection!
+  deleteByteCollection(byteCollectionId: String!): Boolean!
+}
+
+type ByteCollection {
+  id: ID!
+  name: String!
+  description: String!
+  byteIds: [String!]!
+  bytes: [ByteCollectionByte!]!
+  status: String!
+  order: Int!
+}
+
+type ByteCollectionByte {
+  byteId: String!
+  name: String!
+  content: String!
+}
+
+input CreateByteCollectionInput {
+  name: String!
+  description: String!
+  spaceId: String!
+  byteIds: [String!]!
+  status: String!
+  order: Int!
+}
+
+input UpdateByteCollectionInput {
+  byteCollectionId: String!
+  name: String!
+  description: String!
+  spaceId: String!
+  byteIds: [String!]!
+  status: String!
+  order: Int!
+}

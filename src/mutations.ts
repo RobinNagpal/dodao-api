@@ -2,6 +2,9 @@ import mutations from '@/graphql/mutations';
 import generateSharablePdf from '@/graphql/mutations/byte/generateSharablePdf';
 import submitByte from '@/graphql/mutations/byte/submitByte';
 import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShare';
+import createByteCollection from '@/graphql/mutations/byteCollection/createByteCollection';
+import deleteByteCollection from '@/graphql/mutations/byteCollection/deleteByteCollection';
+import updateByteCollection from '@/graphql/mutations/byteCollection/updateByteCollection';
 import deleteGitCourseSubmission from '@/graphql/mutations/course/submission/deleteGitCourseSubmission';
 import deleteGuide from '@/graphql/mutations/guide/deleteGuide';
 import submitGuide from '@/graphql/mutations/guide/submitGuide';
@@ -75,6 +78,10 @@ export default {
 
   createArticleIndexingInfo,
   editArticleIndexingInfo,
+
+  createByteCollection,
+  deleteByteCollection,
+  updateByteCollection,
 
   ...mutations,
 };

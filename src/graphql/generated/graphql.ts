@@ -123,6 +123,24 @@ export type Byte = {
   visibility?: Maybe<Scalars['String']>;
 };
 
+export type ByteCollection = {
+  __typename?: 'ByteCollection';
+  byteIds: Array<Scalars['String']>;
+  bytes: Array<ByteCollectionByte>;
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  status: Scalars['String'];
+};
+
+export type ByteCollectionByte = {
+  __typename?: 'ByteCollectionByte';
+  byteId: Scalars['String'];
+  content: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type ByteLinkedinPdfContent = {
   __typename?: 'ByteLinkedinPdfContent';
   excerpt: Scalars['String'];
@@ -298,6 +316,15 @@ export type CourseReadingQuestion = {
 export type CourseSubmissionInput = {
   courseKey: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type CreateByteCollectionInput = {
+  byteIds: Array<Scalars['String']>;
+  description: Scalars['String'];
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  spaceId: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type CreateCompletionResponseChoice = {
@@ -977,11 +1004,13 @@ export type Mutation = {
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
   createArticleIndexingInfo: ArticleIndexingInfo;
+  createByteCollection: ByteCollection;
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
   createWebsiteScrapingInfo: WebsiteScrapingInfo;
   deleteAndPullCourseRepo: GitCourse;
+  deleteByteCollection: Scalars['Boolean'];
   deleteGitCourseSubmission: Scalars['Boolean'];
   deleteGuide: Scalars['Boolean'];
   deleteTopic: GitCourse;
@@ -1019,6 +1048,7 @@ export type Mutation = {
   triggerNewDiscourseIndexRun: DiscourseIndexRun;
   triggerSiteScrapingRun: SiteScrapingRun;
   updateAuthSettings: Space;
+  updateByteCollection: ByteCollection;
   updateByteSettings: Space;
   updateCourseBasicInfo: GitCourse;
   updateGuideSettings: Space;
@@ -1113,6 +1143,11 @@ export type MutationCreateArticleIndexingInfoArgs = {
 };
 
 
+export type MutationCreateByteCollectionArgs = {
+  input: CreateByteCollectionInput;
+};
+
+
 export type MutationCreateSignedUrlArgs = {
   input: CreateSignedUrlInput;
   spaceId: Scalars['String'];
@@ -1141,6 +1176,11 @@ export type MutationCreateWebsiteScrapingInfoArgs = {
 export type MutationDeleteAndPullCourseRepoArgs = {
   courseKey: Scalars['String'];
   spaceId: Scalars['String'];
+};
+
+
+export type MutationDeleteByteCollectionArgs = {
+  byteCollectionId: Scalars['String'];
 };
 
 
@@ -1352,6 +1392,11 @@ export type MutationTriggerSiteScrapingRunArgs = {
 export type MutationUpdateAuthSettingsArgs = {
   input: AuthSettingsInput;
   spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateByteCollectionArgs = {
+  input: UpdateByteCollectionInput;
 };
 
 
@@ -1588,6 +1633,8 @@ export type Query = {
   academyTasks?: Maybe<Array<AcademyTask>>;
   articleIndexingInfos: Array<ArticleIndexingInfo>;
   byte: Byte;
+  byteCollection: ByteCollection;
+  byteCollections: Array<ByteCollection>;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
@@ -1644,6 +1691,17 @@ export type QueryArticleIndexingInfosArgs = {
 export type QueryByteArgs = {
   byteId: Scalars['String'];
   includeDraft?: InputMaybe<Scalars['Boolean']>;
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryByteCollectionArgs = {
+  byteCollectionId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryByteCollectionsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2103,6 +2161,16 @@ export type TopicQuestionChoiceInput = {
   key: Scalars['String'];
 };
 
+export type UpdateByteCollectionInput = {
+  byteCollectionId: Scalars['String'];
+  byteIds: Array<Scalars['String']>;
+  description: Scalars['String'];
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  spaceId: Scalars['String'];
+  status: Scalars['String'];
+};
+
 export type UpdateTopicBasicInfoInput = {
   courseKey: Scalars['String'];
   details: Scalars['String'];
@@ -2412,6 +2480,8 @@ export type ResolversTypes = {
   AuthSettingsInput: AuthSettingsInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Byte: ResolverTypeWrapper<Byte>;
+  ByteCollection: ResolverTypeWrapper<ByteCollection>;
+  ByteCollectionByte: ResolverTypeWrapper<ByteCollectionByte>;
   ByteLinkedinPdfContent: ResolverTypeWrapper<ByteLinkedinPdfContent>;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
@@ -2434,6 +2504,7 @@ export type ResolversTypes = {
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
   CourseReadingQuestion: ResolverTypeWrapper<CourseReadingQuestion>;
   CourseSubmissionInput: CourseSubmissionInput;
+  CreateByteCollectionInput: CreateByteCollectionInput;
   CreateCompletionResponseChoice: ResolverTypeWrapper<CreateCompletionResponseChoice>;
   CreateSignedUrlInput: CreateSignedUrlInput;
   DateTimeFilter: DateTimeFilter;
@@ -2560,6 +2631,7 @@ export type ResolversTypes = {
   TopicConfig: ResolverTypeWrapper<TopicConfig>;
   TopicConfigInput: TopicConfigInput;
   TopicQuestionChoiceInput: TopicQuestionChoiceInput;
+  UpdateByteCollectionInput: UpdateByteCollectionInput;
   UpdateTopicBasicInfoInput: UpdateTopicBasicInfoInput;
   UpdateTopicExplanationInput: UpdateTopicExplanationInput;
   UpdateTopicQuestionInput: UpdateTopicQuestionInput;
@@ -2597,6 +2669,8 @@ export type ResolversParentTypes = {
   AuthSettingsInput: AuthSettingsInput;
   Boolean: Scalars['Boolean'];
   Byte: Byte;
+  ByteCollection: ByteCollection;
+  ByteCollectionByte: ByteCollectionByte;
   ByteLinkedinPdfContent: ByteLinkedinPdfContent;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ByteLinkedinPdfContentStep;
@@ -2618,6 +2692,7 @@ export type ResolversParentTypes = {
   CourseIntegrations: CourseIntegrations;
   CourseReadingQuestion: CourseReadingQuestion;
   CourseSubmissionInput: CourseSubmissionInput;
+  CreateByteCollectionInput: CreateByteCollectionInput;
   CreateCompletionResponseChoice: CreateCompletionResponseChoice;
   CreateSignedUrlInput: CreateSignedUrlInput;
   DateTimeFilter: DateTimeFilter;
@@ -2743,6 +2818,7 @@ export type ResolversParentTypes = {
   TopicConfig: TopicConfig;
   TopicConfigInput: TopicConfigInput;
   TopicQuestionChoiceInput: TopicQuestionChoiceInput;
+  UpdateByteCollectionInput: UpdateByteCollectionInput;
   UpdateTopicBasicInfoInput: UpdateTopicBasicInfoInput;
   UpdateTopicExplanationInput: UpdateTopicExplanationInput;
   UpdateTopicQuestionInput: UpdateTopicQuestionInput;
@@ -2817,6 +2893,24 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   visibility?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollection'] = ResolversParentTypes['ByteCollection']> = {
+  byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteCollectionByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollectionByte'] = ResolversParentTypes['ByteCollectionByte']> = {
+  byteId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3385,11 +3479,13 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
   createArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationCreateArticleIndexingInfoArgs, 'articleUrl' | 'spaceId'>>;
+  createByteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<MutationCreateByteCollectionArgs, 'input'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   createWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationCreateWebsiteScrapingInfoArgs, 'host' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId'>>;
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
+  deleteByteCollection?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionArgs, 'byteCollectionId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
@@ -3427,6 +3523,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   triggerNewDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationTriggerNewDiscourseIndexRunArgs, 'spaceId'>>;
   triggerSiteScrapingRun?: Resolver<ResolversTypes['SiteScrapingRun'], ParentType, ContextType, RequireFields<MutationTriggerSiteScrapingRunArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
+  updateByteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<MutationUpdateByteCollectionArgs, 'input'>>;
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
@@ -3517,6 +3614,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
   articleIndexingInfos?: Resolver<Array<ResolversTypes['ArticleIndexingInfo']>, ParentType, ContextType, RequireFields<QueryArticleIndexingInfosArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
+  byteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionArgs, 'byteCollectionId' | 'spaceId'>>;
+  byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionsArgs, 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
@@ -3797,6 +3896,8 @@ export type Resolvers<ContextType = any> = {
   ArticleIndexingInfo?: ArticleIndexingInfoResolvers<ContextType>;
   AuthSettings?: AuthSettingsResolvers<ContextType>;
   Byte?: ByteResolvers<ContextType>;
+  ByteCollection?: ByteCollectionResolvers<ContextType>;
+  ByteCollectionByte?: ByteCollectionByteResolvers<ContextType>;
   ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
   ByteLinkedinPdfContentStep?: ByteLinkedinPdfContentStepResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;
