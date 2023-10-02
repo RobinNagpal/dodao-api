@@ -1,8 +1,10 @@
+import { ByteModel } from '@/deprecatedSchemas/models/byte/ByteModel';
+import { PublishStatus, VisibilityEnum } from '@/deprecatedSchemas/models/enums';
 import { ByteStep, MutationPublishByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { validateInput } from '@/graphql/mutations/byte/validateByteInput';
-import { getByte } from '@/graphql/queries/byte/byte';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
+import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
 import { writeObjectToAcademyRepo } from '@/helpers/academy/writers/academyObjectWriter';
 import { logError } from '@/helpers/adapters/errorLogger';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
@@ -24,7 +26,7 @@ export default async function publishByteMutation(
     await validateInput(spaceId, input);
 
     const steps: ByteStep[] = transformByteInputSteps(input);
-    const existingLiveByte = await getByte(spaceId, input.id!);
+    const existingLiveByte = await getAcademyObjectFromRedis(spaceId, AcademyObjectTypes.bytes, input.id);
 
     let savedByte;
 
@@ -72,7 +74,13 @@ export default async function publishByteMutation(
     }
 */
 
-    const newByte = await writeObjectToAcademyRepo(spaceById, existingLiveByte, AcademyObjectTypes.bytes, jwt.accountId);
+    const byteModel: ByteModel & { visibility: string } = {
+      ...input,
+      steps: steps,
+      publishStatus: PublishStatus.Live,
+      visibility: input.visibility || VisibilityEnum.Public,
+    };
+    const newByte = await writeObjectToAcademyRepo(spaceById, byteModel, AcademyObjectTypes.bytes, jwt.accountId);
 
     return newByte;
   } catch (e) {
