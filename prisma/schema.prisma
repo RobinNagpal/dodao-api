@@ -1,8 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator json {
+  provider  = "prisma-json-types-generator"
+  namespace = "PrismaJson"
 }
 
 datasource db {
@@ -11,14 +13,6 @@ datasource db {
 }
 
 /// Always after the prisma-client-js generator
-generator json {
-  provider  = "prisma-json-types-generator"
-  namespace = "PrismaJson"
-
-  // In case you need to use a type, export it inside the namespace and we will add a index signature to it
-  // (e.g.  export namespace PrismaJson { export type MyType = {a: 1, b: 2} }; will generate namespace.MyType["TYPE HERE"])
-}
-
 model AcademyTask {
   uuid                String   @id @db.VarChar(66)
   createdAt           DateTime @default(now()) @map("created_at")
@@ -27,7 +21,7 @@ model AcademyTask {
   prerequisiteGuides  Json     @map("prerequisite_guides")
   spaceId             String   @map("space_id") @db.VarChar(64)
   status              String   @db.VarChar(64)
-  details             String   @db.Text
+  details             String
   title               String   @db.VarChar(66)
   items               Json
   updatedAt           DateTime @updatedAt @map("updated_at")
@@ -53,7 +47,7 @@ model GitCourseSubmission {
   courseKey                String                     @map("course_key") @db.VarChar(128)
   createdAt                DateTime                   @default(now()) @map("created_at")
   createdBy                String                     @map("created_by") @db.VarChar(64)
-  isLatestSubmission       Boolean                    @map("is_latest_submission") @db.Boolean
+  isLatestSubmission       Boolean                    @map("is_latest_submission")
   questionsAttempted       Int?                       @map("questions_attempted")
   questionsCorrect         Int?                       @map("questions_correct")
   questionsIncorrect       Int?                       @map("questions_incorrect")
@@ -61,39 +55,38 @@ model GitCourseSubmission {
   spaceId                  String                     @map("space_id") @db.VarChar(64)
   updatedAt                DateTime                   @updatedAt @map("updated_at")
   status                   String                     @default("InProgress") @db.VarChar(64)
-  galaxyCredentialsUpdated Boolean?                   @map("galaxy_credentials_updated") @db.Boolean
+  galaxyCredentialsUpdated Boolean?                   @map("galaxy_credentials_updated")
   GitCourseTopicSubmission GitCourseTopicSubmission[]
 
   @@map("git_course_submissions")
 }
 
 model GitCourseTopicSubmission {
-  uuid                 String   @id @db.VarChar(66)
-  courseKey            String   @map("course_key") @db.VarChar(128)
-  courseSubmissionUuid String   @map("course_submission_uuid") @db.VarChar(66)
-  createdAt            DateTime @default(now()) @map("created_at")
-  createdBy            String   @map("created_by") @db.VarChar(64)
-  isLatestSubmission   Boolean  @map("is_latest_submission") @db.Boolean
-  questionsAttempted   Int?     @map("questions_attempted")
-  questionsCorrect     Int?     @map("questions_correct")
-  questionsIncorrect   Int?     @map("questions_incorrect")
-  questionsSkipped     Int?     @map("questions_skipped")
+  uuid                 String              @id @db.VarChar(66)
+  courseKey            String              @map("course_key") @db.VarChar(128)
+  courseSubmissionUuid String              @map("course_submission_uuid") @db.VarChar(66)
+  createdAt            DateTime            @default(now()) @map("created_at")
+  createdBy            String              @map("created_by") @db.VarChar(64)
+  isLatestSubmission   Boolean             @map("is_latest_submission")
+  questionsAttempted   Int?                @map("questions_attempted")
+  questionsCorrect     Int?                @map("questions_correct")
+  questionsIncorrect   Int?                @map("questions_incorrect")
+  questionsSkipped     Int?                @map("questions_skipped")
   /// [TempTopicSubmissionModel]
-  submission           Json     @db.Json
-  spaceId              String   @map("space_id") @db.VarChar(64)
-  topicKey             String   @map("topic_key") @db.VarChar(128)
-  updatedAt            DateTime @updatedAt @map("updated_at")
-  status               String   @default("InProgress") @db.VarChar(64)
-  correctAnswers       Json?    @map("correct_answers")
-
-  courseSubmission GitCourseSubmission @relation(fields: [courseSubmissionUuid], references: [uuid])
+  submission           Json                @db.Json
+  spaceId              String              @map("space_id") @db.VarChar(64)
+  topicKey             String              @map("topic_key") @db.VarChar(128)
+  updatedAt            DateTime            @updatedAt @map("updated_at")
+  status               String              @default("InProgress") @db.VarChar(64)
+  correctAnswers       Json?               @map("correct_answers")
+  courseSubmission     GitCourseSubmission @relation(fields: [courseSubmissionUuid], references: [uuid])
 
   @@map("git_course_topic_submissions")
 }
 
 model Guide {
   id                        String   @id @db.VarChar(66)
-  content                   String   @db.Text
+  content                   String
   previousId                String?  @map("previous_id") @db.VarChar(66)
   uuid                      String   @db.VarChar(255)
   authors                   Json
@@ -111,8 +104,8 @@ model Guide {
   socialShareImage          String?  @map("social_share_image") @db.VarChar(2048)
   discordRoleIds            Json     @map("discord_role_ids")
   discordRolePassingCount   Int?     @map("discord_role_passing_count")
-  showIncorrectOnCompletion Boolean  @default(true) @map("show_incorrect_on_completion") @db.Boolean
-  postSubmissionStepContent String   @map("post_submission_step_content") @db.Text
+  showIncorrectOnCompletion Boolean  @default(true) @map("show_incorrect_on_completion")
+  postSubmissionStepContent String   @map("post_submission_step_content")
 
   @@map("guides")
 }
@@ -127,9 +120,8 @@ model Space {
   updatedAt         DateTime            @updatedAt @map("updated_at")
   avatar            String?             @db.VarChar(255)
   admins            String[]
-  adminUsernames    String[]            @default([]) @map("admin_usernames") @db.VarChar(255)
+  adminUsernames    String[]            @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @map("admin_usernames") @db.VarChar(255)
   domains           String[]            @default([])
-  botDomains        String[]            @default([])
   skin              String              @default("dodao") @db.VarChar(128)
   discordInvite     String?             @map("discord_invite") @db.VarChar(1024)
   telegramInvite    String?             @map("telegram_invite") @db.VarChar(1024)
@@ -144,6 +136,8 @@ model Space {
   /// [ByteSettings]
   byteSettings      Json                @default("{}") @map("byte_settings") @db.Json
   features          String[]
+  botDomains        String[]            @default([])
+  Byte              Byte[]
   CourseIntegration CourseIntegration[]
   GitCourse         GitCourse[]
   GuideIntegration  GuideIntegration[]
@@ -152,7 +146,6 @@ model Space {
   GuidesGuideStep   GuidesGuideStep[]
   SpaceDiscord      SpaceDiscord[]
   SpaceIntegration  SpaceIntegration?
-  Byte              Byte[]
 
   @@map("spaces")
 }
@@ -161,7 +154,7 @@ model Byte {
   uniqueId      String   @id @unique @default(uuid()) @map("unique_id") @db.VarChar(255)
   id            String   @db.VarChar(255)
   name          String   @db.VarChar(255)
-  content       String   @db.Text
+  content       String
   created       String   @db.VarChar(255)
   visibility    String   @default("Public") @db.VarChar(255)
   publishStatus String   @map("publish_status") @db.VarChar(255)
@@ -179,7 +172,7 @@ model Byte {
 
 model ByteSocialShare {
   uuid               String   @id @default(uuid()) @db.VarChar(255)
-  byteId             String   @map("byte_id") @db.VarChar(255)
+  byteId             String   @unique @map("byte_id") @db.VarChar(255)
   spaceId            String   @map("space_id") @db.VarChar(255)
   /// [ByteLinkedPdfContent]
   linkedinPdfContent Json?    @map("linkedin_pdf_content") @db.Json
@@ -191,7 +184,6 @@ model ByteSocialShare {
   updatedAt          DateTime @updatedAt @map("updated_at")
   updatedBy          String?  @map("updated_by") @db.VarChar(256)
 
-  @@unique([byteId])
   @@unique([byteId, spaceId])
   @@map("byte_social_shares")
 }
@@ -203,14 +195,14 @@ model CourseIntegration {
   createdAt                     DateTime @default(now()) @map("created_at")
   createdBy                     String?  @map("created_by") @db.VarChar(256)
   discordRoleIds                Json?    @map("discord_role_ids") @db.Json
-  discordRolePassingCount       Int?     @map("discord_role_passing_count") @db.Integer
+  discordRolePassingCount       Int?     @map("discord_role_passing_count")
   discordWebhook                String?  @map("discord_webhook") @db.VarChar(1024)
   projectGalaxyCredentialId     String?  @map("project_galaxy_credential_id") @db.VarChar(255)
   projectGalaxyOatMintUrl       String?  @map("project_galaxy_oat_mint_url") @db.VarChar(255)
-  projectGalaxyOatPassingCount  Int?     @map("project_galaxy_oat_passing_count") @db.Integer
+  projectGalaxyOatPassingCount  Int?     @map("project_galaxy_oat_passing_count")
   updatedAt                     DateTime @updatedAt @map("updated_at")
   updatedBy                     String?  @map("updated_by") @db.VarChar(256)
-  projectGalaxyOatMintedContent String?  @map("project_galaxy_oat_minted_content") @db.Text
+  projectGalaxyOatMintedContent String?  @map("project_galaxy_oat_minted_content")
   space                         Space    @relation(fields: [spaceId], references: [id])
 
   @@unique([spaceId, courseKey])
@@ -223,7 +215,7 @@ model GitCourse {
   spaceId       String   @map("space_id") @db.VarChar(66)
   createdAt     DateTime @default(now()) @map("created_at")
   createdBy     String?  @map("created_by") @db.VarChar(256)
-  weight        Int      @default(20) @map("weight") @db.Integer
+  weight        Int      @default(20) @map("weight")
   updatedAt     DateTime @updatedAt @map("updated_at")
   updatedBy     String?  @map("updated_by") @db.VarChar(256)
   courseRepoUrl String   @map("course_repo_url") @db.VarChar(1024)
@@ -242,13 +234,13 @@ model GuideIntegration {
   createdAt                    DateTime @default(now()) @map("created_at")
   createdBy                    String?  @map("created_by") @db.VarChar(256)
   discordRoleIds               Json?    @map("discord_role_ids") @db.Json
-  discordRolePassingCount      Int?     @map("discord_role_passing_count") @db.Integer
+  discordRolePassingCount      Int?     @map("discord_role_passing_count")
   discordWebhook               String?  @map("discord_webhook") @db.VarChar(1024)
   projectGalaxyCredentialId    String?  @map("project_galaxy_credential_id") @db.VarChar(255)
   projectGalaxyOatMintUrl      String?  @map("project_galaxy_oat_mint_url") @db.VarChar(255)
   updatedAt                    DateTime @updatedAt @map("updated_at")
   updatedBy                    String?  @map("updated_by") @db.VarChar(256)
-  projectGalaxyOatPassingCount Int?     @map("project_galaxy_oat_passing_count") @db.Integer
+  projectGalaxyOatPassingCount Int?     @map("project_galaxy_oat_passing_count")
   Space                        Space    @relation(fields: [spaceId], references: [id])
 
   @@unique([spaceId, guideUuid])
@@ -260,9 +252,9 @@ model GuideStep {
   uuid      String   @db.VarChar(66)
   createdAt DateTime @default(now()) @map("created_at")
   stepName  String   @map("step_name") @db.VarChar(255)
-  content   String   @db.Text
+  content   String
   stepItems Json     @map("step_items") @db.Json
-  stepOrder Int      @map("step_order") @db.Integer
+  stepOrder Int      @map("step_order")
   spaceId   String   @map("space_id") @db.VarChar(64)
   space     Space    @relation(fields: [spaceId], references: [id])
 
@@ -283,8 +275,8 @@ model GuideSubmission {
   steps                 Json     @db.Json
   uuid                  String   @db.VarChar(255)
   ipAddress             String?  @map("ip_address") @db.VarChar(64)
-  space                 Space    @relation(fields: [spaceId], references: [id])
   correctQuestionsCount Int      @map("correct_questions_count")
+  space                 Space    @relation(fields: [spaceId], references: [id])
 
   @@map("guide_submissions")
 }
@@ -295,10 +287,10 @@ model GuideRating {
   spaceId          String   @map("space_id") @db.VarChar(255)
   userId           String?  @map("user_id") @db.VarChar(255)
   ipAddress        String?  @map("ip_address") @db.VarChar(64)
-  skipStartRating  Boolean? @map("skip_start_rating") @db.Boolean
-  skipEndRating    Boolean? @map("skip_end_rating") @db.Boolean
-  startRating      Int?     @map("start_rating") @db.Integer
-  endRating        Int?     @map("end_rating") @db.Integer
+  skipStartRating  Boolean? @map("skip_start_rating")
+  skipEndRating    Boolean? @map("skip_end_rating")
+  startRating      Int?     @map("start_rating")
+  endRating        Int?     @map("end_rating")
   /// [GuideFeedback]
   positiveFeedback Json?    @map("positive_feedback") @db.Json
   /// [GuideFeedback]
@@ -324,7 +316,7 @@ model GuidesGuideStep {
 model SpaceDiscord {
   id                String   @id @db.VarChar(255)
   accessToken       String   @map("access_token") @db.VarChar(255)
-  accessTokenExpiry Int      @map("access_token_expiry") @db.Integer
+  accessTokenExpiry Int      @map("access_token_expiry")
   createdAt         DateTime @default(now()) @map("created_at")
   refreshToken      String   @map("refresh_token") @db.VarChar(255)
   selectedGuideId   String?  @map("selected_guide_id") @db.VarChar(255)
@@ -337,7 +329,7 @@ model SpaceDiscord {
 
 model SpaceIntegration {
   id                         String   @id @db.VarChar(255)
-  spaceId                    String   @map("space_id") @db.VarChar(66)
+  spaceId                    String   @unique @map("space_id") @db.VarChar(66)
   createdAt                  DateTime @default(now()) @map("created_at")
   createdBy                  String?  @map("created_by") @db.VarChar(256)
   discordGuildId             String?  @map("discord_guild_id") @db.VarChar(255)
@@ -353,11 +345,9 @@ model SpaceIntegration {
   loadersInfo                Json?    @db.Json
   space                      Space    @relation(fields: [spaceId], references: [id])
 
-  @@unique([spaceId])
   @@map("space_integrations")
 }
 
-// ################## All related to discourse data indexing ##################
 model DiscourseIndexRun {
   id        String   @id @db.VarChar(255)
   spaceId   String   @map("space_id") @db.VarChar(66)
@@ -373,7 +363,7 @@ model DiscoursePost {
   spaceId              String                 @map("space_id") @db.VarChar(66)
   title                String                 @db.VarChar(1024)
   url                  String                 @unique @db.VarChar(1024)
-  fullContent          String?                @map("full_content") @db.Text
+  fullContent          String?                @map("full_content")
   author               String?                @db.VarChar(255)
   datePublished        DateTime               @map("date_published")
   createdAt            DateTime               @default(now()) @map("created_at")
@@ -388,7 +378,7 @@ model DiscoursePostComment {
   id            String        @id @db.VarChar(255)
   commentPostId String        @map("comment_post_id") @db.VarChar(255)
   spaceId       String        @map("space_id") @db.VarChar(66)
-  content       String        @db.Text
+  content       String
   author        String        @db.VarChar(255)
   datePublished DateTime      @map("date_published")
   createdAt     DateTime      @default(now()) @map("created_at")
@@ -400,11 +390,9 @@ model DiscoursePostComment {
   @@map("discourse_post_comments")
 }
 
-// ################## All related to discord data indexing ##################
-
 model DiscordServer {
   id              String           @id @db.VarChar(255)
-  discordServerId String           @map("discord_server_id") @db.VarChar(255)
+  discordServerId String           @unique @map("discord_server_id") @db.VarChar(255)
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
   name            String           @db.VarChar(255)
@@ -412,41 +400,38 @@ model DiscordServer {
   DiscordChannel  DiscordChannel[]
   DiscordMessage  DiscordMessage[]
 
-  @@unique([discordServerId])
   @@map("discord_servers")
 }
 
 model DiscordChannel {
   id               String           @id @db.VarChar(255)
-  discordChannelId String           @map("discord_channel_id") @db.VarChar(255)
+  discordChannelId String           @unique @map("discord_channel_id") @db.VarChar(255)
   serverId         String           @map("server_id") @db.VarChar(255)
   createdAt        DateTime         @default(now()) @map("created_at")
   updatedAt        DateTime         @updatedAt @map("updated_at")
   name             String           @db.VarChar(255)
   type             String           @db.VarChar(255)
   status           String           @db.VarChar(255)
+  shouldIndex      Boolean          @map("should_index")
   discordServer    DiscordServer    @relation(fields: [serverId], references: [id])
-  shouldIndex      Boolean          @map("should_index") @db.Boolean
   DiscordMessage   DiscordMessage[]
 
-  @@unique([discordChannelId])
   @@map("discord_channels")
 }
 
 model DiscordMessage {
   id               String         @id @db.VarChar(255)
-  discordMessageId String         @map("discord_message_id") @db.VarChar(255)
+  discordMessageId String         @unique @map("discord_message_id") @db.VarChar(255)
   channelId        String         @map("channel_id") @db.VarChar(255)
   serverId         String         @map("server_id") @db.VarChar(255)
   createdAt        DateTime       @default(now()) @map("created_at")
   updatedAt        DateTime       @updatedAt @map("updated_at")
-  content          String         @db.Text
+  content          String
   messageDate      DateTime       @map("message_date")
   authorUsername   String         @map("author_username") @db.VarChar(255)
-  discordServer    DiscordServer  @relation(fields: [serverId], references: [id])
   discordChannel   DiscordChannel @relation(fields: [channelId], references: [id])
+  discordServer    DiscordServer  @relation(fields: [serverId], references: [id])
 
-  @@unique([discordMessageId])
   @@map("discord_messages")
 }
 
@@ -455,12 +440,12 @@ model WebsiteScrapingInfo {
   spaceId           String            @map("space_id") @db.VarChar(66)
   host              String            @db.VarChar(1024)
   scrapingStartUrl  String            @map("scraping_start_url") @db.VarChar(1024)
-  ignoreQueryParams Boolean           @default(true) @map("ignore_query_params") @db.Boolean
-  ignoreHashInUrl   Boolean           @default(true) @map("ignore_hash_in_url") @db.Boolean
   createdAt         DateTime          @default(now()) @map("created_at")
   updatedAt         DateTime          @updatedAt @map("updated_at")
-  scrapingRuns      SiteScrapingRun[]
+  ignoreHashInUrl   Boolean           @default(true) @map("ignore_hash_in_url")
+  ignoreQueryParams Boolean           @default(true) @map("ignore_query_params")
   ScrapedUrlInfo    ScrapedUrlInfo[]
+  scrapingRuns      SiteScrapingRun[]
 
   @@unique([host, scrapingStartUrl])
   @@map("website_scraping_infos")
@@ -486,7 +471,7 @@ model ScrapedUrlInfo {
   createdAt             DateTime            @default(now()) @map("created_at")
   updatedAt             DateTime            @updatedAt @map("updated_at")
   url                   String              @db.VarChar(1024)
-  text                  String              @db.Text
+  text                  String
   websiteScrapingInfo   WebsiteScrapingInfo @relation(fields: [websiteScrapingInfoId], references: [id])
 
   @@unique([url, websiteScrapingInfoId])
@@ -500,7 +485,7 @@ model ArticleIndexingInfo {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   status     String   @db.VarChar(255)
-  text       String?  @db.Text
+  text       String?
 
   @@unique([spaceId, articleUrl])
   @@map("article_indexing_infos")
@@ -512,10 +497,10 @@ model ByteCollection {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   name        String   @db.VarChar(255)
-  description String   @db.Text
+  description String
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
-  order       Int      @db.Integer
+  order       Int
 
   @@map("byte_collections")
 }
