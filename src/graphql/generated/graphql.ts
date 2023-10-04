@@ -1165,7 +1165,7 @@ export type MutationCreateSummaryOfContentArgs = {
 
 
 export type MutationCreateWebsiteScrapingInfoArgs = {
-  host: Scalars['String'];
+  baseUrl: Scalars['String'];
   ignoreHashInUrl: Scalars['Boolean'];
   ignoreQueryParams: Scalars['Boolean'];
   scrapingStartUrl: Scalars['String'];
@@ -1239,7 +1239,7 @@ export type MutationEditArticleIndexingInfoArgs = {
 
 
 export type MutationEditWebsiteScrapingInfoArgs = {
-  host: Scalars['String'];
+  baseUrl: Scalars['String'];
   ignoreHashInUrl: Scalars['Boolean'];
   ignoreQueryParams: Scalars['Boolean'];
   scrapingStartUrl: Scalars['String'];
@@ -2374,8 +2374,8 @@ export type VercelDomain = {
 
 export type WebsiteScrapingInfo = {
   __typename?: 'WebsiteScrapingInfo';
+  baseUrl: Scalars['String'];
   createdAt: Scalars['DateTimeISO'];
-  host: Scalars['String'];
   id: Scalars['String'];
   ignoreHashInUrl: Scalars['Boolean'];
   ignoreQueryParams: Scalars['Boolean'];
@@ -3483,7 +3483,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
-  createWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationCreateWebsiteScrapingInfoArgs, 'host' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId'>>;
+  createWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationCreateWebsiteScrapingInfoArgs, 'baseUrl' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId'>>;
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
   deleteByteCollection?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionArgs, 'byteCollectionId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
@@ -3495,7 +3495,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   downloadAndCleanContent?: Resolver<ResolversTypes['DownloadAndCleanContentResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
   editArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationEditArticleIndexingInfoArgs, 'articleIndexingInfoId' | 'articleUrl' | 'spaceId'>>;
-  editWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationEditWebsiteScrapingInfoArgs, 'host' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId' | 'websiteScrapingInfoId'>>;
+  editWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationEditWebsiteScrapingInfoArgs, 'baseUrl' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId' | 'websiteScrapingInfoId'>>;
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
   generateImage?: Resolver<ResolversTypes['ImagesResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
   generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
@@ -3877,8 +3877,8 @@ export type VercelDomainResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type WebsiteScrapingInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['WebsiteScrapingInfo'] = ResolversParentTypes['WebsiteScrapingInfo']> = {
+  baseUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
-  host?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ignoreHashInUrl?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   ignoreQueryParams?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

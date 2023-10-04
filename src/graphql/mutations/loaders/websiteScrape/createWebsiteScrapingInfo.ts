@@ -13,7 +13,7 @@ export default async function createWebsiteScrapingInfo(_: any, args: MutationCr
     data: {
       id: v4(),
       spaceId: args.spaceId,
-      host: args.host,
+      baseUrl: args.baseUrl,
       scrapingStartUrl: args.scrapingStartUrl,
       ignoreQueryParams: args.ignoreQueryParams,
       ignoreHashInUrl: args.ignoreHashInUrl,

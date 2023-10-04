@@ -438,7 +438,8 @@ model DiscordMessage {
 model WebsiteScrapingInfo {
   id                String            @id @db.VarChar(255)
   spaceId           String            @map("space_id") @db.VarChar(66)
-  host              String            @db.VarChar(1024)
+  host              String?           @db.VarChar(1024)
+  baseUrl           String            @default("https://") @map("base_url") @db.VarChar(1024)
   scrapingStartUrl  String            @map("scraping_start_url") @db.VarChar(1024)
   createdAt         DateTime          @default(now()) @map("created_at")
   updatedAt         DateTime          @updatedAt @map("updated_at")

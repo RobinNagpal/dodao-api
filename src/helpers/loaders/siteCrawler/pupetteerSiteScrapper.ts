@@ -3,7 +3,7 @@ import { Page } from 'puppeteer';
 
 async function getContentsRecursivelyFromLink(
   page: Page,
-  host: string,
+  baseUrl: string,
   url: string,
   collector: string[],
   ignoreHash: boolean,
@@ -33,7 +33,7 @@ async function getContentsRecursivelyFromLink(
   await waitTillHTMLRendered(page);
   const links = await page.evaluate(() => Array.from(document.querySelectorAll('a')).map((a) => a.href));
 
-  const filteredLinks = await filterLinksByHost(host, links);
+  const filteredLinks = await filterLinksByHost(baseUrl, links);
 
   const contentsOnPage = await getContentsOfPage(page, url);
 
@@ -42,20 +42,20 @@ async function getContentsRecursivelyFromLink(
 
   for (const link of filteredLinks) {
     try {
-      await getContentsRecursivelyFromLink(page, host, link, collector, ignoreHash, ignoreQueryParams, indexInPinecone);
+      await getContentsRecursivelyFromLink(page, baseUrl, link, collector, ignoreHash, ignoreQueryParams, indexInPinecone);
     } catch (error) {
       console.error(`Failed to fetch the content of the URL: ${link}`, error);
     }
   }
 }
 
-async function filterLinksByHost(host: string, links: string[]): Promise<string[]> {
+async function filterLinksByHost(baseUrl: string, links: string[]): Promise<string[]> {
   return links
     .filter(Boolean)
     .filter((a) => a.startsWith('https://'))
     .filter((link) => {
       try {
-        return new URL(link).host === host;
+        return link.startsWith(baseUrl);
       } catch (e) {
         console.log('filterLinksByHost - Failed to parse URL', link);
         return false;
@@ -64,7 +64,7 @@ async function filterLinksByHost(host: string, links: string[]): Promise<string[
 }
 
 export async function scrapeUsingPuppeteer(
-  host: string,
+  baseUrl: string,
   startUrl: string,
   ignoreHash: boolean,
   ignoreQueryParams: boolean,
@@ -74,7 +74,7 @@ export async function scrapeUsingPuppeteer(
   const page = await createPage(browser);
 
   try {
-    await getContentsRecursivelyFromLink(page, host, startUrl, [], ignoreHash, ignoreQueryParams, indexInPinecone);
+    await getContentsRecursivelyFromLink(page, baseUrl, startUrl, [], ignoreHash, ignoreQueryParams, indexInPinecone);
   } catch (error) {
     console.error(error);
   } finally {

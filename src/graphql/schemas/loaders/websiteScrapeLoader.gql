@@ -7,7 +7,7 @@ extend type Query {
 extend type Mutation {
   createWebsiteScrapingInfo(
     spaceId: String!
-    host: String!
+    baseUrl: String!
     scrapingStartUrl: String!
     ignoreHashInUrl: Boolean!
     ignoreQueryParams: Boolean!
@@ -16,7 +16,7 @@ extend type Mutation {
   editWebsiteScrapingInfo(
     spaceId: String!
     websiteScrapingInfoId: String!
-    host: String!
+    baseUrl: String!
     scrapingStartUrl: String!
     ignoreHashInUrl: Boolean!
     ignoreQueryParams: Boolean!
@@ -28,7 +28,7 @@ extend type Mutation {
 type WebsiteScrapingInfo {
   id: String!
   spaceId: String!
-  host: String!
+  baseUrl: String!
   scrapingStartUrl: String!
   ignoreHashInUrl: Boolean!
   ignoreQueryParams: Boolean!
