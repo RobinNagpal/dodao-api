@@ -75,7 +75,7 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
   };
 
   await scrapeUsingPuppeteer(
-    websiteScrappingInfo.host,
+    websiteScrappingInfo.baseUrl,
     websiteScrappingInfo.scrapingStartUrl,
     websiteScrappingInfo.ignoreHashInUrl,
     websiteScrappingInfo.ignoreQueryParams,

@@ -14,7 +14,7 @@ export default async function editWebsiteScrapingInfo(_: any, args: MutationEdit
       id: args.websiteScrapingInfoId,
     },
     data: {
-      host: args.host,
+      baseUrl: args.baseUrl,
       scrapingStartUrl: args.scrapingStartUrl,
       ignoreHashInUrl: args.ignoreHashInUrl,
       ignoreQueryParams: args.ignoreQueryParams,
