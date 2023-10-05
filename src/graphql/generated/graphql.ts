@@ -724,6 +724,7 @@ export type Guide = {
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   previousId?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['Int']>;
   publishStatus: Scalars['String'];
   steps: Array<GuideStep>;
   thumbnail?: Maybe<Scalars['String']>;
@@ -754,6 +755,7 @@ export type GuideInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   postSubmissionStepContent?: InputMaybe<Scalars['String']>;
+  priority?: InputMaybe<Scalars['Int']>;
   publishStatus: Scalars['String'];
   socialShareImage?: InputMaybe<Scalars['String']>;
   space: Scalars['String'];
@@ -3315,6 +3317,7 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   previousId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  priority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['GuideStep']>, ParentType, ContextType>;
   thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

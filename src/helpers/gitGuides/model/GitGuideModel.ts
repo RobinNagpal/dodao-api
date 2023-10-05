@@ -18,4 +18,5 @@ export interface GitGuideModel {
   thumbnail: string;
   uuid: string;
   version?: number;
+  priority?: number;
 }
