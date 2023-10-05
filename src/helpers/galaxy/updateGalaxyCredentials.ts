@@ -18,6 +18,7 @@ export async function updateGalaxyCredentialsForGuideSubmissionIfApplicable(
 
   if (projectGalaxyToken && projectGalaxyCredentialId && projectGalaxyPassed) {
     galaxyCredentialsUpdated = false;
+    console.log('Updating galaxy credentials for guide submission', JSON.stringify({ projectGalaxyCredentialId, userAddress }));
     await appendToGalaxyCredentials(projectGalaxyToken, projectGalaxyCredentialId, userAddress);
     galaxyCredentialsUpdated = true;
   } else {
