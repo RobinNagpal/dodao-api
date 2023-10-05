@@ -80,6 +80,7 @@ type Guide {
   previousId: String
   publishStatus: String!
   steps: [GuideStep!]!
+  priority: Int
   thumbnail: String
   uuid: String!
   version: Int!
@@ -201,6 +202,7 @@ input GuideInput {
   publishStatus: String!
   thumbnail: String
   uuid: String!
+  priority: Int
 }
 
 input GuideFeedbackInput {

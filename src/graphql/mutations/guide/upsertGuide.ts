@@ -58,6 +58,7 @@ async function transformToGitFormat(spaceId: string, input: GuideInput): Promise
       'https://d31h13bdjwgzxs.cloudfront.net/QmWy8EeMnxqx96VEPx2NBwzqtKxvMQqVVYvmPKgAYS2cUi',
     uuid: input.uuid,
     version: existingGuide ? existingGuide.version + 1 : 1,
+    priority: input.priority || 50,
   };
 }
 
