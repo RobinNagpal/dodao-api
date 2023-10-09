@@ -70,6 +70,19 @@ const templates = {
 
     Final answer:
     `,
+
+  newInquiryTemplate: `You are ChatGPT, a large language model trained by OpenAI. Formulate a question based on the QUESTION passed by user that would be the most relevant to provide the user with an answer from a knowledge base.
+    You should follow the following rules when generating an answer:
+    - Only attempt to answer if a question was posed.
+    - The question should be a single sentence
+    - You should remove any punctuation from the question
+    - You should remove any words that are not relevant to the question
+    - If you are unable to formulate a question, respond with the same USER PROMPT you got.
+
+    QUESTION: {question}
+
+    Final answer:
+    `,
 };
 
 export { templates };
