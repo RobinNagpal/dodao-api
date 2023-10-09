@@ -1,5 +1,6 @@
 import { MutationAskChatCompletionAiArgs, OpenAiChatCompletionResponse } from '@/graphql/generated/graphql';
-import { formatAxiosError } from '@/helpers/adapters/errorLogger';
+
+import { formatAxiosError } from '@/helpers/adapters/formatAxiosError';
 import { Configuration, OpenAIApi } from 'openai';
 import { CreateChatCompletionRequest } from 'openai/api';
 

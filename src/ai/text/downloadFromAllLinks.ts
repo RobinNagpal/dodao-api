@@ -2,7 +2,8 @@ import { getTokenCount } from '@/ai/getTokenCount';
 import { cleanupContent } from '@/ai/text/cleanupContent';
 import getContentsUsingPuppeteer from '@/ai/text/getContentsUsingPuppeteer';
 import { getImportantContentUsingCheerio } from '@/ai/text/getImportantContentUsingCheerio';
-import { formatAxiosError } from '@/helpers/adapters/errorLogger';
+
+import { formatAxiosError } from '@/helpers/adapters/formatAxiosError';
 
 export interface LinkInfo {
   link: string;

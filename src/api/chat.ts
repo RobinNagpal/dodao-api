@@ -1,3 +1,4 @@
+import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 import { ChatBody } from '@/helpers/chat/types/chat';
 
 import { OpenAIError } from '@/helpers/chat/utils/server';
@@ -33,21 +34,21 @@ const handler = async (req: Request, res: Response) => {
       await initPineconeClient();
     }
 
-    const { model, messages, prompt, temperature, spaceId } = req.body as ChatBody;
+    const { model, messages, temperature, spaceId } = req.body as ChatBody;
 
+    logEventInDiscord(spaceId, `Chat Question - ${messages[0].content}`);
     const encoding = encoding_for_model(model.id as TiktokenModel);
 
     // Build an LLM chain that will improve the user prompt
     const inquiryChain = new LLMChain({
       llm,
       prompt: new PromptTemplate({
-        template: templates.inquiryTemplate,
-        inputVariables: ['userPrompt', 'conversationHistory'],
+        template: templates.newInquiryTemplate,
+        inputVariables: ['question'],
       }),
     });
     const inquiryChainResult = await inquiryChain.call({
-      userPrompt: prompt,
-      conversationHistory: messages.map((m) => m.content),
+      question: [messages[0].content],
     });
     const inquiry = inquiryChainResult.text;
 
@@ -112,14 +113,14 @@ const handler = async (req: Request, res: Response) => {
       llm: chat,
     });
     console.log('**************************************************************************************************************');
-    console.log('question :', JSON.stringify(prompt));
+    console.log('question :', JSON.stringify(inquiry));
     console.log('**************************************************************************************************************');
     console.log('summary :', JSON.stringify(chunkedDocs));
     console.log('**************************************************************************************************************');
 
     await chain.call({
       summaries: JSON.stringify(chunkedDocs, null, 2),
-      question: prompt,
+      question: inquiry,
     });
   } catch (error) {
     console.error(error);
