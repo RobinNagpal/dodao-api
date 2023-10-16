@@ -145,7 +145,7 @@ async function doSubmitGuide(
     spaceIntegrations,
     guide,
     submission,
-    user?.accountId || 'anonymous',
+    user?.username || 'anonymous',
   );
 
   return { ...submission, galaxyCredentialsUpdated: !!galaxyCredentialsUpdated };

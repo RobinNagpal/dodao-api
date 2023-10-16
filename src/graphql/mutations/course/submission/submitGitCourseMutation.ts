@@ -97,7 +97,7 @@ export default async function submitGitCourseMutation(_: unknown, args: Mutation
     });
 
     const galaxyCredentialsUpdated = courseIntegrations
-      ? await updateGalaxyCredentialsForCourseSubmissionIfApplicable(spaceIntegration, courseIntegrations, courseSubmission, decodedJwt.accountId)
+      ? await updateGalaxyCredentialsForCourseSubmissionIfApplicable(spaceIntegration, courseIntegrations, courseSubmission, decodedJwt.username)
       : false;
 
     const savedSubmission = await prisma.gitCourseSubmission.update({
