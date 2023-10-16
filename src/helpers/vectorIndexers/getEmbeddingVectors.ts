@@ -1,7 +1,7 @@
 import { PageMetadata } from '@/types/chat/projectsContents';
 import { Vector } from '@pinecone-database/pinecone';
 import { Document } from 'langchain/document';
-import { OpenAIEmbeddings } from 'langchain/embeddings';
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { uuid } from 'uuidv4';
 
 export async function getEmbeddingVectors(documents: Document<PageMetadata>[]): Promise<Vector[]> {

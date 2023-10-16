@@ -1,5 +1,5 @@
 import { PageMetadata } from '@/types/chat/projectsContents';
-import { Document as LGCDocument } from 'langchain/docstore';
+import { Document as LGCDocument } from 'langchain/document';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
 export async function split(docs: LGCDocument<Omit<PageMetadata, 'chunk'>>[]): Promise<LGCDocument<PageMetadata>[]> {

@@ -4,14 +4,13 @@ import { ChatBody } from '@/helpers/chat/types/chat';
 import { OpenAIError } from '@/helpers/chat/utils/server';
 
 import { getMatchesFromEmbeddings, Metadata } from '@/helpers/chat/matches';
-import { summarizeLongDocument } from '@/helpers/chat/summarizer';
 import { templates } from '@/helpers/chat/templates';
 
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import { CallbackManager } from 'langchain/callbacks';
 import { LLMChain } from 'langchain/chains';
-import { ChatOpenAI } from 'langchain/chat_models';
+import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
