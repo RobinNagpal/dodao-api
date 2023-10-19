@@ -505,3 +505,56 @@ model ByteCollection {
 
   @@map("byte_collections")
 }
+
+model Project {
+  id             String        @id @db.VarChar(255)
+  createdAt      DateTime      @default(now()) @map("created_at")
+  creator        String        @db.VarChar(64)
+  name           String        @db.VarChar(255)
+  details        String
+  type           String        @db.VarChar(255)
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  logo           String?       @db.VarChar(255)
+  admins         String[]
+  adminUsernames String[]      @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @map("admin_usernames") @db.VarChar(255)
+  website        String?       @db.VarChar(1024)
+  docs           String?       @db.VarChar(1024)
+  discord        String?       @db.VarChar(1024)
+  telegram       String?       @db.VarChar(1024)
+  github         String?       @db.VarChar(1024)
+  ProjectByte    ProjectByte[]
+
+  @@map("projects")
+}
+
+model ProjectByte {
+  id            String   @id @db.VarChar(255)
+  name          String   @db.VarChar(255)
+  content       String
+  created       String   @db.VarChar(255)
+  publishStatus String   @map("publish_status") @db.VarChar(255)
+  admins        String[]
+  tags          String[]
+  priority      Int
+  /// [ByteStep]
+  steps         Json[]
+  projectId     String   @map("space_id") @db.VarChar(255)
+  Project       Project  @relation(fields: [projectId], references: [id])
+
+  @@unique([id, publishStatus])
+  @@map("project_bytes")
+}
+
+model ProjectByteCollection {
+  id          String   @id @db.VarChar(255)
+  projectId   String   @map("projectId") @db.VarChar(66)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  name        String   @db.VarChar(255)
+  description String
+  byteIds     String[] @map("byte_ids") @db.VarChar(255)
+  status      String   @db.VarChar(255)
+  order       Int
+
+  @@map("project_byte_collections")
+}

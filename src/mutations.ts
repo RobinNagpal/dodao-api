@@ -26,6 +26,9 @@ import createSummaryOfContent from '@/graphql/mutations/openAI/createSummaryOfCo
 import downloadAndCleanContent from '@/graphql/mutations/openAI/downloadAndCleanContent';
 import extractRelevantTextForTopic from '@/graphql/mutations/openAI/extractRelevantTextForTopic';
 import generateImage from '@/graphql/mutations/openAI/generateImage';
+import upsertProject from '@/graphql/mutations/project/upsertProject';
+import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
+import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import sendEmail from '@/graphql/mutations/space/sendEmail';
 import { updateAuthSettings } from '@/graphql/mutations/space/updateAuthSettings';
@@ -82,6 +85,10 @@ export default {
   createByteCollection,
   deleteByteCollection,
   updateByteCollection,
+
+  upsertProject,
+  upsertProjectByte,
+  upsertProjectByteCollection,
 
   ...mutations,
 };

@@ -1071,6 +1071,9 @@ export type Mutation = {
   upsertGnosisSafeWallets: Space;
   upsertGuide: Guide;
   upsertGuideRating: GuideRating;
+  upsertProject: Project;
+  upsertProjectByte: ProjectByte;
+  upsertProjectByteCollection: ProjectByteCollection;
   upsertProjectGalaxyAccessToken: Space;
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
@@ -1522,6 +1525,23 @@ export type MutationUpsertGuideRatingArgs = {
 };
 
 
+export type MutationUpsertProjectArgs = {
+  input: UpsertProjectInput;
+};
+
+
+export type MutationUpsertProjectByteArgs = {
+  input: UpsertProjectByteInput;
+  projectId: Scalars['String'];
+};
+
+
+export type MutationUpsertProjectByteCollectionArgs = {
+  input: UpsertProjectByteCollectionInput;
+  projectId: Scalars['String'];
+};
+
+
 export type MutationUpsertProjectGalaxyAccessTokenArgs = {
   accessToken: Scalars['String'];
   spaceId: Scalars['String'];
@@ -1628,6 +1648,48 @@ export enum OrderDirection {
   Desc = 'desc'
 }
 
+export type Project = {
+  __typename?: 'Project';
+  adminUsernames: Array<Scalars['String']>;
+  admins: Array<Scalars['String']>;
+  creator: Scalars['String'];
+  details: Scalars['String'];
+  discord?: Maybe<Scalars['String']>;
+  docs?: Maybe<Scalars['String']>;
+  github?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  logo?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  telegram?: Maybe<Scalars['String']>;
+  type: Scalars['String'];
+  website?: Maybe<Scalars['String']>;
+};
+
+export type ProjectByte = {
+  __typename?: 'ProjectByte';
+  admins: Array<Scalars['String']>;
+  content: Scalars['String'];
+  created: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  postSubmissionStepContent?: Maybe<Scalars['String']>;
+  priority: Scalars['Int'];
+  publishStatus: Scalars['String'];
+  steps: Array<ByteStep>;
+  tags: Array<Scalars['String']>;
+};
+
+export type ProjectByteCollection = {
+  __typename?: 'ProjectByteCollection';
+  byteIds: Array<Scalars['String']>;
+  bytes: Array<ByteCollectionByte>;
+  description: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  status: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']>;
@@ -1657,6 +1719,12 @@ export type Query = {
   guideRatings: Array<GuideRating>;
   guideSubmissions: Array<GuideSubmission>;
   guides: Array<Guide>;
+  project: Project;
+  projectByte: ProjectByte;
+  projectByteCollection: ProjectByteCollection;
+  projectByteCollections: Array<ProjectByteCollection>;
+  projectBytes: Array<ProjectByte>;
+  projects: Array<Project>;
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
   route53Records: Array<Route53Record>;
@@ -1820,6 +1888,38 @@ export type QueryGuideSubmissionsArgs = {
 
 export type QueryGuidesArgs = {
   spaceId: Scalars['String'];
+};
+
+
+export type QueryProjectArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryProjectByteArgs = {
+  projectByteId: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
+export type QueryProjectByteCollectionArgs = {
+  byteCollectionId: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
+export type QueryProjectByteCollectionsArgs = {
+  projectId: Scalars['String'];
+};
+
+
+export type QueryProjectBytesArgs = {
+  projectId: Scalars['String'];
+};
+
+
+export type QueryProjectsArgs = {
+  type?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -2278,6 +2378,44 @@ export type UpsertGuideRatingInput = {
   userId?: InputMaybe<Scalars['String']>;
 };
 
+export type UpsertProjectByteCollectionInput = {
+  byteIds: Array<Scalars['String']>;
+  description: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  projectId: Scalars['String'];
+  status: Scalars['String'];
+};
+
+export type UpsertProjectByteInput = {
+  admins: Array<Scalars['String']>;
+  content: Scalars['String'];
+  created: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  priority: Scalars['Int'];
+  publishStatus: Scalars['String'];
+  steps: Array<ByteStepInput>;
+  tags: Array<Scalars['String']>;
+  thumbnail?: InputMaybe<Scalars['String']>;
+};
+
+export type UpsertProjectInput = {
+  adminUsernames: Array<Scalars['String']>;
+  admins: Array<Scalars['String']>;
+  details: Scalars['String'];
+  discord?: InputMaybe<Scalars['String']>;
+  docs?: InputMaybe<Scalars['String']>;
+  github?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  logo?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  telegram?: InputMaybe<Scalars['String']>;
+  type: Scalars['String'];
+  website?: InputMaybe<Scalars['String']>;
+};
+
 export type UpsertSimulationInput = {
   admins: Array<Scalars['String']>;
   content: Scalars['String'];
@@ -2598,6 +2736,9 @@ export type ResolversTypes = {
   OpenAITextResponse: ResolverTypeWrapper<OpenAiTextResponse>;
   OpenAIUsage: ResolverTypeWrapper<OpenAiUsage>;
   OrderDirection: OrderDirection;
+  Project: ResolverTypeWrapper<Project>;
+  ProjectByte: ResolverTypeWrapper<ProjectByte>;
+  ProjectByteCollection: ResolverTypeWrapper<ProjectByteCollection>;
   Query: ResolverTypeWrapper<{}>;
   QuestionChoice: ResolverTypeWrapper<QuestionChoice>;
   QuestionChoiceInput: QuestionChoiceInput;
@@ -2644,6 +2785,9 @@ export type ResolversTypes = {
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
+  UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
+  UpsertProjectByteInput: UpsertProjectByteInput;
+  UpsertProjectInput: UpsertProjectInput;
   UpsertSimulationInput: UpsertSimulationInput;
   UpsertSpaceInput: UpsertSpaceInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
@@ -2785,6 +2929,9 @@ export type ResolversParentTypes = {
   OpenAIMessage: OpenAiMessage;
   OpenAITextResponse: OpenAiTextResponse;
   OpenAIUsage: OpenAiUsage;
+  Project: Project;
+  ProjectByte: ProjectByte;
+  ProjectByteCollection: ProjectByteCollection;
   Query: {};
   QuestionChoice: QuestionChoice;
   QuestionChoiceInput: QuestionChoiceInput;
@@ -2831,6 +2978,9 @@ export type ResolversParentTypes = {
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
+  UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
+  UpsertProjectByteInput: UpsertProjectByteInput;
+  UpsertProjectInput: UpsertProjectInput;
   UpsertSimulationInput: UpsertSimulationInput;
   UpsertSpaceInput: UpsertSpaceInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
@@ -3547,6 +3697,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertGnosisSafeWallets?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertGnosisSafeWalletsArgs, 'spaceId' | 'wallets'>>;
   upsertGuide?: Resolver<ResolversTypes['Guide'], ParentType, ContextType, RequireFields<MutationUpsertGuideArgs, 'guideInput' | 'spaceId'>>;
   upsertGuideRating?: Resolver<ResolversTypes['GuideRating'], ParentType, ContextType, RequireFields<MutationUpsertGuideRatingArgs, 'spaceId' | 'upsertGuideRatingInput'>>;
+  upsertProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpsertProjectArgs, 'input'>>;
+  upsertProjectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteArgs, 'input' | 'projectId'>>;
+  upsertProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteCollectionArgs, 'input' | 'projectId'>>;
   upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
@@ -3611,6 +3764,48 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
+  adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  discord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  docs?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  github?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  logo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  telegram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProjectByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByte'] = ResolversParentTypes['ProjectByte']> = {
+  admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByteCollection'] = ResolversParentTypes['ProjectByteCollection']> = {
+  byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
@@ -3639,6 +3834,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   guideRatings?: Resolver<Array<ResolversTypes['GuideRating']>, ParentType, ContextType, RequireFields<QueryGuideRatingsArgs, 'guideUuid' | 'spaceId'>>;
   guideSubmissions?: Resolver<Array<ResolversTypes['GuideSubmission']>, ParentType, ContextType, RequireFields<QueryGuideSubmissionsArgs, 'filters' | 'guideUuid' | 'spaceId'>>;
   guides?: Resolver<Array<ResolversTypes['Guide']>, ParentType, ContextType, RequireFields<QueryGuidesArgs, 'spaceId'>>;
+  project?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<QueryProjectArgs, 'id'>>;
+  projectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<QueryProjectByteArgs, 'projectByteId' | 'projectId'>>;
+  projectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<QueryProjectByteCollectionArgs, 'byteCollectionId' | 'projectId'>>;
+  projectByteCollections?: Resolver<Array<ResolversTypes['ProjectByteCollection']>, ParentType, ContextType, RequireFields<QueryProjectByteCollectionsArgs, 'projectId'>>;
+  projectBytes?: Resolver<Array<ResolversTypes['ProjectByte']>, ParentType, ContextType, RequireFields<QueryProjectBytesArgs, 'projectId'>>;
+  projects?: Resolver<Array<ResolversTypes['Project']>, ParentType, ContextType, Partial<QueryProjectsArgs>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
   route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
@@ -3967,6 +4168,9 @@ export type Resolvers<ContextType = any> = {
   OpenAIMessage?: OpenAiMessageResolvers<ContextType>;
   OpenAITextResponse?: OpenAiTextResponseResolvers<ContextType>;
   OpenAIUsage?: OpenAiUsageResolvers<ContextType>;
+  Project?: ProjectResolvers<ContextType>;
+  ProjectByte?: ProjectByteResolvers<ContextType>;
+  ProjectByteCollection?: ProjectByteCollectionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuestionChoice?: QuestionChoiceResolvers<ContextType>;
   RatingDistribution?: RatingDistributionResolvers<ContextType>;
