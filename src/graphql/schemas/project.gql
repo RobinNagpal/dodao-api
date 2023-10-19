@@ -1,0 +1,91 @@
+extend type Query {
+  project(id: String!): Project!
+  projects(type: String): [Project!]!
+  projectByte(projectId: String!, projectByteId: String!): ProjectByte!
+  projectBytes(projectId: String!): [ProjectByte!]!
+  projectByteCollections(projectId: String!): [ProjectByteCollection!]!
+  projectByteCollection(projectId: String!, byteCollectionId: String!): ProjectByteCollection!
+}
+
+extend type Mutation {
+  upsertProject(input: UpsertProjectInput!): Project!
+  upsertProjectByte(projectId: String!, input: UpsertProjectByteInput!): ProjectByte!
+  upsertProjectByteCollection(projectId: String!, input: UpsertProjectByteCollectionInput!): ProjectByteCollection!
+}
+
+type Project {
+  id: String!
+  admins: [String!]!
+  adminUsernames: [String!]!
+  logo: String
+  creator: String!
+  name: String!
+  details: String!
+  website: String
+  docs: String
+  discord: String
+  telegram: String
+  github: String
+  type: String!
+}
+
+input UpsertProjectInput {
+  id: String!
+  admins: [String!]!
+  adminUsernames: [String!]!
+  logo: String
+  name: String!
+  details: String!
+  type: String!
+  website: String
+  docs: String
+  discord: String
+  telegram: String
+  github: String
+}
+
+type ProjectByte {
+  postSubmissionStepContent: String
+  content: String!
+  created: String!
+  id: String!
+  name: String!
+  publishStatus: String!
+  steps: [ByteStep!]!
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+}
+
+input UpsertProjectByteInput {
+  content: String!
+  id: String!
+  name: String!
+  steps: [ByteStepInput!]!
+  publishStatus: String!
+  thumbnail: String
+  admins: [String!]!
+  tags: [String!]!
+  priority: Int!
+  created: String!
+}
+
+type ProjectByteCollection {
+  id: String!
+  name: String!
+  description: String!
+  byteIds: [String!]!
+  bytes: [ByteCollectionByte!]!
+  status: String!
+  order: Int!
+}
+
+input UpsertProjectByteCollectionInput {
+  id: String!
+  name: String!
+  description: String!
+  projectId: String!
+  byteIds: [String!]!
+  status: String!
+  order: Int!
+}

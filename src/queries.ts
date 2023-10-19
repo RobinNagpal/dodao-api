@@ -29,6 +29,12 @@ import discoursePosts from '@/graphql/queries/loaders/discourse/discoursePosts';
 import scrapedUrlInfos from '@/graphql/queries/loaders/websiteScrape/scrapedUrlInfos';
 import siteScrapingRuns from '@/graphql/queries/loaders/websiteScrape/siteScrapingRuns';
 import websiteScrapingInfos from '@/graphql/queries/loaders/websiteScrape/websiteScrapingInfos';
+import project from '@/graphql/queries/project/project';
+import projectByte from '@/graphql/queries/project/projectByte';
+import projectByteCollection from '@/graphql/queries/project/projectByteCollection';
+import projectByteCollections from '@/graphql/queries/project/projectByteCollections';
+import projectBytes from '@/graphql/queries/project/projectBytes';
+import projects from '@/graphql/queries/project/projects';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
@@ -94,4 +100,11 @@ export default {
 
   byteCollections,
   byteCollection,
+
+  project,
+  projects,
+  projectByte,
+  projectBytes,
+  projectByteCollection,
+  projectByteCollections,
 };
