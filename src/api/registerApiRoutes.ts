@@ -7,6 +7,7 @@ import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
 import guide from '@/api/guide/guide';
 import guides from '@/api/guide/guides';
 import health from '@/api/health';
+import project from '@/api/project/project';
 import extendedSpace from '@/api/space/extendedSpace';
 import { json } from 'body-parser';
 import cors from 'cors';
@@ -22,8 +23,12 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/guides/:guideId', cors(), json(), guide);
 
   app.get('/:spaceId/bytes', cors(), json(), bytes);
+
   app.get('/:spaceId/bytes/:byteId', cors(), json(), byte);
 
   app.get('/:spaceId/courses', cors(), json(), courses);
+
   app.get('/:spaceId/courses/:courseKey', cors(), json(), course);
+
+  app.get('/projects/:projectId', cors(), json(), project);
 }
