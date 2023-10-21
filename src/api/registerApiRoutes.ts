@@ -8,6 +8,8 @@ import guide from '@/api/guide/guide';
 import guides from '@/api/guide/guides';
 import health from '@/api/health';
 import project from '@/api/project/project';
+import projectByteCollections from '@/api/project/projectByteCollections';
+import projectBytes from '@/api/project/projectBytes';
 import extendedSpace from '@/api/space/extendedSpace';
 import { json } from 'body-parser';
 import cors from 'cors';
@@ -31,4 +33,6 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/courses/:courseKey', cors(), json(), course);
 
   app.get('/projects/:projectId', cors(), json(), project);
+  app.get('/projects/:projectId/bytes', cors(), json(), projectBytes);
+  app.get('/projects/:projectId/byte-collections', cors(), json(), projectByteCollections);
 }
