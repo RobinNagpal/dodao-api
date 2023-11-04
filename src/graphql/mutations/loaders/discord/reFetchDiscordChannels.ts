@@ -1,6 +1,6 @@
 import { MutationReFetchDiscordChannelsArgs } from '@/graphql/generated/graphql';
-import { mapAndStoreDiscordChannels } from '@/helpers/loaders/discord/discordChannels';
-import { getDiscordClient } from '@/helpers/loaders/discord/discordClient';
+import { mapAndStoreDiscordChannels } from '@/helpers/loaders/discordBot/discordChannels';
+import { getDiscordClient } from '@/helpers/loaders/discordBot/discordClient';
 import { isDoDAOSuperAdmin } from '@/helpers/space/isSuperAdmin';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
