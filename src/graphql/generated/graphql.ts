@@ -256,6 +256,43 @@ export enum ChatCompletionRequestMessageRoleEnum {
   User = 'user'
 }
 
+export type ChatbotCategory = {
+  __typename?: 'ChatbotCategory';
+  description: Scalars['String'];
+  id: Scalars['String'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+  priority: Scalars['Int'];
+  subcategories: Array<ChatbotSubcategory>;
+};
+
+export type ChatbotFaq = {
+  __typename?: 'ChatbotFAQ';
+  answer: Scalars['String'];
+  categories?: Maybe<Array<ChatbotCategory>>;
+  id: Scalars['String'];
+  priority: Scalars['Int'];
+  question: Scalars['String'];
+  spaceId: Scalars['String'];
+  subCategories?: Maybe<Array<ChatbotSubcategory>>;
+};
+
+export type ChatbotSubcategory = {
+  __typename?: 'ChatbotSubcategory';
+  description: Scalars['String'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type ChatbotUserQuestion = {
+  __typename?: 'ChatbotUserQuestion';
+  categories?: Maybe<Array<ChatbotCategory>>;
+  id: Scalars['String'];
+  question: Scalars['String'];
+  spaceId: Scalars['String'];
+  subCategories?: Maybe<Array<ChatbotSubcategory>>;
+};
+
 export type CompletionAiInput = {
   model?: InputMaybe<Scalars['String']>;
   n?: InputMaybe<Scalars['Int']>;
@@ -1065,6 +1102,9 @@ export type Mutation = {
   upsertAcademyTask: AcademyTask;
   upsertByte: Byte;
   upsertByteSocialShare: ByteSocialShare;
+  upsertChatbotCategory: ChatbotCategory;
+  upsertChatbotFAQ: ChatbotFaq;
+  upsertChatbotUserQuestion: ChatbotUserQuestion;
   upsertCourseIntegrations: CourseIntegrations;
   upsertGitCourse?: Maybe<SummarizedGitCourse>;
   upsertGitCourseTopicSubmission: GitCourseSubmission;
@@ -1489,6 +1529,24 @@ export type MutationUpsertByteSocialShareArgs = {
 };
 
 
+export type MutationUpsertChatbotCategoryArgs = {
+  input: UpsertChatbotCategory;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpsertChatbotFaqArgs = {
+  input: UpsertChatbotFaq;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpsertChatbotUserQuestionArgs = {
+  input: UpsertChatbotUserQuestion;
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationUpsertCourseIntegrationsArgs = {
   courseIntegrationInput: UpsertCourseIntegrationsInput;
   spaceId: Scalars['String'];
@@ -1701,6 +1759,9 @@ export type Query = {
   byteCollections: Array<ByteCollection>;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
+  chatbotCategories: Array<ChatbotCategory>;
+  chatbotFAQs: Array<ChatbotFaq>;
+  chatbotUserQuestions: Array<ChatbotUserQuestion>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
   discordChannels: Array<DiscordChannel>;
@@ -1783,6 +1844,21 @@ export type QueryByteSocialShareArgs = {
 
 
 export type QueryBytesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryChatbotCategoriesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryChatbotFaQsArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryChatbotUserQuestionsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2354,6 +2430,39 @@ export type UpsertByteSocialShareInput = {
   twitterImage?: InputMaybe<Scalars['String']>;
 };
 
+export type UpsertChatbotCategory = {
+  description: Scalars['String'];
+  id: Scalars['String'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+  priority: Scalars['Int'];
+  subcategories: Array<UpsertChatbotSubcategory>;
+};
+
+export type UpsertChatbotFaq = {
+  answer: Scalars['String'];
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  id: Scalars['String'];
+  priority: Scalars['Int'];
+  question: Scalars['String'];
+  spaceId: Scalars['String'];
+  subCategories?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type UpsertChatbotSubcategory = {
+  description: Scalars['String'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type UpsertChatbotUserQuestion = {
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  id: Scalars['String'];
+  question: Scalars['String'];
+  spaceId: Scalars['String'];
+  subCategories?: InputMaybe<Array<Scalars['String']>>;
+};
+
 export type UpsertCourseIntegrationsInput = {
   courseKey: Scalars['String'];
   discordRoleIds: Array<Scalars['String']>;
@@ -2638,6 +2747,10 @@ export type ResolversTypes = {
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
+  ChatbotCategory: ResolverTypeWrapper<ChatbotCategory>;
+  ChatbotFAQ: ResolverTypeWrapper<ChatbotFaq>;
+  ChatbotSubcategory: ResolverTypeWrapper<ChatbotSubcategory>;
+  ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
   ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
@@ -2783,6 +2896,10 @@ export type ResolversTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
+  UpsertChatbotCategory: UpsertChatbotCategory;
+  UpsertChatbotFAQ: UpsertChatbotFaq;
+  UpsertChatbotSubcategory: UpsertChatbotSubcategory;
+  UpsertChatbotUserQuestion: UpsertChatbotUserQuestion;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
@@ -2832,6 +2949,10 @@ export type ResolversParentTypes = {
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ByteUserInput;
   ChatCompletionAIInput: ChatCompletionAiInput;
+  ChatbotCategory: ChatbotCategory;
+  ChatbotFAQ: ChatbotFaq;
+  ChatbotSubcategory: ChatbotSubcategory;
+  ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
   ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
@@ -2976,6 +3097,10 @@ export type ResolversParentTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
+  UpsertChatbotCategory: UpsertChatbotCategory;
+  UpsertChatbotFAQ: UpsertChatbotFaq;
+  UpsertChatbotSubcategory: UpsertChatbotSubcategory;
+  UpsertChatbotUserQuestion: UpsertChatbotUserQuestion;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
@@ -3134,6 +3259,43 @@ export type ByteUserInputResolvers<ContextType = any, ParentType extends Resolve
   required?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatbotCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotCategory'] = ResolversParentTypes['ChatbotCategory']> = {
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  subcategories?: Resolver<Array<ResolversTypes['ChatbotSubcategory']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatbotFaqResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotFAQ'] = ResolversParentTypes['ChatbotFAQ']> = {
+  answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['ChatbotCategory']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subCategories?: Resolver<Maybe<Array<ResolversTypes['ChatbotSubcategory']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatbotSubcategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotSubcategory'] = ResolversParentTypes['ChatbotSubcategory']> = {
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotUserQuestion'] = ResolversParentTypes['ChatbotUserQuestion']> = {
+  categories?: Resolver<Maybe<Array<ResolversTypes['ChatbotCategory']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subCategories?: Resolver<Maybe<Array<ResolversTypes['ChatbotSubcategory']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3691,6 +3853,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertAcademyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<MutationUpsertAcademyTaskArgs, 'spaceId' | 'task'>>;
   upsertByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationUpsertByteArgs, 'input' | 'spaceId'>>;
   upsertByteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<MutationUpsertByteSocialShareArgs, 'input' | 'spaceId'>>;
+  upsertChatbotCategory?: Resolver<ResolversTypes['ChatbotCategory'], ParentType, ContextType, RequireFields<MutationUpsertChatbotCategoryArgs, 'input' | 'spaceId'>>;
+  upsertChatbotFAQ?: Resolver<ResolversTypes['ChatbotFAQ'], ParentType, ContextType, RequireFields<MutationUpsertChatbotFaqArgs, 'input' | 'spaceId'>>;
+  upsertChatbotUserQuestion?: Resolver<ResolversTypes['ChatbotUserQuestion'], ParentType, ContextType, RequireFields<MutationUpsertChatbotUserQuestionArgs, 'input' | 'spaceId'>>;
   upsertCourseIntegrations?: Resolver<ResolversTypes['CourseIntegrations'], ParentType, ContextType, RequireFields<MutationUpsertCourseIntegrationsArgs, 'courseIntegrationInput' | 'spaceId'>>;
   upsertGitCourse?: Resolver<Maybe<ResolversTypes['SummarizedGitCourse']>, ParentType, ContextType, RequireFields<MutationUpsertGitCourseArgs, 'gitCourseInput' | 'spaceId'>>;
   upsertGitCourseTopicSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationUpsertGitCourseTopicSubmissionArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
@@ -3816,6 +3981,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionsArgs, 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
+  chatbotCategories?: Resolver<Array<ResolversTypes['ChatbotCategory']>, ParentType, ContextType, RequireFields<QueryChatbotCategoriesArgs, 'spaceId'>>;
+  chatbotFAQs?: Resolver<Array<ResolversTypes['ChatbotFAQ']>, ParentType, ContextType, RequireFields<QueryChatbotFaQsArgs, 'spaceId'>>;
+  chatbotUserQuestions?: Resolver<Array<ResolversTypes['ChatbotUserQuestion']>, ParentType, ContextType, RequireFields<QueryChatbotUserQuestionsArgs, 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   discordChannels?: Resolver<Array<ResolversTypes['DiscordChannel']>, ParentType, ContextType, RequireFields<QueryDiscordChannelsArgs, 'serverId' | 'spaceId'>>;
@@ -4111,6 +4279,10 @@ export type Resolvers<ContextType = any> = {
   ByteStepItem?: ByteStepItemResolvers<ContextType>;
   ByteSubmission?: ByteSubmissionResolvers<ContextType>;
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
+  ChatbotCategory?: ChatbotCategoryResolvers<ContextType>;
+  ChatbotFAQ?: ChatbotFaqResolvers<ContextType>;
+  ChatbotSubcategory?: ChatbotSubcategoryResolvers<ContextType>;
+  ChatbotUserQuestion?: ChatbotUserQuestionResolvers<ContextType>;
   ConsolidatedGuideRating?: ConsolidatedGuideRatingResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;

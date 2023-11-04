@@ -1,0 +1,81 @@
+extend type Query {
+  chatbotCategories(spaceId: String!): [ChatbotCategory!]!
+
+  chatbotFAQs(spaceId: String!): [ChatbotFAQ!]!
+
+  chatbotUserQuestions(spaceId: String!): [ChatbotUserQuestion!]!
+}
+
+extend type Mutation {
+  upsertChatbotCategory(spaceId: String!, input: UpsertChatbotCategory!): ChatbotCategory!
+
+  upsertChatbotFAQ(spaceId: String!, input: UpsertChatbotFAQ!): ChatbotFAQ!
+
+  upsertChatbotUserQuestion(spaceId: String!, input: UpsertChatbotUserQuestion!): ChatbotUserQuestion!
+}
+
+type ChatbotSubcategory {
+  name: String!
+  key: String!
+  description: String!
+}
+
+type ChatbotCategory {
+  id: String!
+  name: String!
+  key: String!
+  description: String!
+  subcategories: [ChatbotSubcategory!]!
+  priority: Int!
+}
+
+type ChatbotFAQ {
+  id: String!
+  spaceId: String!
+  question: String!
+  answer: String!
+  categories: [ChatbotCategory!]
+  subCategories: [ChatbotSubcategory!]
+  priority: Int!
+}
+
+type ChatbotUserQuestion {
+  id: String!
+  spaceId: String!
+  question: String!
+  categories: [ChatbotCategory!]
+  subCategories: [ChatbotSubcategory!]
+}
+
+input UpsertChatbotSubcategory {
+  name: String!
+  key: String!
+  description: String!
+}
+
+input UpsertChatbotCategory {
+  id: String!
+  name: String!
+  key: String!
+  description: String!
+  subcategories: [UpsertChatbotSubcategory!]!
+  priority: Int!
+}
+
+input UpsertChatbotFAQ {
+  id: String!
+  spaceId: String!
+  question: String!
+  answer: String!
+  categories: [String!]
+  subCategories: [String!]
+  priority: Int!
+}
+
+input UpsertChatbotUserQuestion {
+  id: String!
+  spaceId: String!
+  question: String!
+  categories: [String!]
+  subCategories: [String!]
+}

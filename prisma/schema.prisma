@@ -558,3 +558,38 @@ model ProjectByteCollection {
 
   @@map("project_byte_collections")
 }
+
+model ChatbotCategory {
+  id            String   @id @db.VarChar(255)
+  spaceId       String   @map("space_id") @db.VarChar(66)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  key           String   @db.VarChar(255)
+  name          String   @db.VarChar(255)
+  description   String
+  /// [ChatbotSubcategory]
+  subCategories Json[]   @map("sub_categories") @db.Json
+  priority      Int
+}
+
+model ChatbotUserQuestion {
+  id            String   @id @db.VarChar(255)
+  spaceId       String   @map("space_id") @db.VarChar(66)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  question      String
+  categories    String[]
+  subCategories String[]
+}
+
+model ChatbotFAQ {
+  id            String   @id @db.VarChar(255)
+  spaceId       String   @map("space_id") @db.VarChar(66)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  question      String
+  answer        String
+  categories    String[]
+  subCategories String[]
+  priority      Int
+}

@@ -1,5 +1,5 @@
-import { getDiscordClient } from '@/helpers/loaders/discord/discordClient';
-import { mapAndStoreDiscordServers } from '@/helpers/loaders/discord/discordGuilds';
+import { getDiscordClient } from '@/helpers/loaders/discordBot/discordClient';
+import { mapAndStoreDiscordServers } from '@/helpers/loaders/discordBot/discordGuilds';
 import { isDoDAOSuperAdmin } from '@/helpers/space/isSuperAdmin';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
