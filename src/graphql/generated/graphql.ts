@@ -263,7 +263,7 @@ export type ChatbotCategory = {
   key: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
-  subcategories: Array<ChatbotSubcategory>;
+  subCategories: Array<ChatbotSubcategory>;
 };
 
 export type ChatbotFaq = {
@@ -1530,19 +1530,19 @@ export type MutationUpsertByteSocialShareArgs = {
 
 
 export type MutationUpsertChatbotCategoryArgs = {
-  input: UpsertChatbotCategory;
+  input: UpsertChatbotCategoryInput;
   spaceId: Scalars['String'];
 };
 
 
 export type MutationUpsertChatbotFaqArgs = {
-  input: UpsertChatbotFaq;
+  input: UpsertChatbotFaqInput;
   spaceId: Scalars['String'];
 };
 
 
 export type MutationUpsertChatbotUserQuestionArgs = {
-  input: UpsertChatbotUserQuestion;
+  input: UpsertChatbotUserQuestionInput;
   spaceId: Scalars['String'];
 };
 
@@ -2430,16 +2430,16 @@ export type UpsertByteSocialShareInput = {
   twitterImage?: InputMaybe<Scalars['String']>;
 };
 
-export type UpsertChatbotCategory = {
+export type UpsertChatbotCategoryInput = {
   description: Scalars['String'];
   id: Scalars['String'];
   key: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
-  subcategories: Array<UpsertChatbotSubcategory>;
+  subCategories: Array<UpsertChatbotSubcategoryInput>;
 };
 
-export type UpsertChatbotFaq = {
+export type UpsertChatbotFaqInput = {
   answer: Scalars['String'];
   categories?: InputMaybe<Array<Scalars['String']>>;
   id: Scalars['String'];
@@ -2449,13 +2449,13 @@ export type UpsertChatbotFaq = {
   subCategories?: InputMaybe<Array<Scalars['String']>>;
 };
 
-export type UpsertChatbotSubcategory = {
+export type UpsertChatbotSubcategoryInput = {
   description: Scalars['String'];
   key: Scalars['String'];
   name: Scalars['String'];
 };
 
-export type UpsertChatbotUserQuestion = {
+export type UpsertChatbotUserQuestionInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   question: Scalars['String'];
@@ -2896,10 +2896,10 @@ export type ResolversTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
-  UpsertChatbotCategory: UpsertChatbotCategory;
-  UpsertChatbotFAQ: UpsertChatbotFaq;
-  UpsertChatbotSubcategory: UpsertChatbotSubcategory;
-  UpsertChatbotUserQuestion: UpsertChatbotUserQuestion;
+  UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
+  UpsertChatbotFAQInput: UpsertChatbotFaqInput;
+  UpsertChatbotSubcategoryInput: UpsertChatbotSubcategoryInput;
+  UpsertChatbotUserQuestionInput: UpsertChatbotUserQuestionInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
@@ -3097,10 +3097,10 @@ export type ResolversParentTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
-  UpsertChatbotCategory: UpsertChatbotCategory;
-  UpsertChatbotFAQ: UpsertChatbotFaq;
-  UpsertChatbotSubcategory: UpsertChatbotSubcategory;
-  UpsertChatbotUserQuestion: UpsertChatbotUserQuestion;
+  UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
+  UpsertChatbotFAQInput: UpsertChatbotFaqInput;
+  UpsertChatbotSubcategoryInput: UpsertChatbotSubcategoryInput;
+  UpsertChatbotUserQuestionInput: UpsertChatbotUserQuestionInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
@@ -3268,7 +3268,7 @@ export type ChatbotCategoryResolvers<ContextType = any, ParentType extends Resol
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  subcategories?: Resolver<Array<ResolversTypes['ChatbotSubcategory']>, ParentType, ContextType>;
+  subCategories?: Resolver<Array<ResolversTypes['ChatbotSubcategory']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
