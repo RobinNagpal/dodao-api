@@ -1,12 +1,10 @@
-import { MutationDeleteAndPullCourseRepoArgs, MutationUpsertGitCourseArgs } from '@/graphql/generated/graphql';
+import { MutationDeleteAndPullCourseRepoArgs } from '@/graphql/generated/graphql';
 import { getCourseRepoInfo } from '@/helpers/course/getCourseHelper';
-import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { pullGitCourseAndSetInRedis, readGitCourse } from '@/helpers/course/gitCourseReader';
-import { transformToSummarizedCourse } from '@/helpers/course/transformToSummarizedCourse';
+import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { prisma } from '@/prisma';
 import fs from 'fs';
 import { IncomingMessage } from 'http';
-import { uuid } from 'uuidv4';
 
 export default async function deleteAndPullCourseRepo(_: unknown, args: MutationDeleteAndPullCourseRepoArgs, context: IncomingMessage) {
   const { space, decodedJwt } = await verifySpaceEditPermissions(context, args.spaceId);
