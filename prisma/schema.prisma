@@ -570,6 +570,9 @@ model ChatbotCategory {
   /// [ChatbotSubcategory]
   subCategories Json[]   @map("sub_categories") @db.Json
   priority      Int
+
+  @@unique([spaceId, key])
+  @@map("chatbot_categories")
 }
 
 model ChatbotUserQuestion {
@@ -580,6 +583,8 @@ model ChatbotUserQuestion {
   question      String
   categories    String[]
   subCategories String[]
+
+  @@map("chatbot_user_questions")
 }
 
 model ChatbotFAQ {
@@ -592,4 +597,6 @@ model ChatbotFAQ {
   categories    String[]
   subCategories String[]
   priority      Int
+
+  @@map("chatbot_faqs")
 }
