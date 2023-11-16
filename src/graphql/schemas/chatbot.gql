@@ -12,6 +12,12 @@ extend type Mutation {
   upsertChatbotFAQ(spaceId: String!, input: UpsertChatbotFAQInput!): ChatbotFAQ!
 
   upsertChatbotUserQuestion(spaceId: String!, input: UpsertChatbotUserQuestionInput!): ChatbotUserQuestion!
+
+  deleteChatbotCategory(spaceId: String!, id: String!): Boolean!
+
+  deleteChatbotFAQ(spaceId: String!, id: String!): Boolean!
+
+  deleteChatbotUserQuestion(spaceId: String!, id: String!): Boolean!
 }
 
 type ChatbotSubcategory {

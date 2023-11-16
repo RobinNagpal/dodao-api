@@ -1050,6 +1050,9 @@ export type Mutation = {
   createWebsiteScrapingInfo: WebsiteScrapingInfo;
   deleteAndPullCourseRepo: GitCourse;
   deleteByteCollection: Scalars['Boolean'];
+  deleteChatbotCategory: Scalars['Boolean'];
+  deleteChatbotFAQ: Scalars['Boolean'];
+  deleteChatbotUserQuestion: Scalars['Boolean'];
   deleteGitCourseSubmission: Scalars['Boolean'];
   deleteGuide: Scalars['Boolean'];
   deleteTopic: GitCourse;
@@ -1226,6 +1229,24 @@ export type MutationDeleteAndPullCourseRepoArgs = {
 
 export type MutationDeleteByteCollectionArgs = {
   byteCollectionId: Scalars['String'];
+};
+
+
+export type MutationDeleteChatbotCategoryArgs = {
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationDeleteChatbotFaqArgs = {
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationDeleteChatbotUserQuestionArgs = {
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -3801,6 +3822,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationCreateWebsiteScrapingInfoArgs, 'baseUrl' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId'>>;
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
   deleteByteCollection?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionArgs, 'byteCollectionId'>>;
+  deleteChatbotCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotCategoryArgs, 'id' | 'spaceId'>>;
+  deleteChatbotFAQ?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotFaqArgs, 'id' | 'spaceId'>>;
+  deleteChatbotUserQuestion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotUserQuestionArgs, 'id' | 'spaceId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
