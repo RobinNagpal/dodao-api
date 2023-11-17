@@ -9,7 +9,7 @@ export default async function annotateDiscoursePost(_: any, args: MutationAnnota
   const space = await getSpaceById(args.spaceId);
   checkEditSpacePermission(space, context);
 
-  prisma.discoursePost.update({
+  return prisma.discoursePost.update({
     where: {
       id: args.input.postId,
     },
@@ -20,6 +20,4 @@ export default async function annotateDiscoursePost(_: any, args: MutationAnnota
       discussed: args.input.discussed,
     },
   });
-
-  return true;
 }
