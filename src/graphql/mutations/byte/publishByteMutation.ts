@@ -45,7 +45,10 @@ export default async function publishByteMutation(
         },
       });
 
-      await prisma.byte.delete({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Draft } } });
+      const draftByte = await prisma.byte.findUnique({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Draft } } });
+      if (draftByte) {
+        await prisma.byte.delete({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Draft } } });
+      }
     } else {
       savedByte = await prisma.byte.upsert({
         create: {
