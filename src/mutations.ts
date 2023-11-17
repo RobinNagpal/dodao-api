@@ -21,6 +21,7 @@ import reFetchDiscordChannels from '@/graphql/mutations/loaders/discord/reFetchD
 import reFetchDiscordMessages from '@/graphql/mutations/loaders/discord/reFetchDiscordMessages';
 import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDiscordServers';
 import updateIndexingOfDiscordChannel from '@/graphql/mutations/loaders/discord/updateIndexingOfDiscordChannel';
+import annotateDiscoursePost from '@/graphql/mutations/loaders/discourse/annotateDiscoursePost';
 import indexDiscoursePost from '@/graphql/mutations/loaders/discourse/indexDiscoursePost';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import createWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/createWebsiteScrapingInfo';
@@ -80,6 +81,7 @@ export default {
   reFetchDiscordMessages,
   updateIndexingOfDiscordChannel,
   indexDiscoursePost,
+  annotateDiscoursePost,
 
   createWebsiteScrapingInfo,
   editWebsiteScrapingInfo,
