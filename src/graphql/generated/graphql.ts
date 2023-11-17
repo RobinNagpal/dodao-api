@@ -84,6 +84,15 @@ export type AddTopicVideoInput = {
   url: Scalars['String'];
 };
 
+export type AnnotateDiscoursePostInput = {
+  categories: Array<Scalars['String']>;
+  discussed?: InputMaybe<Scalars['Boolean']>;
+  enacted?: InputMaybe<Scalars['Boolean']>;
+  postId: Scalars['String'];
+  spaceId: Scalars['String'];
+  subCategories: Array<Scalars['String']>;
+};
+
 export type ArticleIndexingInfo = {
   __typename?: 'ArticleIndexingInfo';
   articleUrl: Scalars['String'];
@@ -461,13 +470,17 @@ export type DiscourseIndexRun = {
 export type DiscoursePost = {
   __typename?: 'DiscoursePost';
   author?: Maybe<Scalars['String']>;
+  categories: Array<Scalars['String']>;
   createdAt: Scalars['DateTimeISO'];
   datePublished: Scalars['DateTimeISO'];
+  discussed?: Maybe<Scalars['Boolean']>;
+  enacted?: Maybe<Scalars['Boolean']>;
   fullContent?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   indexedAt?: Maybe<Scalars['DateTimeISO']>;
   spaceId: Scalars['String'];
   status: Scalars['String'];
+  subCategories: Array<Scalars['String']>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
@@ -1039,6 +1052,7 @@ export type Mutation = {
   addTopicQuestions: Array<GitCourseQuestion>;
   addTopicSummary: GitCourseSummary;
   addTopicVideo: GitCourseReading;
+  annotateDiscoursePost: DiscoursePost;
   askChatCompletionAI: OpenAiChatCompletionResponse;
   askCompletionAI: OpenAiCompletionResponse;
   authenticateWithUnstoppable: JwtResponse;
@@ -1167,6 +1181,12 @@ export type MutationAddTopicSummaryArgs = {
 export type MutationAddTopicVideoArgs = {
   spaceId: Scalars['String'];
   videoInfo: AddTopicVideoInput;
+};
+
+
+export type MutationAnnotateDiscoursePostArgs = {
+  input: AnnotateDiscoursePostInput;
+  spaceId: Scalars['String'];
 };
 
 
@@ -2744,6 +2764,7 @@ export type ResolversTypes = {
   AddTopicQuestionsInput: AddTopicQuestionsInput;
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
+  AnnotateDiscoursePostInput: AnnotateDiscoursePostInput;
   Any: ResolverTypeWrapper<Scalars['Any']>;
   ArticleIndexingInfo: ResolverTypeWrapper<ArticleIndexingInfo>;
   AuthSettings: ResolverTypeWrapper<AuthSettings>;
@@ -2947,6 +2968,7 @@ export type ResolversParentTypes = {
   AddTopicQuestionsInput: AddTopicQuestionsInput;
   AddTopicSummaryInput: AddTopicSummaryInput;
   AddTopicVideoInput: AddTopicVideoInput;
+  AnnotateDiscoursePostInput: AnnotateDiscoursePostInput;
   Any: Scalars['Any'];
   ArticleIndexingInfo: ArticleIndexingInfo;
   AuthSettings: AuthSettings;
@@ -3412,13 +3434,17 @@ export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends Res
 
 export type DiscoursePostResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscoursePost'] = ResolversParentTypes['DiscoursePost']> = {
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   datePublished?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  discussed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  enacted?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   fullContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   indexedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subCategories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -3811,6 +3837,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addTopicQuestions?: Resolver<Array<ResolversTypes['GitCourseQuestion']>, ParentType, ContextType, RequireFields<MutationAddTopicQuestionsArgs, 'input' | 'spaceId'>>;
   addTopicSummary?: Resolver<ResolversTypes['GitCourseSummary'], ParentType, ContextType, RequireFields<MutationAddTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   addTopicVideo?: Resolver<ResolversTypes['GitCourseReading'], ParentType, ContextType, RequireFields<MutationAddTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  annotateDiscoursePost?: Resolver<ResolversTypes['DiscoursePost'], ParentType, ContextType, RequireFields<MutationAnnotateDiscoursePostArgs, 'input' | 'spaceId'>>;
   askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;

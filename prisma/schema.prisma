@@ -370,6 +370,10 @@ model DiscoursePost {
   indexedAt            DateTime?              @map("indexed_at")
   status               String                 @db.VarChar(255)
   DiscoursePostComment DiscoursePostComment[]
+  categories           String[]               @default([]) @map("categories")
+  subCategories        String[]               @default([]) @map("sub_categories")
+  enacted              Boolean?
+  discussed            Boolean?
 
   @@map("discourse_posts")
 }

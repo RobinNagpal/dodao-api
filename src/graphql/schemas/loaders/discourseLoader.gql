@@ -6,10 +6,12 @@ extend type Query {
   discoursePostComments(spaceId: String!, postId: String!): [DiscoursePostComment!]!
 }
 
-extend type Mutation  {
+extend type Mutation {
   triggerNewDiscourseIndexRun(spaceId: String!): DiscourseIndexRun!
 
   indexDiscoursePost(spaceId: String!, postId: String!): Boolean!
+
+  annotateDiscoursePost(spaceId: String!, input: AnnotateDiscoursePostInput!): DiscoursePost!
 }
 
 type DiscourseIndexRun {
@@ -31,6 +33,10 @@ type DiscoursePost {
   createdAt: DateTimeISO!
   indexedAt: DateTimeISO
   status: String!
+  categories: [String!]!
+  subCategories: [String!]!
+  enacted: Boolean
+  discussed: Boolean
 }
 
 type DiscoursePostComment {
@@ -45,3 +51,11 @@ type DiscoursePostComment {
   postId: String!
 }
 
+input AnnotateDiscoursePostInput {
+  postId: String!
+  spaceId: String!
+  categories: [String!]!
+  subCategories: [String!]!
+  enacted: Boolean
+  discussed: Boolean
+}
