@@ -278,12 +278,12 @@ export type ChatbotCategory = {
 export type ChatbotFaq = {
   __typename?: 'ChatbotFAQ';
   answer: Scalars['String'];
-  categories?: Maybe<Array<ChatbotCategory>>;
+  categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   priority: Scalars['Int'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: Maybe<Array<ChatbotSubcategory>>;
+  subCategories?: Maybe<Array<Scalars['String']>>;
 };
 
 export type ChatbotSubcategory = {
@@ -295,11 +295,11 @@ export type ChatbotSubcategory = {
 
 export type ChatbotUserQuestion = {
   __typename?: 'ChatbotUserQuestion';
-  categories?: Maybe<Array<ChatbotCategory>>;
+  categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: Maybe<Array<ChatbotSubcategory>>;
+  subCategories?: Maybe<Array<Scalars['String']>>;
 };
 
 export type CompletionAiInput = {
@@ -3317,12 +3317,12 @@ export type ChatbotCategoryResolvers<ContextType = any, ParentType extends Resol
 
 export type ChatbotFaqResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotFAQ'] = ResolversParentTypes['ChatbotFAQ']> = {
   answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  categories?: Resolver<Maybe<Array<ResolversTypes['ChatbotCategory']>>, ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Maybe<Array<ResolversTypes['ChatbotSubcategory']>>, ParentType, ContextType>;
+  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3334,11 +3334,11 @@ export type ChatbotSubcategoryResolvers<ContextType = any, ParentType extends Re
 };
 
 export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotUserQuestion'] = ResolversParentTypes['ChatbotUserQuestion']> = {
-  categories?: Resolver<Maybe<Array<ResolversTypes['ChatbotCategory']>>, ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Maybe<Array<ResolversTypes['ChatbotSubcategory']>>, ParentType, ContextType>;
+  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

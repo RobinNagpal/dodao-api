@@ -40,8 +40,8 @@ type ChatbotFAQ {
   spaceId: String!
   question: String!
   answer: String!
-  categories: [ChatbotCategory!]
-  subCategories: [ChatbotSubcategory!]
+  categories: [String!]
+  subCategories: [String!]
   priority: Int!
 }
 
@@ -49,8 +49,8 @@ type ChatbotUserQuestion {
   id: String!
   spaceId: String!
   question: String!
-  categories: [ChatbotCategory!]
-  subCategories: [ChatbotSubcategory!]
+  categories: [String!]
+  subCategories: [String!]
 }
 
 input UpsertChatbotSubcategoryInput {
