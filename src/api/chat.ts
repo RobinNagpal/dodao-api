@@ -5,6 +5,7 @@ import { OpenAIError } from '@/helpers/chat/utils/server';
 
 import { getMatchesFromEmbeddings, Metadata } from '@/helpers/chat/matches';
 import { templates } from '@/helpers/chat/templates';
+import { prisma } from '@/prisma';
 
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
 import { PineconeClient } from '@pinecone-database/pinecone';
@@ -15,6 +16,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
 import { Request, Response } from 'express-serve-static-core';
+import { v4 } from 'uuid';
 
 const llm = new OpenAI({});
 let pinecone: PineconeClient | null = null;
@@ -50,6 +52,18 @@ const handler = async (req: Request, res: Response) => {
       question: [messages[0].content],
     });
     const inquiry = inquiryChainResult.text;
+
+    await prisma.chatbotUserQuestion.create({
+      data: {
+        id: v4(),
+        question: messages[0].content,
+        spaceId,
+        categories: [],
+        subCategories: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
 
     // Embed the user's intent and query the Pinecone index
     const embedder = new OpenAIEmbeddings();
