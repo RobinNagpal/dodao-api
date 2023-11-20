@@ -40,6 +40,7 @@ type ChatbotFAQ {
   spaceId: String!
   question: String!
   answer: String!
+  url: String!
   categories: [String!]
   subCategories: [String!]
   priority: Int!
@@ -73,6 +74,7 @@ input UpsertChatbotFAQInput {
   spaceId: String!
   question: String!
   answer: String!
+  url: String!
   categories: [String!]
   subCategories: [String!]
   priority: Int!

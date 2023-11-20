@@ -106,8 +106,20 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
   for (const post of dbPosts) {
     console.log('going to', post.url);
     if (post.status === PostStatus.NEEDS_INDEXING) {
-      const postTopics = await getPostDetails(page, post);
-      await storePostDetails(post, postTopics);
+      try {
+        const postTopics = await getPostDetails(page, post);
+        await storePostDetails(post, postTopics);
+      } catch (e) {
+        console.error(e);
+        await prisma.discoursePost.update({
+          where: {
+            id: post.id,
+          },
+          data: {
+            status: PostStatus.INDEXING_FAILED,
+          },
+        });
+      }
     }
   }
 

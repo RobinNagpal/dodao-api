@@ -3,20 +3,20 @@ import { deleteDocWithUrlInPinecone, indexDocsInPinecone } from '@/helpers/vecto
 import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
 import { split, splitFullContent } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
-import { PageMetadata } from '@/types/chat/projectsContents';
+import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 import { ArticleIndexingInfo } from '@prisma/client';
 import { Document as LGCDocument } from 'langchain/dist/document';
 
 export async function indexArticleIndexingInfo(info: ArticleIndexingInfo) {
   const url = info.articleUrl;
   const text = await getContentsFromArticle(url);
-  const metadata: Omit<PageMetadata, 'chunk'> = {
+  const metadata: PageMetadata = {
     url: url,
-    fullContent: text,
-    source: url,
+    fullContentId: info.id,
+    documentType: DocumentInfoType.ARTICLE_INDEXING_INFO,
   };
 
-  const fullDoc: LGCDocument<Omit<PageMetadata, 'chunk'>> = {
+  const fullDoc: LGCDocument<PageMetadata> = {
     pageContent: text,
     metadata,
   };
@@ -25,7 +25,7 @@ export async function indexArticleIndexingInfo(info: ArticleIndexingInfo) {
 
   console.log('Text', text);
 
-  if ((fullDoc?.metadata?.fullContent?.length || 0) > 100 * 1024) {
+  if ((text.length || 0) > 100 * 1024) {
     console.log('Skipping indexing of ', url, ' because it is too big');
     // too big to index
     return;

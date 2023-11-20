@@ -1,12 +1,10 @@
+import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 import { PineconeClient, ScoredVector } from '@pinecone-database/pinecone';
 
-export type Metadata = {
-  url: string;
-  text: string;
-  chunk: string;
-};
-
-const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: PineconeClient, topK: number, spaceId: string): Promise<ScoredVector[]> => {
+export interface MatchedDocument extends ScoredVector {
+  metadata: PageMetadata;
+}
+const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: PineconeClient, topK: number, spaceId: string): Promise<MatchedDocument[]> => {
   if (!process.env.PINECONE_INDEX_NAME) {
     throw new Error('PINECONE_INDEX_NAME is not set');
   }
@@ -25,7 +23,7 @@ const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: Pinecone
     return (
       queryResult.matches?.map((match) => ({
         ...match,
-        metadata: match.metadata as Metadata,
+        metadata: match.metadata as PageMetadata,
       })) || []
     );
   } catch (e) {
@@ -34,4 +32,41 @@ const getMatchesFromEmbeddings = async (embeddings: number[], pinecone: Pinecone
   }
 };
 
-export { getMatchesFromEmbeddings };
+const getMatchesFromEmbeddingsForDocumentType = async (
+  embeddings: number[],
+  pinecone: PineconeClient,
+  topK: number,
+  spaceId: string,
+  documentInfoType: DocumentInfoType,
+): Promise<MatchedDocument[]> => {
+  if (!process.env.PINECONE_INDEX_NAME) {
+    throw new Error('PINECONE_INDEX_NAME is not set');
+  }
+
+  const index = pinecone!.Index(process.env.PINECONE_INDEX_NAME);
+  const queryRequest = {
+    vector: embeddings,
+    topK,
+    includeMetadata: true,
+    namespace: spaceId,
+    filter: {
+      documentType: { $eq: documentInfoType },
+    },
+  };
+  try {
+    const queryResult = await index.query({
+      queryRequest,
+    });
+    return (
+      queryResult.matches?.map((match) => ({
+        ...match,
+        metadata: match.metadata as PageMetadata,
+      })) || []
+    );
+  } catch (e) {
+    console.log('Error querying embeddings: ', e);
+    throw new Error(`Error querying embeddings: ${e}`);
+  }
+};
+
+export { getMatchesFromEmbeddings, getMatchesFromEmbeddingsForDocumentType };
