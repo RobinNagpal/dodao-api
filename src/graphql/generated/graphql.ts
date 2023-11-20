@@ -284,6 +284,7 @@ export type ChatbotFaq = {
   question: Scalars['String'];
   spaceId: Scalars['String'];
   subCategories?: Maybe<Array<Scalars['String']>>;
+  url: Scalars['String'];
 };
 
 export type ChatbotSubcategory = {
@@ -2488,6 +2489,7 @@ export type UpsertChatbotFaqInput = {
   question: Scalars['String'];
   spaceId: Scalars['String'];
   subCategories?: InputMaybe<Array<Scalars['String']>>;
+  url: Scalars['String'];
 };
 
 export type UpsertChatbotSubcategoryInput = {
@@ -3323,6 +3325,7 @@ export type ChatbotFaqResolvers<ContextType = any, ParentType extends ResolversP
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
