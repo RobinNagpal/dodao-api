@@ -1,8 +1,8 @@
-import { PageMetadata } from '@/types/chat/projectsContents';
+import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 import { Document as LGCDocument } from 'langchain/document';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
-export async function split(docs: LGCDocument<Omit<PageMetadata, 'chunk'>>[]): Promise<LGCDocument<PageMetadata>[]> {
+export async function split(docs: LGCDocument<PageMetadata>[]): Promise<LGCDocument<PageMetadata>[]> {
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 4000,
     chunkOverlap: 400,
@@ -21,17 +21,13 @@ export async function split(docs: LGCDocument<Omit<PageMetadata, 'chunk'>>[]): P
   return flatMap;
 }
 
-export function doesDocNeedsSplitting(doc: LGCDocument<Omit<PageMetadata, 'chunk'>>): boolean {
-  return (doc.metadata.fullContent?.length || 0) > 10 * 1024;
-}
-
 export function splitFullContent(doc: LGCDocument<Omit<PageMetadata, 'chunk'>>): LGCDocument<PageMetadata>[] {
-  const splits = splitString(doc.metadata.fullContent || '', 1020 * 10);
+  const splits = splitString(doc.pageContent || '', 1020 * 10);
 
   console.log('Splitting full content', doc.metadata.url, ' into: ', splits.length);
 
   return splits.map((text, i) => {
-    return new LGCDocument({ pageContent: text, metadata: { ...doc.metadata, chunk: text, fullContent: text } });
+    return new LGCDocument({ pageContent: text, metadata: doc.metadata });
   });
 }
 

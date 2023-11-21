@@ -1,21 +1,24 @@
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
+
+import { getMatchesFromEmbeddings } from '@/helpers/chat/matches';
+import { templates } from '@/helpers/chat/templates';
 import { ChatBody } from '@/helpers/chat/types/chat';
 
 import { OpenAIError } from '@/helpers/chat/utils/server';
-
-import { getMatchesFromEmbeddings, Metadata } from '@/helpers/chat/matches';
-import { templates } from '@/helpers/chat/templates';
+import { getContentFromLoaderEntity } from '@/helpers/loaders/getContentFromLoaderEntity';
 import { prisma } from '@/prisma';
+import { PageMetadata } from '@/types/chat/projectsContents';
 
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
 import { PineconeClient } from '@pinecone-database/pinecone';
+import { Request, Response } from 'express-serve-static-core';
 import { CallbackManager } from 'langchain/callbacks';
 import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
-import { Request, Response } from 'express-serve-static-core';
+import uniqBy from 'lodash/uniqBy';
 import { v4 } from 'uuid';
 
 const llm = new OpenAI({});
@@ -65,48 +68,35 @@ const handler = async (req: Request, res: Response) => {
       },
     });
 
-    // Embed the user's intent and query the Pinecone index
-    const embedder = new OpenAIEmbeddings();
-
-    const embeddings = await embedder.embedQuery(inquiry);
-
-    console.log('embeddings', embeddings.length);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 7, spaceId);
-
-    console.log('matches', matches.length);
-
-    // const urls = docs && Array.from(new Set(docs.map(doc => doc.metadata.url)))
-
-    const fullDocuments = matches.map((match) => {
-      const metadata = match.metadata as Metadata;
-      const { text, url } = metadata;
-      return { text, url };
-    });
-
-    const chunkedDocs =
-      matches &&
-      Array.from(
-        new Set(
-          matches.map((match) => {
-            const metadata = match.metadata as Metadata;
-            const { chunk, url } = metadata;
-            return { text: chunk, url: url };
-          }),
-        ),
-      );
-
-    const promptQA = PromptTemplate.fromTemplate(templates.lastTemplate);
-
-    // const summary = await summarizeLongDocument(chunkedDocs!.join('\n'), messages[0].content, () => {
-    //   console.log('onSummaryDone');
-    // });
-
     encoding.free();
 
     res.setHeader('Content-Type', 'text/plain'); // Set your Content-Type based on your stream data type
     res.setHeader('Transfer-Encoding', 'chunked');
 
+    // Embed the user's intent and query the Pinecone index
+    const embedder = new OpenAIEmbeddings();
+
     // Get a reader from the stream
+    const embeddings = await embedder.embedQuery(inquiry);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 5, spaceId);
+
+    console.log('matches', matches.length);
+    const chunkedDocs: { text: string; url: string }[] = [];
+
+    // const summary = await summarizeLongDocument(chunkedDocs!.join('\n'), messages[0].content, () => {
+    //   console.log('onSummaryDone');
+    // });
+
+    const uniqueMatches = uniqBy(matches, 'metadata.fullContentId');
+    for (const match of uniqueMatches) {
+      const metadata = match.metadata as PageMetadata;
+      const { fullContentId, url, documentType } = metadata;
+      const text = await getContentFromLoaderEntity(fullContentId, documentType);
+      const chunkedDoc = { text, url: url };
+      chunkedDocs.push(chunkedDoc);
+    }
+
+    const promptQA = PromptTemplate.fromTemplate(templates.lastTemplate);
 
     const chat = new ChatOpenAI({
       streaming: true,
@@ -128,7 +118,7 @@ const handler = async (req: Request, res: Response) => {
     console.log('**************************************************************************************************************');
     console.log('question :', JSON.stringify(inquiry));
     console.log('**************************************************************************************************************');
-    console.log('summary :', JSON.stringify(chunkedDocs));
+    console.log('summary :', JSON.stringify(chunkedDocs, null, 2));
     console.log('**************************************************************************************************************');
 
     await chain.call({

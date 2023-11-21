@@ -3,12 +3,12 @@ import { deleteDocWithUrlInPinecone, indexDocsInPinecone } from '@/helpers/vecto
 import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
 import { split } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
-import { PageMetadata } from '@/types/chat/projectsContents';
-import { DiscoursePost } from '@prisma/client';
+import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
+import { DiscoursePost, DiscoursePostComment } from '@prisma/client';
+import { Document as LGCDocument } from 'langchain/document';
 import unionBy from 'lodash/unionBy';
 import { Page } from 'puppeteer';
 import { v4 } from 'uuid';
-import { Document as LGCDocument } from 'langchain/document';
 
 const DISCOURSE_SELECTORS = {
   POST_CONTENT_SELECTOR: 'div.topic-post',
@@ -97,24 +97,25 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
     },
   });
 
-  const metadata: Omit<PageMetadata, 'chunk'> = {
+  const metadata: PageMetadata = {
     url: post.url,
-    fullContent: mainPost?.content || '',
-    source: post.url,
+    fullContentId: post.id,
+    documentType: DocumentInfoType.DISCOURSE_POST,
   };
 
-  const postDocument: LGCDocument<Omit<PageMetadata, 'chunk'>> = {
+  const postDocument: LGCDocument<PageMetadata> = {
     pageContent: mainPost?.content || '',
     metadata,
   };
 
   const comments = postTopics.filter((post) => post.id !== 'post_1');
+  const upsertedComments: DiscoursePostComment[] = [];
 
   console.log('Upserting comments', JSON.stringify(comments, null, 2));
 
   for (const comment of comments) {
     console.log('Upserting comment', JSON.stringify(comment));
-    await prisma.discoursePostComment.upsert({
+    const upsertedComment = await prisma.discoursePostComment.upsert({
       where: {
         commentPostId_postId: {
           postId: post.id,
@@ -140,6 +141,7 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
         postId: post.id,
       },
     });
+    upsertedComments.push(upsertedComment);
   }
   await prisma.discoursePost.update({
     where: {
@@ -152,12 +154,12 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
     },
   });
 
-  const commentDocuments: LGCDocument<Omit<PageMetadata, 'chunk'>>[] = comments.map((comment, index) => {
+  const commentDocuments: LGCDocument<PageMetadata>[] = upsertedComments.map((comment, index) => {
     const url = `${post.url}/${index + 2}}`;
-    const metadata: Omit<PageMetadata, 'chunk'> = {
+    const metadata: PageMetadata = {
       url: url,
-      fullContent: comment.content,
-      source: url,
+      fullContentId: comment.id,
+      documentType: DocumentInfoType.DISCOURSE_COMMENT,
     };
 
     return {

@@ -3,6 +3,8 @@ extend type Query {
 
   chatbotFAQs(spaceId: String!): [ChatbotFAQ!]!
 
+  searchChatbotFAQs(spaceId: String!, query: String!): [ChatbotFAQ!]!
+
   chatbotUserQuestions(spaceId: String!): [ChatbotUserQuestion!]!
 }
 
@@ -40,6 +42,7 @@ type ChatbotFAQ {
   spaceId: String!
   question: String!
   answer: String!
+  url: String!
   categories: [String!]
   subCategories: [String!]
   priority: Int!
@@ -73,6 +76,7 @@ input UpsertChatbotFAQInput {
   spaceId: String!
   question: String!
   answer: String!
+  url: String!
   categories: [String!]
   subCategories: [String!]
   priority: Int!

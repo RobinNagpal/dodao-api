@@ -598,6 +598,7 @@ model ChatbotFAQ {
   updatedAt     DateTime @updatedAt @map("updated_at")
   question      String
   answer        String
+  url           String   @db.VarChar(1024)
   categories    String[]
   subCategories String[]
   priority      Int
