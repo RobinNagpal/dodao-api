@@ -12,18 +12,20 @@ export interface Content {
 }
 
 export interface PageMetadata {
-  chunk: string;
-  fullContent?: string;
+  fullContentId: string;
+  documentType: DocumentInfoType;
   url: string;
-  source?: string;
-  text?: string;
 }
 
 export enum DocumentInfoType {
-  ARTICLE = 'ARTICLE',
-  GITBOOK = 'GITBOOK',
-  GITHUB = 'GITHUB',
-  DISCORD = 'DISCORD',
+  // When a website is scraped, we add multiple scrapped url info documents. Refer to ScrapedUrlInfo in prisma/schema.prisma
+  SCRAPED_URL_INFO = 'SCRAPED_URL_INFO',
+
+  // When a single page is scraped, we add a single page document. Refer to ArticleIndexingInfo in prisma/schema.prisma
+  ARTICLE_INDEXING_INFO = 'ARTICLE_INDEXING_INFO',
+
+  FAQ = 'FAQ',
+
   DISCOURSE_POST = 'DISCOURSE_POST',
   DISCOURSE_COMMENT = 'DISCOURSE_COMMENT',
 }

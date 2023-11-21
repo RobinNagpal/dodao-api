@@ -1,7 +1,7 @@
 import { createPage, getContentsOfPage, launchBrowser, waitTillHTMLRendered } from '@/helpers/puppeteer/launchBrowser';
 import { Page } from 'puppeteer';
 
-async function getContentsRecursivelyFromLink(
+async function getContentsRecursivelyAndIndex(
   page: Page,
   baseUrl: string,
   url: string,
@@ -42,7 +42,7 @@ async function getContentsRecursivelyFromLink(
 
   for (const link of filteredLinks) {
     try {
-      await getContentsRecursivelyFromLink(page, baseUrl, link, collector, ignoreHash, ignoreQueryParams, indexInPinecone);
+      await getContentsRecursivelyAndIndex(page, baseUrl, link, collector, ignoreHash, ignoreQueryParams, indexInPinecone);
     } catch (error) {
       console.error(`Failed to fetch the content of the URL: ${link}`, error);
     }
@@ -63,7 +63,7 @@ async function filterLinksByHost(baseUrl: string, links: string[]): Promise<stri
     });
 }
 
-export async function scrapeUsingPuppeteer(
+export async function scrapeUsingPuppeteerAndIndex(
   baseUrl: string,
   startUrl: string,
   ignoreHash: boolean,
@@ -74,7 +74,7 @@ export async function scrapeUsingPuppeteer(
   const page = await createPage(browser);
 
   try {
-    await getContentsRecursivelyFromLink(page, baseUrl, startUrl, [], ignoreHash, ignoreQueryParams, indexInPinecone);
+    await getContentsRecursivelyAndIndex(page, baseUrl, startUrl, [], ignoreHash, ignoreQueryParams, indexInPinecone);
   } catch (error) {
     console.error(error);
   } finally {

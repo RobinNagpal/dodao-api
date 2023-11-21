@@ -1,12 +1,12 @@
 import { MutationTriggerSiteScrapingRunArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
-import { scrapeUsingPuppeteer } from '@/helpers/loaders/siteCrawler/pupetteerSiteScrapper';
+import { scrapeUsingPuppeteerAndIndex } from '@/helpers/loaders/siteCrawler/pupetteerSiteScrapper';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { deleteDocWithUrlInPinecone, indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
 import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
 import { split, splitFullContent } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
-import { PageMetadata } from '@/types/chat/projectsContents';
+import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 import { SiteScrapingRun, WebsiteScrapingInfo } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { Document as LGCDocument } from 'langchain/document';
@@ -14,7 +14,7 @@ import { v4 } from 'uuid';
 
 async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScrapingInfo, newRun: SiteScrapingRun) {
   const indexInPinecone = async (content: { url: string; text: string }) => {
-    await prisma.scrapedUrlInfo.create({
+    const scrappedUrlInfo = await prisma.scrapedUrlInfo.create({
       data: {
         id: v4(),
         spaceId: websiteScrappingInfo.spaceId,
@@ -27,20 +27,20 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
     });
 
     const url = content.url;
-    const metadata: Omit<PageMetadata, 'chunk'> = {
+    const metadata: PageMetadata = {
       url: url,
-      fullContent: content.text,
-      source: url,
+      fullContentId: scrappedUrlInfo.id,
+      documentType: DocumentInfoType.SCRAPED_URL_INFO,
     };
 
-    const fullDoc: LGCDocument<Omit<PageMetadata, 'chunk'>> = {
+    const fullDoc: LGCDocument<PageMetadata> = {
       pageContent: content.text,
       metadata,
     };
     const index = await initPineconeClient();
     await deleteDocWithUrlInPinecone(url, index, websiteScrappingInfo.spaceId);
 
-    if ((fullDoc?.metadata?.fullContent?.length || 0) > 100 * 1024) {
+    if ((content.text.length || 0) > 100 * 1024) {
       console.log('Skipping indexing of ', url, ' because it is too big');
       // too big to index
       return;
@@ -74,7 +74,7 @@ async function scrapeWebsiteUsingPuppeteer(websiteScrappingInfo: WebsiteScraping
     });
   };
 
-  await scrapeUsingPuppeteer(
+  await scrapeUsingPuppeteerAndIndex(
     websiteScrappingInfo.baseUrl,
     websiteScrappingInfo.scrapingStartUrl,
     websiteScrappingInfo.ignoreHashInUrl,

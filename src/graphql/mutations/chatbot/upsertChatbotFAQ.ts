@@ -1,4 +1,5 @@
 import { MutationUpsertChatbotFaqArgs } from '@/graphql/generated/graphql';
+import { indexFAQInPinecone } from '@/helpers/loaders/faq/indexFAQInPinecone';
 import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
@@ -6,7 +7,7 @@ import { IncomingMessage } from 'http';
 export default async function upsertChatbotFAQ(_: unknown, args: MutationUpsertChatbotFaqArgs, context: IncomingMessage) {
   const { space, decodedJwt } = await verifySpaceEditPermissions(context, args.spaceId);
 
-  return prisma.chatbotFAQ.upsert({
+  const upsertedFAQ = prisma.chatbotFAQ.upsert({
     where: {
       id: args.input.id,
     },
@@ -18,6 +19,7 @@ export default async function upsertChatbotFAQ(_: unknown, args: MutationUpsertC
       updatedAt: new Date(),
       question: args.input.question,
       answer: args.input.answer,
+      url: args.input.url,
       categories: args.input.categories || [],
       subCategories: args.input.subCategories || [],
     },
@@ -26,8 +28,12 @@ export default async function upsertChatbotFAQ(_: unknown, args: MutationUpsertC
       updatedAt: new Date(),
       question: args.input.question,
       answer: args.input.answer,
+      url: args.input.url,
       categories: args.input.categories || [],
       subCategories: args.input.subCategories || [],
     },
   });
+
+  await indexFAQInPinecone(space.id, await upsertedFAQ);
+  return upsertedFAQ;
 }

@@ -13,15 +13,11 @@ export async function getEmbeddingVectors(documents: Document<PageMetadata>[]): 
   const vectors: Vector[] = await Promise.all(
     documents.flat().map(async (doc) => {
       const embedding = await embedder.embedQuery(doc.pageContent);
-      console.log('done embedding', doc.metadata.url);
+
       return {
         id: uuid(),
         values: embedding,
-        metadata: {
-          chunk: doc.pageContent,
-          text: doc.metadata.fullContent as string,
-          url: doc.metadata.url as string,
-        },
+        metadata: doc.metadata,
       } as Vector;
     }),
   );
@@ -41,10 +37,6 @@ export async function getEmbeddingVector(doc: Document<PageMetadata>): Promise<V
   return {
     id: uuid(),
     values: embedding,
-    metadata: {
-      chunk: doc.pageContent,
-      text: doc.metadata.fullContent as string,
-      url: doc.metadata.url as string,
-    },
+    metadata: doc.metadata,
   } as Vector;
 }
