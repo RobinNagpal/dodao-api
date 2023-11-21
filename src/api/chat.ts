@@ -1,13 +1,13 @@
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 
-import { getMatchesFromEmbeddings, getMatchesFromEmbeddingsForDocumentType, MatchedDocument } from '@/helpers/chat/matches';
+import { getMatchesFromEmbeddings } from '@/helpers/chat/matches';
 import { templates } from '@/helpers/chat/templates';
 import { ChatBody } from '@/helpers/chat/types/chat';
 
 import { OpenAIError } from '@/helpers/chat/utils/server';
 import { getContentFromLoaderEntity } from '@/helpers/loaders/getContentFromLoaderEntity';
 import { prisma } from '@/prisma';
-import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
+import { PageMetadata } from '@/types/chat/projectsContents';
 
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
 import { PineconeClient } from '@pinecone-database/pinecone';
@@ -68,40 +68,16 @@ const handler = async (req: Request, res: Response) => {
       },
     });
 
-    // Embed the user's intent and query the Pinecone index
-    const embedder = new OpenAIEmbeddings();
-
-    const embeddings = await embedder.embedQuery(inquiry);
-    console.log('embeddings', embeddings.length);
-    const matchedFAQs = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 7, spaceId, DocumentInfoType.FAQ);
-
     encoding.free();
 
     res.setHeader('Content-Type', 'text/plain'); // Set your Content-Type based on your stream data type
     res.setHeader('Transfer-Encoding', 'chunked');
 
+    // Embed the user's intent and query the Pinecone index
+    const embedder = new OpenAIEmbeddings();
+
     // Get a reader from the stream
-
-    if (matchedFAQs.length > 0) {
-      res.write('## Related Questions\n');
-      for (const match of matchedFAQs) {
-        const faq = await prisma.chatbotFAQ.findUnique({
-          where: {
-            id: match.metadata.fullContentId,
-          },
-        });
-        if (!faq) continue;
-        res.write(`
-        <details>
-          <summary><i>${faq.question}</i></summary>
-          <b>${faq.answer}</b>
-        </details>
-    `);
-      }
-    }
-
-    res.write('## Chatbot Response\n');
-
+    const embeddings = await embedder.embedQuery(inquiry);
     const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 5, spaceId);
 
     console.log('matches', matches.length);
