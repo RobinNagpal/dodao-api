@@ -3,6 +3,8 @@ extend type Query {
 
   chatbotFAQs(spaceId: String!): [ChatbotFAQ!]!
 
+  searchChatbotFAQs(spaceId: String!, query: String!): [ChatbotFAQ!]!
+
   chatbotUserQuestions(spaceId: String!): [ChatbotUserQuestion!]!
 }
 

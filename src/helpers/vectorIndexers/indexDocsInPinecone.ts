@@ -46,19 +46,6 @@ export async function deleteDocWithUrlInPineconeByType(url: string, index: Vecto
         namespace,
         filter: {
           url: { $eq: url },
-        },
-      },
-    });
-  } catch (e) {
-    console.error(e);
-    console.error('Error deleting the content in pinecone: ', url);
-  }
-  try {
-    await index._delete({
-      deleteRequest: {
-        namespace,
-        filter: {
-          url: { $eq: url },
           documentType: { $eq: type },
         },
       },

@@ -5,13 +5,7 @@ import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 import { ChatbotFAQ } from '@prisma/client';
 import { Document as LGCDocument } from 'langchain/dist/document';
 
-export async function indexFAQInPinecone(spaceId: string, faqId: string) {
-  const faq: ChatbotFAQ = await prisma.chatbotFAQ.findUniqueOrThrow({
-    where: {
-      id: faqId,
-    },
-  });
-
+export async function indexFAQInPinecone(spaceId: string, faq: ChatbotFAQ) {
   const chunk = `
       Question: ${faq.question}
     

@@ -8,6 +8,7 @@ import byteCollections from '@/graphql/queries/byteCollection/byteCollections';
 import chatbotCategories from '@/graphql/queries/chatbot/chatbotCategories';
 import chatbotFAQs from '@/graphql/queries/chatbot/chatbotFAQs';
 import chatbotUserQuestions from '@/graphql/queries/chatbot/chatbotUserQuestions';
+import searchChatbotFAQs from '@/graphql/queries/chatbot/searchChatbotFAQs';
 import gitCourse from '@/graphql/queries/course/gitCourse';
 import gitCourseIntegrations from '@/graphql/queries/course/gitCourseIntegrations';
 import gitCourseSubmission from '@/graphql/queries/course/gitCourseSubmission';
@@ -113,5 +114,6 @@ export default {
 
   chatbotCategories,
   chatbotFAQs,
+  searchChatbotFAQs,
   chatbotUserQuestions,
 };
