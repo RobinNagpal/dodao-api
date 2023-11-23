@@ -11,6 +11,8 @@ on:
 jobs:
   lint_and_prettier:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --max-old-space-size=8182
 
     steps:
       - name: Check out repository
@@ -20,9 +22,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18
-
-      - name: Increase Node.js memory limit
-        run: echo "NODE_OPTIONS=--max-old-space-size=8182" >> $GITHUB_ENV
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v2
