@@ -44,6 +44,9 @@ jobs:
       - name: Generate Prisma Client
         run: yarn prisma:generate
 
+      - name: Increase Node.js memory limit
+        run: echo "NODE_OPTIONS=--max-old-space-size=4096" >> $GITHUB_ENV
+
       - name: Run Compiler
         run: yarn tsc
 

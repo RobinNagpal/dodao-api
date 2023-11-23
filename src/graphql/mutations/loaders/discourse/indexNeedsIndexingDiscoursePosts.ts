@@ -7,8 +7,40 @@ import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 
 import { prisma } from '@/prisma';
+import { DiscourseIndexRun, DiscoursePost } from '@prisma/client';
 import { IncomingMessage } from 'http';
+import { Page } from 'puppeteer';
 import { v4 } from 'uuid';
+
+async function indexDBPosts(dbPosts: DiscoursePost[], page: Page, newIndexRun: DiscourseIndexRun) {
+  for (const post of dbPosts) {
+    console.log('going to', post.url);
+
+    try {
+      const postTopics = await getPostDetails(page, post);
+      await storePostDetails(post, postTopics);
+    } catch (e) {
+      console.error(e);
+      await prisma.discoursePost.update({
+        where: {
+          id: post.id,
+        },
+        data: {
+          status: PostStatus.INDEXING_FAILED,
+        },
+      });
+    }
+  }
+
+  await prisma.discourseIndexRun.update({
+    where: {
+      id: newIndexRun.id,
+    },
+    data: {
+      status: DiscourseIndexRunStatus.SUCCESS,
+    },
+  });
+}
 
 export default async function indexNeedsIndexingDiscoursePosts(_: any, args: MutationIndexNeedsIndexingDiscoursePostsArgs, context: IncomingMessage) {
   const space = await getSpaceById(args.spaceId);
@@ -37,34 +69,8 @@ export default async function indexNeedsIndexingDiscoursePosts(_: any, args: Mut
     },
   });
 
+  console.log(`${dbPosts.length} dbPosts needs indexing`);
   const { page } = await setupPuppeteerPageForDiscourse(discourseUrl);
-
-  for (const post of dbPosts) {
-    console.log('going to', post.url);
-
-    try {
-      const postTopics = await getPostDetails(page, post);
-      await storePostDetails(post, postTopics);
-    } catch (e) {
-      console.error(e);
-      await prisma.discoursePost.update({
-        where: {
-          id: post.id,
-        },
-        data: {
-          status: PostStatus.INDEXING_FAILED,
-        },
-      });
-    }
-  }
-
-  await prisma.discourseIndexRun.update({
-    where: {
-      id: newIndexRun.id,
-    },
-    data: {
-      status: DiscourseIndexRunStatus.SUCCESS,
-    },
-  });
+  indexDBPosts(dbPosts, page, newIndexRun);
   return newIndexRun;
 }

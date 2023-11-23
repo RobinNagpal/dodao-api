@@ -134,10 +134,30 @@ async function indexPostComment(post: DiscoursePost, comment: PostTopic, comment
   await indexDocsInPinecone(splitDocs, index, post.spaceId);
 }
 
+async function indexPostDocument(post: DiscoursePost, index: VectorOperationsApi) {
+  const metadata: PageMetadata = {
+    url: post.url,
+    fullContentId: post.id,
+    documentType: DocumentInfoType.DISCOURSE_POST,
+  };
+
+  const postDocument: LGCDocument<PageMetadata> = {
+    pageContent: post.fullContent || '',
+    metadata,
+  };
+
+  console.log(`Upserting post in pinecone  ${post.url}`);
+  await deleteDocWithUrlInPinecone(metadata.url, index, post.spaceId);
+
+  const splitDocs = await split([postDocument]);
+
+  await indexDocsInPinecone(splitDocs, index, post.spaceId);
+}
+
 export async function storePostDetails(post: DiscoursePost, postTopics: PostTopic[]): Promise<void> {
   const mainPost = postTopics.find((post) => post.id === 'post_1');
 
-  await prisma.discoursePost.update({
+  const upsertedPost = await prisma.discoursePost.update({
     where: {
       id: post.id,
     },
@@ -148,23 +168,14 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
     },
   });
 
-  const metadata: PageMetadata = {
-    url: post.url,
-    fullContentId: post.id,
-    documentType: DocumentInfoType.DISCOURSE_POST,
-  };
-
-  const postDocument: LGCDocument<PageMetadata> = {
-    pageContent: mainPost?.content || '',
-    metadata,
-  };
+  const index = await initPineconeClient();
+  await indexPostDocument(upsertedPost, index);
 
   const comments = postTopics.filter((post) => post.id !== 'post_1');
   const uniqueComments = unionBy(comments, 'id');
 
   let commentIndex = 0;
 
-  const index = await initPineconeClient();
   for (const comment of uniqueComments) {
     try {
       await indexPostComment(post, comment, commentIndex, index);

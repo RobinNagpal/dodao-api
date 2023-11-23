@@ -19,12 +19,12 @@ export interface PostInfo {
 }
 
 export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
-  const elements: PostInfo[] = [];
+  let elements: PostInfo[] = [];
 
   let previousScrollHeight = -1;
   let currentScrollHeight = await page.evaluate(() => document.body.scrollHeight);
 
-  while (previousScrollHeight !== currentScrollHeight && elements.length < 50) {
+  while (previousScrollHeight !== currentScrollHeight) {
     const newElements = await page.$$eval(
       DISCOURSE_SELECTORS.POST_SELECTOR,
       (topics, hrefSubSelector, timeSubSelector) => {
@@ -61,6 +61,7 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
 
     console.log('Adding new posts:', JSON.stringify(newElementsHrefs, null, 2));
     elements.push(...newElements);
+    elements = unionBy(elements, 'href');
 
     await page.evaluate(`window.scrollBy(0, ${currentScrollHeight})`); // Scroll to the current bottom
     await page.waitForTimeout(1000); // You can adjust this delay as required to wait for new content to load
