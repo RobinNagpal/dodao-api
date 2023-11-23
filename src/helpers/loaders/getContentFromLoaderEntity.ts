@@ -2,6 +2,8 @@ import { prisma } from '@/prisma';
 import { DocumentInfoType } from '@/types/chat/projectsContents';
 
 export async function getContentFromLoaderEntity(entityId: string, documentInfoType: DocumentInfoType): Promise<string> {
+  console.log('getContentFromLoaderEntity', entityId, documentInfoType);
+
   if (documentInfoType === DocumentInfoType.FAQ) {
     const faq = await prisma.chatbotFAQ.findUnique({
       where: {
@@ -36,6 +38,8 @@ export async function getContentFromLoaderEntity(entityId: string, documentInfoT
       },
     });
 
+    console.log(`return comment content for ${entityId}`, comment?.content);
+    console.log(`comment:`, comment);
     return comment?.content || '';
   }
 

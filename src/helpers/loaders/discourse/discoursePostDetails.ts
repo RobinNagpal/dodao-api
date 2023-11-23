@@ -1,10 +1,12 @@
+import { logError } from '@/helpers/errorLogger';
 import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { deleteDocWithUrlInPinecone, indexDocsInPinecone } from '@/helpers/vectorIndexers/indexDocsInPinecone';
 import { initPineconeClient } from '@/helpers/vectorIndexers/pineconeHelper';
 import { split } from '@/helpers/vectorIndexers/splitter';
 import { prisma } from '@/prisma';
 import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
-import { DiscoursePost, DiscoursePostComment } from '@prisma/client';
+import { VectorOperationsApi } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
+import { DiscoursePost } from '@prisma/client';
 import { Document as LGCDocument } from 'langchain/document';
 import unionBy from 'lodash/unionBy';
 import { Page } from 'puppeteer';
@@ -83,6 +85,55 @@ export async function getPostDetails(page: Page, post: DiscoursePost): Promise<P
   return unionBy(elements, 'id');
 }
 
+async function indexPostComment(post: DiscoursePost, comment: PostTopic, commentIndex: number, index: VectorOperationsApi) {
+  const upsertedComment = await prisma.discoursePostComment.upsert({
+    where: {
+      commentPostId_postId: {
+        postId: post.id,
+        commentPostId: comment.id,
+      },
+    },
+    update: {
+      content: comment.content,
+      author: comment.author,
+      datePublished: new Date(comment.commentDate),
+      indexedAt: new Date(),
+      createdAt: new Date(),
+    },
+    create: {
+      id: v4(),
+      commentPostId: comment.id,
+      spaceId: post.spaceId,
+      content: comment.content,
+      author: comment.author,
+      datePublished: new Date(comment.commentDate),
+      indexedAt: new Date(),
+      createdAt: new Date(),
+      postId: post.id,
+    },
+  });
+
+  const url = `${post.url}/${commentIndex + 2}}`;
+
+  console.log(`Upserting comment in pinecone  ${url} `);
+
+  const metadata: PageMetadata = {
+    url: url,
+    fullContentId: upsertedComment.id,
+    documentType: DocumentInfoType.DISCOURSE_COMMENT,
+  };
+
+  const commentDocuments: LGCDocument<PageMetadata> = {
+    pageContent: comment.content,
+    metadata,
+  };
+  await deleteDocWithUrlInPinecone(metadata.url, index, post.spaceId);
+
+  const splitDocs = await split([commentDocuments]);
+
+  await indexDocsInPinecone(splitDocs, index, post.spaceId);
+}
+
 export async function storePostDetails(post: DiscoursePost, postTopics: PostTopic[]): Promise<void> {
   const mainPost = postTopics.find((post) => post.id === 'post_1');
 
@@ -109,39 +160,18 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
   };
 
   const comments = postTopics.filter((post) => post.id !== 'post_1');
-  const upsertedComments: DiscoursePostComment[] = [];
+  const uniqueComments = unionBy(comments, 'id');
 
-  console.log('Upserting comments', JSON.stringify(comments, null, 2));
+  let commentIndex = 0;
 
-  for (const comment of comments) {
-    console.log('Upserting comment', JSON.stringify(comment));
-    const upsertedComment = await prisma.discoursePostComment.upsert({
-      where: {
-        commentPostId_postId: {
-          postId: post.id,
-          commentPostId: comment.id,
-        },
-      },
-      update: {
-        content: comment.content,
-        author: comment.author,
-        datePublished: new Date(comment.commentDate),
-        indexedAt: new Date(),
-        createdAt: new Date(),
-      },
-      create: {
-        id: v4(),
-        commentPostId: comment.id,
-        spaceId: post.spaceId,
-        content: comment.content,
-        author: comment.author,
-        datePublished: new Date(comment.commentDate),
-        indexedAt: new Date(),
-        createdAt: new Date(),
-        postId: post.id,
-      },
-    });
-    upsertedComments.push(upsertedComment);
+  const index = await initPineconeClient();
+  for (const comment of uniqueComments) {
+    try {
+      await indexPostComment(post, comment, commentIndex, index);
+    } catch (e: any) {
+      logError(`Unable to index comment for post ${post.url}`, {}, e);
+    }
+    commentIndex++;
   }
   await prisma.discoursePost.update({
     where: {
@@ -153,28 +183,4 @@ export async function storePostDetails(post: DiscoursePost, postTopics: PostTopi
       status: PostStatus.INDEXING_SUCCESS,
     },
   });
-
-  const commentDocuments: LGCDocument<PageMetadata>[] = upsertedComments.map((comment, index) => {
-    const url = `${post.url}/${index + 2}}`;
-    const metadata: PageMetadata = {
-      url: url,
-      fullContentId: comment.id,
-      documentType: DocumentInfoType.DISCOURSE_COMMENT,
-    };
-
-    return {
-      pageContent: comment.content,
-      metadata,
-    };
-  });
-
-  const allDocuments = [postDocument, ...commentDocuments];
-
-  const index = await initPineconeClient();
-  for (const doc of allDocuments) {
-    await deleteDocWithUrlInPinecone(doc.metadata.url, index, post.spaceId);
-  }
-  const splitDocs = await split(allDocuments);
-
-  await indexDocsInPinecone(splitDocs, index, post.spaceId);
 }

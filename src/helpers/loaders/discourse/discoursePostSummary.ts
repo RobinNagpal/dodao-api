@@ -2,6 +2,7 @@ import { getPostDetails, storePostDetails } from '@/helpers/loaders/discourse/di
 import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { prisma } from '@/prisma';
 import unionBy from 'lodash/unionBy';
+import difference from 'lodash/difference';
 import puppeteer, { Page } from 'puppeteer';
 import { v4 } from 'uuid';
 
@@ -23,7 +24,7 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
   let previousScrollHeight = -1;
   let currentScrollHeight = await page.evaluate(() => document.body.scrollHeight);
 
-  while (previousScrollHeight !== currentScrollHeight) {
+  while (previousScrollHeight !== currentScrollHeight && elements.length < 50) {
     const newElements = await page.$$eval(
       DISCOURSE_SELECTORS.POST_SELECTOR,
       (topics, hrefSubSelector, timeSubSelector) => {
@@ -53,6 +54,12 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
       DISCOURSE_SELECTORS.TIME_SUB_SELECTOR,
     );
 
+    const newElementsHrefs = difference(
+      newElements.map((e) => e.href),
+      elements.map((e) => e.href),
+    );
+
+    console.log('Adding new posts:', JSON.stringify(newElementsHrefs, null, 2));
     elements.push(...newElements);
 
     await page.evaluate(`window.scrollBy(0, ${currentScrollHeight})`); // Scroll to the current bottom
@@ -65,7 +72,7 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
   return unionBy(elements, 'href');
 }
 
-export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
+export async function setupPuppeteerPageForDiscourse(discourseUrl: string) {
   const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
   const page = await browser.newPage();
   await page.goto(discourseUrl);
@@ -73,6 +80,11 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
     width: 1200,
     height: 800,
   });
+  return { browser, page };
+}
+
+export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
+  const { browser, page } = await setupPuppeteerPageForDiscourse(discourseUrl);
 
   const hrefs: PostInfo[] = await getSummaryOfAllPosts(page);
 
