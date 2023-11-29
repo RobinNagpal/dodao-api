@@ -1,3 +1,4 @@
+import { getTokenCount } from '@/ai/getTokenCount';
 import { templates } from '@/helpers/chat/templates';
 
 import { LLMChain } from 'langchain/chains';
@@ -5,7 +6,7 @@ import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
 
 const llm = new OpenAI({
-  concurrency: 10,
+  maxConcurrency: 10,
   temperature: 0,
   modelName: 'gpt-3.5-turbo',
 });
@@ -43,8 +44,8 @@ const summarize = async (document: string, inquiry: string, onSummaryDone: (valu
 const summarizeLongDocument = async (document: string, inquiry: string, onSummaryDone: (value: string) => void): Promise<string> => {
   // Chunk document into 4000 character chunks
   try {
-    if (document.length > 12000) {
-      const chunks = chunkSubstr(document, 4000);
+    if (getTokenCount(document) > 4000) {
+      const chunks = chunkSubstr(document, 8000);
       const summarizedChunks: string[] = [];
       for (const chunk of chunks) {
         const result = await summarize(chunk, inquiry, onSummaryDone);
@@ -53,7 +54,7 @@ const summarizeLongDocument = async (document: string, inquiry: string, onSummar
 
       const result = summarizedChunks.join('\n');
 
-      if (result.length > 12000) {
+      if (getTokenCount(result) > 4000) {
         return await summarizeLongDocument(result, inquiry, onSummaryDone);
       } else return result;
     } else {

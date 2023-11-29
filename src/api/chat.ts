@@ -1,11 +1,13 @@
+import { getTokenCount } from '@/ai/getTokenCount';
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 
 import { getMatchesFromEmbeddings } from '@/helpers/chat/matches';
+import { summarizeLongDocument } from '@/helpers/chat/summarizer';
 import { templates } from '@/helpers/chat/templates';
 import { ChatBody } from '@/helpers/chat/types/chat';
 
 import { OpenAIError } from '@/helpers/chat/utils/server';
-import { getContentFromLoaderEntity } from '@/helpers/loaders/getContentFromLoaderEntity';
+import { getContentFromLoaderEntity, getNormalizedEntries } from '@/helpers/loaders/getContentFromLoaderEntity';
 import { prisma } from '@/prisma';
 import { PageMetadata } from '@/types/chat/projectsContents';
 
@@ -78,21 +80,28 @@ const handler = async (req: Request, res: Response) => {
 
     // Get a reader from the stream
     const embeddings = await embedder.embedQuery(inquiry);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 5, spaceId);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 3, spaceId);
 
     console.log('matches', matches.length);
-    const chunkedDocs: { text: string; url: string }[] = [];
+    const chunkedDocs: { text: string; url: string; score?: number }[] = [];
 
     // const summary = await summarizeLongDocument(chunkedDocs!.join('\n'), messages[0].content, () => {
     //   console.log('onSummaryDone');
     // });
 
     const uniqueMatches = uniqBy(matches, 'metadata.fullContentId');
+    const normalizedMatches: PageMetadata[] = [];
+
     for (const match of uniqueMatches) {
-      const metadata = match.metadata as PageMetadata;
-      const { fullContentId, url, documentType } = metadata;
-      const text = await getContentFromLoaderEntity(fullContentId, documentType);
-      const chunkedDoc = { text, url: url };
+      const metadata = await getNormalizedEntries(match.metadata);
+      normalizedMatches.push(metadata);
+    }
+
+    const uniqueNormalizedMatches = uniqBy(normalizedMatches, 'metadata.fullContentId');
+
+    for (const match of uniqueNormalizedMatches) {
+      const text = await getContentFromLoaderEntity(match.fullContentId, match.documentType, inquiry);
+      const chunkedDoc = { text, url: match.url };
       chunkedDocs.push(chunkedDoc);
     }
 
@@ -115,14 +124,27 @@ const handler = async (req: Request, res: Response) => {
       prompt: promptQA,
       llm: chat,
     });
+    const summaries: { text: string; url: string; score?: number }[] = [];
+    for (const chunkedDoc of chunkedDocs) {
+      if (getTokenCount(chunkedDoc.text) > 1500) {
+        const summary = await summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {
+          console.log('onSummaryDone');
+        });
+
+        summaries.push({ text: summary, url: chunkedDoc.url, score: chunkedDoc.score });
+      } else {
+        summaries.push(chunkedDoc);
+      }
+    }
+
     console.log('**************************************************************************************************************');
     console.log('question :', JSON.stringify(inquiry));
     console.log('**************************************************************************************************************');
-    console.log('summary :', JSON.stringify(chunkedDocs, null, 2));
+    console.log('summary :', JSON.stringify(summaries, null, 2));
     console.log('**************************************************************************************************************');
 
     await chain.call({
-      summaries: JSON.stringify(chunkedDocs, null, 2),
+      summaries: JSON.stringify(summaries, null, 2),
       question: inquiry,
     });
   } catch (error) {

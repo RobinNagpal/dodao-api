@@ -605,3 +605,72 @@ model ChatbotFAQ {
 
   @@map("chatbot_faqs")
 }
+
+model InsuranceCustomer {
+  id                         String                       @id @db.VarChar(255)
+  createdAt                  DateTime                     @default(now()) @map("created_at")
+  updatedAt                  DateTime                     @updatedAt @map("updated_at")
+  name                       String                       @db.VarChar(255)
+  phone                      String                       @db.VarChar(255)
+  email                      String                       @db.VarChar(255)
+  InsuranceChatConversations InsuranceChatConversations[]
+}
+
+model InsurancePrompt {
+  id        String   @id @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  name      String   @db.VarChar(255)
+  prompt    String
+
+  @@map("insurance_prompts")
+}
+
+model InsuranceTestChatMessage {
+  id        String   @id @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  to        String   @db.VarChar(255)
+  from      String   @db.VarChar(255)
+  message   String
+
+  @@map("insurance_chat_messages")
+}
+
+model TwilioSms {
+  id                  String   @id @db.VarChar(255)
+  accountSid          String   @map("account_sid") @db.VarChar(255)
+  apiVersion          String   @map("api_version") @db.VarChar(255)
+  body                String   @db.VarChar(255)
+  dateCreated         DateTime @map("date_created")
+  dateSent            DateTime @map("date_sent")
+  dateUpdated         DateTime @map("date_updated")
+  direction           String   @db.VarChar(255)
+  errorCode           String   @map("error_code") @db.VarChar(255)
+  errorMessage        String   @map("error_message") @db.VarChar(255)
+  from                String   @db.VarChar(255)
+  messagingServiceSid String   @map("messaging_service_sid") @db.VarChar(255)
+  numMedia            String   @map("num_media") @db.VarChar(255)
+  numSegments         String   @map("num_segments") @db.VarChar(255)
+  price               String   @db.VarChar(255)
+  priceUnit           String   @map("price_unit") @db.VarChar(255)
+  sid                 String   @db.VarChar(255)
+  status              String   @db.VarChar(255)
+  to                  String   @db.VarChar(255)
+  uri                 String   @db.VarChar(255)
+
+  @@map("twilio_sms")
+}
+
+model InsuranceChatConversations {
+  id                  String             @id @db.VarChar(255)
+  promptId            String             @map("prompt_id") @db.VarChar(255)
+  createdAt           DateTime           @default(now()) @map("created_at")
+  updatedAt           DateTime           @updatedAt @map("updated_at")
+  nameOfPerson        String             @map("name_of_person") @db.VarChar(255)
+  phoneNumber         String             @map("phone_number") @db.VarChar(255)
+  status              String             @db.VarChar(255)
+  twilioSmsIds        String[]
+  insuranceCustomerId String             @db.VarChar(255)
+  customer            InsuranceCustomer? @relation(fields: [insuranceCustomerId], references: [id])
+}
