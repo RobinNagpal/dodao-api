@@ -10,7 +10,6 @@ async function smsWebhook(req: Request, res: Response) {
   prisma.twilioSms.create({
     data: {
       id: v4(),
-      createdAt: new Date(),
       sid: req.body.SmsSid,
       updatedAt: new Date(),
       from: req.body.From,
