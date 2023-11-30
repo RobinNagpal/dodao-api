@@ -128,7 +128,9 @@ const handler = async (req: Request, res: Response) => {
     const summaries: { text: string; url: string; score?: number }[] = [];
     for (const chunkedDoc of chunkedDocs) {
       if (getTokenCount(chunkedDoc.text) > 1500) {
-        const summary = await summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {});
+        const summary = await summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {
+          console.log('onSummaryDone');
+        });
 
         console.log('summary of chunked doc', summary);
         summaries.push({ text: summary, url: chunkedDoc.url, score: chunkedDoc.score });
