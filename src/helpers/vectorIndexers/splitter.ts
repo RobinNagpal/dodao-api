@@ -4,7 +4,7 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
 export async function split(docs: LGCDocument<PageMetadata>[]): Promise<LGCDocument<PageMetadata>[]> {
   const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 4000,
+    chunkSize: 8000,
     chunkOverlap: 400,
   });
 

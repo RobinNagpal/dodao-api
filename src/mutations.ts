@@ -23,6 +23,7 @@ import reFetchDiscordServers from '@/graphql/mutations/loaders/discord/reFetchDi
 import updateIndexingOfDiscordChannel from '@/graphql/mutations/loaders/discord/updateIndexingOfDiscordChannel';
 import annotateDiscoursePost from '@/graphql/mutations/loaders/discourse/annotateDiscoursePost';
 import indexDiscoursePost from '@/graphql/mutations/loaders/discourse/indexDiscoursePost';
+import indexNeedsIndexingDiscoursePosts from '@/graphql/mutations/loaders/discourse/indexNeedsIndexingDiscoursePosts';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
 import createWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/createWebsiteScrapingInfo';
 import editWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/editWebsiteScrapingInfo';
@@ -37,6 +38,7 @@ import upsertProject from '@/graphql/mutations/project/upsertProject';
 import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import createSpace from '@/graphql/mutations/space/createSpace';
+import { dropPineconeNamespace } from '@/graphql/mutations/space/dropPineconeNamespace';
 import sendEmail from '@/graphql/mutations/space/sendEmail';
 import { updateAuthSettings } from '@/graphql/mutations/space/updateAuthSettings';
 import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings';
@@ -56,6 +58,7 @@ export default {
   createSpace,
   updateSpace,
   sendEmail,
+  dropPineconeNamespace,
 
   upsertSpaceLoaderInfo,
 
@@ -75,6 +78,7 @@ export default {
   deleteGitCourseSubmission,
 
   triggerNewDiscourseIndexRun,
+  indexNeedsIndexingDiscoursePosts,
 
   reFetchDiscordServers,
   reFetchDiscordChannels,

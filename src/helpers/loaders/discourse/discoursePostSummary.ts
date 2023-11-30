@@ -1,7 +1,8 @@
-import { getPostDetails, storePostDetails } from '@/helpers/loaders/discourse/discoursePostDetails';
+import { getPostDetails, storePostDetailsInPinecone } from '@/helpers/loaders/discourse/discoursePostDetails';
 import { PostStatus } from '@/helpers/loaders/discourse/models';
 import { prisma } from '@/prisma';
 import unionBy from 'lodash/unionBy';
+import difference from 'lodash/difference';
 import puppeteer, { Page } from 'puppeteer';
 import { v4 } from 'uuid';
 
@@ -18,7 +19,7 @@ export interface PostInfo {
 }
 
 export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
-  const elements: PostInfo[] = [];
+  let elements: PostInfo[] = [];
 
   let previousScrollHeight = -1;
   let currentScrollHeight = await page.evaluate(() => document.body.scrollHeight);
@@ -53,7 +54,14 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
       DISCOURSE_SELECTORS.TIME_SUB_SELECTOR,
     );
 
+    const newElementsHrefs = difference(
+      newElements.map((e) => e.href),
+      elements.map((e) => e.href),
+    );
+
+    console.log('Adding new posts:', JSON.stringify(newElementsHrefs, null, 2));
     elements.push(...newElements);
+    elements = unionBy(elements, 'href');
 
     await page.evaluate(`window.scrollBy(0, ${currentScrollHeight})`); // Scroll to the current bottom
     await page.waitForTimeout(1000); // You can adjust this delay as required to wait for new content to load
@@ -65,7 +73,7 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
   return unionBy(elements, 'href');
 }
 
-export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
+export async function setupPuppeteerPageForDiscourse(discourseUrl: string) {
   const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
   const page = await browser.newPage();
   await page.goto(discourseUrl);
@@ -73,6 +81,11 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
     width: 1200,
     height: 800,
   });
+  return { browser, page };
+}
+
+export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
+  const { browser, page } = await setupPuppeteerPageForDiscourse(discourseUrl);
 
   const hrefs: PostInfo[] = await getSummaryOfAllPosts(page);
 
@@ -108,7 +121,7 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
     if (post.status === PostStatus.NEEDS_INDEXING) {
       try {
         const postTopics = await getPostDetails(page, post);
-        await storePostDetails(post, postTopics);
+        await storePostDetailsInPinecone(post, postTopics);
       } catch (e) {
         console.error(e);
         await prisma.discoursePost.update({

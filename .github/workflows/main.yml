@@ -11,6 +11,8 @@ on:
 jobs:
   lint_and_prettier:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --max-old-space-size=8182
 
     steps:
       - name: Check out repository
@@ -43,6 +45,7 @@ jobs:
 
       - name: Generate Prisma Client
         run: yarn prisma:generate
+
 
       - name: Run Compiler
         run: yarn tsc

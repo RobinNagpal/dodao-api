@@ -42,6 +42,8 @@ extend type Mutation {
   sendEmail(input: SendEmailInput!): Boolean!
 
   upsertSpaceLoaderInfo(spaceId: String!, input: SpaceLoadersInfoInput!): Space!
+
+  dropPineconeNamespace(spaceId: String!): Boolean!
 }
 
 type Space {
