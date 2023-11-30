@@ -1,6 +1,6 @@
-import { MutationAnnotateDiscoursePostArgs, MutationIndexDiscoursePostArgs } from '@/graphql/generated/graphql';
+import { MutationAnnotateDiscoursePostArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
-import { indexDiscoursePostInDB } from '@/helpers/loaders/discourse/indexDiscoursePostInDB';
+import { indexDiscoursePostInDBAndPinecone } from '@/helpers/loaders/discourse/indexDiscoursePostInDBAndPinecone';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
@@ -9,7 +9,7 @@ export default async function annotateDiscoursePost(_: any, args: MutationAnnota
   const space = await getSpaceById(args.spaceId);
   checkEditSpacePermission(space, context);
 
-  return prisma.discoursePost.update({
+  const updatedPost = await prisma.discoursePost.update({
     where: {
       id: args.input.postId,
     },
@@ -20,4 +20,7 @@ export default async function annotateDiscoursePost(_: any, args: MutationAnnota
       discussed: args.input.discussed,
     },
   });
+
+  indexDiscoursePostInDBAndPinecone(args.spaceId, updatedPost.id);
+  return updatedPost;
 }

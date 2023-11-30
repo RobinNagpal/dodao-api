@@ -8,8 +8,8 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_task_definition" "app" {
   family = local.family
-  cpu    = "1024" # 1 vCPU
-  memory = "4096" # 3 GB of RAM
+  cpu    = "2048" # 1 vCPU
+  memory = "8192" # 3 GB of RAM
 
 
   volume {
@@ -33,8 +33,8 @@ resource "aws_ecs_task_definition" "app" {
       image = var.ecr_repository_url
 
       resources = {
-        cpu    = 1024 # 1 vCPU
-        memory = 4096 # 3 GB of RAM
+        cpu    = 2048 # 1 vCPU
+        memory = 8192 # 3 GB of RAM
       }
 
       linuxParameters = {
