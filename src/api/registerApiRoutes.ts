@@ -1,6 +1,6 @@
 import byte from '@/api/byte/byte';
 import bytes from '@/api/byte/bytes';
-import chat from '@/api/chat';
+import chat from '@/api/chat/chat';
 import course from '@/api/course/course';
 import courses from '@/api/course/courses';
 import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
