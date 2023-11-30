@@ -34,7 +34,10 @@ const templates = {
         - Combine all the relevant 'text' field in ANSWERS json and rewrite it to make it easier to read, but don't omit any information.
         - 'url' field in ANSWERS json is the URLs of the pages that contain the 'text'. 
         - Always include the most relevant three links at the end as "Sources" or "References". Add the name of the source and the link as numbered markdown links. 
-        - Answer as if you are a human and not a bot 
+        - Answer as if you are a human and not a bot
+        - If no information is found. Say "I can't find any information about that. Sorry!" 
+        - Also include the date of the related content in the response if the 'text' contains a date.
+        - Give preference to the most recent relevant content.
 
         ANSWERS: {summaries}
 
@@ -47,7 +50,11 @@ const templates = {
     - Code will be surrounded by backticks (\`) or triple backticks (\`\`\`).
     - The summary will answer the INQUIRY. If it cannot be answered, the summary should be empty.
     - If the INQUIRY cannot be answered, the final answer should be empty.
-    - The summary should be less than 1000 words.
+    - The summary should be less than 800 words.
+    - If the content date is included, make sure to prefer the most recent relevant content.
+    - Return empty response if the CONTENT does not contain any information related to INQUIRY.
+    - Include a date of the related content in the response if the CONTENT contains a date.
+    
 
     INQUIRY: {inquiry}
     CONTENT: {document}
@@ -78,6 +85,7 @@ const templates = {
     - You should remove any punctuation from the question
     - You should remove any words that are not relevant to the question
     - If you are unable to formulate a question, respond with the same USER PROMPT you got.
+    
 
     QUESTION: {question}
 

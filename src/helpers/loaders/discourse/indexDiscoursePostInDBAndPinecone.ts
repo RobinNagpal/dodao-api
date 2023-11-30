@@ -1,8 +1,8 @@
-import { getPostDetails, storePostDetails } from '@/helpers/loaders/discourse/discoursePostDetails';
+import { getPostDetails, storePostDetailsInPinecone } from '@/helpers/loaders/discourse/discoursePostDetails';
 import { prisma } from '@/prisma';
 import puppeteer from 'puppeteer';
 
-export async function indexDiscoursePostInDB(spaceId: string, postId: string): Promise<void> {
+export async function indexDiscoursePostInDBAndPinecone(spaceId: string, postId: string): Promise<void> {
   const discoursePost = await prisma.discoursePost.findFirstOrThrow({
     where: {
       id: postId,
@@ -17,7 +17,7 @@ export async function indexDiscoursePostInDB(spaceId: string, postId: string): P
   });
 
   const postTopics = await getPostDetails(page, discoursePost);
-  await storePostDetails(discoursePost, postTopics);
+  await storePostDetailsInPinecone(discoursePost, postTopics);
 
   await browser.close();
 }

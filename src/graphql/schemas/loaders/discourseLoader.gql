@@ -9,6 +9,8 @@ extend type Query {
 extend type Mutation {
   triggerNewDiscourseIndexRun(spaceId: String!): DiscourseIndexRun!
 
+  indexNeedsIndexingDiscoursePosts(spaceId: String!): DiscourseIndexRun!
+
   indexDiscoursePost(spaceId: String!, postId: String!): Boolean!
 
   annotateDiscoursePost(spaceId: String!, input: AnnotateDiscoursePostInput!): DiscoursePost!

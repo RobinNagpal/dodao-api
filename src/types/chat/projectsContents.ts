@@ -15,6 +15,10 @@ export interface PageMetadata {
   fullContentId: string;
   documentType: DocumentInfoType;
   url: string;
+
+  // These are only used for discourse posts
+  enacted?: boolean;
+  discussed?: boolean;
 }
 
 export enum DocumentInfoType {

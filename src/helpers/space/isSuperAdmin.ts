@@ -25,7 +25,7 @@ export function isDoDAOSuperAdmin(context: IncomingMessage): (JwtPayload & DoDao
 
 export function validateSuperAdmin(context: IncomingMessage) {
   const decoded = getDecodedJwtFromContext(context);
-  if (!isSuperAdmin(decoded.username)) {
-    throw new Error('Not authorized');
+  if (!isSuperAdmin(decoded.username.toLowerCase())) {
+    throw new Error(`Not authorized ${decoded.username}`);
   }
 }
