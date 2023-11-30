@@ -15,7 +15,6 @@ import { GraphQLDateTimeISO } from 'graphql-scalars';
 import { GraphQLFormattedError } from 'graphql/error';
 import { IncomingHttpHeaders } from 'http';
 import * as path from 'path';
-import chat from '@/api/chat';
 import Mutation from './mutations';
 import Query from './queries';
 import resolvers from './resolvers';
