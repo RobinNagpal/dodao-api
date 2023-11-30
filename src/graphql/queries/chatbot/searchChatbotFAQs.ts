@@ -42,7 +42,7 @@ export default async function searchChatbotFAQs(_: any, { spaceId, query }: Quer
 
   const embeddings = await embedder.embedQuery(inquiry);
   console.log('embeddings', embeddings.length);
-  const matchedFAQs = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 7, spaceId, DocumentInfoType.FAQ);
+  const matchedFAQs = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 4, spaceId, DocumentInfoType.FAQ);
 
   console.log('matchedFAQs', JSON.stringify(matchedFAQs, null, 2));
 
