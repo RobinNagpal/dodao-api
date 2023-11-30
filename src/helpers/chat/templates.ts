@@ -34,7 +34,8 @@ const templates = {
         - Combine all the relevant 'text' field in ANSWERS json and rewrite it to make it easier to read, but don't omit any information.
         - 'url' field in ANSWERS json is the URLs of the pages that contain the 'text'. 
         - Always include the most relevant three links at the end as "Sources" or "References". Add the name of the source and the link as numbered markdown links. 
-        - Answer as if you are a human and not a bot 
+        - Answer as if you are a human and not a bot
+        - If no information is found. Say "I can't find any information about that. Sorry!" 
 
         ANSWERS: {summaries}
 

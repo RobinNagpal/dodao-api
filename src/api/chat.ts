@@ -40,23 +40,23 @@ const handler = async (req: Request, res: Response) => {
       await initPineconeClient();
     }
 
-    const { model, messages, temperature, spaceId } = req.body as ChatBody;
+    const { model, messages, temperature, spaceId, enacted, discussed } = req.body as ChatBody;
 
     logEventInDiscord(spaceId, `Chat Question - ${messages[0].content}`);
     const encoding = encoding_for_model(model.id as TiktokenModel);
 
     // Build an LLM chain that will improve the user prompt
-    const inquiryChain = new LLMChain({
-      llm,
-      prompt: new PromptTemplate({
-        template: templates.newInquiryTemplate,
-        inputVariables: ['question'],
-      }),
-    });
-    const inquiryChainResult = await inquiryChain.call({
-      question: [messages[0].content],
-    });
-    const inquiry = inquiryChainResult.text;
+    // const inquiryChain = new LLMChain({
+    //   llm,
+    //   prompt: new PromptTemplate({
+    //     template: templates.newInquiryTemplate,
+    //     inputVariables: ['question'],
+    //   }),
+    // });
+    // const inquiryChainResult = await inquiryChain.call({
+    //   question: [messages[0].content],
+    // });
+    const inquiry = messages[0].content;
 
     await prisma.chatbotUserQuestion.create({
       data: {
@@ -80,7 +80,7 @@ const handler = async (req: Request, res: Response) => {
 
     // Get a reader from the stream
     const embeddings = await embedder.embedQuery(inquiry);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 3, spaceId);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 7, spaceId, enacted, discussed);
 
     console.log('matches', matches.length);
     const chunkedDocs: { text: string; url: string; score?: number }[] = [];
@@ -93,11 +93,13 @@ const handler = async (req: Request, res: Response) => {
     const normalizedMatches: PageMetadata[] = [];
 
     for (const match of uniqueMatches) {
-      const metadata = await getNormalizedEntries(match.metadata);
-      normalizedMatches.push(metadata);
+      const metadata = await getNormalizedEntries(match.metadata, enacted, discussed);
+      if (metadata) {
+        normalizedMatches.push(metadata);
+      }
     }
 
-    const uniqueNormalizedMatches = uniqBy(normalizedMatches, 'metadata.fullContentId');
+    const uniqueNormalizedMatches = uniqBy(normalizedMatches, 'fullContentId');
 
     for (const match of uniqueNormalizedMatches) {
       const text = await getContentFromLoaderEntity(match.fullContentId, match.documentType, inquiry);

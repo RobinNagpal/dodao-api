@@ -1,16 +1,9 @@
 import { summarizeLongDocument } from '@/helpers/chat/summarizer';
 import { prisma } from '@/prisma';
-import { DocumentInfoType } from '@/types/chat/projectsContents';
+import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 
-export async function getNormalizedEntries({
-  fullContentId,
-  url,
-  documentType,
-}: {
-  fullContentId: string;
-  url: string;
-  documentType: DocumentInfoType;
-}): Promise<{ fullContentId: string; url: string; documentType: DocumentInfoType }> {
+export async function getNormalizedEntries(pageMetadata: PageMetadata, enacted: boolean, discussed: boolean): Promise<PageMetadata | undefined> {
+  const { fullContentId, documentType } = pageMetadata;
   if (documentType === DocumentInfoType.DISCOURSE_COMMENT) {
     const comment = await prisma.discoursePostComment.findUnique({
       where: {
@@ -24,15 +17,38 @@ export async function getNormalizedEntries({
           id: comment.postId,
         },
       });
+
+      if (post) {
+        // if (post.enacted !== enacted) return undefined;
+        // if (post.discussed !== discussed) return undefined;
+
+        return {
+          fullContentId: comment.postId,
+          url: post.url,
+          documentType: DocumentInfoType.DISCOURSE_POST,
+        };
+      }
+    }
+  } else if (documentType === DocumentInfoType.DISCOURSE_POST) {
+    const post = await prisma.discoursePost.findUnique({
+      where: {
+        id: fullContentId,
+      },
+    });
+
+    if (post) {
+      // if (post.enacted !== enacted) return undefined;
+      // if (post.discussed !== discussed) return undefined;
+
       return {
-        fullContentId: comment.postId,
-        url: post?.url || url,
+        fullContentId: post.id,
+        url: post.url,
         documentType: DocumentInfoType.DISCOURSE_POST,
       };
     }
+  } else {
+    return pageMetadata;
   }
-
-  return { fullContentId, url, documentType: documentType };
 }
 
 export async function getContentFromLoaderEntity(entityId: string, documentInfoType: DocumentInfoType, question: string): Promise<string> {

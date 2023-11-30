@@ -33,8 +33,8 @@ resource "aws_ecs_task_definition" "app" {
       image = var.ecr_repository_url
 
       resources = {
-        cpu    = 1024 # 1 vCPU
-        memory = 4096 # 3 GB of RAM
+        cpu    = 2048 # 1 vCPU
+        memory = 8192 # 3 GB of RAM
       }
 
       linuxParameters = {
@@ -135,7 +135,7 @@ resource "aws_ecs_service" "main" {
   name            = "${var.project_name}-${var.environment}-app"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.app.arn
-  desired_count   = var.environment == "prod" ? 1 : 1 # TODO: Change to 2 for prod when the right time comes
+  desired_count   = var.environment == "prod" ? 2 : 2 # TODO: Change to 2 for prod when the right time comes
   launch_type     = "FARGATE"
 
   deployment_minimum_healthy_percent = 100

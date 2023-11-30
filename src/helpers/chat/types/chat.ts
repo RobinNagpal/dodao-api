@@ -14,6 +14,8 @@ export interface ChatBody {
   prompt: string;
   temperature: number;
   spaceId: string;
+  enacted: boolean;
+  discussed: boolean;
 }
 
 export interface Conversation {
