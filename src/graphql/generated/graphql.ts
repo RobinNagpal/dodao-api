@@ -1076,6 +1076,7 @@ export type Mutation = {
   deleteTopicSummary: GitCourse;
   deleteTopicVideo: GitCourse;
   downloadAndCleanContent: DownloadAndCleanContentResponse;
+  dropPineconeNamespace: Scalars['Boolean'];
   editArticleIndexingInfo: ArticleIndexingInfo;
   editWebsiteScrapingInfo: WebsiteScrapingInfo;
   extractRelevantTextForTopic: OpenAiTextResponse;
@@ -1083,6 +1084,7 @@ export type Mutation = {
   generateImageEdit: GenerateImageResponse;
   generateSharablePdf: Scalars['String'];
   indexDiscoursePost: Scalars['Boolean'];
+  indexNeedsIndexingDiscoursePosts: DiscourseIndexRun;
   initializeGitCourseSubmission: GitCourseSubmission;
   moveTopic: GitCourse;
   moveTopicExplanation: GitCourse;
@@ -1318,6 +1320,11 @@ export type MutationDownloadAndCleanContentArgs = {
 };
 
 
+export type MutationDropPineconeNamespaceArgs = {
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationEditArticleIndexingInfoArgs = {
   articleIndexingInfoId: Scalars['String'];
   articleUrl: Scalars['String'];
@@ -1358,6 +1365,11 @@ export type MutationGenerateSharablePdfArgs = {
 
 export type MutationIndexDiscoursePostArgs = {
   postId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationIndexNeedsIndexingDiscoursePostsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -3870,6 +3882,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   deleteTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   downloadAndCleanContent?: Resolver<ResolversTypes['DownloadAndCleanContentResponse'], ParentType, ContextType, RequireFields<MutationDownloadAndCleanContentArgs, 'input'>>;
+  dropPineconeNamespace?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDropPineconeNamespaceArgs, 'spaceId'>>;
   editArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationEditArticleIndexingInfoArgs, 'articleIndexingInfoId' | 'articleUrl' | 'spaceId'>>;
   editWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationEditWebsiteScrapingInfoArgs, 'baseUrl' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId' | 'websiteScrapingInfoId'>>;
   extractRelevantTextForTopic?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationExtractRelevantTextForTopicArgs, 'input'>>;
@@ -3877,6 +3890,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
   generateSharablePdf?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationGenerateSharablePdfArgs, 'byteId' | 'spaceId'>>;
   indexDiscoursePost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationIndexDiscoursePostArgs, 'postId' | 'spaceId'>>;
+  indexNeedsIndexingDiscoursePosts?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationIndexNeedsIndexingDiscoursePostsArgs, 'spaceId'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   moveTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicArgs, 'spaceId' | 'topicInfo'>>;
   moveTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;

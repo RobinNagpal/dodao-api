@@ -1,11 +1,12 @@
+import { getTokenCount } from '@/ai/getTokenCount';
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 
 import { getMatchesFromEmbeddings } from '@/helpers/chat/matches';
+import { summarizeLongDocument } from '@/helpers/chat/summarizer';
 import { templates } from '@/helpers/chat/templates';
 import { ChatBody } from '@/helpers/chat/types/chat';
-
-import { OpenAIError } from '@/helpers/chat/utils/server';
-import { getContentFromLoaderEntity } from '@/helpers/loaders/getContentFromLoaderEntity';
+import { logError } from '@/helpers/errorLogger';
+import { getContentFromLoaderEntity, getNormalizedEntries } from '@/helpers/loaders/getContentFromLoaderEntity';
 import { prisma } from '@/prisma';
 import { PageMetadata } from '@/types/chat/projectsContents';
 
@@ -38,23 +39,23 @@ const handler = async (req: Request, res: Response) => {
       await initPineconeClient();
     }
 
-    const { model, messages, temperature, spaceId } = req.body as ChatBody;
+    const { model, messages, temperature, spaceId, enacted, discussed } = req.body as ChatBody;
 
     logEventInDiscord(spaceId, `Chat Question - ${messages[0].content}`);
     const encoding = encoding_for_model(model.id as TiktokenModel);
 
     // Build an LLM chain that will improve the user prompt
-    const inquiryChain = new LLMChain({
-      llm,
-      prompt: new PromptTemplate({
-        template: templates.newInquiryTemplate,
-        inputVariables: ['question'],
-      }),
-    });
-    const inquiryChainResult = await inquiryChain.call({
-      question: [messages[0].content],
-    });
-    const inquiry = inquiryChainResult.text;
+    // const inquiryChain = new LLMChain({
+    //   llm,
+    //   prompt: new PromptTemplate({
+    //     template: templates.newInquiryTemplate,
+    //     inputVariables: ['question'],
+    //   }),
+    // });
+    // const inquiryChainResult = await inquiryChain.call({
+    //   question: [messages[0].content],
+    // });
+    const inquiry = messages[0].content;
 
     await prisma.chatbotUserQuestion.create({
       data: {
@@ -78,21 +79,30 @@ const handler = async (req: Request, res: Response) => {
 
     // Get a reader from the stream
     const embeddings = await embedder.embedQuery(inquiry);
-    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 5, spaceId);
+    const matches = await getMatchesFromEmbeddings(embeddings, pinecone!, 7, spaceId, enacted, discussed);
 
     console.log('matches', matches.length);
-    const chunkedDocs: { text: string; url: string }[] = [];
 
     // const summary = await summarizeLongDocument(chunkedDocs!.join('\n'), messages[0].content, () => {
     //   console.log('onSummaryDone');
     // });
 
     const uniqueMatches = uniqBy(matches, 'metadata.fullContentId');
+    const normalizedMatches: PageMetadata[] = [];
+
     for (const match of uniqueMatches) {
-      const metadata = match.metadata as PageMetadata;
-      const { fullContentId, url, documentType } = metadata;
-      const text = await getContentFromLoaderEntity(fullContentId, documentType);
-      const chunkedDoc = { text, url: url };
+      const metadata = await getNormalizedEntries(match.metadata, enacted, discussed);
+      if (metadata) {
+        normalizedMatches.push(metadata);
+      }
+    }
+
+    const uniqueNormalizedMatches = uniqBy(normalizedMatches, 'fullContentId');
+
+    const chunkedDocs: { text: string; url: string; score?: number }[] = [];
+    for (const match of uniqueNormalizedMatches) {
+      const text = await getContentFromLoaderEntity(match.fullContentId, match.documentType, inquiry);
+      const chunkedDoc = { text, url: match.url };
       chunkedDocs.push(chunkedDoc);
     }
 
@@ -115,23 +125,34 @@ const handler = async (req: Request, res: Response) => {
       prompt: promptQA,
       llm: chat,
     });
+    const summaries: { text: string; url: string; score?: number }[] = [];
+    for (const chunkedDoc of chunkedDocs) {
+      if (getTokenCount(chunkedDoc.text) > 1500) {
+        const summary = await summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {
+          console.log('onSummaryDone');
+        });
+
+        console.log('summary of chunked doc', summary);
+        summaries.push({ text: summary, url: chunkedDoc.url, score: chunkedDoc.score });
+      } else {
+        summaries.push(chunkedDoc);
+      }
+    }
+
     console.log('**************************************************************************************************************');
     console.log('question :', JSON.stringify(inquiry));
     console.log('**************************************************************************************************************');
-    console.log('summary :', JSON.stringify(chunkedDocs, null, 2));
+    console.log('summary :', JSON.stringify(summaries, null, 2));
     console.log('**************************************************************************************************************');
 
     await chain.call({
-      summaries: JSON.stringify(chunkedDocs, null, 2),
+      summaries: JSON.stringify(summaries, null, 2),
       question: inquiry,
     });
   } catch (error) {
-    console.error(error);
-    if (error instanceof OpenAIError) {
-      return new Response('Error', { status: 500, statusText: error.message });
-    } else {
-      return new Response('Error', { status: 500 });
-    }
+    res.send('Got error while processing your request.');
+    res.end();
+    logError(error?.toString() || 'Error in chatbot', {}, error as any, null, null);
   }
 };
 
