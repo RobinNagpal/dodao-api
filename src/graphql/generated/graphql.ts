@@ -275,8 +275,19 @@ export type ChatbotCategory = {
   subCategories: Array<ChatbotSubcategory>;
 };
 
-export type ChatbotFaq = {
+export type ChatbotFaq = ChatbotFaqCommon & {
   __typename?: 'ChatbotFAQ';
+  answer: Scalars['String'];
+  categories?: Maybe<Array<Scalars['String']>>;
+  id: Scalars['String'];
+  priority: Scalars['Int'];
+  question: Scalars['String'];
+  spaceId: Scalars['String'];
+  subCategories?: Maybe<Array<Scalars['String']>>;
+  url: Scalars['String'];
+};
+
+export type ChatbotFaqCommon = {
   answer: Scalars['String'];
   categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
@@ -1844,7 +1855,7 @@ export type Query = {
   rawGitCourses: Array<RawGitCourse>;
   route53Records: Array<Route53Record>;
   scrapedUrlInfos: Array<ScrapedUrlInfo>;
-  searchChatbotFAQs: Array<ChatbotFaq>;
+  searchChatbotFAQs: Array<SearchedChatbotFaq>;
   simulation: Simulation;
   simulations: Array<Simulation>;
   siteScrapingRuns: Array<SiteScrapingRun>;
@@ -2165,6 +2176,19 @@ export type ScrapedUrlInfo = {
   url: Scalars['String'];
   websiteScrapingInfo: WebsiteScrapingInfo;
   websiteScrapingInfoId: Scalars['String'];
+};
+
+export type SearchedChatbotFaq = ChatbotFaqCommon & {
+  __typename?: 'SearchedChatbotFAQ';
+  answer: Scalars['String'];
+  categories?: Maybe<Array<Scalars['String']>>;
+  id: Scalars['String'];
+  priority: Scalars['Int'];
+  question: Scalars['String'];
+  score: Scalars['Float'];
+  spaceId: Scalars['String'];
+  subCategories?: Maybe<Array<Scalars['String']>>;
+  url: Scalars['String'];
 };
 
 export type SendEmailInput = {
@@ -2812,6 +2836,7 @@ export type ResolversTypes = {
   ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
   ChatbotCategory: ResolverTypeWrapper<ChatbotCategory>;
   ChatbotFAQ: ResolverTypeWrapper<ChatbotFaq>;
+  ChatbotFAQCommon: ResolversTypes['ChatbotFAQ'] | ResolversTypes['SearchedChatbotFAQ'];
   ChatbotSubcategory: ResolverTypeWrapper<ChatbotSubcategory>;
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
@@ -2922,6 +2947,7 @@ export type ResolversTypes = {
   RawGitCourse: ResolverTypeWrapper<RawGitCourse>;
   Route53Record: ResolverTypeWrapper<Route53Record>;
   ScrapedUrlInfo: ResolverTypeWrapper<ScrapedUrlInfo>;
+  SearchedChatbotFAQ: ResolverTypeWrapper<SearchedChatbotFaq>;
   SendEmailInput: SendEmailInput;
   Simulation: ResolverTypeWrapper<Simulation>;
   SimulationStep: ResolverTypeWrapper<SimulationStep>;
@@ -3015,6 +3041,7 @@ export type ResolversParentTypes = {
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatbotCategory: ChatbotCategory;
   ChatbotFAQ: ChatbotFaq;
+  ChatbotFAQCommon: ResolversParentTypes['ChatbotFAQ'] | ResolversParentTypes['SearchedChatbotFAQ'];
   ChatbotSubcategory: ChatbotSubcategory;
   ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
@@ -3124,6 +3151,7 @@ export type ResolversParentTypes = {
   RawGitCourse: RawGitCourse;
   Route53Record: Route53Record;
   ScrapedUrlInfo: ScrapedUrlInfo;
+  SearchedChatbotFAQ: SearchedChatbotFaq;
   SendEmailInput: SendEmailInput;
   Simulation: Simulation;
   SimulationStep: SimulationStep;
@@ -3346,6 +3374,18 @@ export type ChatbotFaqResolvers<ContextType = any, ParentType extends ResolversP
   subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatbotFaqCommonResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotFAQCommon'] = ResolversParentTypes['ChatbotFAQCommon']> = {
+  __resolveType: TypeResolveFn<'ChatbotFAQ' | 'SearchedChatbotFAQ', ParentType, ContextType>;
+  answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type ChatbotSubcategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotSubcategory'] = ResolversParentTypes['ChatbotSubcategory']> = {
@@ -4087,7 +4127,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
   route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
   scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
-  searchChatbotFAQs?: Resolver<Array<ResolversTypes['ChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;
+  searchChatbotFAQs?: Resolver<Array<ResolversTypes['SearchedChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
   siteScrapingRuns?: Resolver<Array<ResolversTypes['SiteScrapingRun']>, ParentType, ContextType, RequireFields<QuerySiteScrapingRunsArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
@@ -4139,6 +4179,19 @@ export type ScrapedUrlInfoResolvers<ContextType = any, ParentType extends Resolv
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   websiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType>;
   websiteScrapingInfoId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SearchedChatbotFaqResolvers<ContextType = any, ParentType extends ResolversParentTypes['SearchedChatbotFAQ'] = ResolversParentTypes['SearchedChatbotFAQ']> = {
+  answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  score?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4357,6 +4410,7 @@ export type Resolvers<ContextType = any> = {
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
   ChatbotCategory?: ChatbotCategoryResolvers<ContextType>;
   ChatbotFAQ?: ChatbotFaqResolvers<ContextType>;
+  ChatbotFAQCommon?: ChatbotFaqCommonResolvers<ContextType>;
   ChatbotSubcategory?: ChatbotSubcategoryResolvers<ContextType>;
   ChatbotUserQuestion?: ChatbotUserQuestionResolvers<ContextType>;
   ConsolidatedGuideRating?: ConsolidatedGuideRatingResolvers<ContextType>;
@@ -4425,6 +4479,7 @@ export type Resolvers<ContextType = any> = {
   RawGitCourse?: RawGitCourseResolvers<ContextType>;
   Route53Record?: Route53RecordResolvers<ContextType>;
   ScrapedUrlInfo?: ScrapedUrlInfoResolvers<ContextType>;
+  SearchedChatbotFAQ?: SearchedChatbotFaqResolvers<ContextType>;
   Simulation?: SimulationResolvers<ContextType>;
   SimulationStep?: SimulationStepResolvers<ContextType>;
   SiteScrapingRun?: SiteScrapingRunResolvers<ContextType>;

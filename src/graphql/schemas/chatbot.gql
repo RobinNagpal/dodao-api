@@ -3,7 +3,7 @@ extend type Query {
 
   chatbotFAQs(spaceId: String!): [ChatbotFAQ!]!
 
-  searchChatbotFAQs(spaceId: String!, query: String!): [ChatbotFAQ!]!
+  searchChatbotFAQs(spaceId: String!, query: String!): [SearchedChatbotFAQ!]!
 
   chatbotUserQuestions(spaceId: String!): [ChatbotUserQuestion!]!
 }
@@ -37,7 +37,7 @@ type ChatbotCategory {
   priority: Int!
 }
 
-type ChatbotFAQ {
+interface ChatbotFAQCommon {
   id: String!
   spaceId: String!
   question: String!
@@ -46,6 +46,29 @@ type ChatbotFAQ {
   categories: [String!]
   subCategories: [String!]
   priority: Int!
+}
+
+type ChatbotFAQ implements ChatbotFAQCommon {
+  id: String!
+  spaceId: String!
+  question: String!
+  answer: String!
+  url: String!
+  categories: [String!]
+  subCategories: [String!]
+  priority: Int!
+}
+
+type SearchedChatbotFAQ implements ChatbotFAQCommon {
+  id: String!
+  spaceId: String!
+  question: String!
+  answer: String!
+  url: String!
+  categories: [String!]
+  subCategories: [String!]
+  priority: Int!
+  score: Float!
 }
 
 type ChatbotUserQuestion {
