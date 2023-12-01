@@ -1,5 +1,5 @@
 import { QuerySearchChatbotFaQsArgs } from '@/graphql/generated/graphql';
-import { getMatchesFromEmbeddingsForDocumentType } from '@/helpers/chat/matches';
+import { getMatchesFromEmbeddingsForDocumentType, MatchedDocument } from '@/helpers/chat/matches';
 import { templates } from '@/helpers/chat/templates';
 import { prisma } from '@/prisma';
 import { DocumentInfoType } from '@/types/chat/projectsContents';
@@ -42,15 +42,22 @@ export default async function searchChatbotFAQs(_: any, { spaceId, query }: Quer
 
   const embeddings = await embedder.embedQuery(inquiry);
   console.log('embeddings', embeddings.length);
-  const matchedFAQs = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 7, spaceId, DocumentInfoType.FAQ);
+  const matchedFAQs: MatchedDocument[] = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 4, spaceId, DocumentInfoType.FAQ);
+
+  const matchedFAQsMap = Object.fromEntries(matchedFAQs.map((faq) => [faq.metadata.fullContentId, faq]));
 
   console.log('matchedFAQs', JSON.stringify(matchedFAQs, null, 2));
 
-  return prisma.chatbotFAQ.findMany({
+  const faqs = await prisma.chatbotFAQ.findMany({
     where: {
       id: {
         in: matchedFAQs.map((faq) => faq.metadata.fullContentId),
       },
     },
   });
+
+  return faqs.map((faq) => ({
+    ...faq,
+    score: matchedFAQsMap[faq.id].score || 0,
+  }));
 }

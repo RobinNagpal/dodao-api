@@ -1,14 +1,13 @@
-import { getTokenCount } from '@/ai/getTokenCount';
+import { getMatchingDocs } from '@/api/chat/helpers/getMatchingDocs';
+import { getNormalizedMatches } from '@/api/chat/helpers/getNormalizedMatches';
+import { makeSummariesOfMatches } from '@/api/chat/helpers/makeSummariesOfMatches';
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 
 import { getMatchesFromEmbeddings } from '@/helpers/chat/matches';
-import { summarizeLongDocument } from '@/helpers/chat/summarizer';
 import { templates } from '@/helpers/chat/templates';
 import { ChatBody } from '@/helpers/chat/types/chat';
 import { logError } from '@/helpers/errorLogger';
-import { getContentFromLoaderEntity, getNormalizedEntries } from '@/helpers/loaders/getContentFromLoaderEntity';
 import { prisma } from '@/prisma';
-import { PageMetadata } from '@/types/chat/projectsContents';
 
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
 import { PineconeClient } from '@pinecone-database/pinecone';
@@ -19,7 +18,6 @@ import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
-import uniqBy from 'lodash/uniqBy';
 import { v4 } from 'uuid';
 
 const llm = new OpenAI({});
@@ -83,28 +81,8 @@ const handler = async (req: Request, res: Response) => {
 
     console.log('matches', matches.length);
 
-    // const summary = await summarizeLongDocument(chunkedDocs!.join('\n'), messages[0].content, () => {
-    //   console.log('onSummaryDone');
-    // });
-
-    const uniqueMatches = uniqBy(matches, 'metadata.fullContentId');
-    const normalizedMatches: PageMetadata[] = [];
-
-    for (const match of uniqueMatches) {
-      const metadata = await getNormalizedEntries(match.metadata, enacted, discussed);
-      if (metadata) {
-        normalizedMatches.push(metadata);
-      }
-    }
-
-    const uniqueNormalizedMatches = uniqBy(normalizedMatches, 'fullContentId');
-
-    const chunkedDocs: { text: string; url: string; score?: number }[] = [];
-    for (const match of uniqueNormalizedMatches) {
-      const text = await getContentFromLoaderEntity(match.fullContentId, match.documentType, inquiry);
-      const chunkedDoc = { text, url: match.url };
-      chunkedDocs.push(chunkedDoc);
-    }
+    const uniqueNormalizedMatches = await getNormalizedMatches(matches, enacted, discussed);
+    const chunkedDocs = await getMatchingDocs(uniqueNormalizedMatches, inquiry);
 
     const promptQA = PromptTemplate.fromTemplate(templates.lastTemplate);
 
@@ -125,19 +103,7 @@ const handler = async (req: Request, res: Response) => {
       prompt: promptQA,
       llm: chat,
     });
-    const summaries: { text: string; url: string; score?: number }[] = [];
-    for (const chunkedDoc of chunkedDocs) {
-      if (getTokenCount(chunkedDoc.text) > 1500) {
-        const summary = await summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {
-          console.log('onSummaryDone');
-        });
-
-        console.log('summary of chunked doc', summary);
-        summaries.push({ text: summary, url: chunkedDoc.url, score: chunkedDoc.score });
-      } else {
-        summaries.push(chunkedDoc);
-      }
-    }
+    const summaries = await makeSummariesOfMatches(chunkedDocs, messages);
 
     console.log('**************************************************************************************************************');
     console.log('question :', JSON.stringify(inquiry));
