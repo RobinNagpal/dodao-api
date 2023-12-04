@@ -364,6 +364,8 @@ model DiscoursePost {
   title                String                 @db.VarChar(1024)
   url                  String                 @unique @db.VarChar(1024)
   fullContent          String?                @map("full_content")
+  aiSummary            String?                @map("ai_summary")
+  aiSummaryDate        DateTime?              @map("ai_summary_date")
   author               String?                @db.VarChar(255)
   datePublished        DateTime               @map("date_published")
   createdAt            DateTime               @default(now()) @map("created_at")

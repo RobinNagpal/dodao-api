@@ -25,6 +25,7 @@ import annotateDiscoursePost from '@/graphql/mutations/loaders/discourse/annotat
 import indexDiscoursePost from '@/graphql/mutations/loaders/discourse/indexDiscoursePost';
 import indexNeedsIndexingDiscoursePosts from '@/graphql/mutations/loaders/discourse/indexNeedsIndexingDiscoursePosts';
 import triggerNewDiscourseIndexRun from '@/graphql/mutations/loaders/discourse/triggerNewDiscourseIndexRun';
+import upsertSummaryOfDiscoursePost from '@/graphql/mutations/loaders/discourse/upsertSummaryOfDiscoursePost';
 import createWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/createWebsiteScrapingInfo';
 import editWebsiteScrapingInfo from '@/graphql/mutations/loaders/websiteScrape/editWebsiteScrapingInfo';
 import triggerSiteScrapingRun from '@/graphql/mutations/loaders/websiteScrape/triggerSiteScrapingRun';
@@ -86,6 +87,7 @@ export default {
   updateIndexingOfDiscordChannel,
   indexDiscoursePost,
   annotateDiscoursePost,
+  upsertSummaryOfDiscoursePost,
 
   createWebsiteScrapingInfo,
   editWebsiteScrapingInfo,
