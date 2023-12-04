@@ -1,6 +1,7 @@
 import { summarizeLongDocument } from '@/helpers/chat/summarizer';
 import { prisma } from '@/prisma';
 import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
+import { DiscoursePost } from '@prisma/client';
 
 export async function getNormalizedEntries(pageMetadata: PageMetadata, enacted: boolean, discussed: boolean): Promise<PageMetadata | undefined> {
   const { fullContentId, documentType } = pageMetadata;
@@ -51,6 +52,21 @@ export async function getNormalizedEntries(pageMetadata: PageMetadata, enacted: 
   }
 }
 
+async function getSummaryOfDiscoursePost(post: DiscoursePost, question: string) {
+  const otherComments = await prisma.discoursePostComment.findMany({
+    where: {
+      postId: post.id,
+    },
+  });
+
+  const otherCommentsText = otherComments.map((c) => c.content).join('\n\n');
+
+  const summary = await summarizeLongDocument(`${post?.fullContent} \n\n ${otherCommentsText}`, question, () => {
+    console.log('onSummaryDone');
+  });
+  return summary;
+}
+
 export async function getContentFromLoaderEntity(entityId: string, documentInfoType: DocumentInfoType, question: string): Promise<string> {
   console.log('getContentFromLoaderEntity', entityId, documentInfoType);
 
@@ -97,23 +113,12 @@ export async function getContentFromLoaderEntity(entityId: string, documentInfoT
     });
 
     if (comment) {
-      const post = await prisma.discoursePost.findUnique({
+      const post = await prisma.discoursePost.findUniqueOrThrow({
         where: {
           id: comment.postId,
         },
       });
-
-      const otherComments = await prisma.discoursePostComment.findMany({
-        where: {
-          postId: comment.postId,
-        },
-      });
-
-      const otherCommentsText = otherComments.map((c) => c.content).join('\n\n');
-
-      const summary = await summarizeLongDocument(`${post?.fullContent} \n\n ${otherCommentsText}`, question, () => {
-        console.log('onSummaryDone');
-      });
+      const summary = await getSummaryOfDiscoursePost(post, question);
 
       return summary;
     }

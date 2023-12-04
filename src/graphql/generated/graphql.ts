@@ -481,6 +481,8 @@ export type DiscourseIndexRun = {
 
 export type DiscoursePost = {
   __typename?: 'DiscoursePost';
+  aiSummary?: Maybe<Scalars['String']>;
+  aiSummaryDate?: Maybe<Scalars['DateTimeISO']>;
   author?: Maybe<Scalars['String']>;
   categories: Array<Scalars['String']>;
   createdAt: Scalars['DateTimeISO'];
@@ -1151,6 +1153,7 @@ export type Mutation = {
   upsertSpaceFeatures: Space;
   upsertSpaceInviteLinks: Space;
   upsertSpaceLoaderInfo: Space;
+  upsertSummaryOfDiscoursePost: DiscoursePost;
   upsertTimeline: Timeline;
 };
 
@@ -1697,6 +1700,12 @@ export type MutationUpsertSpaceInviteLinksArgs = {
 
 export type MutationUpsertSpaceLoaderInfoArgs = {
   input: SpaceLoadersInfoInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpsertSummaryOfDiscoursePostArgs = {
+  input: UpsertSummaryOfDiscoursePostInput;
   spaceId: Scalars['String'];
 };
 
@@ -2639,6 +2648,12 @@ export type UpsertSpaceInput = {
   spaceIntegrations: SpaceIntegrationsInput;
 };
 
+export type UpsertSummaryOfDiscoursePostInput = {
+  aiSummary?: InputMaybe<Scalars['String']>;
+  aiSummaryDate?: InputMaybe<Scalars['DateTimeISO']>;
+  postId: Scalars['String'];
+};
+
 export type UpsertTimelineEventInput = {
   date: Scalars['DateTimeISO'];
   fullDetails?: InputMaybe<Scalars['String']>;
@@ -2996,6 +3011,7 @@ export type ResolversTypes = {
   UpsertProjectInput: UpsertProjectInput;
   UpsertSimulationInput: UpsertSimulationInput;
   UpsertSpaceInput: UpsertSpaceInput;
+  UpsertSummaryOfDiscoursePostInput: UpsertSummaryOfDiscoursePostInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
   UpsertTimelineInput: UpsertTimelineInput;
   UserDiscordConnect: ResolverTypeWrapper<UserDiscordConnect>;
@@ -3200,6 +3216,7 @@ export type ResolversParentTypes = {
   UpsertProjectInput: UpsertProjectInput;
   UpsertSimulationInput: UpsertSimulationInput;
   UpsertSpaceInput: UpsertSpaceInput;
+  UpsertSummaryOfDiscoursePostInput: UpsertSummaryOfDiscoursePostInput;
   UpsertTimelineEventInput: UpsertTimelineEventInput;
   UpsertTimelineInput: UpsertTimelineInput;
   UserDiscordConnect: UserDiscordConnect;
@@ -3495,6 +3512,8 @@ export type DiscourseIndexRunResolvers<ContextType = any, ParentType extends Res
 };
 
 export type DiscoursePostResolvers<ContextType = any, ParentType extends ResolversParentTypes['DiscoursePost'] = ResolversParentTypes['DiscoursePost']> = {
+  aiSummary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  aiSummaryDate?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
@@ -3986,6 +4005,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertSpaceFeatures?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceFeaturesArgs, 'features' | 'spaceId'>>;
   upsertSpaceInviteLinks?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceInviteLinksArgs, 'spaceId' | 'spaceInviteArgs'>>;
   upsertSpaceLoaderInfo?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceLoaderInfoArgs, 'input' | 'spaceId'>>;
+  upsertSummaryOfDiscoursePost?: Resolver<ResolversTypes['DiscoursePost'], ParentType, ContextType, RequireFields<MutationUpsertSummaryOfDiscoursePostArgs, 'input' | 'spaceId'>>;
   upsertTimeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<MutationUpsertTimelineArgs, 'input' | 'spaceId'>>;
 };
 
