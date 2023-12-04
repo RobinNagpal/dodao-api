@@ -14,6 +14,8 @@ extend type Mutation {
   indexDiscoursePost(spaceId: String!, postId: String!): Boolean!
 
   annotateDiscoursePost(spaceId: String!, input: AnnotateDiscoursePostInput!): DiscoursePost!
+
+  upsertSummaryOfDiscoursePost(spaceId: String!, input: UpsertSummaryOfDiscoursePostInput!): DiscoursePost!
 }
 
 type DiscourseIndexRun {
@@ -39,6 +41,8 @@ type DiscoursePost {
   subCategories: [String!]!
   enacted: Boolean
   discussed: Boolean
+  aiSummary: String
+  aiSummaryDate: DateTimeISO
 }
 
 type DiscoursePostComment {
@@ -60,4 +64,10 @@ input AnnotateDiscoursePostInput {
   subCategories: [String!]!
   enacted: Boolean
   discussed: Boolean
+}
+
+input UpsertSummaryOfDiscoursePostInput {
+  postId: String!
+  aiSummary: String
+  aiSummaryDate: DateTimeISO
 }

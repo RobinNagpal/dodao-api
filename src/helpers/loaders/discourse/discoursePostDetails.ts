@@ -145,8 +145,9 @@ async function indexPostDocument(post: DiscoursePost, index: VectorOperationsApi
     discussed: !!post.discussed,
   };
 
+  const pageContent = `${post.aiSummary ? post.aiSummary + '\n\n\n' : ''}${post.fullContent}`;
   const postDocument: LGCDocument<PageMetadata> = {
-    pageContent: post.fullContent || '',
+    pageContent: pageContent,
     metadata,
   };
 
