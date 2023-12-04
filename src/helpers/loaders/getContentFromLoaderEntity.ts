@@ -1,7 +1,6 @@
-import { summarizeLongDocument } from '@/helpers/chat/summarizer';
+import { getSummaryOfDiscoursePost } from '@/helpers/loaders/discourse/getSummaryOfDiscoursePost';
 import { prisma } from '@/prisma';
 import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
-import { DiscoursePost } from '@prisma/client';
 
 export async function getNormalizedEntries(pageMetadata: PageMetadata, enacted: boolean, discussed: boolean): Promise<PageMetadata | undefined> {
   const { fullContentId, documentType } = pageMetadata;
@@ -50,21 +49,6 @@ export async function getNormalizedEntries(pageMetadata: PageMetadata, enacted: 
   } else {
     return pageMetadata;
   }
-}
-
-async function getSummaryOfDiscoursePost(post: DiscoursePost, question: string) {
-  const otherComments = await prisma.discoursePostComment.findMany({
-    where: {
-      postId: post.id,
-    },
-  });
-
-  const otherCommentsText = otherComments.map((c) => c.content).join('\n\n');
-
-  const summary = await summarizeLongDocument(`${post?.fullContent} \n\n ${otherCommentsText}`, question, () => {
-    console.log('onSummaryDone');
-  });
-  return summary;
 }
 
 export async function getContentFromLoaderEntity(entityId: string, documentInfoType: DocumentInfoType, question: string): Promise<string> {
