@@ -60,8 +60,6 @@ type DiscoursePostComment {
 input AnnotateDiscoursePostInput {
   postId: String!
   spaceId: String!
-  categories: [String!]!
-  subCategories: [String!]!
   enacted: Boolean
   discussed: Boolean
 }
