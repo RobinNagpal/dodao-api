@@ -37,8 +37,6 @@ type DiscoursePost {
   createdAt: DateTimeISO!
   indexedAt: DateTimeISO
   status: String!
-  categories: [String!]!
-  subCategories: [String!]!
   enacted: Boolean
   discussed: Boolean
   aiSummary: String
