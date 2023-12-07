@@ -20,8 +20,6 @@ export default async function upsertChatbotFAQ(_: unknown, args: MutationUpsertC
       question: args.input.question,
       answer: args.input.answer,
       url: args.input.url,
-      categories: args.input.categories || [],
-      subCategories: args.input.subCategories || [],
     },
     update: {
       priority: args.input.priority,
@@ -29,8 +27,6 @@ export default async function upsertChatbotFAQ(_: unknown, args: MutationUpsertC
       question: args.input.question,
       answer: args.input.answer,
       url: args.input.url,
-      categories: args.input.categories || [],
-      subCategories: args.input.subCategories || [],
     },
   });
 

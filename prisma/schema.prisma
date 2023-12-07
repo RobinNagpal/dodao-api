@@ -372,8 +372,6 @@ model DiscoursePost {
   indexedAt            DateTime?              @map("indexed_at")
   status               String                 @db.VarChar(255)
   DiscoursePostComment DiscoursePostComment[]
-  categories           String[]               @default([]) @map("categories")
-  subCategories        String[]               @default([]) @map("sub_categories")
   enacted              Boolean?
   discussed            Boolean?
 
@@ -582,28 +580,24 @@ model ChatbotCategory {
 }
 
 model ChatbotUserQuestion {
-  id            String   @id @db.VarChar(255)
-  spaceId       String   @map("space_id") @db.VarChar(66)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-  question      String
-  categories    String[]
-  subCategories String[]
+  id        String   @id @db.VarChar(255)
+  spaceId   String   @map("space_id") @db.VarChar(66)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  question  String
 
   @@map("chatbot_user_questions")
 }
 
 model ChatbotFAQ {
-  id            String   @id @db.VarChar(255)
-  spaceId       String   @map("space_id") @db.VarChar(66)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-  question      String
-  answer        String
-  url           String   @db.VarChar(1024)
-  categories    String[]
-  subCategories String[]
-  priority      Int
+  id        String   @id @db.VarChar(255)
+  spaceId   String   @map("space_id") @db.VarChar(66)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  question  String
+  answer    String
+  url       String   @db.VarChar(1024)
+  priority  Int
 
   @@map("chatbot_faqs")
 }
