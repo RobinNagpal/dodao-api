@@ -1086,6 +1086,7 @@ export type Mutation = {
   generateImage: ImagesResponse;
   generateImageEdit: GenerateImageResponse;
   generateSharablePdf: Scalars['String'];
+  indexChatbotFAQs: Scalars['Boolean'];
   indexDiscoursePost: Scalars['Boolean'];
   indexNeedsIndexingDiscoursePosts: DiscourseIndexRun;
   initializeGitCourseSubmission: GitCourseSubmission;
@@ -1363,6 +1364,11 @@ export type MutationGenerateImageEditArgs = {
 
 export type MutationGenerateSharablePdfArgs = {
   byteId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationIndexChatbotFaQsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -3924,6 +3930,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   generateImage?: Resolver<ResolversTypes['ImagesResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageArgs, 'input'>>;
   generateImageEdit?: Resolver<ResolversTypes['GenerateImageResponse'], ParentType, ContextType, RequireFields<MutationGenerateImageEditArgs, 'input'>>;
   generateSharablePdf?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationGenerateSharablePdfArgs, 'byteId' | 'spaceId'>>;
+  indexChatbotFAQs?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationIndexChatbotFaQsArgs, 'spaceId'>>;
   indexDiscoursePost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationIndexDiscoursePostArgs, 'postId' | 'spaceId'>>;
   indexNeedsIndexingDiscoursePosts?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationIndexNeedsIndexingDiscoursePostsArgs, 'spaceId'>>;
   initializeGitCourseSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationInitializeGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
