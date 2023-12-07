@@ -85,12 +85,10 @@ export type AddTopicVideoInput = {
 };
 
 export type AnnotateDiscoursePostInput = {
-  categories: Array<Scalars['String']>;
   discussed?: InputMaybe<Scalars['Boolean']>;
   enacted?: InputMaybe<Scalars['Boolean']>;
   postId: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories: Array<Scalars['String']>;
 };
 
 export type ArticleIndexingInfo = {
@@ -278,23 +276,19 @@ export type ChatbotCategory = {
 export type ChatbotFaq = ChatbotFaqCommon & {
   __typename?: 'ChatbotFAQ';
   answer: Scalars['String'];
-  categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   priority: Scalars['Int'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: Maybe<Array<Scalars['String']>>;
   url: Scalars['String'];
 };
 
 export type ChatbotFaqCommon = {
   answer: Scalars['String'];
-  categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   priority: Scalars['Int'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: Maybe<Array<Scalars['String']>>;
   url: Scalars['String'];
 };
 
@@ -307,11 +301,9 @@ export type ChatbotSubcategory = {
 
 export type ChatbotUserQuestion = {
   __typename?: 'ChatbotUserQuestion';
-  categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: Maybe<Array<Scalars['String']>>;
 };
 
 export type CompletionAiInput = {
@@ -2190,13 +2182,11 @@ export type ScrapedUrlInfo = {
 export type SearchedChatbotFaq = ChatbotFaqCommon & {
   __typename?: 'SearchedChatbotFAQ';
   answer: Scalars['String'];
-  categories?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   priority: Scalars['Int'];
   question: Scalars['String'];
   score: Scalars['Float'];
   spaceId: Scalars['String'];
-  subCategories?: Maybe<Array<Scalars['String']>>;
   url: Scalars['String'];
 };
 
@@ -2535,12 +2525,10 @@ export type UpsertChatbotCategoryInput = {
 
 export type UpsertChatbotFaqInput = {
   answer: Scalars['String'];
-  categories?: InputMaybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   priority: Scalars['Int'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: InputMaybe<Array<Scalars['String']>>;
   url: Scalars['String'];
 };
 
@@ -2551,11 +2539,9 @@ export type UpsertChatbotSubcategoryInput = {
 };
 
 export type UpsertChatbotUserQuestionInput = {
-  categories?: InputMaybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   question: Scalars['String'];
   spaceId: Scalars['String'];
-  subCategories?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type UpsertCourseIntegrationsInput = {
@@ -3383,12 +3369,10 @@ export type ChatbotCategoryResolvers<ContextType = any, ParentType extends Resol
 
 export type ChatbotFaqResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotFAQ'] = ResolversParentTypes['ChatbotFAQ']> = {
   answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3396,12 +3380,10 @@ export type ChatbotFaqResolvers<ContextType = any, ParentType extends ResolversP
 export type ChatbotFaqCommonResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotFAQCommon'] = ResolversParentTypes['ChatbotFAQCommon']> = {
   __resolveType: TypeResolveFn<'ChatbotFAQ' | 'SearchedChatbotFAQ', ParentType, ContextType>;
   answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -3413,11 +3395,9 @@ export type ChatbotSubcategoryResolvers<ContextType = any, ParentType extends Re
 };
 
 export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatbotUserQuestion'] = ResolversParentTypes['ChatbotUserQuestion']> = {
-  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4204,13 +4184,11 @@ export type ScrapedUrlInfoResolvers<ContextType = any, ParentType extends Resolv
 
 export type SearchedChatbotFaqResolvers<ContextType = any, ParentType extends ResolversParentTypes['SearchedChatbotFAQ'] = ResolversParentTypes['SearchedChatbotFAQ']> = {
   answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   score?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
