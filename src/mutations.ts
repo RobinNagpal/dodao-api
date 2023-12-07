@@ -8,6 +8,7 @@ import updateByteCollection from '@/graphql/mutations/byteCollection/updateByteC
 import deleteChatbotCategory from '@/graphql/mutations/chatbot/deleteChatbotCategory';
 import deleteChatbotFAQ from '@/graphql/mutations/chatbot/deleteChatbotFAQ';
 import deleteChatbotUserQuestion from '@/graphql/mutations/chatbot/deleteChatbotUserQuestion';
+import indexChatbotFAQs from '@/graphql/mutations/chatbot/indexChatbotFAQs';
 import upsertChatbotCategory from '@/graphql/mutations/chatbot/upsertChatbotCategory';
 import upsertChatbotFAQ from '@/graphql/mutations/chatbot/upsertChatbotFAQ';
 import upsertChatbotUserQuestion from '@/graphql/mutations/chatbot/upsertChatbotUserQuestion';
@@ -104,6 +105,7 @@ export default {
   upsertProjectByte,
   upsertProjectByteCollection,
 
+  indexChatbotFAQs,
   upsertChatbotFAQ,
   upsertChatbotUserQuestion,
   upsertChatbotCategory,
