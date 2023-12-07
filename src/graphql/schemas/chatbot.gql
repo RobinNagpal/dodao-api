@@ -43,8 +43,6 @@ interface ChatbotFAQCommon {
   question: String!
   answer: String!
   url: String!
-  categories: [String!]
-  subCategories: [String!]
   priority: Int!
 }
 
@@ -54,8 +52,6 @@ type ChatbotFAQ implements ChatbotFAQCommon {
   question: String!
   answer: String!
   url: String!
-  categories: [String!]
-  subCategories: [String!]
   priority: Int!
 }
 
@@ -65,8 +61,6 @@ type SearchedChatbotFAQ implements ChatbotFAQCommon {
   question: String!
   answer: String!
   url: String!
-  categories: [String!]
-  subCategories: [String!]
   priority: Int!
   score: Float!
 }
@@ -75,8 +69,6 @@ type ChatbotUserQuestion {
   id: String!
   spaceId: String!
   question: String!
-  categories: [String!]
-  subCategories: [String!]
 }
 
 input UpsertChatbotSubcategoryInput {
@@ -100,8 +92,6 @@ input UpsertChatbotFAQInput {
   question: String!
   answer: String!
   url: String!
-  categories: [String!]
-  subCategories: [String!]
   priority: Int!
 }
 
@@ -109,6 +99,4 @@ input UpsertChatbotUserQuestionInput {
   id: String!
   spaceId: String!
   question: String!
-  categories: [String!]
-  subCategories: [String!]
 }
