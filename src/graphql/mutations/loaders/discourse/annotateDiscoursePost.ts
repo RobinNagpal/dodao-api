@@ -14,8 +14,6 @@ export default async function annotateDiscoursePost(_: any, args: MutationAnnota
       id: args.input.postId,
     },
     data: {
-      categories: args.input.categories,
-      subCategories: args.input.subCategories,
       enacted: args.input.enacted,
       discussed: args.input.discussed,
     },

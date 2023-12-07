@@ -60,8 +60,6 @@ const handler = async (req: Request, res: Response) => {
         id: v4(),
         question: messages[0].content,
         spaceId,
-        categories: [],
-        subCategories: [],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
