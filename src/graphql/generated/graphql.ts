@@ -476,7 +476,6 @@ export type DiscoursePost = {
   aiSummary?: Maybe<Scalars['String']>;
   aiSummaryDate?: Maybe<Scalars['DateTimeISO']>;
   author?: Maybe<Scalars['String']>;
-  categories: Array<Scalars['String']>;
   createdAt: Scalars['DateTimeISO'];
   datePublished: Scalars['DateTimeISO'];
   discussed?: Maybe<Scalars['Boolean']>;
@@ -486,7 +485,6 @@ export type DiscoursePost = {
   indexedAt?: Maybe<Scalars['DateTimeISO']>;
   spaceId: Scalars['String'];
   status: Scalars['String'];
-  subCategories: Array<Scalars['String']>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
@@ -3495,7 +3493,6 @@ export type DiscoursePostResolvers<ContextType = any, ParentType extends Resolve
   aiSummary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   aiSummaryDate?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   datePublished?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   discussed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -3505,7 +3502,6 @@ export type DiscoursePostResolvers<ContextType = any, ParentType extends Resolve
   indexedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subCategories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
