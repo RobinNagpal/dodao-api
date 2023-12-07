@@ -16,14 +16,10 @@ export default async function upsertChatbotUserQuestion(_: unknown, args: Mutati
       createdAt: new Date(),
       updatedAt: new Date(),
       question: args.input.question,
-      categories: args.input.categories || [],
-      subCategories: args.input.subCategories || [],
     },
     update: {
       updatedAt: new Date(),
       question: args.input.question,
-      categories: args.input.categories || [],
-      subCategories: args.input.subCategories || [],
     },
   });
 }
