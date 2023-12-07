@@ -8,6 +8,7 @@ import { LLMChain } from 'langchain/chains';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
+import uniqBy from 'lodash/uniqBy';
 
 let pinecone: PineconeClient | null = null;
 
@@ -42,7 +43,7 @@ export default async function searchChatbotFAQs(_: any, { spaceId, query }: Quer
 
   const embeddings = await embedder.embedQuery(inquiry);
   console.log('embeddings', embeddings.length);
-  const matchedFAQs: MatchedDocument[] = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 4, spaceId, DocumentInfoType.FAQ);
+  const matchedFAQs: MatchedDocument[] = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 2, spaceId, DocumentInfoType.FAQ);
 
   const matchedFAQsMap = Object.fromEntries(matchedFAQs.map((faq) => [faq.metadata.fullContentId, faq]));
 
@@ -56,8 +57,12 @@ export default async function searchChatbotFAQs(_: any, { spaceId, query }: Quer
     },
   });
 
-  return faqs.map((faq) => ({
-    ...faq,
-    score: matchedFAQsMap[faq.id].score || 0,
-  }));
+  const faqsWithScore = uniqBy(
+    faqs.map((faq) => ({
+      ...faq,
+      score: matchedFAQsMap[faq.id].score || 0,
+    })),
+    'id',
+  );
+  return faqsWithScore.sort((a, b) => b.score - a.score);
 }
