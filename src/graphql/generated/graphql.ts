@@ -2398,6 +2398,7 @@ export type Timeline = {
   publishStatus: Scalars['String'];
   tags: Array<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
+  timelineStyle?: Maybe<Scalars['String']>;
 };
 
 export type TimelineEvent = {
@@ -2665,6 +2666,7 @@ export type UpsertTimelineInput = {
   publishStatus: Scalars['String'];
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  timelineStyle?: InputMaybe<Scalars['String']>;
 };
 
 export type UserDiscordConnect = {
@@ -4330,6 +4332,7 @@ export type TimelineResolvers<ContextType = any, ParentType extends ResolversPar
   publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  timelineStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
