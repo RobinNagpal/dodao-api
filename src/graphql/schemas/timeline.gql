@@ -19,6 +19,7 @@ type Timeline {
   admins: [String!]!
   tags: [String!]!
   priority: Int!
+  timelineStyle: String
 }
 
 type TimelineEvent {
@@ -43,6 +44,7 @@ input UpsertTimelineInput {
   tags: [String!]!
   priority: Int!
   created: String!
+  timelineStyle: String
 }
 
 input UpsertTimelineEventInput {
