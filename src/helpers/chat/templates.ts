@@ -61,6 +61,18 @@ const templates = {
 
     Final answer:
     `,
+
+  summarizeWithoutInquiryTemplate: `Shorten the text in the CONTENT. You should follow the following rules when generating the summary:
+    - Any code found in the CONTENT should ALWAYS be preserved in the summary, unchanged.
+    - Code will be surrounded by backticks (\`) or triple backticks (\`\`\`).
+    - The summary should be less than 4000 words.
+    - If the content date is included, make sure to prefer the most recent relevant content.
+    - Include a date of the related content in the response if the CONTENT contains a date.
+    
+    CONTENT: {document}
+
+    Final answer:
+    `,
   inquiryTemplate: `Given the following user prompt and conversation log, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base.
     You should follow the following rules when generating and answer:
     - Always prioritize the user prompt over the conversation log.

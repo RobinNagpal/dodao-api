@@ -1,0 +1,27 @@
+extend type Mutation {
+  upsertShortVideo(spaceId: String!, shortVideo: ShortVideoInput!): ShortVideo!
+}
+
+extend type Query {
+  shortVideos(spaceId: String!): [ShortVideo!]
+}
+
+type ShortVideo {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!
+  videoUrl: String!
+  priority: Int!
+  thumbnail: String!
+}
+
+input ShortVideoInput {
+  id: ID!
+  title: String!
+  description: String!
+  videoUrl: String!
+  priority: Int!
+  thumbnail: String!
+}
