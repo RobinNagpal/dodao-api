@@ -1139,6 +1139,7 @@ export type Mutation = {
   upsertProjectByte: ProjectByte;
   upsertProjectByteCollection: ProjectByteCollection;
   upsertProjectGalaxyAccessToken: Space;
+  upsertShortVideo: ShortVideo;
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
   upsertSpaceFeatures: Space;
@@ -1670,6 +1671,12 @@ export type MutationUpsertProjectGalaxyAccessTokenArgs = {
 };
 
 
+export type MutationUpsertShortVideoArgs = {
+  shortVideo: ShortVideoInput;
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationUpsertSimulationArgs = {
   input: UpsertSimulationInput;
   spaceId: Scalars['String'];
@@ -1861,6 +1868,7 @@ export type Query = {
   route53Records: Array<Route53Record>;
   scrapedUrlInfos: Array<ScrapedUrlInfo>;
   searchChatbotFAQs: Array<SearchedChatbotFaq>;
+  shortVideos?: Maybe<Array<ShortVideo>>;
   simulation: Simulation;
   simulations: Array<Simulation>;
   siteScrapingRuns: Array<SiteScrapingRun>;
@@ -2093,6 +2101,11 @@ export type QuerySearchChatbotFaQsArgs = {
 };
 
 
+export type QueryShortVideosArgs = {
+  spaceId: Scalars['String'];
+};
+
+
 export type QuerySimulationArgs = {
   simulationId: Scalars['String'];
   spaceId: Scalars['String'];
@@ -2199,6 +2212,27 @@ export type SendEmailInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type ShortVideo = {
+  __typename?: 'ShortVideo';
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  priority: Scalars['Int'];
+  thumbnail: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['String'];
+  videoUrl: Scalars['String'];
+};
+
+export type ShortVideoInput = {
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  priority: Scalars['Int'];
+  thumbnail: Scalars['String'];
+  title: Scalars['String'];
+  videoUrl: Scalars['String'];
 };
 
 export type Simulation = {
@@ -2956,6 +2990,8 @@ export type ResolversTypes = {
   ScrapedUrlInfo: ResolverTypeWrapper<ScrapedUrlInfo>;
   SearchedChatbotFAQ: ResolverTypeWrapper<SearchedChatbotFaq>;
   SendEmailInput: SendEmailInput;
+  ShortVideo: ResolverTypeWrapper<ShortVideo>;
+  ShortVideoInput: ShortVideoInput;
   Simulation: ResolverTypeWrapper<Simulation>;
   SimulationStep: ResolverTypeWrapper<SimulationStep>;
   SimulationStepInput: SimulationStepInput;
@@ -3161,6 +3197,8 @@ export type ResolversParentTypes = {
   ScrapedUrlInfo: ScrapedUrlInfo;
   SearchedChatbotFAQ: SearchedChatbotFaq;
   SendEmailInput: SendEmailInput;
+  ShortVideo: ShortVideo;
+  ShortVideoInput: ShortVideoInput;
   Simulation: Simulation;
   SimulationStep: SimulationStep;
   SimulationStepInput: SimulationStepInput;
@@ -3985,6 +4023,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertProjectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteArgs, 'input' | 'projectId'>>;
   upsertProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteCollectionArgs, 'input' | 'projectId'>>;
   upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
+  upsertShortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<MutationUpsertShortVideoArgs, 'shortVideo' | 'spaceId'>>;
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
   upsertSpaceFeatures?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceFeaturesArgs, 'features' | 'spaceId'>>;
@@ -4133,6 +4172,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
   scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   searchChatbotFAQs?: Resolver<Array<ResolversTypes['SearchedChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;
+  shortVideos?: Resolver<Maybe<Array<ResolversTypes['ShortVideo']>>, ParentType, ContextType, RequireFields<QueryShortVideosArgs, 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
   siteScrapingRuns?: Resolver<Array<ResolversTypes['SiteScrapingRun']>, ParentType, ContextType, RequireFields<QuerySiteScrapingRunsArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
@@ -4195,6 +4235,18 @@ export type SearchedChatbotFaqResolvers<ContextType = any, ParentType extends Re
   score?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ShortVideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShortVideo'] = ResolversParentTypes['ShortVideo']> = {
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  thumbnail?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4484,6 +4536,7 @@ export type Resolvers<ContextType = any> = {
   Route53Record?: Route53RecordResolvers<ContextType>;
   ScrapedUrlInfo?: ScrapedUrlInfoResolvers<ContextType>;
   SearchedChatbotFAQ?: SearchedChatbotFaqResolvers<ContextType>;
+  ShortVideo?: ShortVideoResolvers<ContextType>;
   Simulation?: SimulationResolvers<ContextType>;
   SimulationStep?: SimulationStepResolvers<ContextType>;
   SiteScrapingRun?: SiteScrapingRunResolvers<ContextType>;
