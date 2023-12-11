@@ -73,7 +73,7 @@ const summarizeLongDocumentWithInquiry = async (document: string, inquiry: strin
   }
 };
 
-const summarizeWithoutInquiry = async (document: string, onSummaryDone: (value: string) => void) => {
+const summarizeWithoutInquiry = async (document: string) => {
   const chain = new LLMChain({
     prompt: summarizeWithoutInquiryPromptTemplate,
     llm,
@@ -91,14 +91,14 @@ const summarizeWithoutInquiry = async (document: string, onSummaryDone: (value: 
   }
 };
 
-const summarizeLongDocumentWithoutInquiry = async (document: string, onSummaryDone: (value: string) => void): Promise<string> => {
+const summarizeLongDocumentWithoutInquiry = async (document: string): Promise<string> => {
   // Chunk document into 8000 character chunks
   try {
     if (getTokenCount(document) > 4000) {
       const chunks = chunkSubstr(document, 8000);
 
       // Map each chunk to a promise
-      const promises = chunks.map((chunk) => summarizeWithoutInquiry(chunk, onSummaryDone).catch((e) => ''));
+      const promises = chunks.map((chunk) => summarizeWithoutInquiry(chunk).catch((e) => ''));
 
       // Use Promise.allSettled to handle all promises in parallel
       const results = await Promise.allSettled(promises);
@@ -109,7 +109,7 @@ const summarizeLongDocumentWithoutInquiry = async (document: string, onSummaryDo
       const result = summarizedChunks.join('\n');
 
       if (getTokenCount(result) > 4000) {
-        return await summarizeLongDocumentWithoutInquiry(result, onSummaryDone);
+        return await summarizeLongDocumentWithoutInquiry(result);
       } else return result;
     } else {
       return document;
@@ -119,4 +119,4 @@ const summarizeLongDocumentWithoutInquiry = async (document: string, onSummaryDo
     return '';
   }
 };
-export { summarizeLongDocumentWithInquiry, summarizeLongDocumentWithoutInquiry };
+export { summarizeLongDocumentWithInquiry, summarizeLongDocumentWithoutInquiry, summarizeWithoutInquiry };
