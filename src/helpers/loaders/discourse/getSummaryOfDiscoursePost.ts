@@ -1,4 +1,4 @@
-import { summarizeLongDocument } from '@/helpers/chat/summarizer';
+import { summarizeLongDocumentWithInquiry } from '@/helpers/chat/summarizer';
 import { prisma } from '@/prisma';
 import { DiscoursePost } from '@prisma/client';
 
@@ -15,7 +15,7 @@ export async function getSummaryOfDiscoursePost(post: DiscoursePost, question: s
     return post.aiSummaryDate ? `${post.aiSummaryDate} \n\n\n ${post.aiSummary}` : post.aiSummary;
   }
 
-  const summary = await summarizeLongDocument(`${post?.fullContent} \n\n ${otherCommentsText}`, question, () => {
+  const summary = await summarizeLongDocumentWithInquiry(`${post?.fullContent} \n\n ${otherCommentsText}`, question, () => {
     console.log('onSummaryDone');
   });
   return summary;

@@ -1,5 +1,5 @@
 import { getTokenCount } from '@/ai/getTokenCount';
-import { summarizeLongDocument } from '@/helpers/chat/summarizer';
+import { summarizeLongDocumentWithInquiry } from '@/helpers/chat/summarizer';
 import { Message } from '@/helpers/chat/types/chat';
 import { logError } from '@/helpers/errorLogger';
 
@@ -19,7 +19,7 @@ export async function makeSummariesOfMatches(chunkedDocs: ChunkedDoc[], messages
   // Convert each chunkedDoc into a promise
   const promises: Promise<ChunkedDoc | null>[] = chunkedDocs.map((chunkedDoc): Promise<ChunkedDoc | null> => {
     return getTokenCount(chunkedDoc.text) > 1500
-      ? summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {
+      ? summarizeLongDocumentWithInquiry(chunkedDoc.text, messages[0].content, () => {
           console.log('onSummaryDone');
         })
           .then((summary): ChunkedDoc => ({ text: summary, url: chunkedDoc.url, score: chunkedDoc.score }))
@@ -52,7 +52,7 @@ export async function makeSummariesOfMatchesSerially(
   const summaries: { text: string; url: string; score?: number }[] = [];
   for (const chunkedDoc of chunkedDocs) {
     if (getTokenCount(chunkedDoc.text) > 1500) {
-      const summary = await summarizeLongDocument(chunkedDoc.text, messages[0].content, () => {
+      const summary = await summarizeLongDocumentWithInquiry(chunkedDoc.text, messages[0].content, () => {
         console.log('onSummaryDone');
       });
 
