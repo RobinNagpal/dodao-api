@@ -55,6 +55,10 @@ export async function doUpdateTopicQuestion(
       throw new Error(`Readings file not present in course.yaml ${input.topicKey}`);
     }
   }
+
+  if (!topicInCourseFile.questions || topicInCourseFile.questions === 'undefined' || topicInCourseFile.questions === undefined) {
+    topicInCourseFile.questions = topicInCourseFile.key + '.yaml';
+  }
   const questionYamlFile = repoInfo.repositoryPath + '/src/questions/' + topicInCourseFile.questions;
   const questionsInYaml = yaml.load(fs.readFileSync(questionYamlFile, 'utf8')) as TopicQuestionModel[];
 
