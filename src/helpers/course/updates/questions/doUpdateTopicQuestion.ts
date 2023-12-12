@@ -58,10 +58,6 @@ export async function doUpdateTopicQuestion(
   const questionYamlFile = repoInfo.repositoryPath + '/src/questions/' + topicInCourseFile.questions;
   const questionsInYaml = yaml.load(fs.readFileSync(questionYamlFile, 'utf8')) as TopicQuestionModel[];
 
-  if (!questionsInYaml || !questionsInYaml.length) {
-    throw new Error(`No contents present in questions file ${questionYamlFile}.  \n ${JSON.stringify(questionsInYaml)}  \n`);
-  }
-
   const updatedQuestions: string = yaml.dump(questionsUpdateFn(questionsInYaml));
 
   await writeToFile(questionYamlFile, updatedQuestions);
