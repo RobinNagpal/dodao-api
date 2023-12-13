@@ -1,6 +1,6 @@
 import { MutationIndexDiscoursePostArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
-import { indexDiscoursePostInDBAndPinecone } from '@/helpers/loaders/discourse/indexDiscoursePostInDBAndPinecone';
+import { scrapeAndIndexDiscoursePost } from '@/helpers/loaders/discourse/scrapeAndIndexDiscoursePost';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { IncomingMessage } from 'http';
 
@@ -8,7 +8,7 @@ export default async function indexDiscoursePost(_: any, args: MutationIndexDisc
   const space = await getSpaceById(args.spaceId);
   checkEditSpacePermission(space, context);
 
-  await indexDiscoursePostInDBAndPinecone(args.spaceId, args.postId);
+  await scrapeAndIndexDiscoursePost(args.spaceId, args.postId);
 
   return true;
 }

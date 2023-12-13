@@ -1,6 +1,6 @@
 import { MutationAnnotateDiscoursePostArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
-import { indexDiscoursePostInDBAndPinecone } from '@/helpers/loaders/discourse/indexDiscoursePostInDBAndPinecone';
+import { scrapeAndIndexDiscoursePost } from '@/helpers/loaders/discourse/scrapeAndIndexDiscoursePost';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
@@ -19,6 +19,6 @@ export default async function annotateDiscoursePost(_: any, args: MutationAnnota
     },
   });
 
-  indexDiscoursePostInDBAndPinecone(args.spaceId, updatedPost.id);
+  scrapeAndIndexDiscoursePost(args.spaceId, updatedPost.id);
   return updatedPost;
 }

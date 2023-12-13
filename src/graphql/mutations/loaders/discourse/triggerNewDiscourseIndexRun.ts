@@ -1,7 +1,7 @@
 import { MutationTriggerNewDiscourseIndexRunArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { DiscourseIndexRunStatus } from '@/helpers/loaders/discourse/discourseIndexRunStatus';
-import { indexAllPosts } from '@/helpers/loaders/discourse/discoursePostSummary';
+import { scrapeAndIndexLatestPostsPage } from '@/helpers/loaders/discourse/scrapeAndIndexLatestPostsPage';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 
 import { prisma } from '@/prisma';
@@ -10,7 +10,7 @@ import { IncomingMessage } from 'http';
 import { v4 } from 'uuid';
 
 async function indexAllDiscoursePosts(discourseUrl: string, spaceId: string, newIndexRun: DiscourseIndexRun, lastIndexRun: DiscourseIndexRun | null) {
-  await indexAllPosts(discourseUrl, spaceId, lastIndexRun?.runDate || new Date(0));
+  await scrapeAndIndexLatestPostsPage(discourseUrl, spaceId, lastIndexRun?.runDate || new Date(0));
 
   await prisma.discourseIndexRun.update({
     where: {

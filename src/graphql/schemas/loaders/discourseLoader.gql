@@ -11,6 +11,8 @@ extend type Mutation {
 
   indexNeedsIndexingDiscoursePosts(spaceId: String!): DiscourseIndexRun!
 
+  updateIndexWithAllDiscordPosts(spaceId: String!): Boolean!
+
   indexDiscoursePost(spaceId: String!, postId: String!): Boolean!
 
   annotateDiscoursePost(spaceId: String!, input: AnnotateDiscoursePostInput!): DiscoursePost!

@@ -1,9 +1,10 @@
 import { MutationIndexNeedsIndexingDiscoursePostsArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { DiscourseIndexRunStatus } from '@/helpers/loaders/discourse/discourseIndexRunStatus';
-import { getPostDetails, storePostDetailsInPinecone } from '@/helpers/loaders/discourse/discoursePostDetails';
-import { setupPuppeteerPageForDiscourse } from '@/helpers/loaders/discourse/discoursePostSummary';
-import { PostStatus } from '@/helpers/loaders/discourse/models';
+import { setupPuppeteerPageForDiscourse } from '@/helpers/loaders/discourse/helper/setupPuppeteerPageForDiscourse';
+import { storeScrappedPostDetailsInDBAndPinecone } from '@/helpers/loaders/discourse/storeScrappedPostDetailsInDBAndPinecone';
+import { PostIndexingStatus } from '@/helpers/loaders/discourse/postIndexingStatus';
+import { scrapeDiscoursePostDetails } from '@/helpers/loaders/discourse/scrapeDiscoursePostDetails';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 
 import { prisma } from '@/prisma';
@@ -17,8 +18,8 @@ async function indexDBPosts(dbPosts: DiscoursePost[], page: Page, newIndexRun: D
     console.log('going to', post.url);
 
     try {
-      const postTopics = await getPostDetails(page, post);
-      await storePostDetailsInPinecone(post, postTopics);
+      const postTopics = await scrapeDiscoursePostDetails(page, post);
+      await storeScrappedPostDetailsInDBAndPinecone(post, postTopics);
     } catch (e) {
       console.error(e);
       await prisma.discoursePost.update({
@@ -26,7 +27,7 @@ async function indexDBPosts(dbPosts: DiscoursePost[], page: Page, newIndexRun: D
           id: post.id,
         },
         data: {
-          status: PostStatus.INDEXING_FAILED,
+          status: PostIndexingStatus.INDEXING_FAILED,
         },
       });
     }
@@ -65,7 +66,7 @@ export default async function indexNeedsIndexingDiscoursePosts(_: any, args: Mut
   const dbPosts = await prisma.discoursePost.findMany({
     where: {
       spaceId: args.spaceId,
-      status: PostStatus.NEEDS_INDEXING,
+      status: PostIndexingStatus.NEEDS_INDEXING,
     },
   });
 
