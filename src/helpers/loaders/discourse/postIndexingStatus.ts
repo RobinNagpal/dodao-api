@@ -1,4 +1,4 @@
-export enum PostStatus {
+export enum PostIndexingStatus {
   NEEDS_INDEXING = 'NEEDS_INDEXING',
   STARTED_INDEXING = 'STARTED_INDEXING',
   INDEXING_FAILED = 'INDEXING_FAILED',
