@@ -1,4 +1,4 @@
-import { getSummaryOfDiscoursePost } from '@/helpers/loaders/discourse/getSummaryOfDiscoursePost';
+import { getSummaryOfDiscoursePost } from '@/helpers/loaders/discourse/helper/getSummaryOfDiscoursePost';
 import { prisma } from '@/prisma';
 import { DocumentInfoType, PageMetadata } from '@/types/chat/projectsContents';
 

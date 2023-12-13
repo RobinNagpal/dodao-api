@@ -1,9 +1,11 @@
-import { getPostDetails, storePostDetailsInPinecone } from '@/helpers/loaders/discourse/discoursePostDetails';
-import { PostStatus } from '@/helpers/loaders/discourse/models';
+import { PostIndexingStatus } from '@/helpers/loaders/discourse/postIndexingStatus';
+import { scrapeDiscoursePostDetails } from '@/helpers/loaders/discourse/scrapeDiscoursePostDetails';
+import { setupPuppeteerPageForDiscourse } from '@/helpers/loaders/discourse/helper/setupPuppeteerPageForDiscourse';
+import { storeScrappedPostDetailsInDBAndPinecone } from '@/helpers/loaders/discourse/storeScrappedPostDetailsInDBAndPinecone';
 import { prisma } from '@/prisma';
-import unionBy from 'lodash/unionBy';
 import difference from 'lodash/difference';
-import puppeteer, { Page } from 'puppeteer';
+import unionBy from 'lodash/unionBy';
+import { Page } from 'puppeteer';
 import { v4 } from 'uuid';
 
 const DISCOURSE_SELECTORS = {
@@ -18,7 +20,7 @@ export interface PostInfo {
   title: string;
 }
 
-export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
+async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
   let elements: PostInfo[] = [];
 
   let previousScrollHeight = -1;
@@ -73,18 +75,7 @@ export async function getSummaryOfAllPosts(page: Page): Promise<PostInfo[]> {
   return unionBy(elements, 'href');
 }
 
-export async function setupPuppeteerPageForDiscourse(discourseUrl: string) {
-  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-  const page = await browser.newPage();
-  await page.goto(discourseUrl);
-  await page.setViewport({
-    width: 1200,
-    height: 800,
-  });
-  return { browser, page };
-}
-
-export async function indexAllPosts(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
+export async function scrapeAndIndexLatestPostsPage(discourseUrl: string, spaceId: string, lastRunDate: Date): Promise<void> {
   const { browser, page } = await setupPuppeteerPageForDiscourse(discourseUrl);
 
   const hrefs: PostInfo[] = await getSummaryOfAllPosts(page);
@@ -96,7 +87,7 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
       },
       update: {
         datePublished: new Date(href.epochTime),
-        status: lastRunDate <= new Date(href.epochTime) ? PostStatus.NEEDS_INDEXING : PostStatus.INDEXING_SUCCESS,
+        status: lastRunDate <= new Date(href.epochTime) ? PostIndexingStatus.NEEDS_INDEXING : PostIndexingStatus.INDEXING_SUCCESS,
       },
       create: {
         id: v4(),
@@ -104,7 +95,7 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
         datePublished: new Date(href.epochTime),
         createdAt: new Date(),
         spaceId,
-        status: PostStatus.NEEDS_INDEXING,
+        status: PostIndexingStatus.NEEDS_INDEXING,
         title: href.title,
       },
     });
@@ -118,10 +109,10 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
 
   for (const post of dbPosts) {
     console.log('going to', post.url);
-    if (post.status === PostStatus.NEEDS_INDEXING) {
+    if (post.status === PostIndexingStatus.NEEDS_INDEXING) {
       try {
-        const postTopics = await getPostDetails(page, post);
-        await storePostDetailsInPinecone(post, postTopics);
+        const postTopics = await scrapeDiscoursePostDetails(page, post);
+        await storeScrappedPostDetailsInDBAndPinecone(post, postTopics);
       } catch (e) {
         console.error(e);
         await prisma.discoursePost.update({
@@ -129,7 +120,7 @@ export async function indexAllPosts(discourseUrl: string, spaceId: string, lastR
             id: post.id,
           },
           data: {
-            status: PostStatus.INDEXING_FAILED,
+            status: PostIndexingStatus.INDEXING_FAILED,
           },
         });
       }
