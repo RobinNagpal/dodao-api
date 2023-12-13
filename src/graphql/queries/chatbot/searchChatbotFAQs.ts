@@ -43,9 +43,7 @@ export default async function searchChatbotFAQs(_: any, { spaceId, query }: Quer
 
   const embeddings = await embedder.embedQuery(inquiry);
   console.log('embeddings', embeddings.length);
-  const matchedFAQs: MatchedDocument[] = (await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 2, spaceId, DocumentInfoType.FAQ)).filter(
-    (faq) => (faq?.score || 0) > 0.85,
-  );
+  const matchedFAQs: MatchedDocument[] = await getMatchesFromEmbeddingsForDocumentType(embeddings, pinecone!, 2, spaceId, DocumentInfoType.FAQ);
 
   const matchedFAQsMap = Object.fromEntries(matchedFAQs.map((faq) => [faq.metadata.fullContentId, faq]));
 
