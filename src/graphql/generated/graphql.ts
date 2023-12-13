@@ -1115,6 +1115,7 @@ export type Mutation = {
   updateByteSettings: Space;
   updateCourseBasicInfo: GitCourse;
   updateGuideSettings: Space;
+  updateIndexWithAllDiscordPosts: Scalars['Boolean'];
   updateIndexingOfDiscordChannel: DiscordChannel;
   updateSocialSettings: Space;
   updateSpace: Space;
@@ -1524,6 +1525,11 @@ export type MutationUpdateCourseBasicInfoArgs = {
 
 export type MutationUpdateGuideSettingsArgs = {
   input: GuideSettingsInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateIndexWithAllDiscordPostsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -3999,6 +4005,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
+  updateIndexWithAllDiscordPosts?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateIndexWithAllDiscordPostsArgs, 'spaceId'>>;
   updateIndexingOfDiscordChannel?: Resolver<ResolversTypes['DiscordChannel'], ParentType, ContextType, RequireFields<MutationUpdateIndexingOfDiscordChannelArgs, 'channelId' | 'shouldIndex' | 'spaceId'>>;
   updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;

@@ -1,5 +1,5 @@
 import { MutationIndexChatbotFaQsArgs } from '@/graphql/generated/graphql';
-import { indexFAQInPinecone } from '@/helpers/loaders/faq/indexFAQInPinecone';
+import { indexFAQInPinecone } from '@/helpers/vectorIndexers/faq/indexFAQInPinecone';
 import { verifySpaceEditPermissions } from '@/helpers/permissions/verifySpaceEditPermissions';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
