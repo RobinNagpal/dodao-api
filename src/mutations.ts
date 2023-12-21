@@ -41,6 +41,7 @@ import upsertProject from '@/graphql/mutations/project/upsertProject';
 import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import upsertShortVideo from '@/graphql/mutations/shortVideo/upsertShortVideo';
+import copyAllBytesFromGitToDatabase from '@/graphql/mutations/space/copyAllBytesFromGitToDatabase';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import { dropPineconeNamespace } from '@/graphql/mutations/space/dropPineconeNamespace';
 import sendEmail from '@/graphql/mutations/space/sendEmail';
@@ -58,6 +59,7 @@ export default {
   createSummaryOfContent,
   extractRelevantTextForTopic,
   generateImage,
+  copyAllBytesFromGitToDatabase,
 
   createSpace,
   updateSpace,

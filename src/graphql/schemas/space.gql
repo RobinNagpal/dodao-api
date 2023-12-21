@@ -44,6 +44,8 @@ extend type Mutation {
   upsertSpaceLoaderInfo(spaceId: String!, input: SpaceLoadersInfoInput!): Space!
 
   dropPineconeNamespace(spaceId: String!): Boolean!
+
+  copyAllBytesFromGitToDatabase(spaceId: String!): Boolean!
 }
 
 type Space {
