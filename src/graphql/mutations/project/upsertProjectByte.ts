@@ -1,3 +1,4 @@
+import { PublishStatus } from '@/deprecatedSchemas/models/enums';
 import { MutationUpsertProjectByteArgs } from '@/graphql/generated/graphql';
 import { TOP_CRYPTO_PROJECTS_SPACE_ID } from '@/helpers/chat/utils/app/constants';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
@@ -17,6 +18,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
       steps: args.input.steps,
       id: args.input.id || slugify(args.input.name),
       projectId: args.projectId,
+      publishStatus: PublishStatus.Live,
     },
     update: {
       ...args.input,

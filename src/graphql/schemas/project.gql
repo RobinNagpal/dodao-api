@@ -50,7 +50,6 @@ type ProjectByte {
   created: String!
   id: String!
   name: String!
-  publishStatus: String!
   steps: [ByteStep!]!
   admins: [String!]!
   tags: [String!]!
@@ -62,7 +61,6 @@ input UpsertProjectByteInput {
   id: String!
   name: String!
   steps: [ByteStepInput!]!
-  publishStatus: String!
   thumbnail: String
   admins: [String!]!
   tags: [String!]!

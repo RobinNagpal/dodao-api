@@ -1,12 +1,11 @@
-import { ByteModel } from '@/deprecatedSchemas/models/byte/ByteModel';
 import { ByteCollection as ByteCollectionGraphql, ByteCollectionByte } from '@/graphql/generated/graphql';
 import { getByte } from '@/graphql/queries/byte/byte';
-import { ByteCollection } from '@prisma/client';
+import { Byte, ByteCollection } from '@prisma/client';
 
 export async function getByteCollectionWithBytes(byteCollection: ByteCollection): Promise<ByteCollectionGraphql> {
   const bytes: ByteCollectionByte[] = [];
   for (const byteId of byteCollection.byteIds) {
-    const byte = (await getByte(byteCollection.spaceId, byteId)) as ByteModel;
+    const byte = (await getByte(byteCollection.spaceId, byteId)) as Byte;
     bytes.push({
       byteId: byte.id,
       name: byte.name,
