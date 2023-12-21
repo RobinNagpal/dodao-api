@@ -2,7 +2,7 @@ import { QueryByteArgs } from '@/graphql/generated/graphql';
 import { prisma } from '@/prisma';
 
 export async function getByte(spaceId: string, byteId: string, includeDraft = false) {
-  let byte = await prisma.byte.findUnique({
+  const byte = await prisma.byte.findUnique({
     where: {
       id: byteId,
     },
