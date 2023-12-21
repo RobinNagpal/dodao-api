@@ -34,21 +34,21 @@ export async function getProjectBytesCollectionWithBytes(projectId: string) {
 
   const redisKey = getByteCollectionRedisKey(projectId);
 
-  const byteCollection = await getRedisValue(redisKey);
-
-  if (byteCollection) {
-    return JSON.parse(byteCollection) as ProjectByteCollectionGraphql[];
-  }
+  // const byteCollection = await getRedisValue(redisKey);
+  //
+  // if (byteCollection) {
+  //   return JSON.parse(byteCollection) as ProjectByteCollectionGraphql[];
+  // }
   const byteCollectionsWithBytes: ProjectByteCollectionGraphql[] = [];
 
   for (const byteCollection of projectByteCollections) {
     byteCollectionsWithBytes.push(await getProjectByteCollectionWithBytes(byteCollection));
   }
 
-  try {
-    await setRedisValue(redisKey, JSON.stringify(byteCollectionsWithBytes));
-  } catch (e) {
-    logError('Error setting redis value', { error: e });
-  }
+  // try {
+  //   await setRedisValue(redisKey, JSON.stringify(byteCollectionsWithBytes));
+  // } catch (e) {
+  //   logError('Error setting redis value', { error: e });
+  // }
   return byteCollectionsWithBytes;
 }
