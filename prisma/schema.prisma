@@ -151,21 +151,18 @@ model Space {
 }
 
 model Byte {
-  id            String   @id @unique @db.VarChar(255)
-  name          String   @db.VarChar(255)
-  content       String
-  created       String   @db.VarChar(255)
-  visibility    String   @default("Public") @db.VarChar(255)
-  publishStatus String   @map("publish_status") @db.VarChar(255)
-  admins        String[]
-  tags          String[]
-  priority      Int
+  id       String   @id @unique @db.VarChar(255)
+  name     String   @db.VarChar(255)
+  content  String
+  created  String   @db.VarChar(255)
+  admins   String[]
+  tags     String[]
+  priority Int
   /// [ByteStep]
-  steps         Json[]
-  spaceId       String   @map("space_id") @db.VarChar(255)
-  Space         Space    @relation(fields: [spaceId], references: [id])
+  steps    Json[]
+  spaceId  String   @map("space_id") @db.VarChar(255)
+  Space    Space    @relation(fields: [spaceId], references: [id])
 
-  @@unique([id, publishStatus])
   @@map("bytes")
 }
 

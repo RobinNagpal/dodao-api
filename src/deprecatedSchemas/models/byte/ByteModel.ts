@@ -38,7 +38,6 @@ export interface ByteModel {
   content: string;
   created: string;
   name: string;
-  publishStatus: PublishStatus;
   steps: ByteStep[];
   admins: string[];
   tags: string[];
