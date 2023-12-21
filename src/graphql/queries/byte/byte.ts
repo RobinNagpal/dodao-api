@@ -1,8 +1,5 @@
 import { QueryByteArgs } from '@/graphql/generated/graphql';
-import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
-import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
 import { prisma } from '@/prisma';
-import { Byte } from '@prisma/client';
 
 export async function getByte(spaceId: string, byteId: string, includeDraft = false) {
   let byte = await prisma.byte.findUnique({
@@ -11,11 +8,6 @@ export async function getByte(spaceId: string, byteId: string, includeDraft = fa
     },
   });
 
-  if (!byte) {
-    byte = (await getAcademyObjectFromRedis(spaceId, AcademyObjectTypes.bytes, byteId)) as Byte;
-  }
-
-  // If byte is still not found, throw an error or handle it appropriately
   if (!byte) {
     throw new Error('Byte not found');
   }
