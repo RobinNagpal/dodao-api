@@ -6,8 +6,10 @@ export default async function copyAllBytesFromGitToDatabase(_: unknown, args: un
   const spaces = await prisma.space.findMany();
 
   for (const space of spaces) {
+    console.log('copying bytes for space', space.id);
     const bytes = await getBytes(space.id);
     for (const byte of bytes) {
+      console.log('copying byte', byte.id);
       await prisma.byte.upsert({
         create: {
           steps: byte.steps,
