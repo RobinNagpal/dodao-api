@@ -16,7 +16,6 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
   const byteModel: ByteModel = {
     ...message,
     id: message.id || slugify(message.name),
-    publishStatus: message.publishStatus as PublishStatus,
     steps: message.steps.map((s, i) => ({
       ...s,
       order: undefined,
@@ -52,21 +51,17 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
         steps: steps,
         id: id,
         spaceId: spaceId,
-        publishStatus: PublishStatus.Live,
-        visibility: VisibilityEnum.Public,
       },
       update: {
         ...input,
         steps: steps,
-        publishStatus: PublishStatus.Live,
-        visibility: VisibilityEnum.Public,
       },
       where: {
         id: id,
       },
     });
 
-    const upsertedObject = await writeObjectToAcademyRepo(spaceById, transformedByte, AcademyObjectTypes.bytes, '123456789');
+    const upsertedObject = await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, '123456789');
 
     return upsertedObject;
   } catch (e) {

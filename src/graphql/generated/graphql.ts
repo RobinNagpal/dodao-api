@@ -123,11 +123,9 @@ export type Byte = {
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   priority: Scalars['Int'];
-  publishStatus: Scalars['String'];
   showIncorrectOnCompletion: Scalars['Boolean'];
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
-  visibility?: Maybe<Scalars['String']>;
 };
 
 export type ByteCollection = {
@@ -1807,7 +1805,6 @@ export type ProjectByte = {
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   priority: Scalars['Int'];
-  publishStatus: Scalars['String'];
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
 };
@@ -2535,11 +2532,9 @@ export type UpsertByteInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
-  publishStatus: Scalars['String'];
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
-  visibility?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertByteSocialShareInput = {
@@ -2622,7 +2617,6 @@ export type UpsertProjectByteInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
-  publishStatus: Scalars['String'];
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
@@ -3302,11 +3296,9 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  visibility?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4111,7 +4103,6 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  publishStatus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

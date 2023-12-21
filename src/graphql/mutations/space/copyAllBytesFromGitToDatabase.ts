@@ -12,8 +12,7 @@ export default async function copyAllBytesFromGitToDatabase(_: unknown, args: Mu
         steps: byte.steps,
         id: byte.id,
         spaceId: args.spaceId,
-        publishStatus: byte.publishStatus,
-        visibility: VisibilityEnum.Public,
+
         priority: byte.priority,
         admins: byte.admins,
         name: byte.name,
@@ -23,8 +22,7 @@ export default async function copyAllBytesFromGitToDatabase(_: unknown, args: Mu
       update: {
         steps: byte.steps,
         spaceId: args.spaceId,
-        publishStatus: byte.publishStatus,
-        visibility: VisibilityEnum.Public,
+
         priority: byte.priority,
         admins: byte.admins,
         name: byte.name,
