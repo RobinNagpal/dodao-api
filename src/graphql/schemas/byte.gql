@@ -6,8 +6,6 @@ extend type Query {
 
 extend type Mutation {
   upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
-  saveByte(spaceId: String!, input: UpsertByteInput!): Byte!
-  publishByte(spaceId: String!, input: UpsertByteInput!): Byte!
   generateSharablePdf(spaceId: String!, byteId: String!): String!
   upsertByteSocialShare(spaceId: String!, input: UpsertByteSocialShareInput!): ByteSocialShare!
 }
@@ -52,7 +50,6 @@ type ByteStep {
   uuid: String!
 }
 
-
 type ByteLinkedinPdfContentStep {
   content: String!
   name: String!
@@ -73,7 +70,6 @@ type ByteSocialShare {
   linkedInPdf: String
   twitterImage: String
 }
-
 
 input ByteStepInput {
   content: String!

@@ -1096,14 +1096,12 @@ export type Mutation = {
   moveTopicQuestion: GitCourse;
   moveTopicSummary: GitCourse;
   moveTopicVideo: GitCourse;
-  publishByte: Byte;
   reFetchDiscordChannels: Array<DiscordChannel>;
   reFetchDiscordMessages: Scalars['Boolean'];
   reFetchDiscordServers: Array<DiscordServer>;
   refreshGitCourse: Scalars['Boolean'];
   refreshGitCourses: Scalars['Boolean'];
   reloadAcademyRepository: Scalars['Boolean'];
-  saveByte: Byte;
   sendEmail: Scalars['Boolean'];
   submitByte: ByteSubmission;
   submitGitCourse: GitCourseSubmission;
@@ -1428,12 +1426,6 @@ export type MutationMoveTopicVideoArgs = {
 };
 
 
-export type MutationPublishByteArgs = {
-  input: UpsertByteInput;
-  spaceId: Scalars['String'];
-};
-
-
 export type MutationReFetchDiscordChannelsArgs = {
   serverId: Scalars['String'];
   spaceId: Scalars['String'];
@@ -1458,12 +1450,6 @@ export type MutationRefreshGitCoursesArgs = {
 
 
 export type MutationReloadAcademyRepositoryArgs = {
-  spaceId: Scalars['String'];
-};
-
-
-export type MutationSaveByteArgs = {
-  input: UpsertByteInput;
   spaceId: Scalars['String'];
 };
 
@@ -3992,14 +3978,12 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   moveTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   moveTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   moveTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationMoveTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
-  publishByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationPublishByteArgs, 'input' | 'spaceId'>>;
   reFetchDiscordChannels?: Resolver<Array<ResolversTypes['DiscordChannel']>, ParentType, ContextType, RequireFields<MutationReFetchDiscordChannelsArgs, 'serverId' | 'spaceId'>>;
   reFetchDiscordMessages?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReFetchDiscordMessagesArgs, 'channelId' | 'spaceId'>>;
   reFetchDiscordServers?: Resolver<Array<ResolversTypes['DiscordServer']>, ParentType, ContextType>;
   refreshGitCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCourseArgs, 'courseKey' | 'spaceId'>>;
   refreshGitCourses?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRefreshGitCoursesArgs, 'spaceId'>>;
   reloadAcademyRepository?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationReloadAcademyRepositoryArgs, 'spaceId'>>;
-  saveByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationSaveByteArgs, 'input' | 'spaceId'>>;
   sendEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendEmailArgs, 'input'>>;
   submitByte?: Resolver<ResolversTypes['ByteSubmission'], ParentType, ContextType, RequireFields<MutationSubmitByteArgs, 'submissionInput'>>;
   submitGitCourse?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGitCourseArgs, 'input' | 'spaceId'>>;
