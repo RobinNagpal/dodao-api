@@ -151,8 +151,7 @@ model Space {
 }
 
 model Byte {
-  uniqueId      String   @id @unique @default(uuid()) @map("unique_id") @db.VarChar(255)
-  id            String   @db.VarChar(255)
+  id            String   @id @unique @db.VarChar(255)
   name          String   @db.VarChar(255)
   content       String
   created       String   @db.VarChar(255)
