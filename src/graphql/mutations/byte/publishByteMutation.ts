@@ -25,58 +25,31 @@ export default async function publishByteMutation(
     await validateInput(spaceId, input);
 
     const steps: ByteStep[] = transformByteInputSteps(input);
-    const existingLiveByte = await prisma.byte.findUnique({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Live } } });
 
-    let savedByte;
+    const id = input.id || slugify(input.name);
+    const upsertedByte = await prisma.byte.upsert({
+      create: {
+        ...input,
+        steps: steps,
+        id: id,
+        spaceId: spaceId,
+        publishStatus: PublishStatus.Live,
+        visibility: VisibilityEnum.Public,
+      },
+      update: {
+        ...input,
+        steps: steps,
+        publishStatus: PublishStatus.Live,
+        visibility: VisibilityEnum.Public,
+      },
+      where: {
+        id: id,
+      },
+    });
 
-    if (existingLiveByte) {
-      savedByte = await prisma.byte.update({
-        where: {
-          id_publishStatus: {
-            id: input.id!,
-            publishStatus: PublishStatus.Live,
-          },
-        },
-        data: {
-          ...input,
-          steps: steps,
-          publishStatus: PublishStatus.Live,
-          visibility: input.visibility || VisibilityEnum.Public,
-        },
-      });
+    await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, jwt.accountId);
 
-      const draftByte = await prisma.byte.findUnique({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Draft } } });
-      if (draftByte) {
-        await prisma.byte.delete({ where: { id_publishStatus: { id: input.id!, publishStatus: PublishStatus.Draft } } });
-      }
-    } else {
-      savedByte = await prisma.byte.upsert({
-        create: {
-          ...input,
-          steps: steps,
-          id: input.id || slugify(input.name),
-          spaceId: spaceId,
-          publishStatus: PublishStatus.Live,
-          visibility: input.visibility || VisibilityEnum.Public,
-        },
-        update: {
-          ...input,
-          steps: steps,
-          publishStatus: PublishStatus.Live,
-          visibility: input.visibility || VisibilityEnum.Public,
-        },
-        where: {
-          id_publishStatus: {
-            id: input.id!,
-            publishStatus: PublishStatus.Draft,
-          },
-        },
-      });
-    }
-
-    await writeObjectToAcademyRepo(spaceById, savedByte, AcademyObjectTypes.bytes, jwt.accountId);
-
-    return savedByte;
+    return upsertedByte;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in publishByte', {}, e as any, null, null);
     throw e;
