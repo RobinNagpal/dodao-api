@@ -1,6 +1,7 @@
 import mutations from '@/graphql/mutations';
 import generateSharablePdf from '@/graphql/mutations/byte/generateSharablePdf';
 import submitByte from '@/graphql/mutations/byte/submitByte';
+import upsertByte from '@/graphql/mutations/byte/upsertByte';
 import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShare';
 import createByteCollection from '@/graphql/mutations/byteCollection/createByteCollection';
 import deleteByteCollection from '@/graphql/mutations/byteCollection/deleteByteCollection';
@@ -41,6 +42,7 @@ import upsertProject from '@/graphql/mutations/project/upsertProject';
 import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import upsertShortVideo from '@/graphql/mutations/shortVideo/upsertShortVideo';
+import copyAllBytesFromGitToDatabase from '@/graphql/mutations/space/copyAllBytesFromGitToDatabase';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import { dropPineconeNamespace } from '@/graphql/mutations/space/dropPineconeNamespace';
 import sendEmail from '@/graphql/mutations/space/sendEmail';
@@ -58,6 +60,7 @@ export default {
   createSummaryOfContent,
   extractRelevantTextForTopic,
   generateImage,
+  copyAllBytesFromGitToDatabase,
 
   createSpace,
   updateSpace,
@@ -75,6 +78,7 @@ export default {
   updateSocialSettings,
   updateByteSettings,
 
+  upsertByte,
   submitByte,
   submitGuide,
   deleteGuide,
