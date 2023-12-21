@@ -30,7 +30,7 @@ const app = express();
 (async () => {
   const rootValue = { Mutation, Query, ...resolvers, DateTimeISO: GraphQLDateTimeISO };
 
-  const isLocalEnv = process?.env?.NODE_ENV === 'local';
+  const isLocalEnv = true; // | process?.env?.NODE_ENV === 'local';
   console.log('isLocalEnv', isLocalEnv);
   const plugin: ApolloServerPlugin = isLocalEnv ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageDisabled();
 
