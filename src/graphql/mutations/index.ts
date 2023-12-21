@@ -5,7 +5,6 @@ import courseSubmissionsMutations from '@/graphql/mutations/courseSubmissions.mu
 import guideMutations from '@/graphql/mutations/guide.mutations';
 import spaceMutations from '@/graphql/mutations/space.mutations';
 import timelineMutations from '@/graphql/mutations/timeline.mutations';
-import byteSaveMutation from './byteSave.mutation';
 import bytePublishMutation from './bytePublish.mutation';
 
 export default {
@@ -16,6 +15,5 @@ export default {
   ...simulationMutations,
   ...spaceMutations,
   ...timelineMutations,
-  ...byteSaveMutation,
   ...bytePublishMutation,
 };
