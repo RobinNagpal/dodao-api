@@ -1,4 +1,4 @@
-import { QueryProjectByteArgs, QueryProjectByteCollectionArgs } from '@/graphql/generated/graphql';
+import { QueryProjectByteCollectionArgs } from '@/graphql/generated/graphql';
 import { getProjectByteCollectionWithBytes } from '@/helpers/project/projectByteCollectionsHelper';
 import { prisma } from '@/prisma';
 
