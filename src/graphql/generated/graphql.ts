@@ -1212,11 +1212,6 @@ export type MutationAuthenticateWithUnstoppableArgs = {
 };
 
 
-export type MutationCopyAllBytesFromGitToDatabaseArgs = {
-  spaceId: Scalars['String'];
-};
-
-
 export type MutationCreateArticleIndexingInfoArgs = {
   articleUrl: Scalars['String'];
   spaceId: Scalars['String'];
@@ -3934,7 +3929,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   askChatCompletionAI?: Resolver<ResolversTypes['OpenAIChatCompletionResponse'], ParentType, ContextType, RequireFields<MutationAskChatCompletionAiArgs, 'input'>>;
   askCompletionAI?: Resolver<ResolversTypes['OpenAICompletionResponse'], ParentType, ContextType, RequireFields<MutationAskCompletionAiArgs, 'input'>>;
   authenticateWithUnstoppable?: Resolver<ResolversTypes['JwtResponse'], ParentType, ContextType, RequireFields<MutationAuthenticateWithUnstoppableArgs, 'idToken'>>;
-  copyAllBytesFromGitToDatabase?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCopyAllBytesFromGitToDatabaseArgs, 'spaceId'>>;
+  copyAllBytesFromGitToDatabase?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   createArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationCreateArticleIndexingInfoArgs, 'articleUrl' | 'spaceId'>>;
   createByteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<MutationCreateByteCollectionArgs, 'input'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
