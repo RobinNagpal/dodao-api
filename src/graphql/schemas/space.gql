@@ -45,7 +45,7 @@ extend type Mutation {
 
   dropPineconeNamespace(spaceId: String!): Boolean!
 
-  copyAllBytesFromGitToDatabase(spaceId: String!): Boolean!
+  copyAllBytesFromGitToDatabase: Boolean!
 }
 
 type Space {
