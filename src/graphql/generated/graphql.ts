@@ -1137,6 +1137,7 @@ export type Mutation = {
   upsertProjectByte: ProjectByte;
   upsertProjectByteCollection: ProjectByteCollection;
   upsertProjectGalaxyAccessToken: Space;
+  upsertProjectShortVideo: ProjectShortVideo;
   upsertShortVideo: ShortVideo;
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
@@ -1662,6 +1663,12 @@ export type MutationUpsertProjectGalaxyAccessTokenArgs = {
 };
 
 
+export type MutationUpsertProjectShortVideoArgs = {
+  projectId: Scalars['String'];
+  shortVideo: ProjectShortVideoInput;
+};
+
+
 export type MutationUpsertShortVideoArgs = {
   shortVideo: ShortVideoInput;
   spaceId: Scalars['String'];
@@ -1815,6 +1822,27 @@ export type ProjectByteCollection = {
   status: Scalars['String'];
 };
 
+export type ProjectShortVideo = {
+  __typename?: 'ProjectShortVideo';
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  priority: Scalars['Int'];
+  thumbnail: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['String'];
+  videoUrl: Scalars['String'];
+};
+
+export type ProjectShortVideoInput = {
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  priority: Scalars['Int'];
+  thumbnail: Scalars['String'];
+  title: Scalars['String'];
+  videoUrl: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']>;
@@ -1852,6 +1880,8 @@ export type Query = {
   projectByteCollection: ProjectByteCollection;
   projectByteCollections: Array<ProjectByteCollection>;
   projectBytes: Array<ProjectByte>;
+  projectShortVideo: ProjectShortVideo;
+  projectShortVideos: Array<ProjectShortVideo>;
   projects: Array<Project>;
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
@@ -2059,6 +2089,17 @@ export type QueryProjectByteCollectionsArgs = {
 
 
 export type QueryProjectBytesArgs = {
+  projectId: Scalars['String'];
+};
+
+
+export type QueryProjectShortVideoArgs = {
+  projectByteId: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
+export type QueryProjectShortVideosArgs = {
   projectId: Scalars['String'];
 };
 
@@ -2968,6 +3009,8 @@ export type ResolversTypes = {
   Project: ResolverTypeWrapper<Project>;
   ProjectByte: ResolverTypeWrapper<ProjectByte>;
   ProjectByteCollection: ResolverTypeWrapper<ProjectByteCollection>;
+  ProjectShortVideo: ResolverTypeWrapper<ProjectShortVideo>;
+  ProjectShortVideoInput: ProjectShortVideoInput;
   Query: ResolverTypeWrapper<{}>;
   QuestionChoice: ResolverTypeWrapper<QuestionChoice>;
   QuestionChoiceInput: QuestionChoiceInput;
@@ -3175,6 +3218,8 @@ export type ResolversParentTypes = {
   Project: Project;
   ProjectByte: ProjectByte;
   ProjectByteCollection: ProjectByteCollection;
+  ProjectShortVideo: ProjectShortVideo;
+  ProjectShortVideoInput: ProjectShortVideoInput;
   Query: {};
   QuestionChoice: QuestionChoice;
   QuestionChoiceInput: QuestionChoiceInput;
@@ -4008,6 +4053,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertProjectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteArgs, 'input' | 'projectId'>>;
   upsertProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteCollectionArgs, 'input' | 'projectId'>>;
   upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
+  upsertProjectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<MutationUpsertProjectShortVideoArgs, 'projectId' | 'shortVideo'>>;
   upsertShortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<MutationUpsertShortVideoArgs, 'shortVideo' | 'spaceId'>>;
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
@@ -4114,6 +4160,18 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ProjectShortVideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectShortVideo'] = ResolversParentTypes['ProjectShortVideo']> = {
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  thumbnail?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
@@ -4150,6 +4208,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   projectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<QueryProjectByteCollectionArgs, 'byteCollectionId' | 'projectId'>>;
   projectByteCollections?: Resolver<Array<ResolversTypes['ProjectByteCollection']>, ParentType, ContextType, RequireFields<QueryProjectByteCollectionsArgs, 'projectId'>>;
   projectBytes?: Resolver<Array<ResolversTypes['ProjectByte']>, ParentType, ContextType, RequireFields<QueryProjectBytesArgs, 'projectId'>>;
+  projectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<QueryProjectShortVideoArgs, 'projectByteId' | 'projectId'>>;
+  projectShortVideos?: Resolver<Array<ResolversTypes['ProjectShortVideo']>, ParentType, ContextType, RequireFields<QueryProjectShortVideosArgs, 'projectId'>>;
   projects?: Resolver<Array<ResolversTypes['Project']>, ParentType, ContextType, Partial<QueryProjectsArgs>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
@@ -4513,6 +4573,7 @@ export type Resolvers<ContextType = any> = {
   Project?: ProjectResolvers<ContextType>;
   ProjectByte?: ProjectByteResolvers<ContextType>;
   ProjectByteCollection?: ProjectByteCollectionResolvers<ContextType>;
+  ProjectShortVideo?: ProjectShortVideoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuestionChoice?: QuestionChoiceResolvers<ContextType>;
   RatingDistribution?: RatingDistributionResolvers<ContextType>;
