@@ -51,6 +51,7 @@ import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettin
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
+import updateThemeColors from './graphql/mutations/space/updateThemeColors';
 
 export default {
   askCompletionAI,
@@ -120,5 +121,7 @@ export default {
   deleteChatbotCategory,
 
   upsertShortVideo,
+
+  updateThemeColors,
   ...mutations,
 };
