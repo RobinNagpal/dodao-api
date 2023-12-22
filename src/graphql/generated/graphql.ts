@@ -1116,6 +1116,7 @@ export type Mutation = {
   updateIndexingOfDiscordChannel: DiscordChannel;
   updateSocialSettings: Space;
   updateSpace: Space;
+  updateThemeColors: Space;
   updateTopicBasicInfo: GitCourse;
   updateTopicExplanation: GitCourse;
   updateTopicQuestion: GitCourse;
@@ -1534,6 +1535,12 @@ export type MutationUpdateSocialSettingsArgs = {
 
 export type MutationUpdateSpaceArgs = {
   spaceInput: UpsertSpaceInput;
+};
+
+
+export type MutationUpdateThemeColorsArgs = {
+  spaceId: Scalars['ID'];
+  themeColors: ThemeColors;
 };
 
 
@@ -2297,6 +2304,7 @@ export type Space = {
   skin: Scalars['String'];
   socialSettings: SocialSettings;
   spaceIntegrations?: Maybe<SpaceIntegrations>;
+  themeColors?: Maybe<ThemeColors>;
 };
 
 export type SpaceFilters = {
@@ -2407,6 +2415,17 @@ export type SummarizedGitCourseTopic = {
   details: Scalars['String'];
   key: Scalars['String'];
   title: Scalars['String'];
+};
+
+export type ThemeColors = {
+  __typename?: 'ThemeColors';
+  bgColor?: Maybe<Scalars['String']>;
+  blockBg?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  headingColor?: Maybe<Scalars['String']>;
+  linkColor?: Maybe<Scalars['String']>;
+  primaryColor?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
 };
 
 export type Timeline = {
@@ -3001,6 +3020,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   SummarizedGitCourse: ResolverTypeWrapper<SummarizedGitCourse>;
   SummarizedGitCourseTopic: ResolverTypeWrapper<SummarizedGitCourseTopic>;
+  ThemeColors: ResolverTypeWrapper<ThemeColors>;
   Timeline: ResolverTypeWrapper<Timeline>;
   TimelineEvent: ResolverTypeWrapper<TimelineEvent>;
   TopicConfig: ResolverTypeWrapper<TopicConfig>;
@@ -3208,6 +3228,7 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   SummarizedGitCourse: SummarizedGitCourse;
   SummarizedGitCourseTopic: SummarizedGitCourseTopic;
+  ThemeColors: ThemeColors;
   Timeline: Timeline;
   TimelineEvent: TimelineEvent;
   TopicConfig: TopicConfig;
@@ -3987,6 +4008,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateIndexingOfDiscordChannel?: Resolver<ResolversTypes['DiscordChannel'], ParentType, ContextType, RequireFields<MutationUpdateIndexingOfDiscordChannelArgs, 'channelId' | 'shouldIndex' | 'spaceId'>>;
   updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
+  updateThemeColors?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateThemeColorsArgs, 'spaceId' | 'themeColors'>>;
   updateTopicBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicBasicInfoArgs, 'spaceId' | 'topicInfo'>>;
   updateTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   updateTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
@@ -4293,6 +4315,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   skin?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   socialSettings?: Resolver<ResolversTypes['SocialSettings'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;
+  themeColors?: Resolver<Maybe<ResolversTypes['ThemeColors']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4353,6 +4376,17 @@ export type SummarizedGitCourseTopicResolvers<ContextType = any, ParentType exte
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThemeColorsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ThemeColors'] = ResolversParentTypes['ThemeColors']> = {
+  bgColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blockBg?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  borderColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  headingColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  primaryColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  textColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4533,6 +4567,7 @@ export type Resolvers<ContextType = any> = {
   SpaceLoadersInfo?: SpaceLoadersInfoResolvers<ContextType>;
   SummarizedGitCourse?: SummarizedGitCourseResolvers<ContextType>;
   SummarizedGitCourseTopic?: SummarizedGitCourseTopicResolvers<ContextType>;
+  ThemeColors?: ThemeColorsResolvers<ContextType>;
   Timeline?: TimelineResolvers<ContextType>;
   TimelineEvent?: TimelineEventResolvers<ContextType>;
   TopicConfig?: TopicConfigResolvers<ContextType>;
