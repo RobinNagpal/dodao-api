@@ -7,6 +7,7 @@ import {
   GuideFeedback as GuideFeedbackType,
   SpaceLoadersInfo as SpaceLoadersInfoType,
   ChatbotSubcategory as ChatbotSubcategoryType,
+  ThemeColors as SpaceThemeColors,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
@@ -32,5 +33,6 @@ declare global {
     type SpaceLoadersInfo = SpaceLoadersInfoType;
     type GuideStepSubmissionArray = GuideStepSubmissionInterface[];
     type ChatbotSubcategory = ChatbotSubcategoryType;
+    type ThemeColors = SpaceThemeColors;
   }
 }
