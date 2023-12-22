@@ -39,6 +39,8 @@ import projectByteCollection from '@/graphql/queries/project/projectByteCollecti
 import projectByteCollections from '@/graphql/queries/project/projectByteCollections';
 import projectBytes from '@/graphql/queries/project/projectBytes';
 import projects from '@/graphql/queries/project/projects';
+import projectShortVideo from '@/graphql/queries/project/projectShortVideo';
+import projectShortVideos from '@/graphql/queries/project/projectShortVideos';
 import shortVideos from '@/graphql/queries/shortVideo/shortVideos';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
@@ -112,6 +114,8 @@ export default {
   projectBytes,
   projectByteCollection,
   projectByteCollections,
+  projectShortVideo,
+  projectShortVideos,
 
   chatbotCategories,
   chatbotFAQs,
