@@ -46,6 +46,8 @@ extend type Mutation {
   dropPineconeNamespace(spaceId: String!): Boolean!
 
   copyAllBytesFromGitToDatabase: Boolean!
+
+  updateThemeColors(spaceId: ID!, themeColors: ThemeColors!): Space!
 }
 
 type Space {
@@ -65,6 +67,17 @@ type Space {
   guideSettings: GuideSettings!
   socialSettings: SocialSettings!
   byteSettings: ByteSettings!
+  themeColors: ThemeColors
+}
+
+type ThemeColors {
+  primaryColor: String
+  bgColor: String
+  textColor: String
+  linkColor: String
+  headingColor: String
+  borderColor: String
+  blockBg: String
 }
 
 type AuthSettings {
