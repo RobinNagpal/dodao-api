@@ -1540,7 +1540,7 @@ export type MutationUpdateSpaceArgs = {
 
 export type MutationUpdateThemeColorsArgs = {
   spaceId: Scalars['ID'];
-  themeColors: ThemeColors;
+  themeColors: ThemeColorsInput;
 };
 
 
@@ -2428,6 +2428,16 @@ export type ThemeColors = {
   textColor?: Maybe<Scalars['String']>;
 };
 
+export type ThemeColorsInput = {
+  bgColor: Scalars['String'];
+  blockBg: Scalars['String'];
+  borderColor: Scalars['String'];
+  headingColor: Scalars['String'];
+  linkColor: Scalars['String'];
+  primaryColor: Scalars['String'];
+  textColor: Scalars['String'];
+};
+
 export type Timeline = {
   __typename?: 'Timeline';
   admins: Array<Scalars['String']>;
@@ -3021,6 +3031,7 @@ export type ResolversTypes = {
   SummarizedGitCourse: ResolverTypeWrapper<SummarizedGitCourse>;
   SummarizedGitCourseTopic: ResolverTypeWrapper<SummarizedGitCourseTopic>;
   ThemeColors: ResolverTypeWrapper<ThemeColors>;
+  ThemeColorsInput: ThemeColorsInput;
   Timeline: ResolverTypeWrapper<Timeline>;
   TimelineEvent: ResolverTypeWrapper<TimelineEvent>;
   TopicConfig: ResolverTypeWrapper<TopicConfig>;
@@ -3229,6 +3240,7 @@ export type ResolversParentTypes = {
   SummarizedGitCourse: SummarizedGitCourse;
   SummarizedGitCourseTopic: SummarizedGitCourseTopic;
   ThemeColors: ThemeColors;
+  ThemeColorsInput: ThemeColorsInput;
   Timeline: Timeline;
   TimelineEvent: TimelineEvent;
   TopicConfig: TopicConfig;
