@@ -54,15 +54,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
         guideSettings: spaceInput.guideSettings || {},
         authSettings: spaceInput.authSettings || {},
         byteSettings: spaceInput.byteSettings || {},
-        themeColors: spaceInput.themeColors || {
-          primaryColor: null,
-          bgColor: null,
-          textColor: null,
-          linkColor: null,
-          headingColor: null,
-          borderColor: null,
-          blockBg: null,
-        },
+        themeColors: spaceInput.themeColors || {},
       },
       where: {
         id: args.spaceInput.id,
