@@ -1,4 +1,4 @@
-import { MutationUpdateThemeColorsArgs, Space } from '@/graphql/generated/graphql';
+import { MutationUpdateThemeColorsArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
