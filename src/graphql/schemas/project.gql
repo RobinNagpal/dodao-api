@@ -5,12 +5,16 @@ extend type Query {
   projectBytes(projectId: String!): [ProjectByte!]!
   projectByteCollections(projectId: String!): [ProjectByteCollection!]!
   projectByteCollection(projectId: String!, byteCollectionId: String!): ProjectByteCollection!
+
+  projectShortVideo(projectId: String!, projectByteId: String!): ProjectShortVideo!
+  projectShortVideos(projectId: String!): [ProjectShortVideo!]!
 }
 
 extend type Mutation {
   upsertProject(input: UpsertProjectInput!): Project!
   upsertProjectByte(projectId: String!, input: UpsertProjectByteInput!): ProjectByte!
   upsertProjectByteCollection(projectId: String!, input: UpsertProjectByteCollectionInput!): ProjectByteCollection!
+  upsertProjectShortVideo(projectId: String!, shortVideo: ProjectShortVideoInput!): ProjectShortVideo!
 }
 
 type Project {
@@ -86,4 +90,24 @@ input UpsertProjectByteCollectionInput {
   byteIds: [String!]!
   status: String!
   order: Int!
+}
+
+type ProjectShortVideo {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!
+  videoUrl: String!
+  priority: Int!
+  thumbnail: String!
+}
+
+input ProjectShortVideoInput {
+  id: ID!
+  title: String!
+  description: String!
+  videoUrl: String!
+  priority: Int!
+  thumbnail: String!
 }
