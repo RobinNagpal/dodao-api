@@ -146,6 +146,8 @@ model Space {
   GuidesGuideStep   GuidesGuideStep[]
   SpaceDiscord      SpaceDiscord[]
   SpaceIntegration  SpaceIntegration?
+  /// [ThemeColors]
+  themeColors       Json?               @map("theme_colors") @db.Json
 
   @@map("spaces")
 }
