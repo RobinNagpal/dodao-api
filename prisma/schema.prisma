@@ -521,22 +521,24 @@ model ByteCollection {
 }
 
 model Project {
-  id             String        @id @db.VarChar(255)
-  createdAt      DateTime      @default(now()) @map("created_at")
-  creator        String        @db.VarChar(64)
-  name           String        @db.VarChar(255)
-  details        String
-  type           String        @db.VarChar(255)
-  updatedAt      DateTime      @updatedAt @map("updated_at")
-  logo           String?       @db.VarChar(255)
-  admins         String[]
-  adminUsernames String[]      @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @map("admin_usernames") @db.VarChar(255)
-  website        String?       @db.VarChar(1024)
-  docs           String?       @db.VarChar(1024)
-  discord        String?       @db.VarChar(1024)
-  telegram       String?       @db.VarChar(1024)
-  github         String?       @db.VarChar(1024)
-  ProjectByte    ProjectByte[]
+  id                    String                  @id @db.VarChar(255)
+  createdAt             DateTime                @default(now()) @map("created_at")
+  creator               String                  @db.VarChar(64)
+  name                  String                  @db.VarChar(255)
+  details               String
+  type                  String                  @db.VarChar(255)
+  updatedAt             DateTime                @updatedAt @map("updated_at")
+  logo                  String?                 @db.VarChar(255)
+  admins                String[]
+  adminUsernames        String[]                @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @map("admin_usernames") @db.VarChar(255)
+  website               String?                 @db.VarChar(1024)
+  docs                  String?                 @db.VarChar(1024)
+  discord               String?                 @db.VarChar(1024)
+  telegram              String?                 @db.VarChar(1024)
+  github                String?                 @db.VarChar(1024)
+  ProjectByte           ProjectByte[]
+  ProjectByteCollection ProjectByteCollection[]
+  ProjectShortVideo     ProjectShortVideo[]
 
   @@map("projects")
 }
@@ -569,8 +571,24 @@ model ProjectByteCollection {
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
   order       Int
+  Project     Project  @relation(fields: [projectId], references: [id])
 
   @@map("project_byte_collections")
+}
+
+model ProjectShortVideo {
+  id          String   @id @db.VarChar(255)
+  projectId   String   @map("project_id") @db.VarChar(255)
+  priority    Int      @default(20) @map("priority")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  title       String   @db.VarChar(255)
+  description String
+  videoUrl    String   @map("video_url") @db.VarChar(1024)
+  thumbnail   String   @db.VarChar(1024)
+  Project     Project  @relation(fields: [projectId], references: [id])
+
+  @@map("project_short_videos")
 }
 
 model ChatbotCategory {
