@@ -15,7 +15,6 @@ extend type Mutation {
   upsertProjectByte(projectId: String!, input: UpsertProjectByteInput!): ProjectByte!
   upsertProjectByteCollection(projectId: String!, input: UpsertProjectByteCollectionInput!): ProjectByteCollection!
   upsertProjectShortVideo(projectId: String!, shortVideo: ProjectShortVideoInput!): ProjectShortVideo!
-  updateCardThumbnail(projectId: String!, cardThumbnail: String!): Project!
 }
 
 type Project {
