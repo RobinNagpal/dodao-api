@@ -15,6 +15,7 @@ extend type Mutation {
   upsertProjectByte(projectId: String!, input: UpsertProjectByteInput!): ProjectByte!
   upsertProjectByteCollection(projectId: String!, input: UpsertProjectByteCollectionInput!): ProjectByteCollection!
   upsertProjectShortVideo(projectId: String!, shortVideo: ProjectShortVideoInput!): ProjectShortVideo!
+  updateCardThumbnail(projectId: String!, cardThumbnail: String!): Project!
 }
 
 type Project {
@@ -31,6 +32,7 @@ type Project {
   telegram: String
   github: String
   type: String!
+  cardThumbnail: String
 }
 
 input UpsertProjectInput {
@@ -46,6 +48,7 @@ input UpsertProjectInput {
   discord: String
   telegram: String
   github: String
+  cardThumbnail: String
 }
 
 type ProjectByte {
