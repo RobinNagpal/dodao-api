@@ -21,6 +21,7 @@ type Project {
   id: String!
   admins: [String!]!
   adminUsernames: [String!]!
+  adminUsernamesV1: [UsernamesByNames!]!
   logo: String
   creator: String!
   name: String!
@@ -38,6 +39,7 @@ input UpsertProjectInput {
   id: String!
   admins: [String!]!
   adminUsernames: [String!]!
+  adminUsernamesV1: [UsernamesByNamesInput!]!
   logo: String
   name: String!
   details: String!
@@ -112,4 +114,14 @@ input ProjectShortVideoInput {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
+}
+
+type UsernamesByNames {
+  username: String!
+  nameOfTheUser: String!
+}
+
+input UsernamesByNamesInput {
+  username: String!
+  nameOfTheUser: String!
 }
