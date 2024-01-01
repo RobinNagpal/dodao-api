@@ -1792,6 +1792,7 @@ export type Project = {
   __typename?: 'Project';
   adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
+  cardThumbnail?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
   details: Scalars['String'];
   discord?: Maybe<Scalars['String']>;
@@ -2690,6 +2691,7 @@ export type UpsertProjectByteInput = {
 export type UpsertProjectInput = {
   adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
+  cardThumbnail?: InputMaybe<Scalars['String']>;
   details: Scalars['String'];
   discord?: InputMaybe<Scalars['String']>;
   docs?: InputMaybe<Scalars['String']>;
@@ -4156,6 +4158,7 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  cardThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

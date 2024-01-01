@@ -31,6 +31,7 @@ type Project {
   telegram: String
   github: String
   type: String!
+  cardThumbnail: String
 }
 
 input UpsertProjectInput {
@@ -46,6 +47,7 @@ input UpsertProjectInput {
   discord: String
   telegram: String
   github: String
+  cardThumbnail: String
 }
 
 type ProjectByte {
