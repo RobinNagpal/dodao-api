@@ -30,8 +30,9 @@ export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Spac
   const isAdminOfSpace: boolean = spaceAdmins.includes(user.toLowerCase());
 
   const isAdminOfSpaceByUserName: boolean = space.adminUsernames.map((u) => u.toLowerCase()).includes(decodedJWT.username.toLowerCase());
+  const isAdminOfSpaceByUserNameByName: boolean = space.adminUsernamesV1.map((u) => u.username.toLowerCase()).includes(decodedJWT.username.toLowerCase());
 
-  const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || superAdmin;
+  const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || superAdmin || isAdminOfSpaceByUserNameByName;
   return { decodedJWT, canEditSpace, user };
 }
 
