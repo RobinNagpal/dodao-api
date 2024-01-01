@@ -1110,6 +1110,7 @@ export type Mutation = {
   updateAuthSettings: Space;
   updateByteCollection: ByteCollection;
   updateByteSettings: Space;
+  updateCardThumbnail: Project;
   updateCourseBasicInfo: GitCourse;
   updateGuideSettings: Space;
   updateIndexWithAllDiscordPosts: Scalars['Boolean'];
@@ -1504,6 +1505,12 @@ export type MutationUpdateByteSettingsArgs = {
 };
 
 
+export type MutationUpdateCardThumbnailArgs = {
+  cardThumbnail: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
 export type MutationUpdateCourseBasicInfoArgs = {
   courseBasicInfo: CourseBasicInfoInput;
   spaceId: Scalars['String'];
@@ -1792,6 +1799,7 @@ export type Project = {
   __typename?: 'Project';
   adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
+  cardThumbnail?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
   details: Scalars['String'];
   discord?: Maybe<Scalars['String']>;
@@ -2690,6 +2698,7 @@ export type UpsertProjectByteInput = {
 export type UpsertProjectInput = {
   adminUsernames: Array<Scalars['String']>;
   admins: Array<Scalars['String']>;
+  cardThumbnail?: InputMaybe<Scalars['String']>;
   details: Scalars['String'];
   discord?: InputMaybe<Scalars['String']>;
   docs?: InputMaybe<Scalars['String']>;
@@ -4059,6 +4068,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
   updateByteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<MutationUpdateByteCollectionArgs, 'input'>>;
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
+  updateCardThumbnail?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpdateCardThumbnailArgs, 'cardThumbnail' | 'projectId'>>;
   updateCourseBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateCourseBasicInfoArgs, 'courseBasicInfo' | 'spaceId'>>;
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
   updateIndexWithAllDiscordPosts?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateIndexWithAllDiscordPostsArgs, 'spaceId'>>;
@@ -4156,6 +4166,7 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  cardThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
