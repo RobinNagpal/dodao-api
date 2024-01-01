@@ -54,6 +54,7 @@ type Space {
   id: String!
   admins: [String!]!
   adminUsernames: [String!]!
+  adminUsernamesV1: [UsernamesByNames!]!
   avatar: String
   creator: String!
   features: [String!]!
@@ -109,6 +110,11 @@ type ByteSettings {
   captureBeforeAndAfterRating: Boolean @deprecated(reason: "Use captureRating instead")
   captureRating: Boolean
   showCategoriesInSidebar: Boolean
+}
+
+type UsernamesByNames {
+  username: String!
+  nameOfTheUser: String!
 }
 
 type SpaceIntegrations {
@@ -216,6 +222,7 @@ input UpsertSpaceInput {
   id: String!
   admins: [String!]!
   adminUsernames: [String!]!
+  adminUsernamesV1: [UsernamesByNamesInput!]!
   avatar: String!
   creator: String!
   features: [String!]!
@@ -263,6 +270,11 @@ input ByteSettingsInput {
   askForLoginToSubmit: Boolean
   captureRating: Boolean
   showCategoriesInSidebar: Boolean
+}
+
+input UsernamesByNamesInput {
+  username: String!
+  nameOfTheUser: String!
 }
 
 input SendEmailInput {
