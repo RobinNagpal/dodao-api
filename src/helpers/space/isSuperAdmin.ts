@@ -2,8 +2,6 @@ import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContex
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { IncomingMessage } from 'http';
 import { JwtPayload } from 'jsonwebtoken';
-const superAdmins = process.env.DODAO_SUPERADMINS;
-const superAdminsArray = superAdmins?.split(',') ?? [];
 
 export function isSuperAdmin(user: string) {
   const isWhiteListedAdmin = !!process.env.DODAO_WHITELISTED_ADMINS?.split(',')
@@ -19,7 +17,7 @@ export function isSuperAdmin(user: string) {
 
 export function isDoDAOSuperAdmin(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
   const decoded = getDecodedJwtFromContext(context);
-  if ([superAdminsArray[0], superAdminsArray[1]].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
+  if (['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com'].map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
     return decoded;
   }
   return null;
