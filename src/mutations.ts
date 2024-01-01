@@ -42,7 +42,6 @@ import upsertProject from '@/graphql/mutations/project/upsertProject';
 import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import upsertProjectShortVideo from '@/graphql/mutations/project/upsertProjectShortVideo';
-import updateCardThumbnail from '@/graphql/mutations/project/updateCardThumbnail';
 import upsertShortVideo from '@/graphql/mutations/shortVideo/upsertShortVideo';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import { dropPineconeNamespace } from '@/graphql/mutations/space/dropPineconeNamespace';
@@ -113,7 +112,6 @@ export default {
   upsertProjectByte,
   upsertProjectByteCollection,
   upsertProjectShortVideo,
-  updateCardThumbnail,
 
   indexChatbotFAQs,
   upsertChatbotFAQ,
