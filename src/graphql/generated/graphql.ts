@@ -1791,6 +1791,7 @@ export enum OrderDirection {
 export type Project = {
   __typename?: 'Project';
   adminUsernames: Array<Scalars['String']>;
+  adminUsernamesV1: Array<UsernameAndName>;
   admins: Array<Scalars['String']>;
   cardThumbnail?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
@@ -2331,6 +2332,7 @@ export type SocialSettingsInput = {
 export type Space = {
   __typename?: 'Space';
   adminUsernames: Array<Scalars['String']>;
+  adminUsernamesV1: Array<UsernameAndName>;
   admins: Array<Scalars['String']>;
   authSettings: AuthSettings;
   avatar?: Maybe<Scalars['String']>;
@@ -2690,6 +2692,7 @@ export type UpsertProjectByteInput = {
 
 export type UpsertProjectInput = {
   adminUsernames: Array<Scalars['String']>;
+  adminUsernamesV1: Array<UsernameAndNameInput>;
   admins: Array<Scalars['String']>;
   cardThumbnail?: InputMaybe<Scalars['String']>;
   details: Scalars['String'];
@@ -2719,6 +2722,7 @@ export type UpsertSimulationInput = {
 
 export type UpsertSpaceInput = {
   adminUsernames: Array<Scalars['String']>;
+  adminUsernamesV1: Array<UsernameAndNameInput>;
   admins: Array<Scalars['String']>;
   avatar: Scalars['String'];
   botDomains?: InputMaybe<Array<Scalars['String']>>;
@@ -2793,6 +2797,17 @@ export type UserInputInput = {
   required?: InputMaybe<Scalars['Boolean']>;
   type: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type UsernameAndName = {
+  __typename?: 'UsernameAndName';
+  nameOfTheUser: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type UsernameAndNameInput = {
+  nameOfTheUser: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type VercelDomain = {
@@ -3109,6 +3124,8 @@ export type ResolversTypes = {
   UserDiscordInfo: ResolverTypeWrapper<UserDiscordInfo>;
   UserDiscordInfoInput: UserDiscordInfoInput;
   UserInputInput: UserInputInput;
+  UsernameAndName: ResolverTypeWrapper<UsernameAndName>;
+  UsernameAndNameInput: UsernameAndNameInput;
   VercelDomain: ResolverTypeWrapper<VercelDomain>;
   WebsiteScrapingInfo: ResolverTypeWrapper<WebsiteScrapingInfo>;
 };
@@ -3320,6 +3337,8 @@ export type ResolversParentTypes = {
   UserDiscordInfo: UserDiscordInfo;
   UserDiscordInfoInput: UserDiscordInfoInput;
   UserInputInput: UserInputInput;
+  UsernameAndName: UsernameAndName;
+  UsernameAndNameInput: UsernameAndNameInput;
   VercelDomain: VercelDomain;
   WebsiteScrapingInfo: WebsiteScrapingInfo;
 };
@@ -4157,6 +4176,7 @@ export type OpenAiUsageResolvers<ContextType = any, ParentType extends Resolvers
 
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  adminUsernamesV1?: Resolver<Array<ResolversTypes['UsernameAndName']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   cardThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4375,6 +4395,7 @@ export type SocialSettingsResolvers<ContextType = any, ParentType extends Resolv
 
 export type SpaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Space'] = ResolversParentTypes['Space']> = {
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  adminUsernamesV1?: Resolver<Array<ResolversTypes['UsernameAndName']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   authSettings?: Resolver<ResolversTypes['AuthSettings'], ParentType, ContextType>;
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -4514,6 +4535,12 @@ export type UserDiscordInfoResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UsernameAndNameResolvers<ContextType = any, ParentType extends ResolversParentTypes['UsernameAndName'] = ResolversParentTypes['UsernameAndName']> = {
+  nameOfTheUser?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type VercelDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes['VercelDomain'] = ResolversParentTypes['VercelDomain']> = {
   apexName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -4649,6 +4676,7 @@ export type Resolvers<ContextType = any> = {
   TopicConfig?: TopicConfigResolvers<ContextType>;
   UserDiscordConnect?: UserDiscordConnectResolvers<ContextType>;
   UserDiscordInfo?: UserDiscordInfoResolvers<ContextType>;
+  UsernameAndName?: UsernameAndNameResolvers<ContextType>;
   VercelDomain?: VercelDomainResolvers<ContextType>;
   WebsiteScrapingInfo?: WebsiteScrapingInfoResolvers<ContextType>;
 };
