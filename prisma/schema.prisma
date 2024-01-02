@@ -121,6 +121,8 @@ model Space {
   avatar            String?             @db.VarChar(255)
   admins            String[]
   adminUsernames    String[]            @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @map("admin_usernames") @db.VarChar(255)
+  /// [UsernameAndName]
+  adminUsernamesV1  Json[]              @map("admin_usernames_v1") @db.JsonB
   domains           String[]            @default([])
   skin              String              @default("dodao") @db.VarChar(128)
   discordInvite     String?             @map("discord_invite") @db.VarChar(1024)
@@ -533,6 +535,8 @@ model Project {
   logo                  String?                 @db.VarChar(255)
   admins                String[]
   adminUsernames        String[]                @default(dbgenerated("(ARRAY[]::character varying[])::character varying(255)[]")) @map("admin_usernames") @db.VarChar(255)
+  /// [UsernameAndName]
+  adminUsernamesV1      Json[]                  @map("admin_usernames_v1") @db.JsonB
   website               String?                 @db.VarChar(1024)
   docs                  String?                 @db.VarChar(1024)
   discord               String?                 @db.VarChar(1024)
