@@ -37,7 +37,7 @@ These instructions will get you a copy of the project up and running on your loc
     - Make sure to update `DATABASE_URL` according to your own postgres username and password:
 
     ```bash
-        postgresql://<username>:<password>@localhost:5432/next_app_localhost_db?sslmode=verify-full
+        postgresql://<username>:<password>@localhost:5432/dodao_api_localhost_db?sslmode=verify-full
     ```
 
     - Assign a file path from your local machine to an empty folder in `MAIN_GIT_FOLDER_PATH` key.
