@@ -10,6 +10,10 @@ While working on a project, you will be doing the following operations:
 6. Adding a new field to an existing database model
 7. Removing a field from an existing database model
 
+# Some other important operations
+
+1. Reverting a migration
+
 ## Add a new GraphQL Mutation (Create, Update, Delete)
 
 1. Add the new mutation to the one of the .gql files
@@ -39,3 +43,8 @@ export default function copyAllBytesFromGitToDatabase(_: unknown, args: Mutation
 6. Now run `yarn graphql:generate` to generate the typescript types
 7. Compile everything by running `yarn tsc` and then test it with the UI
 8. Important: UI can fail to load if a field is removed from the backed which is being used in the UI. So make sure to remove the field from the UI first.
+
+## Reverting a migration
+1. Find the migration that you executed but want to delete in the `_prisma_migrations` table in the database
+2. Delete the entries from the table
+
