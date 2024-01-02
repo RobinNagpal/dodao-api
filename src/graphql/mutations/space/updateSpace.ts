@@ -18,6 +18,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
   const spaceInput: Space = {
     admins: args.spaceInput.admins,
     adminUsernames: args.spaceInput.adminUsernames,
+    adminUsernamesV1: args.spaceInput.adminUsernamesV1,
     avatar: args.spaceInput.avatar,
     creator: user.accountId,
     features: args.spaceInput.features || [],
