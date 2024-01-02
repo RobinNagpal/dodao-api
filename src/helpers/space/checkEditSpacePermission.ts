@@ -1,5 +1,5 @@
 import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
-import { isDoDAOSuperAdmin, isSuperAdmin } from '@/helpers/space/isSuperAdmin';
+import { isDoDAOSuperAdmin, isSuperAdminOfDoDAO } from '@/helpers/space/isSuperAdmin';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
@@ -8,7 +8,11 @@ import { JwtPayload } from 'jsonwebtoken';
 function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
   const decoded = getDecodedJwtFromContext(context);
   if (
-    ['0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', 'robinnagpal.tiet@gmail.com', 'jahnavimenon.m2020@vitstudent.ac.in', 'work.jahnavimenon@gmail.com']
+    [
+      '0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', // Robin
+      'robinnagpal.tiet@gmail.com', // Robin
+      '0xbCb6c649Bc1E0ad342a2036ab7C080B622099Bf8', // Dawood
+    ]
       .map((u) => u.toLowerCase())
       .includes(decoded.username.toLowerCase())
   ) {
@@ -20,8 +24,6 @@ function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPay
 export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Space) {
   const user = decodedJWT.accountId.toLowerCase();
 
-  const superAdmin = isSuperAdmin(user);
-
   if (!user) {
     throw Error('No accountId present in JWT');
   }
@@ -32,7 +34,7 @@ export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Spac
   const isAdminOfSpaceByUserName: boolean = space.adminUsernames.map((u) => u.toLowerCase()).includes(decodedJWT.username.toLowerCase());
   const isAdminOfSpaceByUserNameByName: boolean = space.adminUsernamesV1.map((u) => u.username.toLowerCase()).includes(decodedJWT.username.toLowerCase());
 
-  const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || superAdmin || isAdminOfSpaceByUserNameByName;
+  const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || isSuperAdminOfDoDAO(user) || isAdminOfSpaceByUserNameByName;
   return { decodedJWT, canEditSpace, user };
 }
 
