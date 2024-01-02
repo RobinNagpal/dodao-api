@@ -54,7 +54,7 @@ type Space {
   id: String!
   admins: [String!]!
   adminUsernames: [String!]!
-  adminUsernamesV1: [UsernamesByNames!]!
+  adminUsernamesV1: [UsernameAndName!]!
   avatar: String
   creator: String!
   features: [String!]!
@@ -112,7 +112,7 @@ type ByteSettings {
   showCategoriesInSidebar: Boolean
 }
 
-type UsernamesByNames {
+type UsernameAndName {
   username: String!
   nameOfTheUser: String!
 }
@@ -222,7 +222,7 @@ input UpsertSpaceInput {
   id: String!
   admins: [String!]!
   adminUsernames: [String!]!
-  adminUsernamesV1: [UsernamesByNamesInput!]!
+  adminUsernamesV1: [UsernameAndNameInput!]!
   avatar: String!
   creator: String!
   features: [String!]!
@@ -272,7 +272,7 @@ input ByteSettingsInput {
   showCategoriesInSidebar: Boolean
 }
 
-input UsernamesByNamesInput {
+input UsernameAndNameInput {
   username: String!
   nameOfTheUser: String!
 }
