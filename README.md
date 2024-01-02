@@ -91,3 +91,7 @@ These instructions will get you a copy of the project up and running on your loc
     ```
 
 You should now be able to access the GraphQL server at [http://localhost:8000/graphql](http://localhost:8000/graphql).
+
+
+## Coding Workflow
+See [CodingWorkflow.md](./CodingWorkflow.md) to learn about how to start contributing to the project.
