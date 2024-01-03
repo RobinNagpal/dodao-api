@@ -72,13 +72,13 @@ type Space {
 }
 
 type ThemeColors {
-  primaryColor: String
-  bgColor: String
-  textColor: String
-  linkColor: String
-  headingColor: String
-  borderColor: String
-  blockBg: String
+  primaryColor: String!
+  bgColor: String!
+  textColor: String!
+  linkColor: String!
+  headingColor: String!
+  borderColor: String!
+  blockBg: String!
 }
 
 input ThemeColorsInput {
