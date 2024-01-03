@@ -2463,13 +2463,13 @@ export type SummarizedGitCourseTopic = {
 
 export type ThemeColors = {
   __typename?: 'ThemeColors';
-  bgColor?: Maybe<Scalars['String']>;
-  blockBg?: Maybe<Scalars['String']>;
-  borderColor?: Maybe<Scalars['String']>;
-  headingColor?: Maybe<Scalars['String']>;
-  linkColor?: Maybe<Scalars['String']>;
-  primaryColor?: Maybe<Scalars['String']>;
-  textColor?: Maybe<Scalars['String']>;
+  bgColor: Scalars['String'];
+  blockBg: Scalars['String'];
+  borderColor: Scalars['String'];
+  headingColor: Scalars['String'];
+  linkColor: Scalars['String'];
+  primaryColor: Scalars['String'];
+  textColor: Scalars['String'];
 };
 
 export type ThemeColorsInput = {
@@ -4476,13 +4476,13 @@ export type SummarizedGitCourseTopicResolvers<ContextType = any, ParentType exte
 };
 
 export type ThemeColorsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ThemeColors'] = ResolversParentTypes['ThemeColors']> = {
-  bgColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  blockBg?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  borderColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  headingColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  linkColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  primaryColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  textColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bgColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  blockBg?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  borderColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  headingColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  linkColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  primaryColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  textColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
