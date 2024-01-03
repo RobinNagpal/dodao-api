@@ -38,7 +38,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     guideSettings: space.guideSettings || {},
     socialSettings: space.socialSettings || {},
     byteSettings: space.byteSettings || {},
-    themeColors: space.themeColors || {},
+    themeColors: space.themeColors || null,
   };
   try {
     console.log('Updating space', spaceInput);
@@ -55,7 +55,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
         guideSettings: spaceInput.guideSettings || {},
         authSettings: spaceInput.authSettings || {},
         byteSettings: spaceInput.byteSettings || {},
-        themeColors: spaceInput.themeColors || {},
+        themeColors: spaceInput.themeColors || undefined,
       },
       where: {
         id: args.spaceInput.id,
