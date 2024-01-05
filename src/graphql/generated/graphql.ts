@@ -1793,6 +1793,7 @@ export type Project = {
   adminUsernames: Array<Scalars['String']>;
   adminUsernamesV1: Array<UsernameAndName>;
   admins: Array<Scalars['String']>;
+  archive?: Maybe<Scalars['Boolean']>;
   cardThumbnail?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
   details: Scalars['String'];
@@ -1810,6 +1811,7 @@ export type Project = {
 export type ProjectByte = {
   __typename?: 'ProjectByte';
   admins: Array<Scalars['String']>;
+  archive?: Maybe<Scalars['Boolean']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -1822,6 +1824,7 @@ export type ProjectByte = {
 
 export type ProjectByteCollection = {
   __typename?: 'ProjectByteCollection';
+  archive?: Maybe<Scalars['Boolean']>;
   byteIds: Array<Scalars['String']>;
   bytes: Array<ByteCollectionByte>;
   description: Scalars['String'];
@@ -1833,6 +1836,7 @@ export type ProjectByteCollection = {
 
 export type ProjectShortVideo = {
   __typename?: 'ProjectShortVideo';
+  archive?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['String'];
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -1844,6 +1848,7 @@ export type ProjectShortVideo = {
 };
 
 export type ProjectShortVideoInput = {
+  archive?: InputMaybe<Scalars['Boolean']>;
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
@@ -2669,6 +2674,7 @@ export type UpsertGuideRatingInput = {
 };
 
 export type UpsertProjectByteCollectionInput = {
+  archive?: InputMaybe<Scalars['Boolean']>;
   byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   id: Scalars['String'];
@@ -2680,6 +2686,7 @@ export type UpsertProjectByteCollectionInput = {
 
 export type UpsertProjectByteInput = {
   admins: Array<Scalars['String']>;
+  archive?: InputMaybe<Scalars['Boolean']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2694,6 +2701,7 @@ export type UpsertProjectInput = {
   adminUsernames: Array<Scalars['String']>;
   adminUsernamesV1: Array<UsernameAndNameInput>;
   admins: Array<Scalars['String']>;
+  archive?: InputMaybe<Scalars['Boolean']>;
   cardThumbnail?: InputMaybe<Scalars['String']>;
   details: Scalars['String'];
   discord?: InputMaybe<Scalars['String']>;
@@ -4178,6 +4186,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   adminUsernamesV1?: Resolver<Array<ResolversTypes['UsernameAndName']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   cardThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4195,6 +4204,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type ProjectByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByte'] = ResolversParentTypes['ProjectByte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4207,6 +4217,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByteCollection'] = ResolversParentTypes['ProjectByteCollection']> = {
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4218,6 +4229,7 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
 };
 
 export type ProjectShortVideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectShortVideo'] = ResolversParentTypes['ProjectShortVideo']> = {
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
