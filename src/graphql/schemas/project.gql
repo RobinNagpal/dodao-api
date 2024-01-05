@@ -33,6 +33,7 @@ type Project {
   github: String
   type: String!
   cardThumbnail: String
+  archive: Boolean
 }
 
 input UpsertProjectInput {
@@ -50,6 +51,7 @@ input UpsertProjectInput {
   telegram: String
   github: String
   cardThumbnail: String
+  archive: Boolean
 }
 
 type ProjectByte {
@@ -62,6 +64,7 @@ type ProjectByte {
   admins: [String!]!
   tags: [String!]!
   priority: Int!
+  archive: Boolean
 }
 
 input UpsertProjectByteInput {
@@ -74,6 +77,7 @@ input UpsertProjectByteInput {
   tags: [String!]!
   priority: Int!
   created: String!
+  archive: Boolean
 }
 
 type ProjectByteCollection {
@@ -84,6 +88,7 @@ type ProjectByteCollection {
   bytes: [ByteCollectionByte!]!
   status: String!
   order: Int!
+  archive: Boolean
 }
 
 input UpsertProjectByteCollectionInput {
@@ -94,6 +99,7 @@ input UpsertProjectByteCollectionInput {
   byteIds: [String!]!
   status: String!
   order: Int!
+  archive: Boolean
 }
 
 type ProjectShortVideo {
@@ -105,6 +111,7 @@ type ProjectShortVideo {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
+  archive: Boolean
 }
 
 input ProjectShortVideoInput {
@@ -114,6 +121,7 @@ input ProjectShortVideoInput {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
+  archive: Boolean
 }
 
 type UsernameAndName {
