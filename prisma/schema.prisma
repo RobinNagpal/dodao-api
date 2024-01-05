@@ -543,6 +543,7 @@ model Project {
   telegram              String?                 @db.VarChar(1024)
   github                String?                 @db.VarChar(1024)
   cardThumbnail         String?                 @map("card_thumbnail") @db.VarChar(1024)
+  archive               Boolean?
   ProjectByte           ProjectByte[]
   ProjectByteCollection ProjectByteCollection[]
   ProjectShortVideo     ProjectShortVideo[]
@@ -559,6 +560,7 @@ model ProjectByte {
   admins        String[]
   tags          String[]
   priority      Int
+  archive       Boolean?
   /// [ByteStep]
   steps         Json[]
   projectId     String   @map("space_id") @db.VarChar(255)
@@ -578,6 +580,7 @@ model ProjectByteCollection {
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
   order       Int
+  archive     Boolean?
   Project     Project  @relation(fields: [projectId], references: [id])
 
   @@map("project_byte_collections")
@@ -593,6 +596,7 @@ model ProjectShortVideo {
   description String
   videoUrl    String   @map("video_url") @db.VarChar(1024)
   thumbnail   String   @db.VarChar(1024)
+  archive     Boolean?
   Project     Project  @relation(fields: [projectId], references: [id])
 
   @@map("project_short_videos")
