@@ -19,10 +19,12 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
       id: args.input.id || slugify(args.input.name),
       projectId: args.projectId,
       publishStatus: PublishStatus.Live,
+      archive: args.input.archive,
     },
     update: {
       ...args.input,
       steps: args.input.steps,
+      archive: args.input.archive,
     },
     where: {
       id: args.input.id,
