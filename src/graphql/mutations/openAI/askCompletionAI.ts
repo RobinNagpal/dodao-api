@@ -4,7 +4,7 @@ import { CreateCompletionRequest } from 'openai/api';
 
 export default async function askCompletionAI(_: any, args: MutationAskCompletionAiArgs): Promise<OpenAiCompletionResponse> {
   const createCompletionRequest: CreateCompletionRequest = {
-    model: 'text-davinci-003',
+    model: 'gpt-3.5-turbo-instruct',
     prompt: args.input.prompt,
     temperature: args.input.temperature || 0.4,
     top_p: 1,
