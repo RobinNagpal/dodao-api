@@ -28,6 +28,7 @@ export default async function upsertProject(parent: any, args: MutationUpsertPro
       telegram: args.input.telegram,
       github: args.input.github,
       cardThumbnail: args.input.cardThumbnail,
+      archive: args.input.archive,
     },
     update: {
       createdAt: new Date(),
@@ -46,6 +47,7 @@ export default async function upsertProject(parent: any, args: MutationUpsertPro
       telegram: args.input.telegram,
       github: args.input.github,
       cardThumbnail: args.input.cardThumbnail,
+      archive: args.input.archive,
     },
     where: {
       id: args.input.id,
