@@ -21,7 +21,6 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       status: args.input.status,
       updatedAt: new Date(),
       order: args.input.order,
-      archive: args.input.archive,
     },
     create: {
       id: args.input.id,
@@ -33,7 +32,7 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       updatedAt: new Date(),
       status: args.input.status,
       order: args.input.order,
-      archive: args.input.archive,
+      archived: false,
     },
   });
 

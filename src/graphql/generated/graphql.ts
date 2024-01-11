@@ -1107,6 +1107,10 @@ export type Mutation = {
   submitGuide: GuideSubmission;
   triggerNewDiscourseIndexRun: DiscourseIndexRun;
   triggerSiteScrapingRun: SiteScrapingRun;
+  updateArchivedStatusOfProject: Project;
+  updateArchivedStatusOfProjectByte: ProjectByte;
+  updateArchivedStatusOfProjectByteCollection: ProjectByteCollection;
+  updateArchivedStatusOfProjectShortVideo: ProjectShortVideo;
   updateAuthSettings: Space;
   updateByteCollection: ByteCollection;
   updateByteSettings: Space;
@@ -1487,6 +1491,33 @@ export type MutationTriggerSiteScrapingRunArgs = {
 };
 
 
+export type MutationUpdateArchivedStatusOfProjectArgs = {
+  archived: Scalars['Boolean'];
+  projectId: Scalars['String'];
+};
+
+
+export type MutationUpdateArchivedStatusOfProjectByteArgs = {
+  archived: Scalars['Boolean'];
+  projectByteId: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
+export type MutationUpdateArchivedStatusOfProjectByteCollectionArgs = {
+  archived: Scalars['Boolean'];
+  byteCollectionId: Scalars['String'];
+  projectId: Scalars['String'];
+};
+
+
+export type MutationUpdateArchivedStatusOfProjectShortVideoArgs = {
+  archived: Scalars['Boolean'];
+  projectId: Scalars['String'];
+  projectShortVideoId: Scalars['String'];
+};
+
+
 export type MutationUpdateAuthSettingsArgs = {
   input: AuthSettingsInput;
   spaceId: Scalars['String'];
@@ -1793,12 +1824,13 @@ export type Project = {
   adminUsernames: Array<Scalars['String']>;
   adminUsernamesV1: Array<UsernameAndName>;
   admins: Array<Scalars['String']>;
-  archive?: Maybe<Scalars['Boolean']>;
+  archived: Scalars['Boolean'];
   cardThumbnail?: Maybe<Scalars['String']>;
   creator: Scalars['String'];
   details: Scalars['String'];
   discord?: Maybe<Scalars['String']>;
   docs?: Maybe<Scalars['String']>;
+  excerpt: Scalars['String'];
   github?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   logo?: Maybe<Scalars['String']>;
@@ -1811,7 +1843,7 @@ export type Project = {
 export type ProjectByte = {
   __typename?: 'ProjectByte';
   admins: Array<Scalars['String']>;
-  archive?: Maybe<Scalars['Boolean']>;
+  archived: Scalars['Boolean'];
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -1824,7 +1856,7 @@ export type ProjectByte = {
 
 export type ProjectByteCollection = {
   __typename?: 'ProjectByteCollection';
-  archive?: Maybe<Scalars['Boolean']>;
+  archived: Scalars['Boolean'];
   byteIds: Array<Scalars['String']>;
   bytes: Array<ByteCollectionByte>;
   description: Scalars['String'];
@@ -1836,7 +1868,7 @@ export type ProjectByteCollection = {
 
 export type ProjectShortVideo = {
   __typename?: 'ProjectShortVideo';
-  archive?: Maybe<Scalars['Boolean']>;
+  archived: Scalars['Boolean'];
   createdAt: Scalars['String'];
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -1848,7 +1880,6 @@ export type ProjectShortVideo = {
 };
 
 export type ProjectShortVideoInput = {
-  archive?: InputMaybe<Scalars['Boolean']>;
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
@@ -2674,7 +2705,6 @@ export type UpsertGuideRatingInput = {
 };
 
 export type UpsertProjectByteCollectionInput = {
-  archive?: InputMaybe<Scalars['Boolean']>;
   byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   id: Scalars['String'];
@@ -2686,7 +2716,6 @@ export type UpsertProjectByteCollectionInput = {
 
 export type UpsertProjectByteInput = {
   admins: Array<Scalars['String']>;
-  archive?: InputMaybe<Scalars['Boolean']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2701,11 +2730,11 @@ export type UpsertProjectInput = {
   adminUsernames: Array<Scalars['String']>;
   adminUsernamesV1: Array<UsernameAndNameInput>;
   admins: Array<Scalars['String']>;
-  archive?: InputMaybe<Scalars['Boolean']>;
   cardThumbnail?: InputMaybe<Scalars['String']>;
   details: Scalars['String'];
   discord?: InputMaybe<Scalars['String']>;
   docs?: InputMaybe<Scalars['String']>;
+  excerpt: Scalars['String'];
   github?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   logo?: InputMaybe<Scalars['String']>;
@@ -4085,6 +4114,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitGuide?: Resolver<ResolversTypes['GuideSubmission'], ParentType, ContextType, RequireFields<MutationSubmitGuideArgs, 'submissionInput'>>;
   triggerNewDiscourseIndexRun?: Resolver<ResolversTypes['DiscourseIndexRun'], ParentType, ContextType, RequireFields<MutationTriggerNewDiscourseIndexRunArgs, 'spaceId'>>;
   triggerSiteScrapingRun?: Resolver<ResolversTypes['SiteScrapingRun'], ParentType, ContextType, RequireFields<MutationTriggerSiteScrapingRunArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
+  updateArchivedStatusOfProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpdateArchivedStatusOfProjectArgs, 'archived' | 'projectId'>>;
+  updateArchivedStatusOfProjectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<MutationUpdateArchivedStatusOfProjectByteArgs, 'archived' | 'projectByteId' | 'projectId'>>;
+  updateArchivedStatusOfProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpdateArchivedStatusOfProjectByteCollectionArgs, 'archived' | 'byteCollectionId' | 'projectId'>>;
+  updateArchivedStatusOfProjectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<MutationUpdateArchivedStatusOfProjectShortVideoArgs, 'archived' | 'projectId' | 'projectShortVideoId'>>;
   updateAuthSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateAuthSettingsArgs, 'input' | 'spaceId'>>;
   updateByteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<MutationUpdateByteCollectionArgs, 'input'>>;
   updateByteSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateByteSettingsArgs, 'input' | 'spaceId'>>;
@@ -4186,12 +4219,13 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
   adminUsernames?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   adminUsernamesV1?: Resolver<Array<ResolversTypes['UsernameAndName']>, ParentType, ContextType>;
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   cardThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   details?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   docs?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   github?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   logo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -4204,7 +4238,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type ProjectByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByte'] = ResolversParentTypes['ProjectByte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4217,7 +4251,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByteCollection'] = ResolversParentTypes['ProjectByteCollection']> = {
-  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4229,7 +4263,7 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
 };
 
 export type ProjectShortVideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectShortVideo'] = ResolversParentTypes['ProjectShortVideo']> = {
-  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;

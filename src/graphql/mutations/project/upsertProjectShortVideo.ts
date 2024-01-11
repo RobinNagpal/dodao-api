@@ -24,7 +24,7 @@ export default async function upsertProjectShortVideo(_: unknown, args: Mutation
       projectId: args.projectId,
       videoUrl: shortVideo.videoUrl,
       thumbnail: shortVideo.thumbnail,
-      archive: shortVideo.archive,
+      archived: false,
     },
     update: {
       title: shortVideo.title,
@@ -33,7 +33,6 @@ export default async function upsertProjectShortVideo(_: unknown, args: Mutation
       updatedAt: new Date(),
       videoUrl: shortVideo.videoUrl,
       thumbnail: shortVideo.thumbnail,
-      archive: shortVideo.archive,
     },
     where: {
       id: shortVideo.id,
