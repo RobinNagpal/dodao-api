@@ -1,0 +1,47 @@
+extend type Query {
+  project(id: String!): Project!
+  projects(type: String): [Project!]!
+}
+
+extend type Mutation {
+  upsertProject(input: UpsertProjectInput!): Project!
+  updateArchivedStatusOfProject(projectId: String!, archived: Boolean!): Project!
+}
+
+type Project {
+  id: String!
+  admins: [String!]!
+  adminUsernames: [String!]!
+  adminUsernamesV1: [UsernameAndName!]!
+  logo: String
+  creator: String!
+  name: String!
+  details: String!
+  excerpt: String!
+  website: String
+  docs: String
+  discord: String
+  telegram: String
+  github: String
+  type: String!
+  cardThumbnail: String
+  archived: Boolean!
+}
+
+input UpsertProjectInput {
+  id: String!
+  admins: [String!]!
+  adminUsernames: [String!]!
+  adminUsernamesV1: [UsernameAndNameInput!]!
+  logo: String
+  name: String!
+  details: String!
+  excerpt: String!
+  type: String!
+  website: String
+  docs: String
+  discord: String
+  telegram: String
+  github: String
+  cardThumbnail: String
+}

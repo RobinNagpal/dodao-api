@@ -1,0 +1,30 @@
+extend type Query {
+  projectShortVideo(projectId: String!, projectByteId: String!): ProjectShortVideo!
+  projectShortVideos(projectId: String!): [ProjectShortVideo!]!
+}
+
+extend type Mutation {
+  upsertProjectShortVideo(projectId: String!, shortVideo: ProjectShortVideoInput!): ProjectShortVideo!
+  updateArchivedStatusOfProjectShortVideo(projectId: String!, projectShortVideoId: String!, archived: Boolean!): ProjectShortVideo!
+}
+
+type ProjectShortVideo {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!
+  videoUrl: String!
+  priority: Int!
+  thumbnail: String!
+  archived: Boolean!
+}
+
+input ProjectShortVideoInput {
+  id: ID!
+  title: String!
+  description: String!
+  videoUrl: String!
+  priority: Int!
+  thumbnail: String!
+}

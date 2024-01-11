@@ -1,0 +1,30 @@
+extend type Query {
+  projectByteCollections(projectId: String!): [ProjectByteCollection!]!
+  projectByteCollection(projectId: String!, byteCollectionId: String!): ProjectByteCollection!
+}
+
+extend type Mutation {
+  upsertProjectByteCollection(projectId: String!, input: UpsertProjectByteCollectionInput!): ProjectByteCollection!
+  updateArchivedStatusOfProjectByteCollection(projectId: String!, byteCollectionId: String!, archived: Boolean!): ProjectByteCollection!
+}
+
+type ProjectByteCollection {
+  id: String!
+  name: String!
+  description: String!
+  byteIds: [String!]!
+  bytes: [ByteCollectionByte!]!
+  status: String!
+  order: Int!
+  archived: Boolean!
+}
+
+input UpsertProjectByteCollectionInput {
+  id: String!
+  name: String!
+  description: String!
+  projectId: String!
+  byteIds: [String!]!
+  status: String!
+  order: Int!
+}
