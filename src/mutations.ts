@@ -38,6 +38,10 @@ import createSummaryOfContent from '@/graphql/mutations/openAI/createSummaryOfCo
 import downloadAndCleanContent from '@/graphql/mutations/openAI/downloadAndCleanContent';
 import extractRelevantTextForTopic from '@/graphql/mutations/openAI/extractRelevantTextForTopic';
 import generateImage from '@/graphql/mutations/openAI/generateImage';
+import updateArchivedStatusOfProject from '@/graphql/mutations/project/updateArchivedStatusOfProject';
+import updateArchivedStatusOfProjectByte from '@/graphql/mutations/project/updateArchivedStatusOfProjectByte';
+import updateArchivedStatusOfProjectByteCollection from '@/graphql/mutations/project/updateArchivedStatusOfProjectByteCollection';
+import updateArchivedStatusOfProjectShortVideo from '@/graphql/mutations/project/updateArchivedStatusOfProjectShortVideo';
 import upsertProject from '@/graphql/mutations/project/upsertProject';
 import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
@@ -112,6 +116,10 @@ export default {
   upsertProjectByte,
   upsertProjectByteCollection,
   upsertProjectShortVideo,
+  updateArchivedStatusOfProject,
+  updateArchivedStatusOfProjectByte,
+  updateArchivedStatusOfProjectByteCollection,
+  updateArchivedStatusOfProjectShortVideo,
 
   indexChatbotFAQs,
   upsertChatbotFAQ,
