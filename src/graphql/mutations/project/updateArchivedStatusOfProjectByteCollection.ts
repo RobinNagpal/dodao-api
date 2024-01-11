@@ -1,5 +1,6 @@
 import { MutationUpdateArchivedStatusOfProjectByteCollectionArgs } from '@/graphql/generated/graphql';
 import { TOP_CRYPTO_PROJECTS_SPACE_ID } from '@/helpers/chat/utils/app/constants';
+import { getProjectByteCollectionWithBytes } from '@/helpers/project/projectByteCollectionsHelper';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
@@ -22,5 +23,5 @@ export default async function updateArchivedStatusOfProjectByteCollection(
     },
   });
 
-  return upsertedProjectByteCollection;
+  return await getProjectByteCollectionWithBytes(upsertedProjectByteCollection);
 }
