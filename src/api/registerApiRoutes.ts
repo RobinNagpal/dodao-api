@@ -1,4 +1,5 @@
 import byte from '@/api/byte/byte';
+import byteCollections from '@/api/byte/byteCollections';
 import bytes from '@/api/byte/bytes';
 import chat from '@/api/chat/chat';
 import course from '@/api/course/course';
@@ -27,6 +28,7 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/guides/:guideId', cors(), json(), guide);
 
   app.get('/:spaceId/bytes', cors(), json(), bytes);
+  app.get('/:spaceId/byte-collections', cors(), json(), byteCollections);
 
   app.get('/:spaceId/bytes/:byteId', cors(), json(), byte);
 

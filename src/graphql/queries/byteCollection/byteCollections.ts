@@ -5,18 +5,18 @@ import { getRedisValue, setRedisValue } from '@/helpers/redis';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
-export default async function byteCollections(_: any, args: QueryByteCollectionsArgs, context: IncomingMessage): Promise<ByteCollectionGraphql[]> {
-  const redisKey = getByteCollectionRedisKey(args.spaceId);
+export async function getByteCollectionsForSpace(spaceId: string): Promise<ByteCollectionGraphql[]> {
+  const redisKey = getByteCollectionRedisKey(spaceId);
 
   const byteCollection = await getRedisValue(redisKey);
   if (byteCollection) {
-    return JSON.parse(byteCollection);
+    return JSON.parse(byteCollection) as ByteCollectionGraphql[];
   }
 
   console.log('byte collection not found in redis');
   const byteCollections = await prisma.byteCollection.findMany({
     where: {
-      spaceId: args.spaceId,
+      spaceId: spaceId,
       status: {
         not: 'DELETED',
       },
@@ -39,4 +39,10 @@ export default async function byteCollections(_: any, args: QueryByteCollections
   }
 
   return byteCollectionsWithBytes;
+}
+
+export default async function byteCollections(_: any, args: QueryByteCollectionsArgs, context: IncomingMessage): Promise<ByteCollectionGraphql[]> {
+  const spaceId = args.spaceId;
+
+  return await getByteCollectionsForSpace(spaceId);
 }
