@@ -9,6 +9,7 @@ import guide from '@/api/guide/guide';
 import guides from '@/api/guide/guides';
 import health from '@/api/health';
 import project from '@/api/project/project';
+import projectByte from '@/api/project/projectByte';
 import projectByteCollections from '@/api/project/projectByteCollections';
 import projectBytes from '@/api/project/projectBytes';
 import projects from '@/api/project/projects';
@@ -39,6 +40,7 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/projects', cors(), json(), projects);
   app.get('/:spaceId/projects/:projectId', cors(), json(), project);
   app.get('/:spaceId/projects/:projectId/bytes', cors(), json(), projectBytes);
+  app.get('/:spaceId/projects/:projectId/bytes/:byteId', cors(), json(), projectByte);
   app.get('/:spaceId/projects/:projectId/byte-collections', cors(), json(), projectByteCollections);
   app.get('/:spaceId/projects/:projectId/short-videos', cors(), json(), projectShortVideos);
 }
