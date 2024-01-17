@@ -529,7 +529,6 @@ model Project {
   createdAt             DateTime                @default(now()) @map("created_at")
   creator               String                  @db.VarChar(64)
   name                  String                  @db.VarChar(255)
-  excerpt               String                  @default("") @db.VarChar(255)
   details               String
   type                  String                  @db.VarChar(255)
   updatedAt             DateTime                @updatedAt @map("updated_at")
@@ -544,10 +543,10 @@ model Project {
   telegram              String?                 @db.VarChar(1024)
   github                String?                 @db.VarChar(1024)
   cardThumbnail         String?                 @map("card_thumbnail") @db.VarChar(1024)
-  archived              Boolean                 @default(false)
   ProjectByte           ProjectByte[]
   ProjectByteCollection ProjectByteCollection[]
   ProjectShortVideo     ProjectShortVideo[]
+  seoMeta               Json                    @map("seo_meta") @db.JsonB
 
   @@map("projects")
 }
@@ -561,11 +560,11 @@ model ProjectByte {
   admins        String[]
   tags          String[]
   priority      Int
-  archived      Boolean  @default(false)
   /// [ByteStep]
   steps         Json[]
   projectId     String   @map("space_id") @db.VarChar(255)
   Project       Project  @relation(fields: [projectId], references: [id])
+  seoMeta       Json     @map("seo_meta") @db.JsonB
 
   @@unique([id, publishStatus])
   @@map("project_bytes")
@@ -581,8 +580,8 @@ model ProjectByteCollection {
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
   order       Int
-  archived    Boolean  @default(false)
   Project     Project  @relation(fields: [projectId], references: [id])
+  seoMeta     Json     @map("seo_meta") @db.JsonB
 
   @@map("project_byte_collections")
 }
@@ -597,8 +596,8 @@ model ProjectShortVideo {
   description String
   videoUrl    String   @map("video_url") @db.VarChar(1024)
   thumbnail   String   @db.VarChar(1024)
-  archived    Boolean  @default(false)
   Project     Project  @relation(fields: [projectId], references: [id])
+  seoMeta     Json     @map("seo_meta") @db.JsonB
 
   @@map("project_short_videos")
 }
