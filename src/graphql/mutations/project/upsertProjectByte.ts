@@ -20,11 +20,21 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
       projectId: args.projectId,
       publishStatus: PublishStatus.Live,
       archived: false,
+      seoMata: {
+        title: args.input.seoMeta?.title ?? args.input.name,
+        description: args.input.seoMeta?.description ?? args.input.content,
+        keywords: args.input.seoMeta?.keywords ?? [],
+      },
     },
     update: {
       ...args.input,
       steps: args.input.steps,
       archived: false,
+      seoMata: {
+        title: args.input.seoMeta?.title ?? args.input.name,
+        description: args.input.seoMeta?.description ?? args.input.content,
+        keywords: args.input.seoMeta?.keywords ?? [],
+      },
     },
     where: {
       id: args.input.id,
