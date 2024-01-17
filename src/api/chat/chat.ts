@@ -16,11 +16,9 @@ import { CallbackManager } from 'langchain/callbacks';
 import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
-import { OpenAI } from 'langchain/llms/openai';
 import { PromptTemplate } from 'langchain/prompts';
 import { v4 } from 'uuid';
 
-const llm = new OpenAI({});
 let pinecone: PineconeClient | null = null;
 
 const initPineconeClient = async () => {
@@ -42,17 +40,6 @@ const handler = async (req: Request, res: Response) => {
     logEventInDiscord(spaceId, `Chat Question - ${messages[0].content}`);
     const encoding = encoding_for_model(model.id as TiktokenModel);
 
-    // Build an LLM chain that will improve the user prompt
-    // const inquiryChain = new LLMChain({
-    //   llm,
-    //   prompt: new PromptTemplate({
-    //     template: templates.newInquiryTemplate,
-    //     inputVariables: ['question'],
-    //   }),
-    // });
-    // const inquiryChainResult = await inquiryChain.call({
-    //   question: [messages[0].content],
-    // });
     const inquiry = messages[0].content;
 
     await prisma.chatbotUserQuestion.create({
