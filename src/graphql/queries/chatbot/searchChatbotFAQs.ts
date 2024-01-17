@@ -12,7 +12,9 @@ import uniqBy from 'lodash/uniqBy';
 
 let pinecone: PineconeClient | null = null;
 
-const llm = new OpenAI({});
+const llm = new OpenAI({
+  modelName: 'gpt-3.5-turbo',
+});
 const initPineconeClient = async () => {
   pinecone = new PineconeClient();
   await pinecone.init({
