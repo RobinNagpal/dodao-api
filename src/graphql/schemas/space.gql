@@ -117,6 +117,12 @@ type UsernameAndName {
   nameOfTheUser: String!
 }
 
+type SEOMeta {
+  title: String!
+  description: String!
+  keywords: [String!]!
+}
+
 type SpaceIntegrations {
   discordGuildId: String
   projectGalaxyTokenLastFour: String
@@ -287,4 +293,10 @@ input SendEmailInput {
 input SpaceLoadersInfoInput {
   discourseUrl: String
   discordServerId: String
+}
+
+input SEOMetaInput {
+  title: String!
+  description: String!
+  keywords: [String!]!
 }
