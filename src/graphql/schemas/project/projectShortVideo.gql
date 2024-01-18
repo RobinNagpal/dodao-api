@@ -19,6 +19,7 @@ type ProjectShortVideo {
   thumbnail: String!
   archived: Boolean!
   seoMeta: SEOMeta
+  seoMeta: SEOMeta
 }
 
 input ProjectShortVideoInput {
