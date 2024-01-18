@@ -21,7 +21,7 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       status: args.input.status,
       updatedAt: new Date(),
       order: args.input.order,
-      seoMata: {
+      seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.description,
         keywords: args.input.seoMeta?.keywords ?? [],
@@ -38,7 +38,7 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       status: args.input.status,
       order: args.input.order,
       archived: false,
-      seoMata: {
+      seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.description,
         keywords: args.input.seoMeta?.keywords ?? [],
