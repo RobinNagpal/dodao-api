@@ -109,7 +109,6 @@ CREATE TABLE "spaces" (
     "avatar" VARCHAR(255),
     "admins" TEXT[],
     "admin_usernames" VARCHAR(255)[] DEFAULT (ARRAY[]::character varying[])::character varying(255)[],
-    "admin_usernames_v1" JSONB[],
     "domains" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "skin" VARCHAR(128) NOT NULL DEFAULT 'dodao',
     "discord_invite" VARCHAR(1024),
@@ -121,24 +120,26 @@ CREATE TABLE "spaces" (
     "byte_settings" JSON NOT NULL DEFAULT '{}',
     "features" TEXT[],
     "botDomains" TEXT[] DEFAULT ARRAY[]::TEXT[],
-    "theme_colors" JSON,
 
     CONSTRAINT "spaces_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "bytes" (
+    "unique_id" VARCHAR(255) NOT NULL,
     "id" VARCHAR(255) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "content" TEXT NOT NULL,
     "created" VARCHAR(255) NOT NULL,
+    "visibility" VARCHAR(255) NOT NULL DEFAULT 'Public',
+    "publish_status" VARCHAR(255) NOT NULL,
     "admins" TEXT[],
     "tags" TEXT[],
     "priority" INTEGER NOT NULL,
     "steps" JSONB[],
     "space_id" VARCHAR(255) NOT NULL,
 
-    CONSTRAINT "bytes_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "bytes_pkey" PRIMARY KEY ("unique_id")
 );
 
 -- CreateTable
@@ -278,21 +279,6 @@ CREATE TABLE "guides_guide_steps" (
 );
 
 -- CreateTable
-CREATE TABLE "short_videos" (
-    "id" VARCHAR(255) NOT NULL,
-    "space_id" VARCHAR(64) NOT NULL,
-    "priority" INTEGER NOT NULL DEFAULT 20,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "title" VARCHAR(255) NOT NULL,
-    "description" TEXT NOT NULL,
-    "video_url" VARCHAR(1024) NOT NULL,
-    "thumbnail" VARCHAR(1024) NOT NULL,
-
-    CONSTRAINT "short_videos_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "space_discords" (
     "id" VARCHAR(255) NOT NULL,
     "access_token" VARCHAR(255) NOT NULL,
@@ -343,15 +329,11 @@ CREATE TABLE "discourse_posts" (
     "title" VARCHAR(1024) NOT NULL,
     "url" VARCHAR(1024) NOT NULL,
     "full_content" TEXT,
-    "ai_summary" TEXT,
-    "ai_summary_date" TIMESTAMP(3),
     "author" VARCHAR(255),
     "date_published" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "indexed_at" TIMESTAMP(3),
     "status" VARCHAR(255) NOT NULL,
-    "enacted" BOOLEAN,
-    "discussed" BOOLEAN,
 
     CONSTRAINT "discourse_posts_pkey" PRIMARY KEY ("id")
 );
@@ -417,8 +399,7 @@ CREATE TABLE "discord_messages" (
 CREATE TABLE "website_scraping_infos" (
     "id" VARCHAR(255) NOT NULL,
     "space_id" VARCHAR(66) NOT NULL,
-    "host" VARCHAR(1024),
-    "base_url" VARCHAR(1024) NOT NULL DEFAULT 'https://',
+    "host" VARCHAR(1024) NOT NULL,
     "scraping_start_url" VARCHAR(1024) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -482,126 +463,11 @@ CREATE TABLE "byte_collections" (
     CONSTRAINT "byte_collections_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "projects" (
-    "id" VARCHAR(255) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "creator" VARCHAR(64) NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "excerpt" VARCHAR(255) NOT NULL DEFAULT '',
-    "details" TEXT NOT NULL,
-    "type" VARCHAR(255) NOT NULL,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "logo" VARCHAR(255),
-    "admins" TEXT[],
-    "admin_usernames" VARCHAR(255)[] DEFAULT (ARRAY[]::character varying[])::character varying(255)[],
-    "admin_usernames_v1" JSONB[],
-    "website" VARCHAR(1024),
-    "docs" VARCHAR(1024),
-    "discord" VARCHAR(1024),
-    "telegram" VARCHAR(1024),
-    "github" VARCHAR(1024),
-    "card_thumbnail" VARCHAR(1024),
-    "archived" BOOLEAN NOT NULL DEFAULT false,
-    "seo_meta" JSONB NOT NULL,
-
-    CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "project_bytes" (
-    "id" VARCHAR(255) NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "content" TEXT NOT NULL,
-    "created" VARCHAR(255) NOT NULL,
-    "publish_status" VARCHAR(255) NOT NULL,
-    "admins" TEXT[],
-    "tags" TEXT[],
-    "priority" INTEGER NOT NULL,
-    "archived" BOOLEAN NOT NULL DEFAULT false,
-    "steps" JSONB[],
-    "space_id" VARCHAR(255) NOT NULL,
-    "seo_meta" JSONB NOT NULL,
-
-    CONSTRAINT "project_bytes_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "project_byte_collections" (
-    "id" VARCHAR(255) NOT NULL,
-    "projectId" VARCHAR(66) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "description" TEXT NOT NULL,
-    "byte_ids" VARCHAR(255)[],
-    "status" VARCHAR(255) NOT NULL,
-    "order" INTEGER NOT NULL,
-    "archived" BOOLEAN NOT NULL DEFAULT false,
-    "seo_meta" JSONB NOT NULL,
-
-    CONSTRAINT "project_byte_collections_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "project_short_videos" (
-    "id" VARCHAR(255) NOT NULL,
-    "project_id" VARCHAR(255) NOT NULL,
-    "priority" INTEGER NOT NULL DEFAULT 20,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "title" VARCHAR(255) NOT NULL,
-    "description" TEXT NOT NULL,
-    "video_url" VARCHAR(1024) NOT NULL,
-    "thumbnail" VARCHAR(1024) NOT NULL,
-    "archived" BOOLEAN NOT NULL DEFAULT false,
-    "seo_meta" JSONB NOT NULL,
-
-    CONSTRAINT "project_short_videos_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "chatbot_categories" (
-    "id" VARCHAR(255) NOT NULL,
-    "space_id" VARCHAR(66) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "key" VARCHAR(255) NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "description" TEXT NOT NULL,
-    "sub_categories" JSON[],
-    "priority" INTEGER NOT NULL,
-
-    CONSTRAINT "chatbot_categories_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "chatbot_user_questions" (
-    "id" VARCHAR(255) NOT NULL,
-    "space_id" VARCHAR(66) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "question" TEXT NOT NULL,
-
-    CONSTRAINT "chatbot_user_questions_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "chatbot_faqs" (
-    "id" VARCHAR(255) NOT NULL,
-    "space_id" VARCHAR(66) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "question" TEXT NOT NULL,
-    "answer" TEXT NOT NULL,
-    "url" VARCHAR(1024) NOT NULL,
-    "priority" INTEGER NOT NULL,
-
-    CONSTRAINT "chatbot_faqs_pkey" PRIMARY KEY ("id")
-);
+-- CreateIndex
+CREATE UNIQUE INDEX "bytes_unique_id_key" ON "bytes"("unique_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "bytes_id_key" ON "bytes"("id");
+CREATE UNIQUE INDEX "bytes_id_publish_status_key" ON "bytes"("id", "publish_status");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "byte_social_shares_byte_id_key" ON "byte_social_shares"("byte_id");
@@ -644,12 +510,6 @@ CREATE UNIQUE INDEX "scraped_url_infos_url_website_scraping_info_id_key" ON "scr
 
 -- CreateIndex
 CREATE UNIQUE INDEX "article_indexing_infos_space_id_scraping_start_url_key" ON "article_indexing_infos"("space_id", "scraping_start_url");
-
--- CreateIndex
-CREATE UNIQUE INDEX "project_bytes_id_publish_status_key" ON "project_bytes"("id", "publish_status");
-
--- CreateIndex
-CREATE UNIQUE INDEX "chatbot_categories_space_id_key_key" ON "chatbot_categories"("space_id", "key");
 
 -- AddForeignKey
 ALTER TABLE "git_course_topic_submissions" ADD CONSTRAINT "git_course_topic_submissions_course_submission_uuid_fkey" FOREIGN KEY ("course_submission_uuid") REFERENCES "git_course_submissions"("uuid") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -699,11 +559,3 @@ ALTER TABLE "site_scraping_runs" ADD CONSTRAINT "site_scraping_runs_website_scra
 -- AddForeignKey
 ALTER TABLE "scraped_url_infos" ADD CONSTRAINT "scraped_url_infos_website_scraping_info_id_fkey" FOREIGN KEY ("website_scraping_info_id") REFERENCES "website_scraping_infos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- AddForeignKey
-ALTER TABLE "project_bytes" ADD CONSTRAINT "project_bytes_space_id_fkey" FOREIGN KEY ("space_id") REFERENCES "projects"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "project_byte_collections" ADD CONSTRAINT "project_byte_collections_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "project_short_videos" ADD CONSTRAINT "project_short_videos_project_id_fkey" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
