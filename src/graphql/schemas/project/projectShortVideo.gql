@@ -18,6 +18,7 @@ type ProjectShortVideo {
   priority: Int!
   thumbnail: String!
   archived: Boolean!
+  seoMeta: SEOMeta
 }
 
 input ProjectShortVideoInput {
@@ -27,4 +28,5 @@ input ProjectShortVideoInput {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
+  seoMeta: SEOMeta
 }

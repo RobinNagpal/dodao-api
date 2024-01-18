@@ -25,6 +25,11 @@ export default async function upsertProjectShortVideo(_: unknown, args: Mutation
       videoUrl: shortVideo.videoUrl,
       thumbnail: shortVideo.thumbnail,
       archived: false,
+      seoMeta: {
+        title: shortVideo.seoMeta?.title ?? shortVideo.title,
+        description: shortVideo.seoMeta?.description ?? shortVideo.description,
+        keywords: shortVideo.seoMeta?.keywords ?? [],
+      },
     },
     update: {
       title: shortVideo.title,
@@ -33,6 +38,11 @@ export default async function upsertProjectShortVideo(_: unknown, args: Mutation
       updatedAt: new Date(),
       videoUrl: shortVideo.videoUrl,
       thumbnail: shortVideo.thumbnail,
+      seoMeta: {
+        title: shortVideo.seoMeta?.title ?? shortVideo.title,
+        description: shortVideo.seoMeta?.description ?? shortVideo.description,
+        keywords: shortVideo.seoMeta?.keywords ?? [],
+      },
     },
     where: {
       id: shortVideo.id,
