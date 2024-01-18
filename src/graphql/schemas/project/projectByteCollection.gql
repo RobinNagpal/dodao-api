@@ -17,6 +17,7 @@ type ProjectByteCollection {
   status: String!
   order: Int!
   archived: Boolean!
+  seoMeta: SEOMeta
 }
 
 input UpsertProjectByteCollectionInput {
@@ -27,4 +28,5 @@ input UpsertProjectByteCollectionInput {
   byteIds: [String!]!
   status: String!
   order: Int!
+  seoMeta: SEOMeta
 }
