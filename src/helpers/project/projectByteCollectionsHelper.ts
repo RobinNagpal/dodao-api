@@ -23,10 +23,10 @@ export async function getProjectByteCollectionWithBytes(byteCollection: ProjectB
     ...byteCollection,
     bytes: bytes,
     seoMeta: {
-      title: "",
-      description: "",
-      keywords: []
-    }
+      title: '',
+      description: '',
+      keywords: [],
+    },
   };
 }
 
