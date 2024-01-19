@@ -28,5 +28,5 @@ input ProjectShortVideoInput {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
-  seoMeta: SEOMeta
+  seoMeta: SEOMetaInput
 }
