@@ -28,5 +28,5 @@ input UpsertProjectByteCollectionInput {
   byteIds: [String!]!
   status: String!
   order: Int!
-  seoMeta: SEOMeta
+  seoMeta: SEOMetaInput
 }
