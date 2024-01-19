@@ -1887,7 +1887,7 @@ export type ProjectShortVideoInput = {
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
-  seoMeta?: InputMaybe<SeoMeta>;
+  seoMeta?: InputMaybe<SeoMetaInput>;
   thumbnail: Scalars['String'];
   title: Scalars['String'];
   videoUrl: Scalars['String'];
@@ -2729,7 +2729,7 @@ export type UpsertProjectByteCollectionInput = {
   name: Scalars['String'];
   order: Scalars['Int'];
   projectId: Scalars['String'];
-  seoMeta?: InputMaybe<SeoMeta>;
+  seoMeta?: InputMaybe<SeoMetaInput>;
   status: Scalars['String'];
 };
 
@@ -2740,7 +2740,7 @@ export type UpsertProjectByteInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
-  seoMeta?: InputMaybe<SeoMeta>;
+  seoMeta?: InputMaybe<SeoMetaInput>;
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
@@ -2759,7 +2759,7 @@ export type UpsertProjectInput = {
   id: Scalars['String'];
   logo?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  seoMeta?: InputMaybe<SeoMeta>;
+  seoMeta?: InputMaybe<SeoMetaInput>;
   telegram?: InputMaybe<Scalars['String']>;
   type: Scalars['String'];
   website?: InputMaybe<Scalars['String']>;
@@ -2963,14 +2963,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = {
-  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
-  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
+  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
+  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
-  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
-  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
+  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
+  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping between all available schema types and the resolvers types */
