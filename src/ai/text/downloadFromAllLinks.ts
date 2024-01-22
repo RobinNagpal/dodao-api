@@ -42,7 +42,7 @@ export default async function downloadFromAllLinks(content: string): Promise<Dow
     contents.push(importantContent);
   }
   const combinedContent = [withoutUrls, ...contents].join('\n');
-  const cleanedContent = cleanupContent(combinedContent);
+  const cleanedContent = getTokenCount(combinedContent) > 4000 ? cleanupContent(combinedContent) : combinedContent;
   return { content: cleanedContent, links };
 }
 export function extractStringContentWithoutUrls(content: string): string {
