@@ -1118,6 +1118,10 @@ export type Mutation = {
   updateGuideSettings: Space;
   updateIndexWithAllDiscordPosts: Scalars['Boolean'];
   updateIndexingOfDiscordChannel: DiscordChannel;
+  updateSeoOfProject: Project;
+  updateSeoOfProjectByte: ProjectByte;
+  updateSeoOfProjectByteCollection: ProjectByteCollection;
+  updateSeoOfProjectShortVideo: ProjectShortVideo;
   updateSocialSettings: Space;
   updateSpace: Space;
   updateThemeColors: Space;
@@ -1556,6 +1560,30 @@ export type MutationUpdateIndexingOfDiscordChannelArgs = {
   channelId: Scalars['String'];
   shouldIndex: Scalars['Boolean'];
   spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateSeoOfProjectArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
+export type MutationUpdateSeoOfProjectByteArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
+export type MutationUpdateSeoOfProjectByteCollectionArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
+export type MutationUpdateSeoOfProjectShortVideoArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
 };
 
 
@@ -4150,6 +4178,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
   updateIndexWithAllDiscordPosts?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateIndexWithAllDiscordPostsArgs, 'spaceId'>>;
   updateIndexingOfDiscordChannel?: Resolver<ResolversTypes['DiscordChannel'], ParentType, ContextType, RequireFields<MutationUpdateIndexingOfDiscordChannelArgs, 'channelId' | 'shouldIndex' | 'spaceId'>>;
+  updateSeoOfProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectArgs, 'projectId'>>;
+  updateSeoOfProjectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectByteArgs, 'projectId'>>;
+  updateSeoOfProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectByteCollectionArgs, 'projectId'>>;
+  updateSeoOfProjectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectShortVideoArgs, 'projectId'>>;
   updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateThemeColors?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateThemeColorsArgs, 'spaceId' | 'themeColors'>>;
