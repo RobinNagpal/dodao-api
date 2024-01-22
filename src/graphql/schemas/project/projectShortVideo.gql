@@ -6,6 +6,7 @@ extend type Query {
 extend type Mutation {
   upsertProjectShortVideo(projectId: String!, shortVideo: ProjectShortVideoInput!): ProjectShortVideo!
   updateArchivedStatusOfProjectShortVideo(projectId: String!, projectShortVideoId: String!, archived: Boolean!): ProjectShortVideo!
+  updateSeoOfProjectShortVideo(projectId: String!, seoMeta: SEOMetaInput): ProjectShortVideo!
 }
 
 type ProjectShortVideo {
