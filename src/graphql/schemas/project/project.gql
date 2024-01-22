@@ -6,6 +6,7 @@ extend type Query {
 extend type Mutation {
   upsertProject(input: UpsertProjectInput!): Project!
   updateArchivedStatusOfProject(projectId: String!, archived: Boolean!): Project!
+  updateSeoOfProject(projectId: String!, seoMeta: SEOMetaInput): Project!
 }
 
 type Project {
