@@ -1118,6 +1118,10 @@ export type Mutation = {
   updateGuideSettings: Space;
   updateIndexWithAllDiscordPosts: Scalars['Boolean'];
   updateIndexingOfDiscordChannel: DiscordChannel;
+  updateSeoOfProject: Project;
+  updateSeoOfProjectByte: ProjectByte;
+  updateSeoOfProjectByteCollection: ProjectByteCollection;
+  updateSeoOfProjectShortVideo: ProjectShortVideo;
   updateSocialSettings: Space;
   updateSpace: Space;
   updateThemeColors: Space;
@@ -1559,6 +1563,30 @@ export type MutationUpdateIndexingOfDiscordChannelArgs = {
 };
 
 
+export type MutationUpdateSeoOfProjectArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
+export type MutationUpdateSeoOfProjectByteArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
+export type MutationUpdateSeoOfProjectByteCollectionArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
+export type MutationUpdateSeoOfProjectShortVideoArgs = {
+  projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
+};
+
+
 export type MutationUpdateSocialSettingsArgs = {
   input: SocialSettingsInput;
   spaceId: Scalars['String'];
@@ -1835,6 +1863,7 @@ export type Project = {
   id: Scalars['String'];
   logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  seoMeta?: Maybe<SeoMeta>;
   telegram?: Maybe<Scalars['String']>;
   type: Scalars['String'];
   website?: Maybe<Scalars['String']>;
@@ -1850,6 +1879,7 @@ export type ProjectByte = {
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   priority: Scalars['Int'];
+  seoMeta?: Maybe<SeoMeta>;
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
 };
@@ -1863,6 +1893,7 @@ export type ProjectByteCollection = {
   id: Scalars['String'];
   name: Scalars['String'];
   order: Scalars['Int'];
+  seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
 };
 
@@ -1873,6 +1904,7 @@ export type ProjectShortVideo = {
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
+  seoMeta?: Maybe<SeoMeta>;
   thumbnail: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -1883,6 +1915,7 @@ export type ProjectShortVideoInput = {
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
   thumbnail: Scalars['String'];
   title: Scalars['String'];
   videoUrl: Scalars['String'];
@@ -2257,6 +2290,19 @@ export type Route53Record = {
   records?: Maybe<Array<Maybe<Scalars['String']>>>;
   ttl?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
+};
+
+export type SeoMeta = {
+  __typename?: 'SEOMeta';
+  description: Scalars['String'];
+  keywords: Array<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+export type SeoMetaInput = {
+  description: Scalars['String'];
+  keywords: Array<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 export type ScrapedUrlInfo = {
@@ -2711,6 +2757,7 @@ export type UpsertProjectByteCollectionInput = {
   name: Scalars['String'];
   order: Scalars['Int'];
   projectId: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
   status: Scalars['String'];
 };
 
@@ -2721,6 +2768,7 @@ export type UpsertProjectByteInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
@@ -2739,6 +2787,7 @@ export type UpsertProjectInput = {
   id: Scalars['String'];
   logo?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  seoMeta?: InputMaybe<SeoMetaInput>;
   telegram?: InputMaybe<Scalars['String']>;
   type: Scalars['String'];
   website?: InputMaybe<Scalars['String']>;
@@ -3100,6 +3149,8 @@ export type ResolversTypes = {
   RatingDistribution: ResolverTypeWrapper<RatingDistribution>;
   RawGitCourse: ResolverTypeWrapper<RawGitCourse>;
   Route53Record: ResolverTypeWrapper<Route53Record>;
+  SEOMeta: ResolverTypeWrapper<SeoMeta>;
+  SEOMetaInput: SeoMetaInput;
   ScrapedUrlInfo: ResolverTypeWrapper<ScrapedUrlInfo>;
   SearchedChatbotFAQ: ResolverTypeWrapper<SearchedChatbotFaq>;
   SendEmailInput: SendEmailInput;
@@ -3313,6 +3364,8 @@ export type ResolversParentTypes = {
   RatingDistribution: RatingDistribution;
   RawGitCourse: RawGitCourse;
   Route53Record: Route53Record;
+  SEOMeta: SeoMeta;
+  SEOMetaInput: SeoMetaInput;
   ScrapedUrlInfo: ScrapedUrlInfo;
   SearchedChatbotFAQ: SearchedChatbotFaq;
   SendEmailInput: SendEmailInput;
@@ -4125,6 +4178,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateGuideSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateGuideSettingsArgs, 'input' | 'spaceId'>>;
   updateIndexWithAllDiscordPosts?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateIndexWithAllDiscordPostsArgs, 'spaceId'>>;
   updateIndexingOfDiscordChannel?: Resolver<ResolversTypes['DiscordChannel'], ParentType, ContextType, RequireFields<MutationUpdateIndexingOfDiscordChannelArgs, 'channelId' | 'shouldIndex' | 'spaceId'>>;
+  updateSeoOfProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectArgs, 'projectId'>>;
+  updateSeoOfProjectByte?: Resolver<ResolversTypes['ProjectByte'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectByteArgs, 'projectId'>>;
+  updateSeoOfProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectByteCollectionArgs, 'projectId'>>;
+  updateSeoOfProjectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<MutationUpdateSeoOfProjectShortVideoArgs, 'projectId'>>;
   updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateThemeColors?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateThemeColorsArgs, 'spaceId' | 'themeColors'>>;
@@ -4230,6 +4287,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   logo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   telegram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -4245,6 +4303,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -4258,6 +4317,7 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -4268,6 +4328,7 @@ export type ProjectShortVideoResolvers<ContextType = any, ParentType extends Res
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   thumbnail?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4358,6 +4419,13 @@ export type Route53RecordResolvers<ContextType = any, ParentType extends Resolve
   records?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   ttl?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SeoMetaResolvers<ContextType = any, ParentType extends ResolversParentTypes['SEOMeta'] = ResolversParentTypes['SEOMeta']> = {
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  keywords?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4701,6 +4769,7 @@ export type Resolvers<ContextType = any> = {
   RatingDistribution?: RatingDistributionResolvers<ContextType>;
   RawGitCourse?: RawGitCourseResolvers<ContextType>;
   Route53Record?: Route53RecordResolvers<ContextType>;
+  SEOMeta?: SeoMetaResolvers<ContextType>;
   ScrapedUrlInfo?: ScrapedUrlInfoResolvers<ContextType>;
   SearchedChatbotFAQ?: SearchedChatbotFaqResolvers<ContextType>;
   ShortVideo?: ShortVideoResolvers<ContextType>;
