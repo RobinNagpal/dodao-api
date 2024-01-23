@@ -548,7 +548,7 @@ model Project {
   ProjectByte           ProjectByte[]
   ProjectByteCollection ProjectByteCollection[]
   ProjectShortVideo     ProjectShortVideo[]
-  /// SEOMeta
+  /// [SEOMeta]
   seoMeta               Json?                   @map("seo_meta") @db.JsonB
 
   @@map("projects")
@@ -568,7 +568,7 @@ model ProjectByte {
   steps         Json[]
   projectId     String   @map("space_id") @db.VarChar(255)
   Project       Project  @relation(fields: [projectId], references: [id])
-  /// SEOMeta
+  /// [SEOMeta]
   seoMeta       Json?    @map("seo_meta") @db.JsonB
 
   @@unique([id, publishStatus])
@@ -587,7 +587,7 @@ model ProjectByteCollection {
   order       Int
   archived    Boolean  @default(false)
   Project     Project  @relation(fields: [projectId], references: [id])
-  /// SEOMeta
+  /// [SEOMeta]
   seoMeta     Json?    @map("seo_meta") @db.JsonB
 
   @@map("project_byte_collections")
@@ -605,7 +605,7 @@ model ProjectShortVideo {
   thumbnail   String   @db.VarChar(1024)
   archived    Boolean  @default(false)
   Project     Project  @relation(fields: [projectId], references: [id])
-  /// SEOMeta
+  /// [SEOMeta]
   seoMeta     Json?    @map("seo_meta") @db.JsonB
 
   @@map("project_short_videos")
