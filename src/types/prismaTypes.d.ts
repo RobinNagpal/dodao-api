@@ -9,6 +9,7 @@ import {
   ChatbotSubcategory as ChatbotSubcategoryType,
   ThemeColors as SpaceThemeColors,
   UsernameAndName as UsernameAndNameType,
+  SEOMeta as SEOMetaType,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
@@ -36,5 +37,6 @@ declare global {
     type ChatbotSubcategory = ChatbotSubcategoryType;
     type ThemeColors = SpaceThemeColors;
     type UsernameAndName = UsernameAndNameType;
+    type SEOMeta = SEOMetaType;
   }
 }

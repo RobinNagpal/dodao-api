@@ -6,6 +6,7 @@ extend type Query {
 extend type Mutation {
   upsertProjectByte(projectId: String!, input: UpsertProjectByteInput!): ProjectByte!
   updateArchivedStatusOfProjectByte(projectId: String!, projectByteId: String!, archived: Boolean!): ProjectByte!
+  updateSeoOfProjectByte(projectId: String!, seoMeta: SEOMetaInput): ProjectByte!
 }
 
 type ProjectByte {
@@ -19,6 +20,7 @@ type ProjectByte {
   tags: [String!]!
   priority: Int!
   archived: Boolean!
+  seoMeta: SEOMeta
 }
 
 input UpsertProjectByteInput {
@@ -31,4 +33,5 @@ input UpsertProjectByteInput {
   tags: [String!]!
   priority: Int!
   created: String!
+  seoMeta: SEOMetaInput
 }

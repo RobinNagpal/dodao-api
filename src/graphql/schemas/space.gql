@@ -154,6 +154,12 @@ type SpaceInviteLinks {
   showAnimatedButtonForTelegram: Boolean
 }
 
+type SEOMeta {
+  title: String!
+  description: String!
+  keywords: [String!]!
+}
+
 type SocialSettings {
   linkedSharePdfBackgroundImage: String
 }
@@ -287,4 +293,10 @@ input SendEmailInput {
 input SpaceLoadersInfoInput {
   discourseUrl: String
   discordServerId: String
+}
+
+input SEOMetaInput {
+  title: String!
+  description: String!
+  keywords: [String!]!
 }
