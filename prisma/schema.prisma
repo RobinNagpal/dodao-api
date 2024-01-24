@@ -550,6 +550,7 @@ model Project {
   ProjectShortVideo     ProjectShortVideo[]
   /// [SEOMeta]
   seoMeta               Json?                   @map("seo_meta") @db.JsonB
+  priority              Int                     @default(50) @map("priority")
 
   @@map("projects")
 }
@@ -562,7 +563,7 @@ model ProjectByte {
   publishStatus String   @map("publish_status") @db.VarChar(255)
   admins        String[]
   tags          String[]
-  priority      Int
+  priority      Int      @default(50) @map("priority")
   archived      Boolean  @default(false)
   /// [ByteStep]
   steps         Json[]
@@ -589,6 +590,7 @@ model ProjectByteCollection {
   Project     Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
   seoMeta     Json?    @map("seo_meta") @db.JsonB
+  priority    Int      @default(50) @map("priority")
 
   @@map("project_byte_collections")
 }
