@@ -48,3 +48,10 @@ export default function copyAllBytesFromGitToDatabase(_: unknown, args: Mutation
 1. Find the migration that you executed but want to delete in the `_prisma_migrations` table in the database
 2. Delete the entries from the table
 
+## When graph schema changes
+Whenever anything changes in the graph schema, you need to 
+1) run `yarn graphql:generate` to generate the typescript types. This will generate the types in `src/graphql/generated/graphql.ts`. 
+2) Now this "New" schema should be downloaded by the UI to generate the typescript types on its side
+3) For UI to download the schema run `yarn graphql:download` in the UI project. This will download the schema from the backend.
+4) After you download the schema, run `yarn graphql:generate` to generate on the UI project.
+5) You might get some error if you have renamed a field or removed a field because it needs be updated in the UI graphql files also.
