@@ -1,5 +1,5 @@
 extend type Query {
-  projectShortVideo(projectId: String!, projectByteId: String!): ProjectShortVideo!
+  projectShortVideo(projectId: String!, projectShortVideoId: String!): ProjectShortVideo!
   projectShortVideos(projectId: String!): [ProjectShortVideo!]!
 }
 
