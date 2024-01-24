@@ -1863,6 +1863,7 @@ export type Project = {
   id: Scalars['String'];
   logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  priority: Scalars['Int'];
   seoMeta?: Maybe<SeoMeta>;
   telegram?: Maybe<Scalars['String']>;
   type: Scalars['String'];
@@ -1893,6 +1894,7 @@ export type ProjectByteCollection = {
   id: Scalars['String'];
   name: Scalars['String'];
   order: Scalars['Int'];
+  priority: Scalars['Int'];
   seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
 };
@@ -2756,6 +2758,7 @@ export type UpsertProjectByteCollectionInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   order: Scalars['Int'];
+  priority: Scalars['Int'];
   projectId: Scalars['String'];
   seoMeta?: InputMaybe<SeoMetaInput>;
   status: Scalars['String'];
@@ -2787,6 +2790,7 @@ export type UpsertProjectInput = {
   id: Scalars['String'];
   logo?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  priority: Scalars['Int'];
   seoMeta?: InputMaybe<SeoMetaInput>;
   telegram?: InputMaybe<Scalars['String']>;
   type: Scalars['String'];
@@ -4287,6 +4291,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   logo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   telegram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4317,6 +4322,7 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
