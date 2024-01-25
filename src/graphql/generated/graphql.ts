@@ -136,6 +136,7 @@ export type ByteCollection = {
   id: Scalars['ID'];
   name: Scalars['String'];
   order: Scalars['Int'];
+  priority: Scalars['Int'];
   status: Scalars['String'];
 };
 
@@ -2995,14 +2996,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = {
-  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
+  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
+  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
-  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
+  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
+  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -3497,6 +3498,7 @@ export type ByteCollectionResolvers<ContextType = any, ParentType extends Resolv
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
