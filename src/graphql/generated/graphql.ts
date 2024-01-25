@@ -2174,8 +2174,8 @@ export type QueryProjectBytesArgs = {
 
 
 export type QueryProjectShortVideoArgs = {
-  projectByteId: Scalars['String'];
   projectId: Scalars['String'];
+  projectShortVideoId: Scalars['String'];
 };
 
 
@@ -4378,7 +4378,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   projectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<QueryProjectByteCollectionArgs, 'byteCollectionId' | 'projectId'>>;
   projectByteCollections?: Resolver<Array<ResolversTypes['ProjectByteCollection']>, ParentType, ContextType, RequireFields<QueryProjectByteCollectionsArgs, 'projectId'>>;
   projectBytes?: Resolver<Array<ResolversTypes['ProjectByte']>, ParentType, ContextType, RequireFields<QueryProjectBytesArgs, 'projectId'>>;
-  projectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<QueryProjectShortVideoArgs, 'projectByteId' | 'projectId'>>;
+  projectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<QueryProjectShortVideoArgs, 'projectId' | 'projectShortVideoId'>>;
   projectShortVideos?: Resolver<Array<ResolversTypes['ProjectShortVideo']>, ParentType, ContextType, RequireFields<QueryProjectShortVideosArgs, 'projectId'>>;
   projects?: Resolver<Array<ResolversTypes['Project']>, ParentType, ContextType, Partial<QueryProjectsArgs>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
