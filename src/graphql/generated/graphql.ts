@@ -135,7 +135,7 @@ export type ByteCollection = {
   description: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
-  order: Scalars['Int'];
+  order?: Maybe<Scalars['Int']>;
   priority: Scalars['Int'];
   status: Scalars['String'];
 };
@@ -371,7 +371,7 @@ export type CreateByteCollectionInput = {
   byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   name: Scalars['String'];
-  order: Scalars['Int'];
+  order?: InputMaybe<Scalars['Int']>;
   spaceId: Scalars['String'];
   status: Scalars['String'];
 };
@@ -1894,7 +1894,7 @@ export type ProjectByteCollection = {
   description: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
-  order: Scalars['Int'];
+  order?: Maybe<Scalars['Int']>;
   priority: Scalars['Int'];
   seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
@@ -2615,7 +2615,7 @@ export type UpdateByteCollectionInput = {
   byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   name: Scalars['String'];
-  order: Scalars['Int'];
+  order?: InputMaybe<Scalars['Int']>;
   spaceId: Scalars['String'];
   status: Scalars['String'];
 };
@@ -2758,7 +2758,7 @@ export type UpsertProjectByteCollectionInput = {
   description: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
-  order: Scalars['Int'];
+  order?: InputMaybe<Scalars['Int']>;
   priority: Scalars['Int'];
   projectId: Scalars['String'];
   seoMeta?: InputMaybe<SeoMetaInput>;
@@ -3497,7 +3497,7 @@ export type ByteCollectionResolvers<ContextType = any, ParentType extends Resolv
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  order?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -4323,7 +4323,7 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  order?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
