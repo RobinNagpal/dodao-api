@@ -161,7 +161,7 @@ model Byte {
   created  String   @db.VarChar(255)
   admins   String[]
   tags     String[]
-  priority Int
+  priority Int      @default(50) @map("priority")
   /// [ByteStep]
   steps    Json[]
   spaceId  String   @map("space_id") @db.VarChar(255)
@@ -520,6 +520,7 @@ model ByteCollection {
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
   order       Int
+  priority    Int      @default(50) @map("priority")
 
   @@map("byte_collections")
 }
