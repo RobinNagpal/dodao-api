@@ -17,6 +17,7 @@ type ByteCollection {
   bytes: [ByteCollectionByte!]!
   status: String!
   order: Int!
+  priority: Int!
 }
 
 type ByteCollectionByte {
