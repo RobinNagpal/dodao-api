@@ -11,7 +11,7 @@ export default async function byteCollection(_: any, args: QueryByteCollectionAr
       id: args.byteCollectionId,
     },
     orderBy: {
-      order: 'desc',
+      priority: 'desc',
     },
   });
 
