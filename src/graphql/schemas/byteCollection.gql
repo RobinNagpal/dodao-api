@@ -33,6 +33,7 @@ input CreateByteCollectionInput {
   byteIds: [String!]!
   status: String!
   order: Int
+  priority: Int!
 }
 
 input UpdateByteCollectionInput {
@@ -43,4 +44,5 @@ input UpdateByteCollectionInput {
   byteIds: [String!]!
   status: String!
   order: Int
+  priority: Int!
 }
