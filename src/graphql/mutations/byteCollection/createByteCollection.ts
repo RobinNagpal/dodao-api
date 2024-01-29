@@ -22,7 +22,6 @@ export default async function createByteCollection(_: any, args: MutationCreateB
       createdAt: new Date(),
       updatedAt: new Date(),
       status: args.input.status,
-      order: args.input.order,
       priority: args.input.priority,
     },
   });
