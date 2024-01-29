@@ -28,6 +28,7 @@ type Project {
   cardThumbnail: String
   archived: Boolean!
   seoMeta: SEOMeta
+  priority: Int!
 }
 
 input UpsertProjectInput {
@@ -47,4 +48,5 @@ input UpsertProjectInput {
   github: String
   cardThumbnail: String
   seoMeta: SEOMetaInput
+  priority: Int!
 }

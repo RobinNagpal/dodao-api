@@ -16,9 +16,10 @@ type ProjectByteCollection {
   byteIds: [String!]!
   bytes: [ByteCollectionByte!]!
   status: String!
-  order: Int!
+  order: Int
   archived: Boolean!
   seoMeta: SEOMeta
+  priority: Int!
 }
 
 input UpsertProjectByteCollectionInput {
@@ -28,6 +29,7 @@ input UpsertProjectByteCollectionInput {
   projectId: String!
   byteIds: [String!]!
   status: String!
-  order: Int!
+  order: Int
   seoMeta: SEOMetaInput
+  priority: Int!
 }

@@ -30,6 +30,7 @@ export default async function upsertProject(parent: any, args: MutationUpsertPro
       github: args.input.github,
       cardThumbnail: args.input.cardThumbnail,
       archived: false,
+      priority: args.input.priority,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.excerpt,
@@ -54,6 +55,7 @@ export default async function upsertProject(parent: any, args: MutationUpsertPro
       telegram: args.input.telegram,
       github: args.input.github,
       cardThumbnail: args.input.cardThumbnail,
+      priority: args.input.priority,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.excerpt,
