@@ -22,7 +22,7 @@ export async function getByteCollectionsForSpace(spaceId: string): Promise<ByteC
       },
     },
     orderBy: {
-      order: 'desc',
+      priority: 'desc',
     },
   });
 
