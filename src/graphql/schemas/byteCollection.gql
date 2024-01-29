@@ -16,7 +16,6 @@ type ByteCollection {
   byteIds: [String!]!
   bytes: [ByteCollectionByte!]!
   status: String!
-  order: Int
   priority: Int!
 }
 
@@ -32,7 +31,6 @@ input CreateByteCollectionInput {
   spaceId: String!
   byteIds: [String!]!
   status: String!
-  order: Int
   priority: Int!
 }
 
@@ -43,6 +41,5 @@ input UpdateByteCollectionInput {
   spaceId: String!
   byteIds: [String!]!
   status: String!
-  order: Int
   priority: Int!
 }
