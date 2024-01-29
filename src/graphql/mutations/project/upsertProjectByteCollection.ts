@@ -21,6 +21,7 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       status: args.input.status,
       updatedAt: new Date(),
       order: args.input.order,
+      priority: args.input.priority,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.description,
@@ -37,6 +38,7 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       updatedAt: new Date(),
       status: args.input.status,
       order: args.input.order,
+      priority: args.input.priority,
       archived: false,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,

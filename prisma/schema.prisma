@@ -161,7 +161,7 @@ model Byte {
   created  String   @db.VarChar(255)
   admins   String[]
   tags     String[]
-  priority Int
+  priority Int      @default(50) @map("priority")
   /// [ByteStep]
   steps    Json[]
   spaceId  String   @map("space_id") @db.VarChar(255)
@@ -519,7 +519,8 @@ model ByteCollection {
   description String
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
-  order       Int
+  order       Int?
+  priority    Int      @default(50) @map("priority")
 
   @@map("byte_collections")
 }
@@ -550,6 +551,7 @@ model Project {
   ProjectShortVideo     ProjectShortVideo[]
   /// [SEOMeta]
   seoMeta               Json?                   @map("seo_meta") @db.JsonB
+  priority              Int                     @default(50) @map("priority")
 
   @@map("projects")
 }
@@ -562,7 +564,7 @@ model ProjectByte {
   publishStatus String   @map("publish_status") @db.VarChar(255)
   admins        String[]
   tags          String[]
-  priority      Int
+  priority      Int      @default(50) @map("priority")
   archived      Boolean  @default(false)
   /// [ByteStep]
   steps         Json[]
@@ -584,11 +586,12 @@ model ProjectByteCollection {
   description String
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
-  order       Int
+  order       Int?
   archived    Boolean  @default(false)
   Project     Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
   seoMeta     Json?    @map("seo_meta") @db.JsonB
+  priority    Int      @default(50) @map("priority")
 
   @@map("project_byte_collections")
 }
