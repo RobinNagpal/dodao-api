@@ -372,6 +372,7 @@ export type CreateByteCollectionInput = {
   description: Scalars['String'];
   name: Scalars['String'];
   order?: InputMaybe<Scalars['Int']>;
+  priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
 };
@@ -2616,6 +2617,7 @@ export type UpdateByteCollectionInput = {
   description: Scalars['String'];
   name: Scalars['String'];
   order?: InputMaybe<Scalars['Int']>;
+  priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
 };
