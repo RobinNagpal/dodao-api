@@ -519,7 +519,6 @@ model ByteCollection {
   description String
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
-  order       Int?
   priority    Int      @default(50) @map("priority")
 
   @@map("byte_collections")
@@ -586,7 +585,6 @@ model ProjectByteCollection {
   description String
   byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status      String   @db.VarChar(255)
-  order       Int?
   archived    Boolean  @default(false)
   Project     Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
