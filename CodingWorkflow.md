@@ -33,8 +33,8 @@ export default function copyAllBytesFromGitToDatabase(_: unknown, args: Mutation
 7. Add all the code that needs to be performed in this function. You can use the `args` variable to access the arguments passed to the mutation. You can use the `context` variable to access the current user.
 8. After you add the mutation, you need to add the resolver to the `src/mutations.ts` file.
 
-
 ## Removing a field from an existing database model
+
 1. Remove the field from the prisma model in `prisma/schema.prisma`
 2. Run `yarn prisma:generate` to generate the prisma client
 3. Now create a migration by running `npx prisma migrate dev --create-only`. This will create a new migration file in `prisma/migrations`
@@ -45,6 +45,12 @@ export default function copyAllBytesFromGitToDatabase(_: unknown, args: Mutation
 8. Important: UI can fail to load if a field is removed from the backed which is being used in the UI. So make sure to remove the field from the UI first.
 
 ## Reverting a migration
+
 1. Find the migration that you executed but want to delete in the `_prisma_migrations` table in the database
 2. Delete the entries from the table
 
+## How we fetch data from git
+
+We use Git to get data like courses, guides and timelines etc. The main reason is to avoid copyright problems. Putting the data in a public repos helps everyone access it while still following the law. This way, people can work together on educational stuff without breaking any copyright rules. It's a smart way to share resources and collaborate. Following video explains why and how we use git for data fetching:
+
+Video Link: [How we fetch data from git?](https://drive.google.com/file/d/1f4lhEdBS322FEuo0R_uNx-UrWumQAQwm/view?usp=sharing):
