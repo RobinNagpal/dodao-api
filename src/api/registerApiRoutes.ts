@@ -18,6 +18,8 @@ import extendedSpace from '@/api/space/extendedSpace';
 import { json } from 'body-parser';
 import cors from 'cors';
 import { Express } from 'express';
+import timeline from './timeline/timeline';
+import timelines from './timeline/timelines';
 
 export function registerApiRoutes(app: Express) {
   app.use('/chat', cors<cors.CorsRequest>(), json(), chat);
@@ -43,4 +45,7 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/projects/:projectId/bytes/:byteId', cors(), json(), projectByte);
   app.get('/:spaceId/projects/:projectId/byte-collections', cors(), json(), projectByteCollections);
   app.get('/:spaceId/projects/:projectId/short-videos', cors(), json(), projectShortVideos);
+
+  app.get('/:spaceId/timelines', cors(), json(), timelines);
+  app.get('/:spaceId/timelines/:timelineKey', cors(), json(), timeline);
 }
