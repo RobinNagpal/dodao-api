@@ -46,6 +46,6 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/projects/:projectId/byte-collections', cors(), json(), projectByteCollections);
   app.get('/:spaceId/projects/:projectId/short-videos', cors(), json(), projectShortVideos);
 
-  app.get('/:spaceId/timelines/:timelineKey', cors(), json(), timeline);
   app.get('/:spaceId/timelines', cors(), json(), timelines);
+  app.get('/:spaceId/timelines/:timelineKey', cors(), json(), timeline);
 }
