@@ -9,3 +9,4 @@ deploy/.terraform/providers
 .envrc
 data/
 backup.sql
+deploy_backup
