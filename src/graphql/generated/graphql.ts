@@ -126,6 +126,7 @@ export type Byte = {
   showIncorrectOnCompletion: Scalars['Boolean'];
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type ByteCollection = {
@@ -1883,6 +1884,7 @@ export type ProjectByte = {
   seoMeta?: Maybe<SeoMeta>;
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type ProjectByteCollection = {
@@ -2686,6 +2688,7 @@ export type UpsertByteInput = {
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertByteSocialShareInput = {
@@ -2773,6 +2776,7 @@ export type UpsertProjectByteInput = {
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertProjectInput = {
@@ -2993,14 +2997,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = {
-  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
-  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
+  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
+  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
-  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
-  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
+  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
+  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -3485,6 +3489,7 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4309,6 +4314,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
