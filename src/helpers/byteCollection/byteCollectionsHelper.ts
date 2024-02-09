@@ -10,6 +10,7 @@ export async function getByteCollectionWithBytes(byteCollection: ByteCollection)
       byteId: byte.id,
       name: byte.name,
       content: byte.content,
+      videoUrl: byte.videoUrl,
     });
   }
   return {

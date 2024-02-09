@@ -145,6 +145,7 @@ export type ByteCollectionByte = {
   byteId: Scalars['String'];
   content: Scalars['String'];
   name: Scalars['String'];
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type ByteLinkedinPdfContent = {
@@ -3508,6 +3509,7 @@ export type ByteCollectionByteResolvers<ContextType = any, ParentType extends Re
   byteId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

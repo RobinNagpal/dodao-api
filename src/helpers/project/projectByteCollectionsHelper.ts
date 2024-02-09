@@ -17,6 +17,7 @@ export async function getProjectByteCollectionWithBytes(byteCollection: ProjectB
       byteId: byte.id,
       name: byte.name,
       content: byte.content,
+      videoUrl: byte.videoUrl,
     });
   }
   return {
