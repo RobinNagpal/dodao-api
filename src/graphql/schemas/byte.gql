@@ -21,6 +21,7 @@ type Byte {
   admins: [String!]!
   tags: [String!]!
   priority: Int!
+  videoUrl: String
 }
 
 type ByteQuestion {
@@ -86,6 +87,7 @@ input UpsertByteInput {
   tags: [String!]!
   priority: Int!
   created: String!
+  videoUrl: String
 }
 
 input ByteLinkedinPdfContentStepInput {

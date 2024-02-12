@@ -21,6 +21,7 @@ type ProjectByte {
   priority: Int!
   archived: Boolean!
   seoMeta: SEOMeta
+  videoUrl: String
 }
 
 input UpsertProjectByteInput {
@@ -34,4 +35,5 @@ input UpsertProjectByteInput {
   priority: Int!
   created: String!
   seoMeta: SEOMetaInput
+  videoUrl: String
 }

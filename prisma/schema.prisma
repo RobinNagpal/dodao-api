@@ -166,6 +166,7 @@ model Byte {
   steps    Json[]
   spaceId  String   @map("space_id") @db.VarChar(255)
   Space    Space    @relation(fields: [spaceId], references: [id])
+  videoUrl String?  @map("video_url") @db.VarChar(1024)
 
   @@map("bytes")
 }
@@ -571,6 +572,7 @@ model ProjectByte {
   Project       Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
   seoMeta       Json?    @map("seo_meta") @db.JsonB
+  videoUrl      String?  @map("video_url") @db.VarChar(1024)
 
   @@unique([id, publishStatus])
   @@map("project_bytes")

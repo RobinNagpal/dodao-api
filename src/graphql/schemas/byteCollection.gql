@@ -23,6 +23,7 @@ type ByteCollectionByte {
   byteId: String!
   name: String!
   content: String!
+  videoUrl: String
 }
 
 input CreateByteCollectionInput {
