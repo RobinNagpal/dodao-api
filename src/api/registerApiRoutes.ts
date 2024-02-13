@@ -4,6 +4,8 @@ import bytes from '@/api/byte/bytes';
 import chat from '@/api/chat/chat';
 import course from '@/api/course/course';
 import courses from '@/api/course/courses';
+import shortVideos from '@/api/shortVideos/shortVideos';
+import shortVideo from '@/api/shortVideos/shortVideo';
 import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
 import guide from '@/api/guide/guide';
 import guides from '@/api/guide/guides';
@@ -36,8 +38,10 @@ export function registerApiRoutes(app: Express) {
   app.get('/:spaceId/bytes/:byteId', cors(), json(), byte);
 
   app.get('/:spaceId/courses', cors(), json(), courses);
-
   app.get('/:spaceId/courses/:courseKey', cors(), json(), course);
+
+  app.get('/:spaceId/short-videos', cors(), json(), shortVideos);
+  app.get('/:spaceId/short-videos/:videoId', cors(), json(), shortVideo);
 
   app.get('/:spaceId/projects', cors(), json(), projects);
   app.get('/:spaceId/projects/:projectId', cors(), json(), project);
