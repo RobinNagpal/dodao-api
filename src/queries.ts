@@ -42,6 +42,7 @@ import projects from '@/graphql/queries/project/projects';
 import projectShortVideo from '@/graphql/queries/project/projectShortVideo';
 import projectShortVideos from '@/graphql/queries/project/projectShortVideos';
 import shortVideos from '@/graphql/queries/shortVideo/shortVideos';
+import shortVideo from './graphql/queries/shortVideo/shortVideo';
 import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
@@ -123,4 +124,5 @@ export default {
   chatbotUserQuestions,
 
   shortVideos,
+  shortVideo,
 };

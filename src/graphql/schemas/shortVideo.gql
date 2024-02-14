@@ -4,6 +4,7 @@ extend type Mutation {
 
 extend type Query {
   shortVideos(spaceId: String!): [ShortVideo!]
+  shortVideo(spaceId: String!, id: String!): ShortVideo!
 }
 
 type ShortVideo {
