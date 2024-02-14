@@ -1927,6 +1927,7 @@ export type ProjectShortVideoInput = {
 
 export type Query = {
   __typename?: 'Query';
+  ShortVideo: ShortVideo;
   _empty?: Maybe<Scalars['String']>;
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
@@ -1981,6 +1982,12 @@ export type Query = {
   timelines: Array<Timeline>;
   vercelDomainRecords: Array<VercelDomain>;
   websiteScrapingInfos: Array<WebsiteScrapingInfo>;
+};
+
+
+export type QueryShortVideoArgs = {
+  shortVideoId: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -4348,6 +4355,7 @@ export type ProjectShortVideoResolvers<ContextType = any, ParentType extends Res
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  ShortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<QueryShortVideoArgs, 'shortVideoId' | 'spaceId'>>;
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
