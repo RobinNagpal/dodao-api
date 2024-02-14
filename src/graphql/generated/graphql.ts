@@ -2216,7 +2216,7 @@ export type QuerySearchChatbotFaQsArgs = {
 
 
 export type QueryShortVideoArgs = {
-  shortVideoId: Scalars['String'];
+  id: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -4398,7 +4398,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
   scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   searchChatbotFAQs?: Resolver<Array<ResolversTypes['SearchedChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;
-  shortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<QueryShortVideoArgs, 'shortVideoId' | 'spaceId'>>;
+  shortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<QueryShortVideoArgs, 'id' | 'spaceId'>>;
   shortVideos?: Resolver<Maybe<Array<ResolversTypes['ShortVideo']>>, ParentType, ContextType, RequireFields<QueryShortVideosArgs, 'spaceId'>>;
   simulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<QuerySimulationArgs, 'simulationId' | 'spaceId'>>;
   simulations?: Resolver<Array<ResolversTypes['Simulation']>, ParentType, ContextType, RequireFields<QuerySimulationsArgs, 'spaceId'>>;
