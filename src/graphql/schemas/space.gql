@@ -53,6 +53,7 @@ extend type Mutation {
 type Space {
   id: String!
   admins: [String!]!
+  type: String!
   adminUsernames: [String!]!
   adminUsernamesV1: [UsernameAndName!]!
   avatar: String
@@ -234,6 +235,7 @@ input UpsertSpaceInput {
   features: [String!]!
   name: String!
   skin: String!
+  type: String!
   inviteLinks: SpaceInviteLinksInput!
   spaceIntegrations: SpaceIntegrationsInput!
   domains: [String!]!
