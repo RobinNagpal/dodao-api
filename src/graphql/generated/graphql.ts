@@ -2442,6 +2442,7 @@ export type Space = {
   socialSettings: SocialSettings;
   spaceIntegrations?: Maybe<SpaceIntegrations>;
   themeColors?: Maybe<ThemeColors>;
+  type: Scalars['String'];
 };
 
 export type SpaceFilters = {
@@ -2834,6 +2835,7 @@ export type UpsertSpaceInput = {
   name: Scalars['String'];
   skin: Scalars['String'];
   spaceIntegrations: SpaceIntegrationsInput;
+  type: Scalars['String'];
 };
 
 export type UpsertSummaryOfDiscoursePostInput = {
@@ -4545,6 +4547,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   socialSettings?: Resolver<ResolversTypes['SocialSettings'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;
   themeColors?: Resolver<Maybe<ResolversTypes['ThemeColors']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
