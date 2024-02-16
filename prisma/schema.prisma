@@ -150,6 +150,7 @@ model Space {
   SpaceIntegration  SpaceIntegration?
   /// [ThemeColors]
   themeColors       Json?               @map("theme_colors") @db.Json
+  type              String              @default("ACADEMY_SITE") @db.VarChar(255)
 
   @@map("spaces")
 }
