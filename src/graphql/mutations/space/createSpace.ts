@@ -18,7 +18,7 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     adminUsernames: input.adminUsernames,
     adminUsernamesV1: input.adminUsernamesV1,
     avatar: input.avatar,
-    creator: doDAOSuperAdmin.accountId,
+    creator: input.creator,
     features: input.features || [],
     id: input.id,
     type: input.type,
