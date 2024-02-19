@@ -48,6 +48,8 @@ extend type Mutation {
   copyAllBytesFromGitToDatabase: Boolean!
 
   updateThemeColors(spaceId: ID!, themeColors: ThemeColorsInput!): Space!
+
+  updateSpaceCreator(spaceId: String!, creator: String!): Space!
 }
 
 type Space {
