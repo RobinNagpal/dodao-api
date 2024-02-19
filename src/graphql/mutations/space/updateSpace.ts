@@ -20,7 +20,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     adminUsernames: args.spaceInput.adminUsernames,
     adminUsernamesV1: args.spaceInput.adminUsernamesV1,
     avatar: args.spaceInput.avatar,
-    creator: user.accountId,
+    creator: args.spaceInput.creator,
     features: args.spaceInput.features || [],
     id: args.spaceInput.id,
     inviteLinks: args.spaceInput.inviteLinks || {},
