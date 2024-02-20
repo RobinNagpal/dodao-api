@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "spaces" ADD COLUMN     "type" VARCHAR(255) NOT NULL DEFAULT 'ACADEMY_SITE';

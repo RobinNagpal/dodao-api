@@ -56,6 +56,7 @@ import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettin
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
+import updateSpaceCreator from './graphql/mutations/space/updateSpaceCreator';
 import updateThemeColors from './graphql/mutations/space/updateThemeColors';
 import updateSeoOfProject from './graphql/mutations/project/updateSeoOfProject';
 import updateSeoOfProjectByte from './graphql/mutations/project/updateSeoOfProjectByte';
@@ -72,6 +73,7 @@ export default {
 
   createSpace,
   updateSpace,
+  updateSpaceCreator,
   sendEmail,
   dropPineconeNamespace,
 
