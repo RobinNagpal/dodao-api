@@ -1,21 +1,20 @@
-import { ImagesResponse, MutationGenerateImageArgs } from '@/graphql/generated/graphql';
-import { Configuration, OpenAIApi } from 'openai';
-import { CreateImageRequest } from 'openai/api';
+import { MutationGenerateImageArgs, ImagesResponse } from '@/graphql/generated/graphql';
+import OpenAI from 'openai';
+import { ImageGenerateParams } from 'openai/resources';
 
 export default async function generateImage(_: any, args: MutationGenerateImageArgs): Promise<ImagesResponse> {
-  const createCompletionRequest: CreateImageRequest = {
+  const createCompletionRequest: ImageGenerateParams = {
+    model: 'dall-e-3',
     prompt: args.input.prompt,
-    size: '512x512',
+    size: '1024x1024',
     n: 1,
   };
 
-  const configuration = new Configuration({
+  const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const openai = new OpenAIApi(configuration);
+  const response = await openai.images.generate(createCompletionRequest, { timeout: 5 * 60 * 1000 });
 
-  const response = await openai.createImage(createCompletionRequest, { timeout: 5 * 60 * 1000 });
-
-  return response.data;
+  return response;
 }
