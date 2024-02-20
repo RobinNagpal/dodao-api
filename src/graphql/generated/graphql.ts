@@ -2099,7 +2099,7 @@ export type QueryDiscoursePostsArgs = {
 
 
 export type QueryGetSpaceFromCreatorArgs = {
-  creatorId?: InputMaybe<Scalars['String']>;
+  creatorUsername?: InputMaybe<Scalars['String']>;
 };
 
 
