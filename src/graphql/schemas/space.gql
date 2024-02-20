@@ -8,6 +8,8 @@ extend type Query {
   route53Records: [Route53Record!]!
 
   vercelDomainRecords: [VercelDomain!]!
+
+  getSpaceFromCreator(creatorUsername: String): Space
 }
 
 extend type Mutation {
