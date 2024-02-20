@@ -9,7 +9,7 @@ extend type Query {
 
   vercelDomainRecords: [VercelDomain!]!
 
-  getSpaceFromCreator(creatorId: String): Space
+  getSpaceFromCreator(creatorUsername: String): Space
 }
 
 extend type Mutation {
