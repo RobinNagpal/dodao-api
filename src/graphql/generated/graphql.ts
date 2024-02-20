@@ -1954,6 +1954,7 @@ export type Query = {
   discourseIndexRuns: Array<DiscourseIndexRun>;
   discoursePostComments: Array<DiscoursePostComment>;
   discoursePosts: Array<DiscoursePost>;
+  getSpaceFromCreator?: Maybe<Space>;
   gitCourse: GitCourse;
   gitCourseIntegrations?: Maybe<CourseIntegrations>;
   gitCourseSubmission?: Maybe<GitCourseSubmission>;
@@ -2094,6 +2095,11 @@ export type QueryDiscoursePostCommentsArgs = {
 
 export type QueryDiscoursePostsArgs = {
   spaceId: Scalars['String'];
+};
+
+
+export type QueryGetSpaceFromCreatorArgs = {
+  creatorId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -4385,6 +4391,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   discourseIndexRuns?: Resolver<Array<ResolversTypes['DiscourseIndexRun']>, ParentType, ContextType, RequireFields<QueryDiscourseIndexRunsArgs, 'spaceId'>>;
   discoursePostComments?: Resolver<Array<ResolversTypes['DiscoursePostComment']>, ParentType, ContextType, RequireFields<QueryDiscoursePostCommentsArgs, 'postId' | 'spaceId'>>;
   discoursePosts?: Resolver<Array<ResolversTypes['DiscoursePost']>, ParentType, ContextType, RequireFields<QueryDiscoursePostsArgs, 'spaceId'>>;
+  getSpaceFromCreator?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, Partial<QueryGetSpaceFromCreatorArgs>>;
   gitCourse?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<QueryGitCourseArgs, 'courseKey' | 'spaceId'>>;
   gitCourseIntegrations?: Resolver<Maybe<ResolversTypes['CourseIntegrations']>, ParentType, ContextType, RequireFields<QueryGitCourseIntegrationsArgs, 'key' | 'spaceId'>>;
   gitCourseSubmission?: Resolver<Maybe<ResolversTypes['GitCourseSubmission']>, ParentType, ContextType, RequireFields<QueryGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
