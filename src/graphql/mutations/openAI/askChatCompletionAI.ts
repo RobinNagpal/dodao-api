@@ -1,15 +1,15 @@
 import { MutationAskChatCompletionAiArgs, OpenAiChatCompletionResponse } from '@/graphql/generated/graphql';
 
 import { formatAxiosError } from '@/helpers/adapters/formatAxiosError';
-import { Configuration, OpenAIApi } from 'openai';
-import { CreateChatCompletionRequest } from 'openai/api';
+import OpenAI from 'openai';
+import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources';
 
 export default async function askChatCompletionAI(
   _: any,
   args: MutationAskChatCompletionAiArgs & { retryCount?: number },
 ): Promise<OpenAiChatCompletionResponse> {
   try {
-    const createCompletionRequest: CreateChatCompletionRequest = {
+    const createCompletionRequest: ChatCompletionCreateParamsNonStreaming = {
       model: args.input.model || 'gpt-3.5-turbo',
       messages: args.input.messages,
       temperature: args.input.temperature || 0.4,
@@ -20,15 +20,13 @@ export default async function askChatCompletionAI(
       n: args.input.n || 1,
     };
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const openai = new OpenAIApi(configuration);
+    const completion = await openai.chat.completions.create(createCompletionRequest, { timeout: 5 * 60 * 1000 });
 
-    const completion = await openai.createChatCompletion(createCompletionRequest, { timeout: 5 * 60 * 1000 });
-
-    return completion.data!;
+    return completion;
   } catch (error) {
     console.error(formatAxiosError(error));
     await new Promise((resolve) => setTimeout(resolve, 10000));

@@ -52,7 +52,7 @@
     "langchain": "0.0.165",
     "lodash": "4.17.21",
     "natural": "6.5.0",
-    "openai": "3.3.0",
+    "openai": "^4.28.0",
     "os": "^0.1.2",
     "pdf-image": "2.0.0",
     "pdfkit": "0.13.0",

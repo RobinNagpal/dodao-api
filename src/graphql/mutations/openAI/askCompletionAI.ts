@@ -1,9 +1,9 @@
 import { MutationAskCompletionAiArgs, OpenAiCompletionResponse } from '@/graphql/generated/graphql';
-import { Configuration, OpenAIApi } from 'openai';
-import { CreateCompletionRequest } from 'openai/api';
+import OpenAI from 'openai';
+import { CompletionCreateParamsNonStreaming } from 'openai/resources';
 
 export default async function askCompletionAI(_: any, args: MutationAskCompletionAiArgs): Promise<OpenAiCompletionResponse> {
-  const createCompletionRequest: CreateCompletionRequest = {
+  const createCompletionRequest: CompletionCreateParamsNonStreaming = {
     model: 'gpt-3.5-turbo-instruct',
     prompt: args.input.prompt,
     temperature: args.input.temperature || 0.4,
@@ -14,13 +14,12 @@ export default async function askCompletionAI(_: any, args: MutationAskCompletio
     n: args.input.n || 1,
   };
 
-  const configuration = new Configuration({
+  const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
 
   console.log('createCompletionRequest', createCompletionRequest);
-  const openai = new OpenAIApi(configuration);
 
-  const completion = await openai.createCompletion(createCompletionRequest, { timeout: 5 * 60 * 1000 });
-  return completion.data!;
+  const completion = await openai.completions.create(createCompletionRequest, { timeout: 5 * 60 * 1000 });
+  return completion;
 }
