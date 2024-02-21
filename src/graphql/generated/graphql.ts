@@ -1150,6 +1150,7 @@ export type Mutation = {
   upsertProjectByteCollection: ProjectByteCollection;
   upsertProjectGalaxyAccessToken: Space;
   upsertProjectShortVideo: ProjectShortVideo;
+  upsertRoute53Record: Route53Record;
   upsertShortVideo: ShortVideo;
   upsertSimulation: Simulation;
   upsertSpaceAcademyRepository: Space;
@@ -1744,6 +1745,11 @@ export type MutationUpsertProjectShortVideoArgs = {
 };
 
 
+export type MutationUpsertRoute53RecordArgs = {
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationUpsertShortVideoArgs = {
   shortVideo: ShortVideoInput;
   spaceId: Scalars['String'];
@@ -1975,6 +1981,7 @@ export type Query = {
   projects: Array<Project>;
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
+  route53Record?: Maybe<Route53Record>;
   route53Records: Array<Route53Record>;
   scrapedUrlInfos: Array<ScrapedUrlInfo>;
   searchChatbotFAQs: Array<SearchedChatbotFaq>;
@@ -2212,6 +2219,11 @@ export type QueryRawGitCourseArgs = {
 
 
 export type QueryRawGitCoursesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryRoute53RecordArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -4239,6 +4251,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertProjectByteCollection?: Resolver<ResolversTypes['ProjectByteCollection'], ParentType, ContextType, RequireFields<MutationUpsertProjectByteCollectionArgs, 'input' | 'projectId'>>;
   upsertProjectGalaxyAccessToken?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertProjectGalaxyAccessTokenArgs, 'accessToken' | 'spaceId'>>;
   upsertProjectShortVideo?: Resolver<ResolversTypes['ProjectShortVideo'], ParentType, ContextType, RequireFields<MutationUpsertProjectShortVideoArgs, 'projectId' | 'shortVideo'>>;
+  upsertRoute53Record?: Resolver<ResolversTypes['Route53Record'], ParentType, ContextType, RequireFields<MutationUpsertRoute53RecordArgs, 'spaceId'>>;
   upsertShortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<MutationUpsertShortVideoArgs, 'shortVideo' | 'spaceId'>>;
   upsertSimulation?: Resolver<ResolversTypes['Simulation'], ParentType, ContextType, RequireFields<MutationUpsertSimulationArgs, 'input' | 'spaceId'>>;
   upsertSpaceAcademyRepository?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceAcademyRepositoryArgs, 'academyRepository' | 'spaceId'>>;
@@ -4412,6 +4425,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   projects?: Resolver<Array<ResolversTypes['Project']>, ParentType, ContextType, Partial<QueryProjectsArgs>>;
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
+  route53Record?: Resolver<Maybe<ResolversTypes['Route53Record']>, ParentType, ContextType, RequireFields<QueryRoute53RecordArgs, 'spaceId'>>;
   route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
   scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   searchChatbotFAQs?: Resolver<Array<ResolversTypes['SearchedChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;

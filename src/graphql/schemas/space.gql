@@ -10,6 +10,8 @@ extend type Query {
   vercelDomainRecords: [VercelDomain!]!
 
   getSpaceFromCreator(creatorUsername: String): Space
+
+  route53Record(spaceId: String!): Route53Record
 }
 
 extend type Mutation {
@@ -52,6 +54,8 @@ extend type Mutation {
   updateThemeColors(spaceId: ID!, themeColors: ThemeColorsInput!): Space!
 
   updateSpaceCreator(spaceId: String!, creator: String!): Space!
+
+  upsertRoute53Record(spaceId: String!): Route53Record!
 }
 
 type Space {

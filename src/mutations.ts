@@ -55,6 +55,7 @@ import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
+import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
 import updateSpaceCreator from './graphql/mutations/space/updateSpaceCreator';
 import updateThemeColors from './graphql/mutations/space/updateThemeColors';
@@ -143,5 +144,8 @@ export default {
   upsertShortVideo,
 
   updateThemeColors,
+
+  upsertRoute53Record,
+
   ...mutations,
 };

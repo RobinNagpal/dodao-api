@@ -47,6 +47,7 @@ import simulation from '@/graphql/queries/simulation/simulation';
 import simulations from '@/graphql/queries/simulation/simulations';
 import getSpace from '@/graphql/queries/space/getSpace';
 import getSpaceFromCreator from './graphql/queries/space/getSpaceFromCreator';
+import route53Record from '@/graphql/queries/space/route53Record';
 import route53Records from '@/graphql/queries/space/route53Records';
 import spaces from '@/graphql/queries/space/spaces';
 import vercelDomainRecords from '@/graphql/queries/space/vercelDomainRecords';
@@ -90,6 +91,7 @@ export default {
 
   space: getSpace,
   spaces,
+  route53Record,
   route53Records,
   vercelDomainRecords,
   getSpaceFromCreator,

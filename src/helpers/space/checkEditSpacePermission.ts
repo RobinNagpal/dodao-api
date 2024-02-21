@@ -70,3 +70,18 @@ export function checkEditSpacePermission(space: Space, context: IncomingMessage)
 
   return decodedJWT;
 }
+
+export function checkIsCreator(space: Space, context: IncomingMessage): JwtPayload & DoDaoJwtTokenPayload {
+  const { decodedJWT, canEditSpace } = canEditGitSpace(context, space);
+
+  if (space.creator.toLowerCase() !== decodedJWT.accountId.toLowerCase()) {
+    throw new Error(
+      'Not allowed to edit space :' +
+        JSON.stringify({
+          decodedJWT,
+        }),
+    );
+  }
+
+  return decodedJWT;
+}
