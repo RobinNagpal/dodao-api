@@ -57,6 +57,7 @@ import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSett
 import updateSpace from '@/graphql/mutations/space/updateSpace';
 import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
+import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import updateSpaceCreator from './graphql/mutations/space/updateSpaceCreator';
 import updateThemeColors from './graphql/mutations/space/updateThemeColors';
 import updateSeoOfProject from './graphql/mutations/project/updateSeoOfProject';
@@ -146,6 +147,7 @@ export default {
   updateThemeColors,
 
   upsertRoute53Record,
+  upsertVercelDomainRecord,
 
   ...mutations,
 };

@@ -1159,6 +1159,7 @@ export type Mutation = {
   upsertSpaceLoaderInfo: Space;
   upsertSummaryOfDiscoursePost: DiscoursePost;
   upsertTimeline: Timeline;
+  upsertVercelDomainRecord: VercelDomain;
 };
 
 
@@ -1797,6 +1798,11 @@ export type MutationUpsertTimelineArgs = {
   spaceId: Scalars['String'];
 };
 
+
+export type MutationUpsertVercelDomainRecordArgs = {
+  spaceId: Scalars['String'];
+};
+
 export type OpenAiChatCompletionChoice = {
   __typename?: 'OpenAIChatCompletionChoice';
   finish_reason?: Maybe<Scalars['String']>;
@@ -1982,7 +1988,6 @@ export type Query = {
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
   route53Record?: Maybe<Route53Record>;
-  route53Records: Array<Route53Record>;
   scrapedUrlInfos: Array<ScrapedUrlInfo>;
   searchChatbotFAQs: Array<SearchedChatbotFaq>;
   shortVideo: ShortVideo;
@@ -1995,7 +2000,7 @@ export type Query = {
   spaces?: Maybe<Array<Space>>;
   timeline: Timeline;
   timelines: Array<Timeline>;
-  vercelDomainRecords: Array<VercelDomain>;
+  vercelDomainRecord?: Maybe<VercelDomain>;
   websiteScrapingInfos: Array<WebsiteScrapingInfo>;
 };
 
@@ -2286,6 +2291,11 @@ export type QueryTimelineArgs = {
 
 
 export type QueryTimelinesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryVercelDomainRecordArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2940,12 +2950,12 @@ export type UsernameAndNameInput = {
 export type VercelDomain = {
   __typename?: 'VercelDomain';
   apexName: Scalars['String'];
-  createdAt?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTimeISO']>;
   gitBranch?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   projectId: Scalars['String'];
   redirect?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTimeISO']>;
   verified: Scalars['Boolean'];
 };
 
@@ -4260,6 +4270,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertSpaceLoaderInfo?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertSpaceLoaderInfoArgs, 'input' | 'spaceId'>>;
   upsertSummaryOfDiscoursePost?: Resolver<ResolversTypes['DiscoursePost'], ParentType, ContextType, RequireFields<MutationUpsertSummaryOfDiscoursePostArgs, 'input' | 'spaceId'>>;
   upsertTimeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<MutationUpsertTimelineArgs, 'input' | 'spaceId'>>;
+  upsertVercelDomainRecord?: Resolver<ResolversTypes['VercelDomain'], ParentType, ContextType, RequireFields<MutationUpsertVercelDomainRecordArgs, 'spaceId'>>;
 };
 
 export type OpenAiChatCompletionChoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpenAIChatCompletionChoice'] = ResolversParentTypes['OpenAIChatCompletionChoice']> = {
@@ -4426,7 +4437,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
   route53Record?: Resolver<Maybe<ResolversTypes['Route53Record']>, ParentType, ContextType, RequireFields<QueryRoute53RecordArgs, 'spaceId'>>;
-  route53Records?: Resolver<Array<ResolversTypes['Route53Record']>, ParentType, ContextType>;
   scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   searchChatbotFAQs?: Resolver<Array<ResolversTypes['SearchedChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;
   shortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<QueryShortVideoArgs, 'id' | 'spaceId'>>;
@@ -4439,7 +4449,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   spaces?: Resolver<Maybe<Array<ResolversTypes['Space']>>, ParentType, ContextType>;
   timeline?: Resolver<ResolversTypes['Timeline'], ParentType, ContextType, RequireFields<QueryTimelineArgs, 'spaceId' | 'timelineId'>>;
   timelines?: Resolver<Array<ResolversTypes['Timeline']>, ParentType, ContextType, RequireFields<QueryTimelinesArgs, 'spaceId'>>;
-  vercelDomainRecords?: Resolver<Array<ResolversTypes['VercelDomain']>, ParentType, ContextType>;
+  vercelDomainRecord?: Resolver<Maybe<ResolversTypes['VercelDomain']>, ParentType, ContextType, RequireFields<QueryVercelDomainRecordArgs, 'spaceId'>>;
   websiteScrapingInfos?: Resolver<Array<ResolversTypes['WebsiteScrapingInfo']>, ParentType, ContextType, RequireFields<QueryWebsiteScrapingInfosArgs, 'spaceId'>>;
 };
 
@@ -4708,12 +4718,12 @@ export type UsernameAndNameResolvers<ContextType = any, ParentType extends Resol
 
 export type VercelDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes['VercelDomain'] = ResolversParentTypes['VercelDomain']> = {
   apexName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   gitBranch?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   projectId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   redirect?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   verified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

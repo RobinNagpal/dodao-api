@@ -5,9 +5,7 @@ extend type Query {
 
   spaces: [Space!]
 
-  route53Records: [Route53Record!]!
-
-  vercelDomainRecords: [VercelDomain!]!
+  vercelDomainRecord(spaceId: String!): VercelDomain
 
   getSpaceFromCreator(creatorUsername: String): Space
 
@@ -56,6 +54,8 @@ extend type Mutation {
   updateSpaceCreator(spaceId: String!, creator: String!): Space!
 
   upsertRoute53Record(spaceId: String!): Route53Record!
+
+  upsertVercelDomainRecord(spaceId: String!): VercelDomain!
 }
 
 type Space {
@@ -186,8 +186,8 @@ type VercelDomain {
   projectId: String!
   redirect: String
   gitBranch: String
-  updatedAt: Int
-  createdAt: Int
+  updatedAt: DateTimeISO
+  createdAt: DateTimeISO
   verified: Boolean!
 }
 

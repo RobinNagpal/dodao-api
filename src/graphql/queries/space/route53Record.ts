@@ -23,7 +23,6 @@ export async function getRoute53RecordBySpace(spaceId: string) {
     })
     .promise();
 
-  console.log('records', JSON.stringify(records, null, 2));
   const record = records.ResourceRecordSets.find((record) => record.Name === domainName && record.Type === 'CNAME');
 
   if (record) {
