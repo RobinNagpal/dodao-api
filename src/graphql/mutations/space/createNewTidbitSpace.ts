@@ -1,6 +1,7 @@
 import { MutationCreateSpaceArgs } from '@/graphql/generated/graphql';
 import { upsertSpaceIntegrations } from '@/graphql/mutations/space/upsertSpaceIntegrations';
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
+import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { isDoDAOSuperAdmin } from '@/helpers/space/isSuperAdmin';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
@@ -8,18 +9,49 @@ import { IncomingMessage } from 'http';
 import { v4 } from 'uuid';
 
 export default async function createNewTidbitSpace(_: unknown, args: MutationCreateSpaceArgs, context: IncomingMessage) {
+  const decoded = getDecodedJwtFromContext(context);
+  const username = decoded.username;
+  if (!username) {
+    throw new Error('Not authorized');
+  }
+
+  const existingSpaceForCreator = await prisma.space.findFirst({
+    where: {
+      creator: username,
+    },
+  });
+
+  if (existingSpaceForCreator) {
+    throw new Error('Space already for this user');
+  }
+
+  const existingSpaceForId = await prisma.space.findFirst({
+    where: {
+      id: args.spaceInput.id,
+    },
+  });
+
+  if (existingSpaceForId) {
+    throw new Error('Space already exists with this id');
+  }
+
   const input = args.spaceInput;
 
   const spaceInput: Space = {
     admins: input.admins,
     adminUsernames: input.adminUsernames,
-    adminUsernamesV1: input.adminUsernamesV1,
+    adminUsernamesV1: [
+      {
+        nameOfTheUser: username,
+        username: username,
+      },
+    ],
     avatar: input.avatar,
     creator: input.creator,
     features: input.features || [],
     id: input.id,
     type: input.type,
-    inviteLinks: input.inviteLinks || {},
+    inviteLinks: {},
     name: input.name,
     skin: input.skin,
     settings: input || {},
@@ -28,8 +60,8 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     updatedAt: new Date(),
     discordInvite: null,
     telegramInvite: null,
-    domains: input.domains,
-    botDomains: input.botDomains || [],
+    domains: [`${input.id}.dodao.io`],
+    botDomains: [],
     guideSettings: {},
     authSettings: {},
     socialSettings: {},
@@ -46,33 +78,15 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     },
   });
 
-  await prisma.spaceIntegration.upsert({
-    create: {
+  await prisma.spaceIntegration.create({
+    data: {
       id: v4(),
       spaceId: spaceInput.id,
-      academyRepository: spaceInput.spaceIntegrations.academyRepository,
-      discordGuildId: spaceInput.spaceIntegrations.discordGuildId,
-      gitGuideRepositories: spaceInput.spaceIntegrations.gitGuideRepositories,
-      gnosisSafeWallets: spaceInput.spaceIntegrations.gnosisSafeWallets,
 
-      projectGalaxyTokenLastFour: spaceInput.spaceIntegrations.projectGalaxyTokenLastFour,
       updatedAt: new Date(),
-      updatedBy: user.accountId,
-    },
-    update: {
-      spaceId: spaceInput.id,
-      academyRepository: spaceInput.spaceIntegrations.academyRepository,
-      discordGuildId: spaceInput.spaceIntegrations.discordGuildId,
-      gitGuideRepositories: spaceInput.spaceIntegrations.gitGuideRepositories,
-      gnosisSafeWallets: spaceInput.spaceIntegrations.gnosisSafeWallets,
-      projectGalaxyTokenLastFour: spaceInput.spaceIntegrations.projectGalaxyTokenLastFour,
-      updatedBy: user.accountId,
-    },
-    where: {
-      spaceId: spaceInput.id,
+      updatedBy: username,
     },
   });
-  await upsertSpaceIntegrations(input, doDAOSuperAdmin);
 
   return getSpaceWithIntegrations(spaceInput.id);
 }

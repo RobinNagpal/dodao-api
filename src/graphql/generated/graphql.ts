@@ -1063,6 +1063,7 @@ export type Mutation = {
   copyAllBytesFromGitToDatabase: Scalars['Boolean'];
   createArticleIndexingInfo: ArticleIndexingInfo;
   createByteCollection: ByteCollection;
+  createNewTidbitSpace: Space;
   createSignedUrl: Scalars['String'];
   createSpace: Space;
   createSummaryOfContent: OpenAiTextResponse;
@@ -1235,6 +1236,11 @@ export type MutationCreateArticleIndexingInfoArgs = {
 
 export type MutationCreateByteCollectionArgs = {
   input: CreateByteCollectionInput;
+};
+
+
+export type MutationCreateNewTidbitSpaceArgs = {
+  spaceInput: UpsertSpaceInput;
 };
 
 
@@ -4174,6 +4180,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   copyAllBytesFromGitToDatabase?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   createArticleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<MutationCreateArticleIndexingInfoArgs, 'articleUrl' | 'spaceId'>>;
   createByteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<MutationCreateByteCollectionArgs, 'input'>>;
+  createNewTidbitSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateNewTidbitSpaceArgs, 'spaceInput'>>;
   createSignedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateSignedUrlArgs, 'input' | 'spaceId'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'spaceInput'>>;
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;

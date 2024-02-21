@@ -47,6 +47,7 @@ import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import upsertProjectShortVideo from '@/graphql/mutations/project/upsertProjectShortVideo';
 import upsertShortVideo from '@/graphql/mutations/shortVideo/upsertShortVideo';
+import createNewTidbitSpace from '@/graphql/mutations/space/createNewTidbitSpace';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import { dropPineconeNamespace } from '@/graphql/mutations/space/dropPineconeNamespace';
 import sendEmail from '@/graphql/mutations/space/sendEmail';
@@ -74,6 +75,7 @@ export default {
   generateImage,
 
   createSpace,
+  createNewTidbitSpace,
   updateSpace,
   updateSpaceCreator,
   sendEmail,

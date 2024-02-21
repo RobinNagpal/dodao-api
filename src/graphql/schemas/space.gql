@@ -15,6 +15,8 @@ extend type Query {
 extend type Mutation {
   createSpace(spaceInput: UpsertSpaceInput!): Space!
 
+  createNewTidbitSpace(spaceInput: UpsertSpaceInput!): Space!
+
   updateSpace(spaceInput: UpsertSpaceInput!): Space!
 
   updateGuideSettings(spaceId: String!, input: GuideSettingsInput!): Space!
