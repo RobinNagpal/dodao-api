@@ -31,7 +31,7 @@ export default async function upsertDomainRecords(_: unknown, args: MutationUpse
     vercelDomainRecord = JSON.parse(vercelDomainRecord);
   }
   if (!vercelDomainRecord || vercelDomainRecord?.error) {
-    vercelDomainRecord = await upsertVercelDomainRecord(_, args, context);
+    vercelDomainRecord = await upsertVercelDomainRecord(_, args);
     console.log('vercelDomainRecord', JSON.stringify(vercelDomainRecord || { error: 'No vercelDomainRecord' }));
   }
 

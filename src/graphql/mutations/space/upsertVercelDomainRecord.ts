@@ -11,7 +11,7 @@ async function upsertVercelDomain(spaceId: string): Promise<void> {
 
   const endpoint = `https://api.vercel.com/v10/projects/dodao-ui/domains?teamId=robinnagpal-s-team`;
 
-  const domainName: string = `${spaceId}.dodao.io`; // Replace with your domain name
+  const domainName = `${spaceId}.dodao.io`; // Replace with your domain name
   const headers = {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',

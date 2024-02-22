@@ -10,7 +10,7 @@ AWS.config.update({ region: 'us-east-1' });
 
 const route53 = new AWS.Route53();
 
-const hostedZoneId: string = 'Z10350102V7MAUWYWINFH';
+const hostedZoneId = 'Z10350102V7MAUWYWINFH';
 /**
  * Creates a subdomain record in a specified hosted zone.
  *
