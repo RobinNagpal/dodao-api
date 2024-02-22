@@ -58,6 +58,13 @@ extend type Mutation {
   upsertRoute53Record(spaceId: String!): Route53Record!
 
   upsertVercelDomainRecord(spaceId: String!): VercelDomain!
+
+  upsertDomainRecords(spaceId: String!): DomainRecords!
+}
+
+type DomainRecords {
+  route53Record: Route53Record!
+  vercelDomainRecord: VercelDomain!
 }
 
 type Space {
@@ -182,6 +189,13 @@ type Route53Record {
   records: [String]
 }
 
+type VercelVerification {
+  type: String!
+  domain: String!
+  value: String!
+  reason: String!
+}
+
 type VercelDomain {
   name: String!
   apexName: String!
@@ -191,6 +205,7 @@ type VercelDomain {
   updatedAt: DateTimeISO
   createdAt: DateTimeISO
   verified: Boolean!
+  verification: [VercelVerification!]
 }
 
 type SpaceLoadersInfo {

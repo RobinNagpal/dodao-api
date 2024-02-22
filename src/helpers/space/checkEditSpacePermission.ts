@@ -45,6 +45,14 @@ export function canEditGitSpace(context: IncomingMessage, space: Space) {
     return { decodedJWT: doDAOMember, canEditSpace: true, user: doDAOMember.accountId.toLowerCase() };
   }
 
+  const isCreator =
+    space.creator.toLowerCase() === getDecodedJwtFromContext(context).username.toLowerCase() ||
+    space.creator.toLowerCase() === getDecodedJwtFromContext(context).accountId.toLowerCase();
+
+  if (isCreator) {
+    return { decodedJWT: getDecodedJwtFromContext(context), canEditSpace: true, user: getDecodedJwtFromContext(context).accountId.toLowerCase() };
+  }
+
   const doDAOAdmin = isDoDAOSuperAdmin(context);
 
   if (doDAOAdmin) {

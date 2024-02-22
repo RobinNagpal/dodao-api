@@ -502,6 +502,12 @@ export type DiscoursePostComment = {
   spaceId: Scalars['String'];
 };
 
+export type DomainRecords = {
+  __typename?: 'DomainRecords';
+  route53Record: Route53Record;
+  vercelDomainRecord: VercelDomain;
+};
+
 export type DownloadAndCleanContentResponse = {
   __typename?: 'DownloadAndCleanContentResponse';
   content: Scalars['String'];
@@ -1141,6 +1147,7 @@ export type Mutation = {
   upsertChatbotFAQ: ChatbotFaq;
   upsertChatbotUserQuestion: ChatbotUserQuestion;
   upsertCourseIntegrations: CourseIntegrations;
+  upsertDomainRecords: DomainRecords;
   upsertGitCourse?: Maybe<SummarizedGitCourse>;
   upsertGitCourseTopicSubmission: GitCourseSubmission;
   upsertGnosisSafeWallets: Space;
@@ -1689,6 +1696,11 @@ export type MutationUpsertChatbotUserQuestionArgs = {
 
 export type MutationUpsertCourseIntegrationsArgs = {
   courseIntegrationInput: UpsertCourseIntegrationsInput;
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpsertDomainRecordsArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -2962,7 +2974,16 @@ export type VercelDomain = {
   projectId: Scalars['String'];
   redirect?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTimeISO']>;
+  verification?: Maybe<Array<VercelVerification>>;
   verified: Scalars['Boolean'];
+};
+
+export type VercelVerification = {
+  __typename?: 'VercelVerification';
+  domain: Scalars['String'];
+  reason: Scalars['String'];
+  type: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type WebsiteScrapingInfo = {
@@ -3119,6 +3140,7 @@ export type ResolversTypes = {
   DiscourseIndexRun: ResolverTypeWrapper<DiscourseIndexRun>;
   DiscoursePost: ResolverTypeWrapper<DiscoursePost>;
   DiscoursePostComment: ResolverTypeWrapper<DiscoursePostComment>;
+  DomainRecords: ResolverTypeWrapper<DomainRecords>;
   DownloadAndCleanContentResponse: ResolverTypeWrapper<DownloadAndCleanContentResponse>;
   DownloadLinkInfo: ResolverTypeWrapper<DownloadLinkInfo>;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
@@ -3272,6 +3294,7 @@ export type ResolversTypes = {
   UsernameAndName: ResolverTypeWrapper<UsernameAndName>;
   UsernameAndNameInput: UsernameAndNameInput;
   VercelDomain: ResolverTypeWrapper<VercelDomain>;
+  VercelVerification: ResolverTypeWrapper<VercelVerification>;
   WebsiteScrapingInfo: ResolverTypeWrapper<WebsiteScrapingInfo>;
 };
 
@@ -3335,6 +3358,7 @@ export type ResolversParentTypes = {
   DiscourseIndexRun: DiscourseIndexRun;
   DiscoursePost: DiscoursePost;
   DiscoursePostComment: DiscoursePostComment;
+  DomainRecords: DomainRecords;
   DownloadAndCleanContentResponse: DownloadAndCleanContentResponse;
   DownloadLinkInfo: DownloadLinkInfo;
   ExtractRelevantTextForTopicInput: ExtractRelevantTextForTopicInput;
@@ -3487,6 +3511,7 @@ export type ResolversParentTypes = {
   UsernameAndName: UsernameAndName;
   UsernameAndNameInput: UsernameAndNameInput;
   VercelDomain: VercelDomain;
+  VercelVerification: VercelVerification;
   WebsiteScrapingInfo: WebsiteScrapingInfo;
 };
 
@@ -3796,6 +3821,12 @@ export type DiscoursePostCommentResolvers<ContextType = any, ParentType extends 
   indexedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DomainRecordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['DomainRecords'] = ResolversParentTypes['DomainRecords']> = {
+  route53Record?: Resolver<ResolversTypes['Route53Record'], ParentType, ContextType>;
+  vercelDomainRecord?: Resolver<ResolversTypes['VercelDomain'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4258,6 +4289,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertChatbotFAQ?: Resolver<ResolversTypes['ChatbotFAQ'], ParentType, ContextType, RequireFields<MutationUpsertChatbotFaqArgs, 'input' | 'spaceId'>>;
   upsertChatbotUserQuestion?: Resolver<ResolversTypes['ChatbotUserQuestion'], ParentType, ContextType, RequireFields<MutationUpsertChatbotUserQuestionArgs, 'input' | 'spaceId'>>;
   upsertCourseIntegrations?: Resolver<ResolversTypes['CourseIntegrations'], ParentType, ContextType, RequireFields<MutationUpsertCourseIntegrationsArgs, 'courseIntegrationInput' | 'spaceId'>>;
+  upsertDomainRecords?: Resolver<ResolversTypes['DomainRecords'], ParentType, ContextType, RequireFields<MutationUpsertDomainRecordsArgs, 'spaceId'>>;
   upsertGitCourse?: Resolver<Maybe<ResolversTypes['SummarizedGitCourse']>, ParentType, ContextType, RequireFields<MutationUpsertGitCourseArgs, 'gitCourseInput' | 'spaceId'>>;
   upsertGitCourseTopicSubmission?: Resolver<ResolversTypes['GitCourseSubmission'], ParentType, ContextType, RequireFields<MutationUpsertGitCourseTopicSubmissionArgs, 'gitCourseTopicSubmission' | 'spaceId'>>;
   upsertGnosisSafeWallets?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpsertGnosisSafeWalletsArgs, 'spaceId' | 'wallets'>>;
@@ -4731,7 +4763,16 @@ export type VercelDomainResolvers<ContextType = any, ParentType extends Resolver
   projectId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   redirect?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
+  verification?: Resolver<Maybe<Array<ResolversTypes['VercelVerification']>>, ParentType, ContextType>;
   verified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VercelVerificationResolvers<ContextType = any, ParentType extends ResolversParentTypes['VercelVerification'] = ResolversParentTypes['VercelVerification']> = {
+  domain?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4782,6 +4823,7 @@ export type Resolvers<ContextType = any> = {
   DiscourseIndexRun?: DiscourseIndexRunResolvers<ContextType>;
   DiscoursePost?: DiscoursePostResolvers<ContextType>;
   DiscoursePostComment?: DiscoursePostCommentResolvers<ContextType>;
+  DomainRecords?: DomainRecordsResolvers<ContextType>;
   DownloadAndCleanContentResponse?: DownloadAndCleanContentResponseResolvers<ContextType>;
   DownloadLinkInfo?: DownloadLinkInfoResolvers<ContextType>;
   GenerateImageResponse?: GenerateImageResponseResolvers<ContextType>;
@@ -4861,6 +4903,7 @@ export type Resolvers<ContextType = any> = {
   UserDiscordInfo?: UserDiscordInfoResolvers<ContextType>;
   UsernameAndName?: UsernameAndNameResolvers<ContextType>;
   VercelDomain?: VercelDomainResolvers<ContextType>;
+  VercelVerification?: VercelVerificationResolvers<ContextType>;
   WebsiteScrapingInfo?: WebsiteScrapingInfoResolvers<ContextType>;
 };
 

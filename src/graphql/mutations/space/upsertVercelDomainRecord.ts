@@ -1,6 +1,7 @@
-import { MutationUpsertVercelDomainRecordArgs } from '@/graphql/generated/graphql';
+import { MutationUpsertVercelDomainRecordArgs, VercelDomain, VercelVerification } from '@/graphql/generated/graphql';
+import { createTxtVerificationRecord } from '@/graphql/mutations/space/upsertRoute53Record';
 import { getSpaceById } from '@/graphql/operations/space';
-import { getVercelDomain } from '@/graphql/queries/space/vercelDomainRecord';
+import { getVercelDomainRecordBySpace } from '@/graphql/queries/space/vercelDomainRecord';
 
 import axios from 'axios';
 import { IncomingMessage } from 'http';
@@ -44,5 +45,15 @@ export default async function upsertVercelDomainRecord(_: unknown, args: Mutatio
 
   await upsertVercelDomain(spaceById.id);
 
-  return await getVercelDomain(spaceById.id);
+  const domainRecord: VercelDomain | undefined = await getVercelDomainRecordBySpace(spaceById.id);
+  const verifications = domainRecord?.verification;
+  if (verifications?.length) {
+    for (const verification of verifications!) {
+      console.log('do verification', verification);
+      const v = verification as VercelVerification;
+      await createTxtVerificationRecord(v.domain, v.value, v.type);
+    }
+  }
+
+  return domainRecord;
 }

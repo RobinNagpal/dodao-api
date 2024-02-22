@@ -1,7 +1,7 @@
 import { QueryVercelDomainRecordArgs, VercelDomain } from '@/graphql/generated/graphql';
 import { IncomingMessage } from 'http';
 
-export async function getVercelDomain(spaceId: string): Promise<VercelDomain | undefined | any> {
+export async function getVercelDomainRecordBySpace(spaceId: string): Promise<VercelDomain | undefined | any> {
   const token = process.env.VERCEL_API_TOKEN!; // Replace with your Vercel API token
   const endpoint = `https://api.vercel.com/v9/projects/dodao-ui/domains/${spaceId}.dodao.io?teamId=robinnagpal-s-team`;
 
@@ -21,7 +21,7 @@ export async function getVercelDomain(spaceId: string): Promise<VercelDomain | u
 export default async function vercelDomainRecord(_: unknown, args: QueryVercelDomainRecordArgs, context: IncomingMessage) {
   // validateSuperAdmin(context);
 
-  const response = await getVercelDomain(args.spaceId);
+  const response = await getVercelDomainRecordBySpace(args.spaceId);
   if (!response.error) {
     console.log('response', response);
     return response;

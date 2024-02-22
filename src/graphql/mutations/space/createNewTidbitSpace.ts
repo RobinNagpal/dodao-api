@@ -1,5 +1,7 @@
 import { MutationCreateSpaceArgs } from '@/graphql/generated/graphql';
+import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import { upsertSpaceIntegrations } from '@/graphql/mutations/space/upsertSpaceIntegrations';
+import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
 import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { isDoDAOSuperAdmin } from '@/helpers/space/isSuperAdmin';
@@ -88,5 +90,7 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     },
   });
 
+  await upsertRoute53Record(_, { spaceId: spaceInput.id }, context);
+  await upsertVercelDomainRecord(_, { spaceId: spaceInput.id }, context);
   return getSpaceWithIntegrations(spaceInput.id);
 }

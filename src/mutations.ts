@@ -56,6 +56,7 @@ import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
+import upsertDomainRecords from '@/graphql/mutations/space/upsertDomainRecords';
 import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
 import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
@@ -150,6 +151,7 @@ export default {
 
   upsertRoute53Record,
   upsertVercelDomainRecord,
+  upsertDomainRecords,
 
   ...mutations,
 };

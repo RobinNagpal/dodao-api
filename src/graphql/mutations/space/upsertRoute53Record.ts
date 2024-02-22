@@ -11,6 +11,7 @@ AWS.config.update({ region: 'us-east-1' });
 
 const route53 = new AWS.Route53();
 
+const hostedZoneId: string = 'Z10350102V7MAUWYWINFH';
 /**
  * Creates a subdomain record in a specified hosted zone.
  *
@@ -21,7 +22,8 @@ const route53 = new AWS.Route53();
  * @param {number} ttl - The Time To Live (TTL) of the record in seconds.
  * @returns {Promise<AWS.Route53.ChangeResourceRecordSetsResponse>} The response from the Route 53 API.
  */
-async function createSubdomainRecord(hostedZoneId: string, spaceId: string, target: string, recordType = 'CNAME', ttl = 300) {
+
+async function createSubdomainRecord(spaceId: string, target: string, recordType = 'CNAME', ttl = 300) {
   const params = {
     HostedZoneId: hostedZoneId,
     ChangeBatch: {
@@ -49,12 +51,49 @@ async function createSubdomainRecord(hostedZoneId: string, spaceId: string, targ
   }
 }
 
+export async function createTxtVerificationRecord(domain: string, value: string, recordType: string, ttl = 300) {
+  const records = await route53
+    .listResourceRecordSets({
+      HostedZoneId: hostedZoneId,
+      StartRecordName: domain,
+    })
+    .promise();
+
+  const record = records.ResourceRecordSets.filter((record) => record.Name === domain);
+
+  const params = {
+    HostedZoneId: hostedZoneId,
+    ChangeBatch: {
+      Changes: [
+        {
+          Action: 'UPSERT', // Use 'UPSERT' to update an existing record or create a new one if it does not exist
+          ResourceRecordSet: {
+            Name: domain,
+            Type: recordType,
+            TTL: ttl,
+            ResourceRecords: [...record.map((r) => ({ Value: `"${r.Name}"` })), { Value: `"${value}"` }],
+          },
+        },
+      ],
+    },
+  };
+
+  try {
+    const response = await route53.changeResourceRecordSets(params).promise();
+    console.log('Subdomain record created:', response);
+    return response;
+  } catch (error) {
+    console.error('Error creating subdomain record:', error);
+    throw error;
+  }
+}
+
 export default async function upsertRoute53Record(_: unknown, args: MutationUpsertRoute53RecordArgs, context: IncomingMessage) {
   const spaceById = await getSpaceById(args.spaceId);
 
   // checkIsCreator(spaceById, context);
 
-  await createSubdomainRecord('Z10350102V7MAUWYWINFH', spaceById.id, 'cname.vercel-dns.com');
+  await createSubdomainRecord(spaceById.id, 'cname.vercel-dns.com');
 
   return await getRoute53RecordBySpace(spaceById.id);
 }
