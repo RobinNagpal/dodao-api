@@ -4,7 +4,6 @@ import { getSpaceById } from '@/graphql/operations/space';
 import { getVercelDomainRecordBySpace } from '@/graphql/queries/space/vercelDomainRecord';
 
 import axios from 'axios';
-import { IncomingMessage } from 'http';
 
 async function upsertVercelDomain(spaceId: string): Promise<void> {
   const token = process.env.VERCEL_API_TOKEN!; // Replace with your Vercel API token
@@ -38,7 +37,7 @@ async function upsertVercelDomain(spaceId: string): Promise<void> {
     console.error('Error adding domain:', error);
   }
 }
-export default async function upsertVercelDomainRecord(_: unknown, args: MutationUpsertVercelDomainRecordArgs, context: IncomingMessage) {
+export default async function upsertVercelDomainRecord(_: unknown, args: MutationUpsertVercelDomainRecordArgs) {
   const spaceById = await getSpaceById(args.spaceId);
 
   // checkIsCreator(spaceById, context);

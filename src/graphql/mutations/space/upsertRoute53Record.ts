@@ -1,7 +1,6 @@
 import { MutationUpsertRoute53RecordArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { getRoute53RecordBySpace } from '@/graphql/queries/space/route53Record';
-import { checkIsCreator } from '@/helpers/space/checkEditSpacePermission';
 
 import * as AWS from 'aws-sdk';
 import { IncomingMessage } from 'http';
