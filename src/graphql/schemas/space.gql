@@ -5,15 +5,17 @@ extend type Query {
 
   spaces: [Space!]
 
-  route53Records: [Route53Record!]!
-
-  vercelDomainRecords: [VercelDomain!]!
+  vercelDomainRecord(spaceId: String!): VercelDomain
 
   getSpaceFromCreator(creatorUsername: String): Space
+
+  route53Record(spaceId: String!): Route53Record
 }
 
 extend type Mutation {
   createSpace(spaceInput: UpsertSpaceInput!): Space!
+
+  createNewTidbitSpace(spaceInput: UpsertSpaceInput!): Space!
 
   updateSpace(spaceInput: UpsertSpaceInput!): Space!
 
@@ -52,6 +54,17 @@ extend type Mutation {
   updateThemeColors(spaceId: ID!, themeColors: ThemeColorsInput!): Space!
 
   updateSpaceCreator(spaceId: String!, creator: String!): Space!
+
+  upsertRoute53Record(spaceId: String!): Route53Record!
+
+  upsertVercelDomainRecord(spaceId: String!): VercelDomain!
+
+  upsertDomainRecords(spaceId: String!): DomainRecords!
+}
+
+type DomainRecords {
+  route53Record: Route53Record!
+  vercelDomainRecord: VercelDomain!
 }
 
 type Space {
@@ -176,15 +189,23 @@ type Route53Record {
   records: [String]
 }
 
+type VercelVerification {
+  type: String!
+  domain: String!
+  value: String!
+  reason: String!
+}
+
 type VercelDomain {
   name: String!
   apexName: String!
   projectId: String!
   redirect: String
   gitBranch: String
-  updatedAt: Int
-  createdAt: Int
+  updatedAt: DateTimeISO
+  createdAt: DateTimeISO
   verified: Boolean!
+  verification: [VercelVerification!]
 }
 
 type SpaceLoadersInfo {

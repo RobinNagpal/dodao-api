@@ -47,6 +47,7 @@ import upsertProjectByte from '@/graphql/mutations/project/upsertProjectByte';
 import upsertProjectByteCollection from '@/graphql/mutations/project/upsertProjectByteCollection';
 import upsertProjectShortVideo from '@/graphql/mutations/project/upsertProjectShortVideo';
 import upsertShortVideo from '@/graphql/mutations/shortVideo/upsertShortVideo';
+import createNewTidbitSpace from '@/graphql/mutations/space/createNewTidbitSpace';
 import createSpace from '@/graphql/mutations/space/createSpace';
 import { dropPineconeNamespace } from '@/graphql/mutations/space/dropPineconeNamespace';
 import sendEmail from '@/graphql/mutations/space/sendEmail';
@@ -55,7 +56,10 @@ import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
+import upsertDomainRecords from '@/graphql/mutations/space/upsertDomainRecords';
+import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
+import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import updateSpaceCreator from './graphql/mutations/space/updateSpaceCreator';
 import updateThemeColors from './graphql/mutations/space/updateThemeColors';
 import updateSeoOfProject from './graphql/mutations/project/updateSeoOfProject';
@@ -72,6 +76,7 @@ export default {
   generateImage,
 
   createSpace,
+  createNewTidbitSpace,
   updateSpace,
   updateSpaceCreator,
   sendEmail,
@@ -143,5 +148,10 @@ export default {
   upsertShortVideo,
 
   updateThemeColors,
+
+  upsertRoute53Record,
+  upsertVercelDomainRecord,
+  upsertDomainRecords,
+
   ...mutations,
 };

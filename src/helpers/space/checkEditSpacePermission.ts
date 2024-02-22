@@ -45,6 +45,14 @@ export function canEditGitSpace(context: IncomingMessage, space: Space) {
     return { decodedJWT: doDAOMember, canEditSpace: true, user: doDAOMember.accountId.toLowerCase() };
   }
 
+  const isCreator =
+    space.creator.toLowerCase() === getDecodedJwtFromContext(context).username.toLowerCase() ||
+    space.creator.toLowerCase() === getDecodedJwtFromContext(context).accountId.toLowerCase();
+
+  if (isCreator) {
+    return { decodedJWT: getDecodedJwtFromContext(context), canEditSpace: true, user: getDecodedJwtFromContext(context).accountId.toLowerCase() };
+  }
+
   const doDAOAdmin = isDoDAOSuperAdmin(context);
 
   if (doDAOAdmin) {
@@ -60,6 +68,21 @@ export function checkEditSpacePermission(space: Space, context: IncomingMessage)
   const { decodedJWT, canEditSpace } = canEditGitSpace(context, space);
 
   if (!canEditSpace) {
+    throw new Error(
+      'Not allowed to edit space :' +
+        JSON.stringify({
+          decodedJWT,
+        }),
+    );
+  }
+
+  return decodedJWT;
+}
+
+export function checkIsCreator(space: Space, context: IncomingMessage): JwtPayload & DoDaoJwtTokenPayload {
+  const { decodedJWT, canEditSpace } = canEditGitSpace(context, space);
+
+  if (space.creator.toLowerCase() !== decodedJWT.accountId.toLowerCase()) {
     throw new Error(
       'Not allowed to edit space :' +
         JSON.stringify({
