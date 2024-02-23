@@ -2,6 +2,7 @@ import { MutationUpsertVercelDomainRecordArgs, VercelDomain, VercelVerification 
 import { createTxtVerificationRecord } from '@/graphql/mutations/space/upsertRoute53Record';
 import { getSpaceById } from '@/graphql/operations/space';
 import { getVercelDomainRecordBySpace } from '@/graphql/queries/space/vercelDomainRecord';
+import { logError } from '@/helpers/errorLogger';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 
 import axios from 'axios';
@@ -36,6 +37,7 @@ async function upsertVercelDomain(spaceId: string): Promise<void> {
       console.error('Error adding domain:', domainResponse.data);
     }
   } catch (error) {
+    logError(error?.toString() || `Error adding subdomain record ${spaceId}.tidbitshub.org`, {}, error as any, null, null);
     console.error('Error adding domain:', error);
   }
 }

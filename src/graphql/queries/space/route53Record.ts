@@ -11,7 +11,7 @@ const hostedZoneId = 'Z07182107631KUF0WL7K';
 
 export async function getRoute53RecordBySpace(spaceId: string) {
   // Assuming the domain format is {spaceId}.dodao.io
-  const domainName = `${spaceId}.tidbitshub.org`; // Note: DNS records often end with a dot
+  const domainName = `${spaceId}.tidbitshub.org.`; // Note: DNS records often end with a dot
 
   const records = await route53
     .listResourceRecordSets({
@@ -21,6 +21,7 @@ export async function getRoute53RecordBySpace(spaceId: string) {
     })
     .promise();
 
+  console.log('records', JSON.stringify(records));
   const record = records.ResourceRecordSets.find((record) => record.Name === domainName && record.Type === 'CNAME');
 
   if (record) {

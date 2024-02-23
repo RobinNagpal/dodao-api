@@ -1,6 +1,7 @@
 import { MutationUpsertRoute53RecordArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { getRoute53RecordBySpace } from '@/graphql/queries/space/route53Record';
+import { logError } from '@/helpers/errorLogger';
 
 import * as AWS from 'aws-sdk';
 import { IncomingMessage } from 'http';
@@ -45,7 +46,7 @@ async function createSubdomainRecord(spaceId: string, target: string, recordType
     console.log('Subdomain record created:', response);
     return response;
   } catch (error) {
-    console.error('Error creating subdomain record:', error);
+    logError(error?.toString() || `Error creating subdomain record ${spaceId}.tidbitshub.org`, {}, error as any, null, null);
     throw error;
   }
 }
@@ -82,7 +83,7 @@ export async function createTxtVerificationRecord(domain: string, value: string,
     console.log('Subdomain record created:', response);
     return response;
   } catch (error) {
-    console.error('Error creating subdomain record:', error);
+    logError(error?.toString() || `Error creating verification record ${domain} - ${value}`, {}, error as any, null, null);
     throw error;
   }
 }
