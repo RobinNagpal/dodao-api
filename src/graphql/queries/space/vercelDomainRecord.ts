@@ -3,7 +3,7 @@ import { IncomingMessage } from 'http';
 
 export async function getVercelDomainRecordBySpace(spaceId: string): Promise<VercelDomain | undefined | any> {
   const token = process.env.VERCEL_API_TOKEN!; // Replace with your Vercel API token
-  const endpoint = `https://api.vercel.com/v9/projects/dodao-ui/domains/${spaceId}.dodao.io?teamId=robinnagpal-s-team`;
+  const endpoint = `https://api.vercel.com/v9/projects/dodao-ui/domains/${spaceId}.tidbitshub.org?teamId=robinnagpal-s-team`;
 
   const headers = {
     Authorization: `Bearer ${token}`,

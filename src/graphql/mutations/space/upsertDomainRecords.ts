@@ -11,13 +11,13 @@ export default async function upsertDomainRecords(_: unknown, args: MutationUpse
   const { space } = await verifySpaceEditPermissions(context, args.spaceId);
   let route53Record = await getRoute53RecordBySpace(space.id);
 
-  if (!space.domains.includes(`${space.id}.dodao.io`)) {
+  if (!space.domains.includes(`${space.id}.tidbitshub.org`)) {
     await prisma.space.update({
       where: {
         id: space.id,
       },
       data: {
-        domains: [...space.domains, `${space.id}.dodao.io`],
+        domains: [...space.domains, `${space.id}.tidbitshub.org`],
       },
     });
   }

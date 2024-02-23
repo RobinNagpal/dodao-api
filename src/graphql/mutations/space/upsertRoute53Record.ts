@@ -10,7 +10,7 @@ AWS.config.update({ region: 'us-east-1' });
 
 const route53 = new AWS.Route53();
 
-const hostedZoneId = 'Z10350102V7MAUWYWINFH';
+const hostedZoneId = 'Z07182107631KUF0WL7K';
 /**
  * Creates a subdomain record in a specified hosted zone.
  *
@@ -30,7 +30,7 @@ async function createSubdomainRecord(spaceId: string, target: string, recordType
         {
           Action: 'UPSERT', // Use 'UPSERT' to update an existing record or create a new one if it does not exist
           ResourceRecordSet: {
-            Name: `${spaceId}.dodao.io`,
+            Name: `${spaceId}.tidbitshub.org`,
             Type: recordType,
             TTL: ttl,
             ResourceRecords: [{ Value: target }],

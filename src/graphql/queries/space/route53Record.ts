@@ -7,11 +7,11 @@ import { IncomingMessage } from 'http';
 AWS.config.update({ region: 'us-east-1' });
 
 const route53 = new AWS.Route53();
-const hostedZoneId = 'Z10350102V7MAUWYWINFH';
+const hostedZoneId = 'Z07182107631KUF0WL7K';
 
 export async function getRoute53RecordBySpace(spaceId: string) {
   // Assuming the domain format is {spaceId}.dodao.io
-  const domainName = `${spaceId}.dodao.io.`; // Note: DNS records often end with a dot
+  const domainName = `${spaceId}.tidbitshub.org`; // Note: DNS records often end with a dot
 
   const records = await route53
     .listResourceRecordSets({

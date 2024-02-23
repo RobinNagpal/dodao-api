@@ -62,7 +62,7 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     updatedAt: new Date(),
     discordInvite: null,
     telegramInvite: null,
-    domains: [`${input.id}.dodao.io`],
+    domains: [`${input.id}.tidbitshub.org`],
     botDomains: [],
     guideSettings: {},
     authSettings: {},
