@@ -1134,6 +1134,7 @@ export type Mutation = {
   updateSocialSettings: Space;
   updateSpace: Space;
   updateSpaceCreator: Space;
+  updateSpaceNameAndAvatar: Space;
   updateThemeColors: Space;
   updateTopicBasicInfo: GitCourse;
   updateTopicExplanation: GitCourse;
@@ -1618,6 +1619,13 @@ export type MutationUpdateSpaceArgs = {
 
 export type MutationUpdateSpaceCreatorArgs = {
   creator: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationUpdateSpaceNameAndAvatarArgs = {
+  avatar: Scalars['String'];
+  name: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -4276,6 +4284,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateSocialSettings?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSocialSettingsArgs, 'input' | 'spaceId'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateSpaceCreator?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceCreatorArgs, 'creator' | 'spaceId'>>;
+  updateSpaceNameAndAvatar?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceNameAndAvatarArgs, 'avatar' | 'name' | 'spaceId'>>;
   updateThemeColors?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateThemeColorsArgs, 'spaceId' | 'themeColors'>>;
   updateTopicBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicBasicInfoArgs, 'spaceId' | 'topicInfo'>>;
   updateTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
