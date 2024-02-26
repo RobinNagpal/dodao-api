@@ -60,6 +60,8 @@ extend type Mutation {
   upsertVercelDomainRecord(spaceId: String!): VercelDomain!
 
   upsertDomainRecords(spaceId: String!): DomainRecords!
+
+  updateSpaceNameAndAvatar(spaceId: String!, name: String!, avatar: String!): Space!
 }
 
 type DomainRecords {
