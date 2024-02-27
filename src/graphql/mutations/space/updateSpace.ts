@@ -39,7 +39,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     socialSettings: space.socialSettings || {},
     byteSettings: space.byteSettings || {},
     themeColors: space.themeColors || null,
-    type: space.type,
+    type: args.spaceInput.type || space.type,
   };
   try {
     console.log('Updating space', spaceInput);
