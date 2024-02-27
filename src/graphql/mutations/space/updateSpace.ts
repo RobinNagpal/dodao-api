@@ -57,6 +57,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
         authSettings: spaceInput.authSettings || {},
         byteSettings: spaceInput.byteSettings || {},
         themeColors: spaceInput.themeColors || undefined,
+        type: spaceInput.type,
       },
       where: {
         id: args.spaceInput.id,

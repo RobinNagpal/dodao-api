@@ -21,7 +21,6 @@ type JwtResponse {
   jwt: String!
 }
 
-
 input DateTimeFilter {
   before: DateTimeISO
   after: DateTimeISO

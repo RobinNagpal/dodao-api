@@ -2568,6 +2568,13 @@ export type SpaceLoadersInfoInput = {
   discourseUrl?: InputMaybe<Scalars['String']>;
 };
 
+export enum SpaceTypes {
+  AcademySite = 'AcademySite',
+  AiChatbotSite = 'AiChatbotSite',
+  CryptoGelatoSite = 'CryptoGelatoSite',
+  TidbitsSite = 'TidbitsSite'
+}
+
 export type SpaceWhere = {
   id?: InputMaybe<Scalars['String']>;
   id_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3252,6 +3259,7 @@ export type ResolversTypes = {
   SpaceInviteLinksInput: SpaceInviteLinksInput;
   SpaceLoadersInfo: ResolverTypeWrapper<SpaceLoadersInfo>;
   SpaceLoadersInfoInput: SpaceLoadersInfoInput;
+  SpaceTypes: SpaceTypes;
   SpaceWhere: SpaceWhere;
   StepItemInputGenericInput: StepItemInputGenericInput;
   String: ResolverTypeWrapper<Scalars['String']>;
