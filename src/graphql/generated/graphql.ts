@@ -117,6 +117,7 @@ export type AuthSettingsInput = {
 export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
+  byteStyle?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -224,6 +225,11 @@ export type ByteStepInput = {
 };
 
 export type ByteStepItem = ByteQuestion | ByteUserInput | UserDiscordConnect;
+
+export enum ByteStyle {
+  CardAndCircleProgress = 'CardAndCircleProgress',
+  CarouselWithProgressBars = 'CarouselWithProgressBars'
+}
 
 export type ByteSubmission = {
   __typename?: 'ByteSubmission';
@@ -1919,6 +1925,7 @@ export type ProjectByte = {
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   priority: Scalars['Int'];
+  projectByteStyle?: Maybe<Scalars['String']>;
   seoMeta?: Maybe<SeoMeta>;
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
@@ -1937,6 +1944,11 @@ export type ProjectByteCollection = {
   seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
 };
+
+export enum ProjectByteStyle {
+  CardAndCircleProgress = 'CardAndCircleProgress',
+  CarouselWithProgressBars = 'CarouselWithProgressBars'
+}
 
 export type ProjectShortVideo = {
   __typename?: 'ProjectShortVideo';
@@ -3076,14 +3088,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = {
-  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
+  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
+  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
-  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
+  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
+  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -3115,6 +3127,7 @@ export type ResolversTypes = {
   ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversTypes['ByteStepItem']> }>;
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolverTypeWrapper<ResolversUnionTypes['ByteStepItem']>;
+  ByteStyle: ByteStyle;
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
@@ -3227,6 +3240,7 @@ export type ResolversTypes = {
   Project: ResolverTypeWrapper<Project>;
   ProjectByte: ResolverTypeWrapper<ProjectByte>;
   ProjectByteCollection: ResolverTypeWrapper<ProjectByteCollection>;
+  ProjectByteStyle: ProjectByteStyle;
   ProjectShortVideo: ResolverTypeWrapper<ProjectShortVideo>;
   ProjectShortVideoInput: ProjectShortVideoInput;
   Query: ResolverTypeWrapper<{}>;
@@ -3564,6 +3578,7 @@ export type AuthSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4407,6 +4422,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  projectByteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
