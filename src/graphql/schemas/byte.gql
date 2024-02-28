@@ -10,6 +10,11 @@ extend type Mutation {
   upsertByteSocialShare(spaceId: String!, input: UpsertByteSocialShareInput!): ByteSocialShare!
 }
 
+enum ByteStyle {
+  CardAndCircleProgress
+  CarouselWithProgressBars
+}
+
 type Byte {
   postSubmissionStepContent: String
   content: String!
@@ -22,6 +27,7 @@ type Byte {
   tags: [String!]!
   priority: Int!
   videoUrl: String
+  byteStyle: String
 }
 
 type ByteQuestion {
