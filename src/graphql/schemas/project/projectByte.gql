@@ -9,6 +9,11 @@ extend type Mutation {
   updateSeoOfProjectByte(projectId: String!, seoMeta: SEOMetaInput): ProjectByte!
 }
 
+enum ProjectByteStyle {
+  CardAndCircleProgress
+  CarouselWithProgressBars    
+}
+
 type ProjectByte {
   postSubmissionStepContent: String
   content: String!
@@ -22,6 +27,7 @@ type ProjectByte {
   archived: Boolean!
   seoMeta: SEOMeta
   videoUrl: String
+  projectByteStyle: String
 }
 
 input UpsertProjectByteInput {
