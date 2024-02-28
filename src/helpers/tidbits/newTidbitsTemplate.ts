@@ -105,3 +105,5 @@ export const UpdatingTidbitsSiteThemeTemplate: NewTidbitsTemplate = {
   tags: [],
   videoUrl: null,
 };
+
+export const TidbitsTemplates: NewTidbitsTemplate[] = [WhatAreTidbitsTemplate, HowToCreateTidbitsTemplate, UpdatingTidbitsSiteThemeTemplate];

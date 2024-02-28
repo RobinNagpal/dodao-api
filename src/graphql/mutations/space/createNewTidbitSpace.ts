@@ -1,14 +1,17 @@
-import { MutationCreateSpaceArgs } from '@/graphql/generated/graphql';
+import { ByteStep, MutationCreateSpaceArgs } from '@/graphql/generated/graphql';
 import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import { upsertSpaceIntegrations } from '@/graphql/mutations/space/upsertSpaceIntegrations';
 import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
 import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { isDoDAOSuperAdmin } from '@/helpers/space/isSuperAdmin';
+import { TidbitsTemplates } from '@/helpers/tidbits/newTidbitsTemplate';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { v4 } from 'uuid';
+import { transformByteInputSteps } from '../byte/transformByteInputSteps';
+import { slugify } from '@/helpers/space/slugify';
 
 export default async function createNewTidbitSpace(_: unknown, args: MutationCreateSpaceArgs, context: IncomingMessage) {
   const decoded = getDecodedJwtFromContext(context);
@@ -92,5 +95,43 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
 
   await upsertRoute53Record(_, { spaceId: spaceInput.id }, context);
   await upsertVercelDomainRecord(_, { spaceId: spaceInput.id }, context);
+
+  const byteCollectionIds: string[] = [];
+
+  TidbitsTemplates.forEach(async (template) => {
+    const id = slugify(template.name) + '-' + v4().toString().substring(0, 4);
+    byteCollectionIds.push(id);
+    const steps: ByteStep[] = transformByteInputSteps({
+      ...template,
+      id: id,
+      steps: template.steps.map((s, i) => ({
+        ...s,
+        uuid: v4(),
+      })),
+    });
+    await prisma.byte.create({
+      data: {
+        ...template,
+        steps: steps,
+        id: id,
+        spaceId: args.spaceInput.id,
+      },
+    });
+  });
+
+  await prisma.byteCollection.create({
+    data: {
+      id: v4(),
+      name: 'Tidbits guide collection',
+      description: 'Collection of tidbits to help you get started with Tidbits.',
+      spaceId: args.spaceInput.id,
+      byteIds: byteCollectionIds,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      status: 'PUBLISHED',
+      priority: 50,
+    },
+  });
+
   return getSpaceWithIntegrations(spaceInput.id);
 }
