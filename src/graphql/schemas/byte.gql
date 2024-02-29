@@ -53,6 +53,7 @@ type ByteStep {
   name: String!
   stepItems: [ByteStepItem!]!
   uuid: String!
+  imageUrl: String
 }
 
 type ByteLinkedinPdfContentStep {
