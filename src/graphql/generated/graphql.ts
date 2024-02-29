@@ -1920,13 +1920,13 @@ export type ProjectByte = {
   __typename?: 'ProjectByte';
   admins: Array<Scalars['String']>;
   archived: Scalars['Boolean'];
+  byteStyle?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   priority: Scalars['Int'];
-  projectByteStyle?: Maybe<Scalars['String']>;
   seoMeta?: Maybe<SeoMeta>;
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
@@ -1945,11 +1945,6 @@ export type ProjectByteCollection = {
   seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
 };
-
-export enum ProjectByteStyle {
-  CardAndCircleProgress = 'CardAndCircleProgress',
-  CarouselWithProgressBars = 'CarouselWithProgressBars'
-}
 
 export type ProjectShortVideo = {
   __typename?: 'ProjectShortVideo';
@@ -3241,7 +3236,6 @@ export type ResolversTypes = {
   Project: ResolverTypeWrapper<Project>;
   ProjectByte: ResolverTypeWrapper<ProjectByte>;
   ProjectByteCollection: ResolverTypeWrapper<ProjectByteCollection>;
-  ProjectByteStyle: ProjectByteStyle;
   ProjectShortVideo: ResolverTypeWrapper<ProjectShortVideo>;
   ProjectShortVideoInput: ProjectShortVideoInput;
   Query: ResolverTypeWrapper<{}>;
@@ -4418,13 +4412,13 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 export type ProjectByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByte'] = ResolversParentTypes['ProjectByte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  projectByteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
