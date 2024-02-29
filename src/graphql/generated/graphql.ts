@@ -212,6 +212,7 @@ export type ByteSocialShare = {
 export type ByteStep = {
   __typename?: 'ByteStep';
   content: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   stepItems: Array<ByteStepItem>;
   uuid: Scalars['String'];
@@ -3088,14 +3089,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = {
-  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
-  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
+  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
+  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
-  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
-  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
+  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
+  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -3655,6 +3656,7 @@ export type ByteSocialShareResolvers<ContextType = any, ParentType extends Resol
 
 export type ByteStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStep'] = ResolversParentTypes['ByteStep']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   stepItems?: Resolver<Array<ResolversTypes['ByteStepItem']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
