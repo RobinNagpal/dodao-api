@@ -220,6 +220,7 @@ export type ByteStep = {
 
 export type ByteStepInput = {
   content: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   stepItems: Array<StepItemInputGenericInput>;
   uuid: Scalars['String'];
@@ -2757,6 +2758,7 @@ export type UpsertAcademyTaskInput = {
 
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
+  byteStyle?: InputMaybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2844,6 +2846,7 @@ export type UpsertProjectByteCollectionInput = {
 
 export type UpsertProjectByteInput = {
   admins: Array<Scalars['String']>;
+  byteStyle?: InputMaybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
