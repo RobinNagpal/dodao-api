@@ -559,23 +559,23 @@ model Project {
 }
 
 model ProjectByte {
-  id               String   @id @db.VarChar(255)
-  name             String   @db.VarChar(255)
-  content          String
-  created          String   @db.VarChar(255)
-  publishStatus    String   @map("publish_status") @db.VarChar(255)
-  admins           String[]
-  tags             String[]
-  priority         Int      @default(50) @map("priority")
-  archived         Boolean  @default(false)
+  id            String   @id @db.VarChar(255)
+  name          String   @db.VarChar(255)
+  content       String
+  created       String   @db.VarChar(255)
+  publishStatus String   @map("publish_status") @db.VarChar(255)
+  admins        String[]
+  tags          String[]
+  priority      Int      @default(50) @map("priority")
+  archived      Boolean  @default(false)
   /// [ByteStep]
-  steps            Json[]
-  projectId        String   @map("space_id") @db.VarChar(255)
-  Project          Project  @relation(fields: [projectId], references: [id])
+  steps         Json[]
+  projectId     String   @map("space_id") @db.VarChar(255)
+  Project       Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
-  seoMeta          Json?    @map("seo_meta") @db.JsonB
-  videoUrl         String?  @map("video_url") @db.VarChar(1024)
-  projectByteStyle String?  @default("CardAndCircleProgress") @map("project_byte_style") @db.VarChar(255)
+  seoMeta       Json?    @map("seo_meta") @db.JsonB
+  videoUrl      String?  @map("video_url") @db.VarChar(1024)
+  byteStyle     String?  @default("CardAndCircleProgress") @map("byte_style") @db.VarChar(255)
 
   @@unique([id, publishStatus])
   @@map("project_bytes")
