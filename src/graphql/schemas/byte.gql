@@ -82,6 +82,7 @@ input ByteStepInput {
   name: String!
   stepItems: [StepItemInputGenericInput!]!
   uuid: String!
+  imageUrl: String
 }
 
 input UpsertByteInput {
@@ -95,6 +96,7 @@ input UpsertByteInput {
   priority: Int!
   created: String!
   videoUrl: String
+  byteStyle: String
 }
 
 input ByteLinkedinPdfContentStepInput {
