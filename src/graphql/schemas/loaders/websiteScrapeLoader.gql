@@ -2,6 +2,7 @@ extend type Query {
   websiteScrapingInfos(spaceId: String!): [WebsiteScrapingInfo!]!
   siteScrapingRuns(spaceId: String!, websiteScrapingInfoId: String!): [SiteScrapingRun!]!
   scrapedUrlInfos(spaceId: String!, websiteScrapingInfoId: String!): [ScrapedUrlInfo!]!
+  scrapedUrlInfo(spaceId: String!, scrapedUrlInfoId: String!): ScrapedUrlInfo!
 }
 
 extend type Mutation {
@@ -57,7 +58,7 @@ type ScrapedUrlInfo {
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
   url: String!
+  textSample: String!
   text: String!
   textLength: Int!
-  websiteScrapingInfo: WebsiteScrapingInfo!
 }

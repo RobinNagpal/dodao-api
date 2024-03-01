@@ -1,9 +1,8 @@
-import { MutationCreateWebsiteScrapingInfoArgs, MutationEditWebsiteScrapingInfoArgs } from '@/graphql/generated/graphql';
+import { MutationEditWebsiteScrapingInfoArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
-import { v4 } from 'uuid';
 
 export default async function editWebsiteScrapingInfo(_: any, args: MutationEditWebsiteScrapingInfoArgs, context: IncomingMessage) {
   const space = await getSpaceById(args.spaceId);

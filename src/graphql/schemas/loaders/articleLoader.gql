@@ -1,5 +1,6 @@
 extend type Query {
   articleIndexingInfos(spaceId: String!): [ArticleIndexingInfo!]!
+  articleIndexingInfo(spaceId: String!, articleIndexingInfoId: String!): ArticleIndexingInfo!
 }
 
 extend type Mutation {
@@ -15,6 +16,7 @@ type ArticleIndexingInfo {
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
   status: String!
+  textSample: String
   text: String
   textLength: Int
 }

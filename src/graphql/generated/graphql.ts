@@ -100,6 +100,7 @@ export type ArticleIndexingInfo = {
   status: Scalars['String'];
   text?: Maybe<Scalars['String']>;
   textLength?: Maybe<Scalars['Int']>;
+  textSample?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTimeISO'];
 };
 
@@ -1967,6 +1968,7 @@ export type Query = {
   _empty?: Maybe<Scalars['String']>;
   academyTask: AcademyTask;
   academyTasks?: Maybe<Array<AcademyTask>>;
+  articleIndexingInfo: ArticleIndexingInfo;
   articleIndexingInfos: Array<ArticleIndexingInfo>;
   byte: Byte;
   byteCollection: ByteCollection;
@@ -2006,6 +2008,7 @@ export type Query = {
   rawGitCourse: RawGitCourse;
   rawGitCourses: Array<RawGitCourse>;
   route53Record?: Maybe<Route53Record>;
+  scrapedUrlInfo: ScrapedUrlInfo;
   scrapedUrlInfos: Array<ScrapedUrlInfo>;
   searchChatbotFAQs: Array<SearchedChatbotFaq>;
   shortVideo: ShortVideo;
@@ -2031,6 +2034,12 @@ export type QueryAcademyTaskArgs = {
 export type QueryAcademyTasksArgs = {
   spaceId: Scalars['String'];
   status?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryArticleIndexingInfoArgs = {
+  articleIndexingInfoId: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -2251,6 +2260,12 @@ export type QueryRoute53RecordArgs = {
 };
 
 
+export type QueryScrapedUrlInfoArgs = {
+  scrapedUrlInfoId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
 export type QueryScrapedUrlInfosArgs = {
   spaceId: Scalars['String'];
   websiteScrapingInfoId: Scalars['String'];
@@ -2376,9 +2391,9 @@ export type ScrapedUrlInfo = {
   spaceId: Scalars['String'];
   text: Scalars['String'];
   textLength: Scalars['Int'];
+  textSample: Scalars['String'];
   updatedAt: Scalars['DateTimeISO'];
   url: Scalars['String'];
-  websiteScrapingInfo: WebsiteScrapingInfo;
   websiteScrapingInfoId: Scalars['String'];
 };
 
@@ -3552,6 +3567,7 @@ export type ArticleIndexingInfoResolvers<ContextType = any, ParentType extends R
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   textLength?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  textSample?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -4445,6 +4461,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   academyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<QueryAcademyTaskArgs, 'uuid'>>;
   academyTasks?: Resolver<Maybe<Array<ResolversTypes['AcademyTask']>>, ParentType, ContextType, RequireFields<QueryAcademyTasksArgs, 'spaceId'>>;
+  articleIndexingInfo?: Resolver<ResolversTypes['ArticleIndexingInfo'], ParentType, ContextType, RequireFields<QueryArticleIndexingInfoArgs, 'articleIndexingInfoId' | 'spaceId'>>;
   articleIndexingInfos?: Resolver<Array<ResolversTypes['ArticleIndexingInfo']>, ParentType, ContextType, RequireFields<QueryArticleIndexingInfosArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   byteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionArgs, 'byteCollectionId' | 'spaceId'>>;
@@ -4484,6 +4501,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   rawGitCourse?: Resolver<ResolversTypes['RawGitCourse'], ParentType, ContextType, RequireFields<QueryRawGitCourseArgs, 'key' | 'spaceId'>>;
   rawGitCourses?: Resolver<Array<ResolversTypes['RawGitCourse']>, ParentType, ContextType, RequireFields<QueryRawGitCoursesArgs, 'spaceId'>>;
   route53Record?: Resolver<Maybe<ResolversTypes['Route53Record']>, ParentType, ContextType, RequireFields<QueryRoute53RecordArgs, 'spaceId'>>;
+  scrapedUrlInfo?: Resolver<ResolversTypes['ScrapedUrlInfo'], ParentType, ContextType, RequireFields<QueryScrapedUrlInfoArgs, 'scrapedUrlInfoId' | 'spaceId'>>;
   scrapedUrlInfos?: Resolver<Array<ResolversTypes['ScrapedUrlInfo']>, ParentType, ContextType, RequireFields<QueryScrapedUrlInfosArgs, 'spaceId' | 'websiteScrapingInfoId'>>;
   searchChatbotFAQs?: Resolver<Array<ResolversTypes['SearchedChatbotFAQ']>, ParentType, ContextType, RequireFields<QuerySearchChatbotFaQsArgs, 'query' | 'spaceId'>>;
   shortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<QueryShortVideoArgs, 'id' | 'spaceId'>>;
@@ -4542,9 +4560,9 @@ export type ScrapedUrlInfoResolvers<ContextType = any, ParentType extends Resolv
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   textLength?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  textSample?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  websiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType>;
   websiteScrapingInfoId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -1,11 +1,12 @@
-import { QueryScrapedUrlInfosArgs } from '@/graphql/generated/graphql';
+import { QueryScrapedUrlInfosArgs, ScrapedUrlInfo as ScrapedUrlInfoGraphql } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
+import { ScrapedUrlInfo } from '@prisma/client';
 
 import { IncomingMessage } from 'http';
 
-export default async function scrapedUrlInfos(_: any, args: QueryScrapedUrlInfosArgs, context: IncomingMessage) {
+export default async function scrapedUrlInfos(_: any, args: QueryScrapedUrlInfosArgs, context: IncomingMessage): Promise<ScrapedUrlInfoGraphql[]> {
   const space = await getSpaceById(args.spaceId);
   checkEditSpacePermission(space, context);
   const scrapedUrlInfos = await prisma.scrapedUrlInfo.findMany({
@@ -17,9 +18,11 @@ export default async function scrapedUrlInfos(_: any, args: QueryScrapedUrlInfos
       createdAt: 'desc',
     },
   });
-  return scrapedUrlInfos.map((scrapedUrlInfo) => ({
+  return scrapedUrlInfos.map((scrapedUrlInfo: ScrapedUrlInfo) => ({
     ...scrapedUrlInfo,
     textLength: scrapedUrlInfo.text.length,
-    text: scrapedUrlInfo.text.slice(0, 200),
+    textSample: scrapedUrlInfo.text.slice(0, 200),
+    text: scrapedUrlInfo.text,
+    websiteScrapingInfoId: scrapedUrlInfo.websiteScrapingInfoId,
   }));
 }

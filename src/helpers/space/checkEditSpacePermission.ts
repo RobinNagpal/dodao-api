@@ -12,6 +12,7 @@ function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPay
       '0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', // Robin
       'robinnagpal.tiet@gmail.com', // Robin
       '0xbCb6c649Bc1E0ad342a2036ab7C080B622099Bf8', // Dawood
+      '0xB0Bc2970c3A870E7E3383357AA98770Fc8eAE3F1', // Sami
     ]
       .map((u) => u.toLowerCase())
       .includes(decoded.username.toLowerCase())
@@ -68,21 +69,6 @@ export function checkEditSpacePermission(space: Space, context: IncomingMessage)
   const { decodedJWT, canEditSpace } = canEditGitSpace(context, space);
 
   if (!canEditSpace) {
-    throw new Error(
-      'Not allowed to edit space :' +
-        JSON.stringify({
-          decodedJWT,
-        }),
-    );
-  }
-
-  return decodedJWT;
-}
-
-export function checkIsCreator(space: Space, context: IncomingMessage): JwtPayload & DoDaoJwtTokenPayload {
-  const { decodedJWT, canEditSpace } = canEditGitSpace(context, space);
-
-  if (space.creator.toLowerCase() !== decodedJWT.accountId.toLowerCase()) {
     throw new Error(
       'Not allowed to edit space :' +
         JSON.stringify({

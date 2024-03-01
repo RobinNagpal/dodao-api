@@ -23,6 +23,7 @@ import guideRating from '@/graphql/queries/guide/guideRating';
 import guideRatings from '@/graphql/queries/guide/guideRatings';
 import guides from '@/graphql/queries/guide/guides';
 import guideSubmissions from '@/graphql/queries/guide/guideSubmissions';
+import articleIndexingInfo from '@/graphql/queries/loaders/article/articleIndexingInfo';
 import articleIndexingInfos from '@/graphql/queries/loaders/article/articleIndexingInfos';
 import discordChannels from '@/graphql/queries/loaders/discord/discordChannels';
 import discordMessages from '@/graphql/queries/loaders/discord/discordMessages';
@@ -30,6 +31,7 @@ import discordServer from '@/graphql/queries/loaders/discord/discordServer';
 import discourseIndexRuns from '@/graphql/queries/loaders/discourse/discourseIndexRuns';
 import discoursePostComments from '@/graphql/queries/loaders/discourse/discoursePostComments';
 import discoursePosts from '@/graphql/queries/loaders/discourse/discoursePosts';
+import scrapedUrlInfo from '@/graphql/queries/loaders/websiteScrape/scrapedUrlInfo';
 import scrapedUrlInfos from '@/graphql/queries/loaders/websiteScrape/scrapedUrlInfos';
 import siteScrapingRuns from '@/graphql/queries/loaders/websiteScrape/siteScrapingRuns';
 import websiteScrapingInfos from '@/graphql/queries/loaders/websiteScrape/websiteScrapingInfos';
@@ -105,8 +107,10 @@ export default {
   websiteScrapingInfos,
   siteScrapingRuns,
   scrapedUrlInfos,
+  scrapedUrlInfo,
 
   articleIndexingInfos,
+  articleIndexingInfo,
 
   byteCollections,
   byteCollection,

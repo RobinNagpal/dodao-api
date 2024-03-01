@@ -1,10 +1,10 @@
-import { QueryWebsiteScrapingInfosArgs } from '@/graphql/generated/graphql';
+import { ArticleIndexingInfo, QueryArticleIndexingInfosArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
-export default async function articleIndexingInfos(_: any, args: QueryWebsiteScrapingInfosArgs, context: IncomingMessage) {
+export default async function articleIndexingInfos(_: any, args: QueryArticleIndexingInfosArgs, context: IncomingMessage): Promise<ArticleIndexingInfo[]> {
   const space = await getSpaceById(args.spaceId);
   checkEditSpacePermission(space, context);
   const articleInfos = await prisma.articleIndexingInfo.findMany({
@@ -15,5 +15,5 @@ export default async function articleIndexingInfos(_: any, args: QueryWebsiteScr
       updatedAt: 'desc',
     },
   });
-  return articleInfos.map((a) => ({ ...a, textLength: a.text?.length, text: a.text?.slice(0, 100) }));
+  return articleInfos.map((a) => ({ ...a, textLength: a.text?.length, textSample: a.text?.slice(0, 100), text: a.text }));
 }
