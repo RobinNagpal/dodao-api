@@ -22,6 +22,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
       archived: false,
       priority: args.input.priority,
       videoUrl: args.input.videoUrl,
+      byteStyle: args.input.byteStyle,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.content,

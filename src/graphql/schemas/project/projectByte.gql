@@ -22,6 +22,7 @@ type ProjectByte {
   archived: Boolean!
   seoMeta: SEOMeta
   videoUrl: String
+  byteStyle: String
 }
 
 input UpsertProjectByteInput {
@@ -36,4 +37,5 @@ input UpsertProjectByteInput {
   created: String!
   seoMeta: SEOMetaInput
   videoUrl: String
+  byteStyle: String
 }

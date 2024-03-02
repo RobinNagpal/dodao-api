@@ -118,6 +118,7 @@ export type AuthSettingsInput = {
 export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
+  byteStyle?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -212,6 +213,7 @@ export type ByteSocialShare = {
 export type ByteStep = {
   __typename?: 'ByteStep';
   content: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   stepItems: Array<ByteStepItem>;
   uuid: Scalars['String'];
@@ -219,12 +221,18 @@ export type ByteStep = {
 
 export type ByteStepInput = {
   content: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   stepItems: Array<StepItemInputGenericInput>;
   uuid: Scalars['String'];
 };
 
 export type ByteStepItem = ByteQuestion | ByteUserInput | UserDiscordConnect;
+
+export enum ByteStyle {
+  CardAndCircleProgress = 'CardAndCircleProgress',
+  CarouselWithProgressBars = 'CarouselWithProgressBars'
+}
 
 export type ByteSubmission = {
   __typename?: 'ByteSubmission';
@@ -1914,6 +1922,7 @@ export type ProjectByte = {
   __typename?: 'ProjectByte';
   admins: Array<Scalars['String']>;
   archived: Scalars['Boolean'];
+  byteStyle?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2764,6 +2773,7 @@ export type UpsertAcademyTaskInput = {
 
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
+  byteStyle?: InputMaybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2851,6 +2861,7 @@ export type UpsertProjectByteCollectionInput = {
 
 export type UpsertProjectByteInput = {
   admins: Array<Scalars['String']>;
+  byteStyle?: InputMaybe<Scalars['String']>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -3130,6 +3141,7 @@ export type ResolversTypes = {
   ByteStep: ResolverTypeWrapper<Omit<ByteStep, 'stepItems'> & { stepItems: Array<ResolversTypes['ByteStepItem']> }>;
   ByteStepInput: ByteStepInput;
   ByteStepItem: ResolverTypeWrapper<ResolversUnionTypes['ByteStepItem']>;
+  ByteStyle: ByteStyle;
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
@@ -3580,6 +3592,7 @@ export type AuthSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3656,6 +3669,7 @@ export type ByteSocialShareResolvers<ContextType = any, ParentType extends Resol
 
 export type ByteStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteStep'] = ResolversParentTypes['ByteStep']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   stepItems?: Resolver<Array<ResolversTypes['ByteStepItem']>, ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4417,6 +4431,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 export type ProjectByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByte'] = ResolversParentTypes['ProjectByte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
