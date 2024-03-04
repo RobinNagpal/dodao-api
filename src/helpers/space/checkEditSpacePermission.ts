@@ -1,22 +1,19 @@
-import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
+import { dodaoTeamMates, getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { isDoDAOSuperAdmin, isSuperAdminOfDoDAO } from '@/helpers/space/isSuperAdmin';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
 import { JwtPayload } from 'jsonwebtoken';
 
+/**
+ * @deprecated - see dodaoTeamMates in getJwtFromContext.ts. That already checks for it.
+ *               May be this is not needed anymore.?
+ *
+ * @param context
+ */
 function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
   const decoded = getDecodedJwtFromContext(context);
-  if (
-    [
-      '0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', // Robin
-      'robinnagpal.tiet@gmail.com', // Robin
-      '0xbCb6c649Bc1E0ad342a2036ab7C080B622099Bf8', // Dawood
-      '0xB0Bc2970c3A870E7E3383357AA98770Fc8eAE3F1', // Sami
-    ]
-      .map((u) => u.toLowerCase())
-      .includes(decoded.username.toLowerCase())
-  ) {
+  if (dodaoTeamMates.map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
     return decoded;
   }
   return null;

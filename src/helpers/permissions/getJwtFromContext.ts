@@ -7,11 +7,11 @@ export function getJwtFromContext(context: IncomingMessage | Request) {
   return (context.headers?.[process.env.DODAO_AUTH_HEADER_NAME!] as string | undefined)?.replace('Bearer ', '');
 }
 
-const dodaoTeamMates = [
-  '2013nibor@gmail.com',
-  'robinnagpal.tiet@gmail.com',
-  'shresthv1@gmail.com',
-  '0xe273F55D64220983Ba6ce59bB84064DdCA1C8dA8', // Tanay
+export const dodaoTeamMates = [
+  '0x470579d16401a36BF63b1428eaA7189FBdE5Fee9', // Robin
+  'robinnagpal.tiet@gmail.com', // Robin
+  '0xbCb6c649Bc1E0ad342a2036ab7C080B622099Bf8', // Dawood
+  '0xb0bc2970c3a870e7e3383357aa98770fc8eae3f1', // Sami
 ];
 
 function validateJwtTokenString(jwtString?: string): DoDaoJwtTokenPayload {
