@@ -4,7 +4,7 @@ import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObje
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 import { prisma } from '@/prisma';
 
-export async function getByte(spaceId: string, byteId: string, includeDraft = false) {
+export async function getByte(spaceId: string, byteId: string) {
   let byte = await prisma.byte.findUnique({
     where: {
       id: byteId,
@@ -24,5 +24,5 @@ export async function getByte(spaceId: string, byteId: string, includeDraft = fa
   return byte;
 }
 export default async function byte(_: any, args: QueryByteArgs) {
-  return getByte(args.spaceId, args.byteId, !!args.includeDraft);
+  return getByte(args.spaceId, args.byteId);
 }

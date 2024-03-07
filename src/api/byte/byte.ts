@@ -6,7 +6,7 @@ async function byte(req: Request, res: Response) {
   const spaceId = req.params.spaceId;
   const byteId = req.params.byteId;
   const includeDraft = req.query.includeDraft;
-  return { status: 200, body: await getByte(spaceId, byteId, !!includeDraft) };
+  return { status: 200, body: await getByte(spaceId, byteId) };
 }
 
 export default apiResponseWrapper(byte);

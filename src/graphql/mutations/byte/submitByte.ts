@@ -1,6 +1,7 @@
 import { ByteModel } from '@/deprecatedSchemas/models/byte/ByteModel';
 import { MutationSubmitByteArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
+import { getByte } from '@/graphql/queries/byte/byte';
 import { AcademyObjectTypes } from '@/helpers/academy/academyObjectTypes';
 import { getAcademyObjectFromRedis } from '@/helpers/academy/readers/academyObjectReader';
 import { postByteSubmission } from '@/helpers/discord/webhookMessage';
@@ -11,10 +12,9 @@ import { GraphqlContext } from '@/types/GraphqlContext';
 export default async function submitByte(_: unknown, byteInput: MutationSubmitByteArgs, context: GraphqlContext) {
   const space = await getSpaceById(byteInput.submissionInput.space);
   const decodedJWT = getOptioanlJwt(context);
-  const user = decodedJWT?.accountId.toLowerCase();
+  const user = decodedJWT?.username.toLowerCase();
 
-  // eslint-disable-next-line no-undef
-  const byte: ByteModel | undefined = await getAcademyObjectFromRedis(space.id, AcademyObjectTypes.bytes, byteInput.submissionInput.byteId);
+  const byte: ByteModel | undefined = await getByte(space.id, byteInput.submissionInput.byteId);
 
   if (!byte) {
     throw new Error(`No byte found with uuid ${byteInput.submissionInput.byteId}`);
