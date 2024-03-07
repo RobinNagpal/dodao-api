@@ -1094,6 +1094,7 @@ export type Mutation = {
   createSummaryOfContent: OpenAiTextResponse;
   createWebsiteScrapingInfo: WebsiteScrapingInfo;
   deleteAndPullCourseRepo: GitCourse;
+  deleteByte: Scalars['Boolean'];
   deleteByteCollection: Scalars['Boolean'];
   deleteChatbotCategory: Scalars['Boolean'];
   deleteChatbotFAQ: Scalars['Boolean'];
@@ -1297,6 +1298,12 @@ export type MutationCreateWebsiteScrapingInfoArgs = {
 
 export type MutationDeleteAndPullCourseRepoArgs = {
   courseKey: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationDeleteByteArgs = {
+  byteId: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -4266,6 +4273,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createSummaryOfContent?: Resolver<ResolversTypes['OpenAITextResponse'], ParentType, ContextType, RequireFields<MutationCreateSummaryOfContentArgs, 'input'>>;
   createWebsiteScrapingInfo?: Resolver<ResolversTypes['WebsiteScrapingInfo'], ParentType, ContextType, RequireFields<MutationCreateWebsiteScrapingInfoArgs, 'baseUrl' | 'ignoreHashInUrl' | 'ignoreQueryParams' | 'scrapingStartUrl' | 'spaceId'>>;
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
+  deleteByte?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteArgs, 'byteId' | 'spaceId'>>;
   deleteByteCollection?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionArgs, 'byteCollectionId'>>;
   deleteChatbotCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotCategoryArgs, 'id' | 'spaceId'>>;
   deleteChatbotFAQ?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotFaqArgs, 'id' | 'spaceId'>>;

@@ -7,6 +7,7 @@ extend type Query {
 extend type Mutation {
   upsertByte(spaceId: String!, input: UpsertByteInput!): Byte!
   generateSharablePdf(spaceId: String!, byteId: String!): String!
+  deleteByte(spaceId: String!, byteId: String!): Boolean!
   upsertByteSocialShare(spaceId: String!, input: UpsertByteSocialShareInput!): ByteSocialShare!
 }
 
