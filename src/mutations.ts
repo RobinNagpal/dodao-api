@@ -1,4 +1,5 @@
 import mutations from '@/graphql/mutations';
+import deleteByte from '@/graphql/mutations/byte/deleteByte';
 import generateSharablePdf from '@/graphql/mutations/byte/generateSharablePdf';
 import submitByte from '@/graphql/mutations/byte/submitByte';
 import upsertByte from '@/graphql/mutations/byte/upsertByte';
@@ -95,6 +96,8 @@ export default {
 
   upsertByte,
   submitByte,
+  deleteByte,
+
   submitGuide,
   deleteGuide,
 
