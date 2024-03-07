@@ -17,6 +17,7 @@ import projectBytes from '@/api/project/projectBytes';
 import projects from '@/api/project/projects';
 import projectShortVideos from '@/api/project/projectShortVideos';
 import extendedSpace from '@/api/space/extendedSpace';
+import extendedSpaceById from '@/api/space/extendedSpaceById';
 import { json } from 'body-parser';
 import cors from 'cors';
 import { Express } from 'express';
@@ -27,6 +28,7 @@ export function registerApiRoutes(app: Express) {
   app.use('/chat', cors<cors.CorsRequest>(), json(), chat);
   app.use('/health', cors<cors.CorsRequest>(), health);
   app.get('/download-guide-submissions-csv', cors(), downloadGuideSubmissionsCSV);
+  app.get('/space/:spaceId', cors(), json(), extendedSpaceById);
   app.get('/extended-space', cors(), json(), extendedSpace);
 
   app.get('/:spaceId/guides', cors(), json(), guides);
