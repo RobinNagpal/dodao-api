@@ -1,5 +1,5 @@
 import { ByteModel, ByteQuestion, ByteStepItem } from '@/deprecatedSchemas/models/byte/ByteModel';
-import { PublishStatus, QuestionType, VisibilityEnum } from '@/deprecatedSchemas/models/enums';
+import { QuestionType } from '@/deprecatedSchemas/models/enums';
 import { ByteStep, MutationUpsertByteArgs, UpsertByteInput } from '@/graphql/generated/graphql';
 import { transformByteInputSteps } from '@/graphql/mutations/byte/transformByteInputSteps';
 import { getSpaceById } from '@/graphql/operations/space';
@@ -39,15 +39,19 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
 export default async function upsertByte(_: unknown, { spaceId, input }: MutationUpsertByteArgs, context: IncomingMessage) {
   try {
     const spaceById = await getSpaceById(spaceId);
-
-    checkEditSpacePermission(spaceById, context);
+    const spaceIntegration = await prisma.spaceIntegration.findFirst({
+      where: {
+        spaceId: spaceId,
+      },
+    });
+    const jwt = checkEditSpacePermission(spaceById, context);
     const transformedByte = await transformInput(spaceId, input);
 
     const steps: ByteStep[] = transformByteInputSteps(input);
     const id = input.id || slugify(input.name);
     const upsertedByte = await prisma.byte.upsert({
       create: {
-        ...input,
+        ...transformedByte,
         steps: steps,
         id: id,
         spaceId: spaceId,
@@ -61,9 +65,11 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
       },
     });
 
-    const upsertedObject = await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, '123456789');
+    if (spaceIntegration?.academyRepository) {
+      await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, jwt.username);
+    }
 
-    return upsertedObject;
+    return upsertedByte;
   } catch (e) {
     await logError((e as any)?.response?.data || 'Error in upsertByte', {}, e as any, null, null);
     throw e;

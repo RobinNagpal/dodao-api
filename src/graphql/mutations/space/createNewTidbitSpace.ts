@@ -1,10 +1,9 @@
 import { MutationCreateSpaceArgs } from '@/graphql/generated/graphql';
 import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
-import { upsertSpaceIntegrations } from '@/graphql/mutations/space/upsertSpaceIntegrations';
 import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
+import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
-import { isDoDAOSuperAdmin } from '@/helpers/space/isSuperAdmin';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
@@ -15,6 +14,12 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
   const username = decoded.username;
   if (!username) {
     throw new Error('Not authorized');
+  }
+
+  try {
+    logEventInDiscord(args.spaceInput.id, `Creating new space with id: ${args.spaceInput.id} by ${username} `);
+  } catch (e) {
+    console.log(e);
   }
 
   const existingSpaceForCreator = await prisma.space.findFirst({
