@@ -3,7 +3,7 @@ import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIn
 import apiResponseWrapper from '@/helpers/api/apiResponseWrapper';
 import { Request, Response } from 'express-serve-static-core';
 
-async function extendedSpace(req: Request, res: Response) {
+async function extendedSpaceByDomain(req: Request, res: Response) {
   const domain = req.query.domain;
   if (!domain) return { status: 400, body: 'No domain provided' };
   const spaceId = await getSpaceIdForDomain(domain as string);
@@ -12,4 +12,4 @@ async function extendedSpace(req: Request, res: Response) {
   return { status: 200, body: await getSpaceWithIntegrations(spaceId) };
 }
 
-export default apiResponseWrapper(extendedSpace);
+export default apiResponseWrapper(extendedSpaceByDomain);

@@ -1,5 +1,5 @@
 import { registerApiRoutes } from '@/api/registerApiRoutes';
-import extendedSpace from '@/api/space/extendedSpace';
+import extendedSpace from '@/api/space/extendedSpaceByDomain';
 import health from '@/api/health';
 import downloadGuideSubmissionsCSV from '@/api/downloadGuideSubmissionsCSV';
 import { logError } from '@/helpers/errorLogger';

@@ -16,7 +16,7 @@ import projectByteCollections from '@/api/project/projectByteCollections';
 import projectBytes from '@/api/project/projectBytes';
 import projects from '@/api/project/projects';
 import projectShortVideos from '@/api/project/projectShortVideos';
-import extendedSpace from '@/api/space/extendedSpace';
+import extendedSpaceByDomain from '@/api/space/extendedSpaceByDomain';
 import extendedSpaceById from '@/api/space/extendedSpaceById';
 import findSpaceById from '@/api/space/findSpaceById';
 import { json } from 'body-parser';
@@ -29,9 +29,11 @@ export function registerApiRoutes(app: Express) {
   app.use('/chat', cors<cors.CorsRequest>(), json(), chat);
   app.use('/health', cors<cors.CorsRequest>(), health);
   app.get('/download-guide-submissions-csv', cors(), downloadGuideSubmissionsCSV);
+
   app.get('/space/:spaceId', cors(), json(), extendedSpaceById);
+  app.get('/extended-space', cors(), json(), extendedSpaceByDomain);
+  // doesn't throw error if space is not found
   app.get('/find-space/:spaceId', cors(), json(), findSpaceById);
-  app.get('/extended-space', cors(), json(), extendedSpace);
 
   app.get('/:spaceId/guides', cors(), json(), guides);
   app.get('/:spaceId/guides/:guideId', cors(), json(), guide);
