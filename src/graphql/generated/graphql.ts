@@ -1010,6 +1010,16 @@ export type GuideUserInput = {
   uuid: Scalars['String'];
 };
 
+export enum ImageType {
+  Academy = 'Academy',
+  Course = 'Course',
+  CryptoGelato = 'CryptoGelato',
+  Guide = 'Guide',
+  ShortVideo = 'ShortVideo',
+  Space = 'Space',
+  Tidbits = 'Tidbits'
+}
+
 export type ImagesResponse = {
   __typename?: 'ImagesResponse';
   created: Scalars['Int'];
@@ -3230,6 +3240,7 @@ export type ResolversTypes = {
   GuideSubmissionResult: ResolverTypeWrapper<GuideSubmissionResult>;
   GuideUserInput: ResolverTypeWrapper<GuideUserInput>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  ImageType: ImageType;
   ImagesResponse: ResolverTypeWrapper<ImagesResponse>;
   ImagesResponseDataInner: ResolverTypeWrapper<ImagesResponseDataInner>;
   Int: ResolverTypeWrapper<Scalars['Int']>;

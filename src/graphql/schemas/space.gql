@@ -334,3 +334,13 @@ input SEOMetaInput {
   description: String!
   keywords: [String!]!
 }
+
+enum ImageType {
+  Space
+  Tidbits
+  Guide
+  Academy
+  Course
+  ShortVideo
+  CryptoGelato
+}
