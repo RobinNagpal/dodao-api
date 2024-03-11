@@ -169,7 +169,8 @@ model Byte {
   Space            Space    @relation(fields: [spaceId], references: [id])
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
   byteStyle        String?  @default("CardAndCircleProgress") @map("byte_style") @db.VarChar(255)
-  completionScreen Json?    @map("completion_screen") @db.JsonB
+  /// [CompletionScreen]
+  completionScreen Json?    @map("completion_screen") @db.Json
 
   @@map("bytes")
 }
@@ -577,7 +578,8 @@ model ProjectByte {
   seoMeta          Json?    @map("seo_meta") @db.JsonB
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
   byteStyle        String?  @default("CardAndCircleProgress") @map("byte_style") @db.VarChar(255)
-  completionScreen Json?    @map("completion_screen") @db.JsonB
+  /// [CompletionScreen]
+  completionScreen Json?    @map("completion_screen") @db.Json
 
   @@unique([id, publishStatus])
   @@map("project_bytes")
