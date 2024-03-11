@@ -23,6 +23,7 @@ type Byte {
   id: String!
   name: String!
   showIncorrectOnCompletion: Boolean!
+  completionScreen: CompletionScreen
   steps: [ByteStep!]!
   admins: [String!]!
   tags: [String!]!
@@ -30,6 +31,22 @@ type Byte {
   videoUrl: String
   byteStyle: String
 }
+
+type CompletionScreen {
+  content: String!
+  name: String!
+  items: [CompletionScreenItem!]!
+  uuid: String!
+  imageUrl: String
+}
+
+type ActionButton {
+  label: String!
+  link: String!
+  uuid: String!
+}
+
+union CompletionScreenItem =  ActionButton
 
 type ByteQuestion {
   answerKeys: [String!]!
