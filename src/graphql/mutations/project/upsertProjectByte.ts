@@ -4,7 +4,7 @@ import { TOP_CRYPTO_PROJECTS_SPACE_ID } from '@/helpers/chat/utils/app/constants
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { slugify } from '@/helpers/space/slugify';
 import { prisma } from '@/prisma';
-import { ProjectByte } from '@prisma/client';
+import { Prisma, ProjectByte } from '@prisma/client';
 import { IncomingMessage } from 'http';
 
 export default async function upsertProjectByte(_: unknown, args: MutationUpsertProjectByteArgs, context: IncomingMessage) {
@@ -28,6 +28,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
         description: args.input.seoMeta?.description ?? args.input.content,
         keywords: args.input.seoMeta?.keywords ?? [],
       },
+      completionScreen: args.input.completionScreen ?? Prisma.JsonNull
     },
     update: {
       ...args.input,
@@ -40,6 +41,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
         description: args.input.seoMeta?.description ?? args.input.content,
         keywords: args.input.seoMeta?.keywords ?? [],
       },
+      completionScreen: args.input.completionScreen ?? Prisma.JsonNull
     },
     where: {
       id: args.input.id,
