@@ -37,6 +37,7 @@ export async function getByte(spaceId: string, byteId: string) {
             };
           }),
         })),
+        completionScreen: byte.completionScreen ?? null as any
       };
 
       byte = await prisma.byte.create({
