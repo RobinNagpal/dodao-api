@@ -1,0 +1,40 @@
+extend type Query {
+  byteCollectionCategories(spaceId: String!): [ByteCollectionCategory!]!
+  byteCollectionCategoryWithByteCollections(categoryId: String!, spaceId: String!): [ByteCollectionWithBytes!]!
+}
+
+extend type Mutation {
+  upsertByteCollectionCategory(input: upsertByteCollectionCategory!): ByteCollectionCategory!
+}
+
+type ByteCollectionCategory {
+  id: String!
+  name: String!
+  imageUrl: String
+  excerpt: String
+  byteCollectionIds: [String!]!
+}
+
+input upsertByteCollectionCategory {
+  id: String!
+  spaceId: String!
+  name: String!
+  imageUrl: String
+  excerpt: String!
+  byteCollectionIds: [String!]!
+  creator: String!
+}
+
+type ByteCollectionWithBytes {
+  id: ID!
+  name: String!
+  description: String!
+  bytes: [ByteCollectionByte!]!
+}
+
+type ByteCollectionByte {
+  byteId: String!
+  name: String!
+  content: String!
+  videoUrl: String
+}

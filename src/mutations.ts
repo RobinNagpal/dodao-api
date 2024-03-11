@@ -7,6 +7,7 @@ import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShar
 import createByteCollection from '@/graphql/mutations/byteCollection/createByteCollection';
 import deleteByteCollection from '@/graphql/mutations/byteCollection/deleteByteCollection';
 import updateByteCollection from '@/graphql/mutations/byteCollection/updateByteCollection';
+import upsertByteCollectionCategory from './graphql/mutations/byteCollectionCategory/upsertByteCollectionCategory';
 import deleteChatbotCategory from '@/graphql/mutations/chatbot/deleteChatbotCategory';
 import deleteChatbotFAQ from '@/graphql/mutations/chatbot/deleteChatbotFAQ';
 import deleteChatbotUserQuestion from '@/graphql/mutations/chatbot/deleteChatbotUserQuestion';
@@ -95,6 +96,7 @@ export default {
   updateByteSettings,
 
   upsertByte,
+  upsertByteCollectionCategory,
   submitByte,
   deleteByte,
 
