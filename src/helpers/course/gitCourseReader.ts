@@ -56,7 +56,6 @@ export async function getGitCourseFromRepository(space: Space, courseRepoUrl: st
 export async function readGitCourse(space: Space, rawGitCourseModel: { courseRepoUrl?: string | null }): Promise<GitCourseModel> {
   let courseModel: GitCourseModel | undefined;
   if (rawGitCourseModel.courseRepoUrl) {
-    console.log(`load course from git repo - ${rawGitCourseModel.courseRepoUrl} - ${rawGitCourseModel.courseRepoUrl}`);
     courseModel = await getGitCourseFromRepository(space, rawGitCourseModel.courseRepoUrl);
   }
 
@@ -142,7 +141,6 @@ export async function getAllGitGitCoursesForSpace(
 
 export async function loadAllGitCourses() {
   const rawGitCourses = await prisma.gitCourse.findMany();
-  console.log('load courses ', rawGitCourses.length);
   for (const rawGitCourse of rawGitCourses) {
     const space = await prisma.space.findUnique({ where: { id: rawGitCourse.spaceId } });
     if (space) {
