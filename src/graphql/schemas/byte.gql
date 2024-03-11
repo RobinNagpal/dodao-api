@@ -97,7 +97,7 @@ union CompletionScreenItem = ActionButton
 
 input CompletionScreenItemInput {
   label: String!
-  link: String
+  link: String!
   uuid: String!
 }
 
