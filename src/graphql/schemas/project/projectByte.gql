@@ -18,6 +18,7 @@ type ProjectByte {
   steps: [ByteStep!]!
   admins: [String!]!
   tags: [String!]!
+  completionScreen: CompletionScreen
   priority: Int!
   archived: Boolean!
   seoMeta: SEOMeta
