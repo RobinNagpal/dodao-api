@@ -1160,6 +1160,7 @@ export type Mutation = {
   updateTopicQuestion: GitCourse;
   updateTopicSummary: GitCourse;
   updateTopicVideo: GitCourse;
+  uploadImageFromUrlToS3: Scalars['String'];
   upsertAcademyTask: AcademyTask;
   upsertByte: Byte;
   upsertByteSocialShare: ByteSocialShare;
@@ -1681,6 +1682,12 @@ export type MutationUpdateTopicSummaryArgs = {
 export type MutationUpdateTopicVideoArgs = {
   spaceId: Scalars['String'];
   videoInfo: UpdateTopicVideoInput;
+};
+
+
+export type MutationUploadImageFromUrlToS3Args = {
+  input: UploadImageFromUrlToS3Input;
+  spaceId: Scalars['String'];
 };
 
 
@@ -2777,6 +2784,14 @@ export type UpdateTopicVideoInput = {
   videoUuid: Scalars['String'];
 };
 
+export type UploadImageFromUrlToS3Input = {
+  contentType: Scalars['String'];
+  imageType: Scalars['String'];
+  imageUrl: Scalars['String'];
+  name: Scalars['String'];
+  objectId: Scalars['String'];
+};
+
 export type UpsertAcademyTaskInput = {
   details: Scalars['String'];
   excerpt: Scalars['String'];
@@ -3323,6 +3338,7 @@ export type ResolversTypes = {
   UpdateTopicQuestionInput: UpdateTopicQuestionInput;
   UpdateTopicSummaryInput: UpdateTopicSummaryInput;
   UpdateTopicVideoInput: UpdateTopicVideoInput;
+  UploadImageFromUrlToS3Input: UploadImageFromUrlToS3Input;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
@@ -3540,6 +3556,7 @@ export type ResolversParentTypes = {
   UpdateTopicQuestionInput: UpdateTopicQuestionInput;
   UpdateTopicSummaryInput: UpdateTopicSummaryInput;
   UpdateTopicVideoInput: UpdateTopicVideoInput;
+  UploadImageFromUrlToS3Input: UploadImageFromUrlToS3Input;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
@@ -4339,6 +4356,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
   updateTopicSummary?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicSummaryArgs, 'spaceId' | 'summaryInfo'>>;
   updateTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
+  uploadImageFromUrlToS3?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationUploadImageFromUrlToS3Args, 'input' | 'spaceId'>>;
   upsertAcademyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<MutationUpsertAcademyTaskArgs, 'spaceId' | 'task'>>;
   upsertByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationUpsertByteArgs, 'input' | 'spaceId'>>;
   upsertByteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<MutationUpsertByteSocialShareArgs, 'input' | 'spaceId'>>;
