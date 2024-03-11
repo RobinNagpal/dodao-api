@@ -60,7 +60,7 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
       update: {
         ...input,
         steps: steps,
-        completionScreen: input.completionScreen ?? Prisma.JsonNull,
+        completionScreen: input.completionScreen ?? null
       },
       where: {
         id: id,
