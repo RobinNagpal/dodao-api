@@ -32,22 +32,6 @@ type Byte {
   byteStyle: String
 }
 
-type CompletionScreen {
-  content: String!
-  name: String!
-  items: [CompletionScreenItem!]!
-  uuid: String!
-  imageUrl: String
-}
-
-type ActionButton {
-  label: String!
-  link: String!
-  uuid: String!
-}
-
-union CompletionScreenItem =  ActionButton
-
 type ByteQuestion {
   answerKeys: [String!]!
   choices: [QuestionChoice!]!
@@ -95,6 +79,36 @@ type ByteSocialShare {
   twitterImage: String
 }
 
+type CompletionScreen {
+  content: String!
+  name: String!
+  items: [CompletionScreenItem!]!
+  uuid: String!
+  imageUrl: String
+}
+
+type ActionButton {
+  label: String!
+  link: String!
+  uuid: String!
+}
+
+union CompletionScreenItem = ActionButton
+
+input CompletionScreenItemInput {
+  label: String!
+  link: String
+  uuid: String!
+}
+
+input CompletionScreenInput {
+  content: String!
+  name: String!
+  items: [CompletionScreenItemInput!]!
+  uuid: String!
+  imageUrl: String
+}
+
 input ByteStepInput {
   content: String!
   name: String!
@@ -115,6 +129,7 @@ input UpsertByteInput {
   created: String!
   videoUrl: String
   byteStyle: String
+  completionScreen: CompletionScreenInput
 }
 
 input ByteLinkedinPdfContentStepInput {
