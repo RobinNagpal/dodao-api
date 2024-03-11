@@ -339,7 +339,21 @@ export type CompletionScreen = {
   uuid: Scalars['String'];
 };
 
+export type CompletionScreenInput = {
+  content: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
+  items: Array<CompletionScreenItemInput>;
+  name: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
 export type CompletionScreenItem = ActionButton;
+
+export type CompletionScreenItemInput = {
+  label: Scalars['String'];
+  link?: InputMaybe<Scalars['String']>;
+  uuid: Scalars['String'];
+};
 
 export type ConsolidatedGuideRating = {
   __typename?: 'ConsolidatedGuideRating';
@@ -2811,6 +2825,7 @@ export type UpsertAcademyTaskInput = {
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
+  completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2899,6 +2914,7 @@ export type UpsertProjectByteCollectionInput = {
 export type UpsertProjectByteInput = {
   admins: Array<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
+  completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -3194,7 +3210,9 @@ export type ResolversTypes = {
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
   CompletionScreen: ResolverTypeWrapper<Omit<CompletionScreen, 'items'> & { items: Array<ResolversTypes['CompletionScreenItem']> }>;
+  CompletionScreenInput: CompletionScreenInput;
   CompletionScreenItem: ResolverTypeWrapper<ResolversUnionTypes['CompletionScreenItem']>;
+  CompletionScreenItemInput: CompletionScreenItemInput;
   ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
@@ -3417,7 +3435,9 @@ export type ResolversParentTypes = {
   ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
   CompletionScreen: Omit<CompletionScreen, 'items'> & { items: Array<ResolversParentTypes['CompletionScreenItem']> };
+  CompletionScreenInput: CompletionScreenInput;
   CompletionScreenItem: ResolversUnionParentTypes['CompletionScreenItem'];
+  CompletionScreenItemInput: CompletionScreenItemInput;
   ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
