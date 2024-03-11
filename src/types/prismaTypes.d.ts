@@ -10,7 +10,7 @@ import {
   ThemeColors as SpaceThemeColors,
   UsernameAndName as UsernameAndNameType,
   SEOMeta as SEOMetaType,
-  CompletionScreen as CompletionScreenType
+  CompletionScreen as CompletionScreenType,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
