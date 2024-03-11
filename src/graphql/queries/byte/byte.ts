@@ -37,11 +37,11 @@ export async function getByte(spaceId: string, byteId: string) {
             };
           }),
         })),
-        completionScreen: byte.completionScreen ?? null as any
+        completionScreen: byte.completionScreen || null,
       };
 
       byte = await prisma.byte.create({
-        data: newByte,
+        data: { ...newByte, completionScreen: newByte.completionScreen || undefined },
       });
     }
   }
