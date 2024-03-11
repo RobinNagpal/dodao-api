@@ -351,7 +351,7 @@ export type CompletionScreenItem = ActionButton;
 
 export type CompletionScreenItemInput = {
   label: Scalars['String'];
-  link?: InputMaybe<Scalars['String']>;
+  link: Scalars['String'];
   uuid: Scalars['String'];
 };
 
