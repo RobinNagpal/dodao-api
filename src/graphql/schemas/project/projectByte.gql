@@ -39,4 +39,5 @@ input UpsertProjectByteInput {
   seoMeta: SEOMetaInput
   videoUrl: String
   byteStyle: String
+  completionScreen: CompletionScreenInput
 }
