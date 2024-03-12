@@ -159,14 +159,6 @@ export type ByteCollectionCategory = {
   name: Scalars['String'];
 };
 
-export type ByteCollectionWithBytes = {
-  __typename?: 'ByteCollectionWithBytes';
-  bytes: Array<ByteCollectionByte>;
-  description: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
 export type ByteLinkedinPdfContent = {
   __typename?: 'ByteLinkedinPdfContent';
   excerpt: Scalars['String'];
@@ -2022,7 +2014,7 @@ export type Query = {
   byte: Byte;
   byteCollection: ByteCollection;
   byteCollectionCategories: Array<ByteCollectionCategory>;
-  byteCollectionCategoryWithByteCollections: Array<ByteCollectionWithBytes>;
+  byteCollectionCategoryWithByteCollections: Array<ByteCollection>;
   byteCollections: Array<ByteCollection>;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
@@ -3194,7 +3186,6 @@ export type ResolversTypes = {
   ByteCollection: ResolverTypeWrapper<ByteCollection>;
   ByteCollectionByte: ResolverTypeWrapper<ByteCollectionByte>;
   ByteCollectionCategory: ResolverTypeWrapper<ByteCollectionCategory>;
-  ByteCollectionWithBytes: ResolverTypeWrapper<ByteCollectionWithBytes>;
   ByteLinkedinPdfContent: ResolverTypeWrapper<ByteLinkedinPdfContent>;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
@@ -3419,7 +3410,6 @@ export type ResolversParentTypes = {
   ByteCollection: ByteCollection;
   ByteCollectionByte: ByteCollectionByte;
   ByteCollectionCategory: ByteCollectionCategory;
-  ByteCollectionWithBytes: ByteCollectionWithBytes;
   ByteLinkedinPdfContent: ByteLinkedinPdfContent;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ByteLinkedinPdfContentStep;
@@ -3700,14 +3690,6 @@ export type ByteCollectionCategoryResolvers<ContextType = any, ParentType extend
   excerpt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ByteCollectionWithBytesResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollectionWithBytes'] = ResolversParentTypes['ByteCollectionWithBytes']> = {
-  bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -4570,7 +4552,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   byteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionArgs, 'byteCollectionId' | 'spaceId'>>;
   byteCollectionCategories?: Resolver<Array<ResolversTypes['ByteCollectionCategory']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoriesArgs, 'spaceId'>>;
-  byteCollectionCategoryWithByteCollections?: Resolver<Array<ResolversTypes['ByteCollectionWithBytes']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoryWithByteCollectionsArgs, 'categoryId' | 'spaceId'>>;
+  byteCollectionCategoryWithByteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoryWithByteCollectionsArgs, 'categoryId' | 'spaceId'>>;
   byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionsArgs, 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
@@ -4931,7 +4913,6 @@ export type Resolvers<ContextType = any> = {
   ByteCollection?: ByteCollectionResolvers<ContextType>;
   ByteCollectionByte?: ByteCollectionByteResolvers<ContextType>;
   ByteCollectionCategory?: ByteCollectionCategoryResolvers<ContextType>;
-  ByteCollectionWithBytes?: ByteCollectionWithBytesResolvers<ContextType>;
   ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
   ByteLinkedinPdfContentStep?: ByteLinkedinPdfContentStepResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;

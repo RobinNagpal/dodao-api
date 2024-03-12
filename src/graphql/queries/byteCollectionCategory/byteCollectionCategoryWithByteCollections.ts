@@ -1,4 +1,4 @@
-import { QueryByteCollectionCategoryWithByteCollectionsArgs, ByteCollectionWithBytes } from '@/graphql/generated/graphql';
+import { QueryByteCollectionCategoryWithByteCollectionsArgs, ByteCollection } from '@/graphql/generated/graphql';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 import { getByte } from '../byte/byte';
@@ -7,7 +7,7 @@ export default async function byteCollectionCategoryWithByteCollections(
   _: any,
   args: QueryByteCollectionCategoryWithByteCollectionsArgs,
   context: IncomingMessage,
-): Promise<ByteCollectionWithBytes[]> {
+): Promise<ByteCollection[]> {
   const byteCollectionCategory = await prisma.byteCollectionCategory.findFirstOrThrow({
     where: {
       id: args.categoryId,
@@ -41,6 +41,9 @@ export default async function byteCollectionCategoryWithByteCollections(
       name: byteCollection.name,
       description: byteCollection.description,
       bytes: bytes,
+      status: byteCollection.status,
+      priority: byteCollection.priority,
+      byteIds: byteCollection.byteIds,
     });
   }
   return byteCollectionArr;

@@ -1,6 +1,6 @@
 extend type Query {
   byteCollectionCategories(spaceId: String!): [ByteCollectionCategory!]!
-  byteCollectionCategoryWithByteCollections(categoryId: String!, spaceId: String!): [ByteCollectionWithBytes!]!
+  byteCollectionCategoryWithByteCollections(categoryId: String!, spaceId: String!): [ByteCollection!]!
 }
 
 extend type Mutation {
@@ -23,18 +23,4 @@ input upsertByteCollectionCategory {
   excerpt: String!
   byteCollectionIds: [String!]!
   creator: String!
-}
-
-type ByteCollectionWithBytes {
-  id: ID!
-  name: String!
-  description: String!
-  bytes: [ByteCollectionByte!]!
-}
-
-type ByteCollectionByte {
-  byteId: String!
-  name: String!
-  content: String!
-  videoUrl: String
 }
