@@ -340,7 +340,7 @@ input SEOMetaInput {
 input UploadImageFromUrlToS3Input {
   imageUrl: String!
   imageType: String!
-  contentType: String!
+  imageSource: String!
   objectId: String!
   name: String!
 }
@@ -353,4 +353,10 @@ enum ImageType {
   Course
   ShortVideo
   CryptoGelato
+}
+
+enum ImageSource {
+  LocalMachine
+  Unsplash
+  Dalle
 }

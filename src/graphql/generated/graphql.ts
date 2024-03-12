@@ -1010,6 +1010,12 @@ export type GuideUserInput = {
   uuid: Scalars['String'];
 };
 
+export enum ImageSource {
+  Dalle = 'Dalle',
+  LocalMachine = 'LocalMachine',
+  Unsplash = 'Unsplash'
+}
+
 export enum ImageType {
   Academy = 'Academy',
   Course = 'Course',
@@ -2785,7 +2791,7 @@ export type UpdateTopicVideoInput = {
 };
 
 export type UploadImageFromUrlToS3Input = {
-  contentType: Scalars['String'];
+  imageSource: Scalars['String'];
   imageType: Scalars['String'];
   imageUrl: Scalars['String'];
   name: Scalars['String'];
@@ -3262,6 +3268,7 @@ export type ResolversTypes = {
   GuideSubmissionResult: ResolverTypeWrapper<GuideSubmissionResult>;
   GuideUserInput: ResolverTypeWrapper<GuideUserInput>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  ImageSource: ImageSource;
   ImageType: ImageType;
   ImagesResponse: ResolverTypeWrapper<ImagesResponse>;
   ImagesResponseDataInner: ResolverTypeWrapper<ImagesResponseDataInner>;
