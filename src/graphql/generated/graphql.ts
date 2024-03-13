@@ -268,6 +268,16 @@ export type ByteUserInput = {
   uuid: Scalars['String'];
 };
 
+export type CategoryWithByteCollection = {
+  __typename?: 'CategoryWithByteCollection';
+  byteCollectionArr: Array<ByteCollection>;
+  creator: Scalars['String'];
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type ChatCompletionAiInput = {
   messages: Array<OpenAiChatMessageInput>;
   model?: InputMaybe<Scalars['String']>;
@@ -2014,7 +2024,7 @@ export type Query = {
   byte: Byte;
   byteCollection: ByteCollection;
   byteCollectionCategories: Array<ByteCollectionCategory>;
-  byteCollectionCategoryWithByteCollections: Array<ByteCollection>;
+  byteCollectionCategoryWithByteCollections: CategoryWithByteCollection;
   byteCollections: Array<ByteCollection>;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
@@ -3201,6 +3211,7 @@ export type ResolversTypes = {
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
+  CategoryWithByteCollection: ResolverTypeWrapper<CategoryWithByteCollection>;
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
   ChatbotCategory: ResolverTypeWrapper<ChatbotCategory>;
@@ -3424,6 +3435,7 @@ export type ResolversParentTypes = {
   ByteSubmission: ByteSubmission;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ByteUserInput;
+  CategoryWithByteCollection: CategoryWithByteCollection;
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatbotCategory: ChatbotCategory;
   ChatbotFAQ: ChatbotFaq;
@@ -3763,6 +3775,16 @@ export type ByteUserInputResolvers<ContextType = any, ParentType extends Resolve
   required?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CategoryWithByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CategoryWithByteCollection'] = ResolversParentTypes['CategoryWithByteCollection']> = {
+  byteCollectionArr?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType>;
+  creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4552,7 +4574,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   byteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionArgs, 'byteCollectionId' | 'spaceId'>>;
   byteCollectionCategories?: Resolver<Array<ResolversTypes['ByteCollectionCategory']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoriesArgs, 'spaceId'>>;
-  byteCollectionCategoryWithByteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoryWithByteCollectionsArgs, 'categoryId' | 'spaceId'>>;
+  byteCollectionCategoryWithByteCollections?: Resolver<ResolversTypes['CategoryWithByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionCategoryWithByteCollectionsArgs, 'categoryId' | 'spaceId'>>;
   byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionsArgs, 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
@@ -4922,6 +4944,7 @@ export type Resolvers<ContextType = any> = {
   ByteStepItem?: ByteStepItemResolvers<ContextType>;
   ByteSubmission?: ByteSubmissionResolvers<ContextType>;
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
+  CategoryWithByteCollection?: CategoryWithByteCollectionResolvers<ContextType>;
   ChatbotCategory?: ChatbotCategoryResolvers<ContextType>;
   ChatbotFAQ?: ChatbotFaqResolvers<ContextType>;
   ChatbotFAQCommon?: ChatbotFaqCommonResolvers<ContextType>;
