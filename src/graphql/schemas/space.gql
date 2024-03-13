@@ -60,6 +60,8 @@ extend type Mutation {
   upsertVercelDomainRecord(spaceId: String!): VercelDomain!
 
   upsertDomainRecords(spaceId: String!): DomainRecords!
+
+  uploadImageFromUrlToS3(spaceId: String!, input: UploadImageFromUrlToS3Input!): String!
 }
 
 enum SpaceTypes {
@@ -335,6 +337,14 @@ input SEOMetaInput {
   keywords: [String!]!
 }
 
+input UploadImageFromUrlToS3Input {
+  imageUrl: String!
+  imageType: String!
+  imageSource: String!
+  objectId: String!
+  name: String!
+}
+
 enum ImageType {
   Space
   Tidbits
@@ -343,4 +353,10 @@ enum ImageType {
   Course
   ShortVideo
   CryptoGelato
+}
+
+enum ImageSource {
+  LocalMachine
+  Unsplash
+  Dalle
 }
