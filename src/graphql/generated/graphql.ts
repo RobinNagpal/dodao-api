@@ -3176,16 +3176,16 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = {
-  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  CompletionScreenItem: ( ActionButton );
-  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
+  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
+  CompletionScreenItem: (ActionButton);
+  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
-  ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  CompletionScreenItem: ( ActionButton );
-  GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
+  ByteStepItem: (ByteQuestion) | (ByteUserInput) | (UserDiscordConnect);
+  CompletionScreenItem: (ActionButton);
+  GuideStepItem: (GuideQuestion) | (GuideUserInput) | (UserDiscordConnect);
 };
 
 /** Mapping between all available schema types and the resolvers types */
