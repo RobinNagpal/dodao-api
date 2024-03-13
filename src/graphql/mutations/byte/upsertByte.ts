@@ -33,6 +33,7 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
         };
       }),
     })),
+    completionScreen: message.completionScreen || undefined
   };
   return byteModel;
 }
@@ -47,7 +48,6 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
     });
     const jwt = checkEditSpacePermission(spaceById, context);
     const transformedByte = await transformInput(spaceId, input);
-
     const steps: ByteStep[] = transformByteInputSteps(input);
     const id = input.id || slugify(input.name);
     const upsertedByte: Byte = await prisma.byte.upsert({
