@@ -150,6 +150,15 @@ export type ByteCollectionByte = {
   videoUrl?: Maybe<Scalars['String']>;
 };
 
+export type ByteCollectionCategory = {
+  __typename?: 'ByteCollectionCategory';
+  byteCollectionIds: Array<Scalars['String']>;
+  excerpt?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type ByteLinkedinPdfContent = {
   __typename?: 'ByteLinkedinPdfContent';
   excerpt: Scalars['String'];
@@ -257,6 +266,16 @@ export type ByteUserInput = {
   required: Scalars['Boolean'];
   type: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type CategoryWithByteCollection = {
+  __typename?: 'CategoryWithByteCollection';
+  byteCollections: Array<ByteCollection>;
+  creator: Scalars['String'];
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type ChatCompletionAiInput = {
@@ -1169,6 +1188,7 @@ export type Mutation = {
   uploadImageFromUrlToS3: Scalars['String'];
   upsertAcademyTask: AcademyTask;
   upsertByte: Byte;
+  upsertByteCollectionCategory: ByteCollectionCategory;
   upsertByteSocialShare: ByteSocialShare;
   upsertChatbotCategory: ChatbotCategory;
   upsertChatbotFAQ: ChatbotFaq;
@@ -1709,6 +1729,12 @@ export type MutationUpsertByteArgs = {
 };
 
 
+export type MutationUpsertByteCollectionCategoryArgs = {
+  input: UpsertByteCollectionCategory;
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationUpsertByteSocialShareArgs = {
   input: UpsertByteSocialShareInput;
   spaceId: Scalars['String'];
@@ -2011,6 +2037,8 @@ export type Query = {
   articleIndexingInfos: Array<ArticleIndexingInfo>;
   byte: Byte;
   byteCollection: ByteCollection;
+  byteCollectionCategories: Array<ByteCollectionCategory>;
+  byteCollectionCategoryWithByteCollections: CategoryWithByteCollection;
   byteCollections: Array<ByteCollection>;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
@@ -2096,6 +2124,17 @@ export type QueryByteArgs = {
 
 export type QueryByteCollectionArgs = {
   byteCollectionId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryByteCollectionCategoriesArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryByteCollectionCategoryWithByteCollectionsArgs = {
+  categoryId: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -2809,6 +2848,15 @@ export type UpsertAcademyTaskInput = {
   uuid: Scalars['String'];
 };
 
+export type UpsertByteCollectionCategory = {
+  byteCollectionIds: Array<Scalars['String']>;
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
@@ -3168,6 +3216,7 @@ export type ResolversTypes = {
   Byte: ResolverTypeWrapper<Byte>;
   ByteCollection: ResolverTypeWrapper<ByteCollection>;
   ByteCollectionByte: ResolverTypeWrapper<ByteCollectionByte>;
+  ByteCollectionCategory: ResolverTypeWrapper<ByteCollectionCategory>;
   ByteLinkedinPdfContent: ResolverTypeWrapper<ByteLinkedinPdfContent>;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
@@ -3183,6 +3232,7 @@ export type ResolversTypes = {
   ByteSubmission: ResolverTypeWrapper<ByteSubmission>;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ResolverTypeWrapper<ByteUserInput>;
+  CategoryWithByteCollection: ResolverTypeWrapper<CategoryWithByteCollection>;
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatCompletionRequestMessageRoleEnum: ChatCompletionRequestMessageRoleEnum;
   ChatbotCategory: ResolverTypeWrapper<ChatbotCategory>;
@@ -3347,6 +3397,7 @@ export type ResolversTypes = {
   UpdateTopicVideoInput: UpdateTopicVideoInput;
   UploadImageFromUrlToS3Input: UploadImageFromUrlToS3Input;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
+  UpsertByteCollectionCategory: UpsertByteCollectionCategory;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
@@ -3392,6 +3443,7 @@ export type ResolversParentTypes = {
   Byte: Byte;
   ByteCollection: ByteCollection;
   ByteCollectionByte: ByteCollectionByte;
+  ByteCollectionCategory: ByteCollectionCategory;
   ByteLinkedinPdfContent: ByteLinkedinPdfContent;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ByteLinkedinPdfContentStep;
@@ -3406,6 +3458,7 @@ export type ResolversParentTypes = {
   ByteSubmission: ByteSubmission;
   ByteSubmissionInput: ByteSubmissionInput;
   ByteUserInput: ByteUserInput;
+  CategoryWithByteCollection: CategoryWithByteCollection;
   ChatCompletionAIInput: ChatCompletionAiInput;
   ChatbotCategory: ChatbotCategory;
   ChatbotFAQ: ChatbotFaq;
@@ -3565,6 +3618,7 @@ export type ResolversParentTypes = {
   UpdateTopicVideoInput: UpdateTopicVideoInput;
   UploadImageFromUrlToS3Input: UploadImageFromUrlToS3Input;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
+  UpsertByteCollectionCategory: UpsertByteCollectionCategory;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
@@ -3667,6 +3721,15 @@ export type ByteCollectionByteResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ByteCollectionCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollectionCategory'] = ResolversParentTypes['ByteCollectionCategory']> = {
+  byteCollectionIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  excerpt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ByteLinkedinPdfContentResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteLinkedinPdfContent'] = ResolversParentTypes['ByteLinkedinPdfContent']> = {
   excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteLinkedinPdfContentStep']>, ParentType, ContextType>;
@@ -3736,6 +3799,16 @@ export type ByteUserInputResolvers<ContextType = any, ParentType extends Resolve
   required?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CategoryWithByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CategoryWithByteCollection'] = ResolversParentTypes['CategoryWithByteCollection']> = {
+  byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType>;
+  creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4366,6 +4439,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   uploadImageFromUrlToS3?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationUploadImageFromUrlToS3Args, 'input' | 'spaceId'>>;
   upsertAcademyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<MutationUpsertAcademyTaskArgs, 'spaceId' | 'task'>>;
   upsertByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationUpsertByteArgs, 'input' | 'spaceId'>>;
+  upsertByteCollectionCategory?: Resolver<ResolversTypes['ByteCollectionCategory'], ParentType, ContextType, RequireFields<MutationUpsertByteCollectionCategoryArgs, 'input' | 'spaceId'>>;
   upsertByteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<MutationUpsertByteSocialShareArgs, 'input' | 'spaceId'>>;
   upsertChatbotCategory?: Resolver<ResolversTypes['ChatbotCategory'], ParentType, ContextType, RequireFields<MutationUpsertChatbotCategoryArgs, 'input' | 'spaceId'>>;
   upsertChatbotFAQ?: Resolver<ResolversTypes['ChatbotFAQ'], ParentType, ContextType, RequireFields<MutationUpsertChatbotFaqArgs, 'input' | 'spaceId'>>;
@@ -4524,6 +4598,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   articleIndexingInfos?: Resolver<Array<ResolversTypes['ArticleIndexingInfo']>, ParentType, ContextType, RequireFields<QueryArticleIndexingInfosArgs, 'spaceId'>>;
   byte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<QueryByteArgs, 'byteId' | 'spaceId'>>;
   byteCollection?: Resolver<ResolversTypes['ByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionArgs, 'byteCollectionId' | 'spaceId'>>;
+  byteCollectionCategories?: Resolver<Array<ResolversTypes['ByteCollectionCategory']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoriesArgs, 'spaceId'>>;
+  byteCollectionCategoryWithByteCollections?: Resolver<ResolversTypes['CategoryWithByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionCategoryWithByteCollectionsArgs, 'categoryId' | 'spaceId'>>;
   byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionsArgs, 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
@@ -4883,6 +4959,7 @@ export type Resolvers<ContextType = any> = {
   Byte?: ByteResolvers<ContextType>;
   ByteCollection?: ByteCollectionResolvers<ContextType>;
   ByteCollectionByte?: ByteCollectionByteResolvers<ContextType>;
+  ByteCollectionCategory?: ByteCollectionCategoryResolvers<ContextType>;
   ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
   ByteLinkedinPdfContentStep?: ByteLinkedinPdfContentStepResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;
@@ -4892,6 +4969,7 @@ export type Resolvers<ContextType = any> = {
   ByteStepItem?: ByteStepItemResolvers<ContextType>;
   ByteSubmission?: ByteSubmissionResolvers<ContextType>;
   ByteUserInput?: ByteUserInputResolvers<ContextType>;
+  CategoryWithByteCollection?: CategoryWithByteCollectionResolvers<ContextType>;
   ChatbotCategory?: ChatbotCategoryResolvers<ContextType>;
   ChatbotFAQ?: ChatbotFaqResolvers<ContextType>;
   ChatbotFAQCommon?: ChatbotFaqCommonResolvers<ContextType>;
