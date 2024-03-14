@@ -43,7 +43,7 @@ export interface ByteModel {
   admins: string[];
   tags: string[];
   priority: number;
-  completionScreen: CompletionScreen | undefined;
+  completionScreen: CompletionScreen | null;
 }
 
 export type ByteWithoutSteps = Omit<ByteModel, 'steps'>;
