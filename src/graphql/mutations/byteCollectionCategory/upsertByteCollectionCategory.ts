@@ -30,7 +30,6 @@ export default async function upsertByteCollectionCategory(_: any, args: Mutatio
       byteCollectionIds: args.input.byteCollectionIds,
       updatedAt: new Date(),
       imageUrl: args.input.imageUrl,
-      creator: args.input.creator,
       excerpt: args.input.excerpt,
     },
   });
