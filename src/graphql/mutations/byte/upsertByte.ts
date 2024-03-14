@@ -33,7 +33,7 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
         };
       }),
     })),
-    completionScreen: message.completionScreen || undefined
+    completionScreen: message.completionScreen || undefined,
   };
   return byteModel;
 }
