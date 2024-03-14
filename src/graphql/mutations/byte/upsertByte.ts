@@ -33,7 +33,7 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
         };
       }),
     })),
-    completionScreen: message.completionScreen || undefined,
+    completionScreen: message.completionScreen || null,
   };
   return byteModel;
 }
@@ -56,6 +56,7 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
         steps: steps,
         id: id,
         spaceId: spaceId,
+        completionScreen: input.completionScreen || undefined,
       },
       update: {
         ...input,
