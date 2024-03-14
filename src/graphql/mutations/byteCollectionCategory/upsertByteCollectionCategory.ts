@@ -7,8 +7,8 @@ import { IncomingMessage } from 'http';
 export default async function upsertByteCollectionCategory(_: any, args: MutationUpsertByteCollectionCategoryArgs, context: IncomingMessage) {
   const spaceById = await getSpaceById(args.input.spaceId);
 
-  checkEditSpacePermission(spaceById, context);
   checkSpaceIdAndSpaceInEntityAreSame(args.spaceId, args.input.spaceId);
+  const user = checkEditSpacePermission(spaceById, context);
 
   const byteCollectionCategory = await prisma.byteCollectionCategory.upsert({
     where: {
@@ -22,7 +22,7 @@ export default async function upsertByteCollectionCategory(_: any, args: Mutatio
       createdAt: new Date(),
       updatedAt: new Date(),
       imageUrl: args.input.imageUrl,
-      creator: args.input.creator,
+      creator: user.username,
       excerpt: args.input.excerpt,
     },
     update: {

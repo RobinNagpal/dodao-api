@@ -4,7 +4,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  upsertByteCollectionCategory(spaceId: String!, input: upsertByteCollectionCategory!): ByteCollectionCategory!
+  upsertByteCollectionCategory(spaceId: String!, input: UpsertByteCollectionCategory!): ByteCollectionCategory!
 }
 
 type CategoryWithByteCollection {
@@ -24,12 +24,11 @@ type ByteCollectionCategory {
   byteCollectionIds: [String!]!
 }
 
-input upsertByteCollectionCategory {
+input UpsertByteCollectionCategory {
   id: String!
   spaceId: String!
   name: String!
   imageUrl: String
   excerpt: String!
   byteCollectionIds: [String!]!
-  creator: String!
 }

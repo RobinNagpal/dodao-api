@@ -7,14 +7,10 @@ import { getByteCollectionWithBytes } from '@/helpers/byteCollection/byteCollect
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
-export default async function byteCollectionCategoryWithByteCollections(
-  _: any,
-  args: QueryByteCollectionCategoryWithByteCollectionsArgs,
-  context: IncomingMessage,
-): Promise<CategoryWithByteCollection> {
+export async function getByteCollectionCategoryWithByteCollections(spaceId: string, categoryId: string) {
   const byteCollectionCategory = await prisma.byteCollectionCategory.findUniqueOrThrow({
     where: {
-      id: args.categoryId,
+      id: categoryId,
     },
   });
 
@@ -23,7 +19,7 @@ export default async function byteCollectionCategoryWithByteCollections(
   for (const byteCollectionId of byteCollectionCategory.byteCollectionIds) {
     const byteCollection = await prisma.byteCollection.findFirstOrThrow({
       where: {
-        spaceId: args.spaceId,
+        spaceId: spaceId,
         id: byteCollectionId,
       },
       orderBy: {
@@ -42,4 +38,12 @@ export default async function byteCollectionCategoryWithByteCollections(
     byteCollections: byteCollectionArr,
     creator: byteCollectionCategory.creator,
   };
+}
+
+export default async function byteCollectionCategoryWithByteCollections(
+  _: any,
+  args: QueryByteCollectionCategoryWithByteCollectionsArgs,
+  context: IncomingMessage,
+): Promise<CategoryWithByteCollection> {
+  return await getByteCollectionCategoryWithByteCollections(args.spaceId, args.categoryId);
 }

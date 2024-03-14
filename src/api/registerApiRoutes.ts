@@ -1,6 +1,8 @@
 import byte from '@/api/byte/byte';
 import byteCollections from '@/api/byte/byteCollections';
 import bytes from '@/api/byte/bytes';
+import byteCollectionCategories from '@/api/byteCollectionCategory/byteCollectionCategories';
+import byteCollectionCategory from '@/api/byteCollectionCategory/byteCollectionCategory';
 import chat from '@/api/chat/chat';
 import course from '@/api/course/course';
 import courses from '@/api/course/courses';
@@ -40,8 +42,10 @@ export function registerApiRoutes(app: Express) {
 
   app.get('/:spaceId/bytes', cors(), json(), bytes);
   app.get('/:spaceId/byte-collections', cors(), json(), byteCollections);
-
   app.get('/:spaceId/bytes/:byteId', cors(), json(), byte);
+
+  app.get('/:spaceId/byte-collection-categories', cors(), json(), byteCollectionCategories);
+  app.get('/:spaceId/byte-collection-categories/:categoryId', cors(), json(), byteCollectionCategory);
 
   app.get('/:spaceId/courses', cors(), json(), courses);
   app.get('/:spaceId/courses/:courseKey', cors(), json(), course);

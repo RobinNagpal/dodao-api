@@ -2827,6 +2827,15 @@ export type UpsertAcademyTaskInput = {
   uuid: Scalars['String'];
 };
 
+export type UpsertByteCollectionCategory = {
+  byteCollectionIds: Array<Scalars['String']>;
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
@@ -3087,16 +3096,6 @@ export type WebsiteScrapingInfo = {
   scrapingStartUrl: Scalars['String'];
   spaceId: Scalars['String'];
   updatedAt: Scalars['DateTimeISO'];
-};
-
-export type UpsertByteCollectionCategory = {
-  byteCollectionIds: Array<Scalars['String']>;
-  creator: Scalars['String'];
-  excerpt: Scalars['String'];
-  id: Scalars['String'];
-  imageUrl?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  spaceId: Scalars['String'];
 };
 
 
@@ -3375,6 +3374,7 @@ export type ResolversTypes = {
   UpdateTopicSummaryInput: UpdateTopicSummaryInput;
   UpdateTopicVideoInput: UpdateTopicVideoInput;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
+  UpsertByteCollectionCategory: UpsertByteCollectionCategory;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
@@ -3400,7 +3400,6 @@ export type ResolversTypes = {
   VercelDomain: ResolverTypeWrapper<VercelDomain>;
   VercelVerification: ResolverTypeWrapper<VercelVerification>;
   WebsiteScrapingInfo: ResolverTypeWrapper<WebsiteScrapingInfo>;
-  upsertByteCollectionCategory: UpsertByteCollectionCategory;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -3595,6 +3594,7 @@ export type ResolversParentTypes = {
   UpdateTopicSummaryInput: UpdateTopicSummaryInput;
   UpdateTopicVideoInput: UpdateTopicVideoInput;
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
+  UpsertByteCollectionCategory: UpsertByteCollectionCategory;
   UpsertByteInput: UpsertByteInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
@@ -3620,7 +3620,6 @@ export type ResolversParentTypes = {
   VercelDomain: VercelDomain;
   VercelVerification: VercelVerification;
   WebsiteScrapingInfo: WebsiteScrapingInfo;
-  upsertByteCollectionCategory: UpsertByteCollectionCategory;
 };
 
 export type AcademyTaskResolvers<ContextType = any, ParentType extends ResolversParentTypes['AcademyTask'] = ResolversParentTypes['AcademyTask']> = {
