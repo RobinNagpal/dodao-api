@@ -1,6 +1,6 @@
 import { MutationUpsertByteCollectionCategoryArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
-import { checkEditSpacePermission, checkEntityAndSpaceIdsAreSame } from '@/helpers/space/checkEditSpacePermission';
+import { checkEditSpacePermission, checkSpaceIdAndSpaceInEntityAreSame } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
@@ -8,7 +8,7 @@ export default async function upsertByteCollectionCategory(_: any, args: Mutatio
   const spaceById = await getSpaceById(args.input.spaceId);
 
   checkEditSpacePermission(spaceById, context);
-  checkEntityAndSpaceIdsAreSame(args.spaceId, args.input.spaceId);
+  checkSpaceIdAndSpaceInEntityAreSame(args.spaceId, args.input.spaceId);
 
   const byteCollectionCategory = await prisma.byteCollectionCategory.upsert({
     where: {
