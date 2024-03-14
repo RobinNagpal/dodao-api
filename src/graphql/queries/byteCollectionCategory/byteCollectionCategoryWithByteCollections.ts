@@ -1,70 +1,45 @@
-import { QueryByteCollectionCategoryWithByteCollectionsArgs, CategoryWithByteCollection } from '@/graphql/generated/graphql';
+import {
+  ByteCollection as ByteCollectionGraphql,
+  CategoryWithByteCollection,
+  QueryByteCollectionCategoryWithByteCollectionsArgs,
+} from '@/graphql/generated/graphql';
+import { getByteCollectionWithBytes } from '@/helpers/byteCollection/byteCollectionsHelper';
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
-import { getByte } from '../byte/byte';
 
 export default async function byteCollectionCategoryWithByteCollections(
   _: any,
   args: QueryByteCollectionCategoryWithByteCollectionsArgs,
   context: IncomingMessage,
 ): Promise<CategoryWithByteCollection> {
-  const byteCollectionCategory = await prisma.byteCollectionCategory.findUnique({
+  const byteCollectionCategory = await prisma.byteCollectionCategory.findUniqueOrThrow({
     where: {
       id: args.categoryId,
     },
   });
 
-  const byteCollectionArr = [];
+  const byteCollectionArr: ByteCollectionGraphql[] = [];
 
-  if (byteCollectionCategory) {
-    for (const byteCollectionId of byteCollectionCategory.byteCollectionIds) {
-      const bytes = [];
-      const byteCollection = await prisma.byteCollection.findFirstOrThrow({
-        where: {
-          spaceId: args.spaceId,
-          id: byteCollectionId,
-        },
-        orderBy: {
-          priority: 'desc',
-        },
-      });
-      for (const byteId of byteCollection.byteIds) {
-        const byte = await getByte(byteCollection.spaceId, byteId);
-        bytes.push({
-          byteId: byte.id,
-          name: byte.name,
-          content: byte.content,
-          videoUrl: byte.videoUrl,
-        });
-      }
-      byteCollectionArr.push({
-        id: byteCollection.id,
-        name: byteCollection.name,
-        description: byteCollection.description,
-        bytes: bytes,
-        status: byteCollection.status,
-        priority: byteCollection.priority,
-        byteIds: byteCollection.byteIds,
-      });
-    }
+  for (const byteCollectionId of byteCollectionCategory.byteCollectionIds) {
+    const byteCollection = await prisma.byteCollection.findFirstOrThrow({
+      where: {
+        spaceId: args.spaceId,
+        id: byteCollectionId,
+      },
+      orderBy: {
+        priority: 'desc',
+      },
+    });
 
-    const ByteCollectionWithCategory = {
-      id: byteCollectionCategory.id,
-      name: byteCollectionCategory.name,
-      excerpt: byteCollectionCategory.excerpt,
-      imageUrl: byteCollectionCategory.imageUrl,
-      creator: byteCollectionCategory.creator,
-      byteCollectionArr: byteCollectionArr,
-    };
-    return ByteCollectionWithCategory;
+    byteCollectionArr.push(await getByteCollectionWithBytes(byteCollection));
   }
 
   return {
-    id: '',
-    name: 'Name',
-    excerpt: 'Excerpt',
-    imageUrl: '',
-    creator: '',
-    byteCollectionArr: [],
-  } as CategoryWithByteCollection;
+    id: byteCollectionCategory.id,
+    name: byteCollectionCategory.name,
+    excerpt: byteCollectionCategory.excerpt,
+    imageUrl: byteCollectionCategory.imageUrl,
+    byteCollections: byteCollectionArr,
+    creator: byteCollectionCategory.creator,
+  };
 }

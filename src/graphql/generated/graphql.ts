@@ -270,7 +270,7 @@ export type ByteUserInput = {
 
 export type CategoryWithByteCollection = {
   __typename?: 'CategoryWithByteCollection';
-  byteCollectionArr: Array<ByteCollection>;
+  byteCollections: Array<ByteCollection>;
   creator: Scalars['String'];
   excerpt: Scalars['String'];
   id: Scalars['String'];
@@ -1718,6 +1718,7 @@ export type MutationUpsertByteArgs = {
 
 export type MutationUpsertByteCollectionCategoryArgs = {
   input: UpsertByteCollectionCategory;
+  spaceId: Scalars['String'];
 };
 
 
@@ -3779,7 +3780,7 @@ export type ByteUserInputResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type CategoryWithByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CategoryWithByteCollection'] = ResolversParentTypes['CategoryWithByteCollection']> = {
-  byteCollectionArr?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType>;
+  byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4414,7 +4415,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateTopicVideo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicVideoArgs, 'spaceId' | 'videoInfo'>>;
   upsertAcademyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<MutationUpsertAcademyTaskArgs, 'spaceId' | 'task'>>;
   upsertByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationUpsertByteArgs, 'input' | 'spaceId'>>;
-  upsertByteCollectionCategory?: Resolver<ResolversTypes['ByteCollectionCategory'], ParentType, ContextType, RequireFields<MutationUpsertByteCollectionCategoryArgs, 'input'>>;
+  upsertByteCollectionCategory?: Resolver<ResolversTypes['ByteCollectionCategory'], ParentType, ContextType, RequireFields<MutationUpsertByteCollectionCategoryArgs, 'input' | 'spaceId'>>;
   upsertByteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<MutationUpsertByteSocialShareArgs, 'input' | 'spaceId'>>;
   upsertChatbotCategory?: Resolver<ResolversTypes['ChatbotCategory'], ParentType, ContextType, RequireFields<MutationUpsertChatbotCategoryArgs, 'input' | 'spaceId'>>;
   upsertChatbotFAQ?: Resolver<ResolversTypes['ChatbotFAQ'], ParentType, ContextType, RequireFields<MutationUpsertChatbotFaqArgs, 'input' | 'spaceId'>>;

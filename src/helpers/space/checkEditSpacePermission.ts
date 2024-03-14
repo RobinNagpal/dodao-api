@@ -76,3 +76,9 @@ export function checkEditSpacePermission(space: Space, context: IncomingMessage)
 
   return decodedJWT;
 }
+
+export function checkEntityAndSpaceIdsAreSame(spaceId: string, entitySpaceId: string) {
+  if (entitySpaceId !== spaceId) {
+    throw new Error('Space id and entity space id are not same - ' + spaceId + ' - ' + entitySpaceId);
+  }
+}
