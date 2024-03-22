@@ -1,6 +1,6 @@
 import { PublishStatus } from '@/deprecatedSchemas/models/enums';
 import { MutationUpsertProjectByteArgs } from '@/graphql/generated/graphql';
-import { TOP_CRYPTO_PROJECTS_SPACE_ID } from '@/helpers/chat/utils/app/constants';
+import { PredefinedSpaces } from '@/helpers/chat/utils/app/constants';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { slugify } from '@/helpers/space/slugify';
 import { prisma } from '@/prisma';
@@ -8,7 +8,7 @@ import { ProjectByte } from '@prisma/client';
 import { IncomingMessage } from 'http';
 
 export default async function upsertProjectByte(_: unknown, args: MutationUpsertProjectByteArgs, context: IncomingMessage) {
-  const spaceById = await prisma.space.findUniqueOrThrow({ where: { id: TOP_CRYPTO_PROJECTS_SPACE_ID } });
+  const spaceById = await prisma.space.findUniqueOrThrow({ where: { id: PredefinedSpaces.TIDBITS_HUB } });
 
   checkEditSpacePermission(spaceById, context);
 

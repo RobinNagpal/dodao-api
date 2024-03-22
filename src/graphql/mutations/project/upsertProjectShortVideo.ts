@@ -1,5 +1,5 @@
 import { MutationUpsertProjectShortVideoArgs } from '@/graphql/generated/graphql';
-import { TOP_CRYPTO_PROJECTS_SPACE_ID } from '@/helpers/chat/utils/app/constants';
+import { PredefinedSpaces } from '@/helpers/chat/utils/app/constants';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { prisma } from '@/prisma';
 import { ProjectShortVideo } from '@prisma/client';
@@ -7,7 +7,7 @@ import { IncomingMessage } from 'http';
 import { v4 } from 'uuid';
 
 export default async function upsertProjectShortVideo(_: unknown, args: MutationUpsertProjectShortVideoArgs, context: IncomingMessage) {
-  const spaceById = await prisma.space.findUniqueOrThrow({ where: { id: TOP_CRYPTO_PROJECTS_SPACE_ID } });
+  const spaceById = await prisma.space.findUniqueOrThrow({ where: { id: PredefinedSpaces.TIDBITS_HUB } });
 
   checkEditSpacePermission(spaceById, context);
 
