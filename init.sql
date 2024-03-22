@@ -183,3 +183,90 @@ INSERT INTO project_byte_collections (id, "projectId", created_at, updated_at, n
 
 INSERT INTO project_short_videos (id, project_id, priority, created_at, updated_at, title, description, video_url, thumbnail, seo_meta) VALUES ('9505fa6d-097b-456e-9401-497efca8a4a9', 'gods-unchained', 100, '2024-01-02 14:18:32.515', '2024-01-02 14:19:13.029', 'About Gods Unchained', 'About Gods Unchained', 'https://d31h13bdjwgzxs.cloudfront.net/academy/top-crypto-projects/ShortVideo/1acfeb7b_cc5c_4935_9948_bcd7097e5758/1704205069314_videoplayback_%283%29.mp4', 'https://d31h13bdjwgzxs.cloudfront.net/academy/top-crypto-projects/ShortVideo/9505fa6d_097b_456e_9401_497efca8a4a9/1704205143149_screenshot_2024-01-02%20191722.png', null);
 INSERT INTO project_short_videos (id, project_id, priority, created_at, updated_at, title, description, video_url, thumbnail, seo_meta) VALUES ('95666f90-c030-42d6-abcf-4df0c7f4de38', 'gods-unchained', 80, '2024-01-02 14:22:33.398', '2024-01-02 14:22:33.398', 'Gods Unchained Available On Amazon Prime', 'Gods Unchained Available On Amazon Prime', 'https://d31h13bdjwgzxs.cloudfront.net/academy/top-crypto-projects/ShortVideo/574a6379_0975_46f3_8671_1bd6f3700e56/1704205282432_videoplayback_%284%29.mp4', 'https://d31h13bdjwgzxs.cloudfront.net/academy/top-crypto-projects/ShortVideo/574a6379_0975_46f3_8671_1bd6f3700e56/1704205279630_screenshot_2024-01-02%20192034.png', null);
+
+
+INSERT INTO spaces
+(id, settings, verified, created_at, creator, name, updated_at, avatar, admins, admin_usernames, domains, skin, discord_invite, telegram_invite, invite_links, auth_settings, guide_settings, social_settings, byte_settings, features, "botDomains", theme_colors, admin_usernames_v1, type)
+VALUES
+('test-tidbits',
+'{
+    "id": "test-tidbits",
+    "admins": [],
+    "adminUsernames": [],
+    "adminUsernamesV1": [
+        {
+            "username": "support@dodao.io",
+            "nameOfTheUser": "support@dodao.io"
+        },
+        {
+            "username": "0xB0Bc2970c3A870E7E3383357AA98770Fc8eAE3F1",
+            "nameOfTheUser": "Sami"
+        }
+    ],
+    "avatar": "https://d31h13bdjwgzxs.cloudfront.net/academy/dodao-academy/AcademyLogo/dodao_academy/1691168329774_dodao_logo%2Btext%20rectangle.svg",
+    "creator": "support@dodao.io",
+    "features": [],
+    "name": "Test Tidbits",
+    "skin": "dodao",
+    "type": "TidbitsSite",
+    "inviteLinks": {
+        "discordInviteLink": null,
+        "showAnimatedButtonForDiscord": null,
+        "telegramInviteLink": null,
+        "showAnimatedButtonForTelegram": null
+    },
+    "spaceIntegrations": {
+        "discordGuildId": null,
+        "projectGalaxyTokenLastFour": null,
+        "gnosisSafeWallets": [],
+        "gitGuideRepositories": [],
+        "academyRepository": null
+    },
+    "domains": [
+        "test-tidbits.tidbitshub.org",
+        "test-tidbits.tidbitshub-localhost.org"
+    ],
+    "botDomains": []
+}'::json,
+true,
+'2024-03-22 09:53:06.936',
+'support@dodao.io',
+'Test Tidbits',
+'2024-03-22 13:04:01.099',
+'https://d31h13bdjwgzxs.cloudfront.net/academy/dodao-academy/AcademyLogo/dodao_academy/1691168329774_dodao_logo%2Btext%20rectangle.svg',
+ARRAY[]::text[],
+ARRAY[]::varchar(255)[],
+ARRAY['test-tidbits.tidbitshub.org','test-tidbits.tidbitshub-localhost.org'],
+'dodao',
+NULL,
+NULL,
+'{
+    "discordInviteLink": null,
+    "showAnimatedButtonForDiscord": null,
+    "telegramInviteLink": null,
+    "showAnimatedButtonForTelegram": null
+}'::json,
+'{}'::json,
+'{}'::json,
+'{}'::json,
+'{}'::json,
+ARRAY[]::text[],
+ARRAY[]::text[],
+'{
+    "primaryColor": "#88b98e",
+    "bgColor": "#4d5650",
+    "textColor": "#cbd3dc",
+    "linkColor": "#f0f0f5",
+    "headingColor": "#dfe1e7",
+    "borderColor": "#d0d7de",
+    "blockBg": "#122e59"
+}'::json,
+ARRAY[
+    '{"username": "support@dodao.io", "nameOfTheUser": "support@dodao.io"}',
+    '{"username": "0xB0Bc2970c3A870E7E3383357AA98770Fc8eAE3F1", "nameOfTheUser": "Sami"}'
+]::jsonb[],
+'TidbitsSite'
+);
+
+
+INSERT INTO space_integrations (id, space_id, created_at, created_by, discord_guild_id, project_galaxy_token, project_galaxy_token_last_four, updated_at, updated_by, gnosis_safe_wallets, git_guide_repositories, academy_repository, "loadersInfo") VALUES ('51857152-b9d8-4675-8461-052bfe258000', 'test-tidbits', '2024-03-21 15:07:50.904', null, null, null, null, '2024-03-22 09:53:06.945', 'clhqrymsy0006s9awkhi9o7k6', '[]', '{}', null, null);
