@@ -26,7 +26,6 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     inviteLinks: args.spaceInput.inviteLinks || {},
     name: args.spaceInput.name,
     skin: args.spaceInput.skin,
-    settings: args.spaceInput || {},
     createdAt: new Date(),
     verified: true,
     updatedAt: new Date(),
@@ -39,6 +38,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     socialSettings: space.socialSettings || {},
     byteSettings: space.byteSettings || {},
     themeColors: space.themeColors || null,
+    tidbitsHomepage: space.tidbitsHomepage || null,
     type: args.spaceInput.type || space.type,
   };
   try {
@@ -46,7 +46,6 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
     await prisma.space.update({
       data: {
         ...spaceInput,
-        settings: spaceInput.settings || {},
         telegramInvite: null,
         discordInvite: null,
         inviteLinks: spaceInput.inviteLinks || {
@@ -57,6 +56,7 @@ export default async function updateSpace(_: unknown, args: MutationUpdateSpaceA
         authSettings: spaceInput.authSettings || {},
         byteSettings: spaceInput.byteSettings || {},
         themeColors: spaceInput.themeColors || undefined,
+        tidbitsHomepage: spaceInput.tidbitsHomepage || undefined,
         type: spaceInput.type,
       },
       where: {

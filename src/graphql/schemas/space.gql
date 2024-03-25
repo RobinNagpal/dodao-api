@@ -62,6 +62,8 @@ extend type Mutation {
   upsertDomainRecords(spaceId: String!): DomainRecords!
 
   uploadImageFromUrlToS3(spaceId: String!, input: UploadImageFromUrlToS3Input!): String!
+
+  updateTidbitsHomepage(spaceId: ID!, tidbitsHomepage: TidbitsHomepageInput!): Space!
 }
 
 enum SpaceTypes {
@@ -96,6 +98,17 @@ type Space {
   socialSettings: SocialSettings!
   byteSettings: ByteSettings!
   themeColors: ThemeColors
+  tidbitsHomepage: TidbitsHomepage
+}
+
+type TidbitsHomepage {
+  heading: String!
+  shortDescription: String!
+}
+
+input TidbitsHomepageInput {
+  heading: String!
+  shortDescription: String!
 }
 
 type ThemeColors {

@@ -61,7 +61,6 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     inviteLinks: {},
     name: input.name,
     skin: input.skin,
-    settings: input || {},
     createdAt: new Date(),
     verified: true,
     updatedAt: new Date(),
@@ -74,14 +73,15 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     socialSettings: {},
     byteSettings: {},
     themeColors: null,
+    tidbitsHomepage: null,
   };
 
   await prisma.space.create({
     data: {
       ...spaceInput,
-      settings: spaceInput.settings || {},
       inviteLinks: spaceInput.inviteLinks || {},
       themeColors: undefined,
+      tidbitsHomepage: undefined,
     },
   });
 
