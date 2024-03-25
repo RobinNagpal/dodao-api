@@ -1180,6 +1180,7 @@ export type Mutation = {
   updateSpace: Space;
   updateSpaceCreator: Space;
   updateThemeColors: Space;
+  updateTidbitsHomepage: Space;
   updateTopicBasicInfo: GitCourse;
   updateTopicExplanation: GitCourse;
   updateTopicQuestion: GitCourse;
@@ -1678,6 +1679,12 @@ export type MutationUpdateSpaceCreatorArgs = {
 export type MutationUpdateThemeColorsArgs = {
   spaceId: Scalars['ID'];
   themeColors: ThemeColorsInput;
+};
+
+
+export type MutationUpdateTidbitsHomepageArgs = {
+  spaceId: Scalars['ID'];
+  tidbitsHomepage: TidbitsHomepageInput;
 };
 
 
@@ -2588,6 +2595,7 @@ export type Space = {
   socialSettings: SocialSettings;
   spaceIntegrations?: Maybe<SpaceIntegrations>;
   themeColors?: Maybe<ThemeColors>;
+  tidbitsHomepage?: Maybe<TidbitsHomepage>;
   type: Scalars['String'];
 };
 
@@ -2727,6 +2735,17 @@ export type ThemeColorsInput = {
   linkColor: Scalars['String'];
   primaryColor: Scalars['String'];
   textColor: Scalars['String'];
+};
+
+export type TidbitsHomepage = {
+  __typename?: 'TidbitsHomepage';
+  heading: Scalars['String'];
+  shortDescription: Scalars['String'];
+};
+
+export type TidbitsHomepageInput = {
+  heading: Scalars['String'];
+  shortDescription: Scalars['String'];
 };
 
 export type Timeline = {
@@ -3384,6 +3403,8 @@ export type ResolversTypes = {
   SummarizedGitCourseTopic: ResolverTypeWrapper<SummarizedGitCourseTopic>;
   ThemeColors: ResolverTypeWrapper<ThemeColors>;
   ThemeColorsInput: ThemeColorsInput;
+  TidbitsHomepage: ResolverTypeWrapper<TidbitsHomepage>;
+  TidbitsHomepageInput: TidbitsHomepageInput;
   Timeline: ResolverTypeWrapper<Timeline>;
   TimelineEvent: ResolverTypeWrapper<TimelineEvent>;
   TopicConfig: ResolverTypeWrapper<TopicConfig>;
@@ -3605,6 +3626,8 @@ export type ResolversParentTypes = {
   SummarizedGitCourseTopic: SummarizedGitCourseTopic;
   ThemeColors: ThemeColors;
   ThemeColorsInput: ThemeColorsInput;
+  TidbitsHomepage: TidbitsHomepage;
+  TidbitsHomepageInput: TidbitsHomepageInput;
   Timeline: Timeline;
   TimelineEvent: TimelineEvent;
   TopicConfig: TopicConfig;
@@ -4431,6 +4454,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'spaceInput'>>;
   updateSpaceCreator?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceCreatorArgs, 'creator' | 'spaceId'>>;
   updateThemeColors?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateThemeColorsArgs, 'spaceId' | 'themeColors'>>;
+  updateTidbitsHomepage?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateTidbitsHomepageArgs, 'spaceId' | 'tidbitsHomepage'>>;
   updateTopicBasicInfo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicBasicInfoArgs, 'spaceId' | 'topicInfo'>>;
   updateTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   updateTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationUpdateTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
@@ -4786,6 +4810,7 @@ export type SpaceResolvers<ContextType = any, ParentType extends ResolversParent
   socialSettings?: Resolver<ResolversTypes['SocialSettings'], ParentType, ContextType>;
   spaceIntegrations?: Resolver<Maybe<ResolversTypes['SpaceIntegrations']>, ParentType, ContextType>;
   themeColors?: Resolver<Maybe<ResolversTypes['ThemeColors']>, ParentType, ContextType>;
+  tidbitsHomepage?: Resolver<Maybe<ResolversTypes['TidbitsHomepage']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -4858,6 +4883,12 @@ export type ThemeColorsResolvers<ContextType = any, ParentType extends Resolvers
   linkColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   primaryColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   textColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TidbitsHomepageResolvers<ContextType = any, ParentType extends ResolversParentTypes['TidbitsHomepage'] = ResolversParentTypes['TidbitsHomepage']> = {
+  heading?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  shortDescription?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5059,6 +5090,7 @@ export type Resolvers<ContextType = any> = {
   SummarizedGitCourse?: SummarizedGitCourseResolvers<ContextType>;
   SummarizedGitCourseTopic?: SummarizedGitCourseTopicResolvers<ContextType>;
   ThemeColors?: ThemeColorsResolvers<ContextType>;
+  TidbitsHomepage?: TidbitsHomepageResolvers<ContextType>;
   Timeline?: TimelineResolvers<ContextType>;
   TimelineEvent?: TimelineEventResolvers<ContextType>;
   TopicConfig?: TopicConfigResolvers<ContextType>;

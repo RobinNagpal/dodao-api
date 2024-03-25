@@ -112,7 +112,6 @@ model Guide {
 
 model Space {
   id                     String                   @id @db.VarChar(64)
-  settings               Json?                    @db.Json
   verified               Boolean                  @default(false)
   createdAt              DateTime                 @default(now()) @map("created_at")
   creator                String                   @db.VarChar(64)
@@ -152,6 +151,8 @@ model Space {
   themeColors            Json?                    @map("theme_colors") @db.Json
   type                   String                   @default("ACADEMY_SITE") @db.VarChar(255)
   ByteCollectionCategory ByteCollectionCategory[]
+  /// [TidbitsHomepage]
+  tidbitsHomepage        Json?                    @map("tidbits_homepage") @db.Json
 
   @@map("spaces")
 }

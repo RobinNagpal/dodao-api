@@ -25,7 +25,6 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     inviteLinks: input.inviteLinks || {},
     name: input.name,
     skin: input.skin,
-    settings: input || {},
     createdAt: new Date(),
     verified: true,
     updatedAt: new Date(),
@@ -38,14 +37,15 @@ export default async function createSpace(_: unknown, args: MutationCreateSpaceA
     socialSettings: {},
     byteSettings: {},
     themeColors: null,
+    tidbitsHomepage: null,
   };
 
   await prisma.space.create({
     data: {
       ...spaceInput,
-      settings: spaceInput.settings || {},
       inviteLinks: spaceInput.inviteLinks || {},
       themeColors: undefined,
+      tidbitsHomepage: undefined,
     },
   });
 

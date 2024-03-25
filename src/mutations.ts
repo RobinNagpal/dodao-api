@@ -65,6 +65,7 @@ import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderIn
 import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import updateSpaceCreator from './graphql/mutations/space/updateSpaceCreator';
 import updateThemeColors from './graphql/mutations/space/updateThemeColors';
+import updateTidbitsHomepage from './graphql/mutations/space/updateTidbitsHomepage';
 import updateSeoOfProject from './graphql/mutations/project/updateSeoOfProject';
 import updateSeoOfProjectByte from './graphql/mutations/project/updateSeoOfProjectByte';
 import updateSeoOfProjectByteCollection from './graphql/mutations/project/updateSeoOfProjectByteCollection';
@@ -155,6 +156,8 @@ export default {
   upsertShortVideo,
 
   updateThemeColors,
+  
+  updateTidbitsHomepage,
 
   upsertRoute53Record,
   upsertVercelDomainRecord,
