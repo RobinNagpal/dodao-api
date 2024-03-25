@@ -156,7 +156,7 @@ export default {
   upsertShortVideo,
 
   updateThemeColors,
-  
+
   updateTidbitsHomepage,
 
   upsertRoute53Record,
