@@ -24,6 +24,7 @@ export default async function upsertByteCollectionCategory(_: any, args: Mutatio
       imageUrl: args.input.imageUrl,
       creator: user.username,
       excerpt: args.input.excerpt,
+      status: args.input.status,
     },
     update: {
       name: args.input.name,
@@ -31,6 +32,7 @@ export default async function upsertByteCollectionCategory(_: any, args: Mutatio
       updatedAt: new Date(),
       imageUrl: args.input.imageUrl,
       excerpt: args.input.excerpt,
+      status: args.input.status,
     },
   });
 

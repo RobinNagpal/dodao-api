@@ -157,7 +157,14 @@ export type ByteCollectionCategory = {
   id: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  status: Scalars['String'];
 };
+
+export enum ByteCollectionCategoryStatus {
+  Active = 'Active',
+  ComingSoon = 'ComingSoon',
+  Hidden = 'Hidden'
+}
 
 export type ByteLinkedinPdfContent = {
   __typename?: 'ByteLinkedinPdfContent';
@@ -276,6 +283,7 @@ export type CategoryWithByteCollection = {
   id: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type ChatCompletionAiInput = {
@@ -2874,6 +2882,7 @@ export type UpsertByteCollectionCategory = {
   imageUrl?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   spaceId: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type UpsertByteInput = {
@@ -3236,6 +3245,7 @@ export type ResolversTypes = {
   ByteCollection: ResolverTypeWrapper<ByteCollection>;
   ByteCollectionByte: ResolverTypeWrapper<ByteCollectionByte>;
   ByteCollectionCategory: ResolverTypeWrapper<ByteCollectionCategory>;
+  ByteCollectionCategoryStatus: ByteCollectionCategoryStatus;
   ByteLinkedinPdfContent: ResolverTypeWrapper<ByteLinkedinPdfContent>;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
@@ -3750,6 +3760,7 @@ export type ByteCollectionCategoryResolvers<ContextType = any, ParentType extend
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3832,6 +3843,7 @@ export type CategoryWithByteCollectionResolvers<ContextType = any, ParentType ex
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

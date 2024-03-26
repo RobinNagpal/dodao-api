@@ -13,6 +13,7 @@ type CategoryWithByteCollection {
   imageUrl: String
   excerpt: String!
   creator: String!
+  status: String!
   byteCollections: [ByteCollection!]!
 }
 
@@ -21,6 +22,7 @@ type ByteCollectionCategory {
   name: String!
   imageUrl: String
   excerpt: String
+  status: String!
   byteCollectionIds: [String!]!
 }
 
@@ -30,5 +32,12 @@ input UpsertByteCollectionCategory {
   name: String!
   imageUrl: String
   excerpt: String!
+  status: String!
   byteCollectionIds: [String!]!
+}
+
+enum ByteCollectionCategoryStatus {
+  Active
+  Hidden
+  ComingSoon
 }

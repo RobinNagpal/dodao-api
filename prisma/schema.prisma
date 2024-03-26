@@ -540,6 +540,7 @@ model ByteCollectionCategory {
   creator           String   @db.VarChar(64)
   spaceId           String   @map("space_id") @db.VarChar(66)
   Space             Space    @relation(fields: [spaceId], references: [id])
+  status            String   @default("Active") @db.VarChar(255)
 
   @@map("byte_collections_category")
 }
