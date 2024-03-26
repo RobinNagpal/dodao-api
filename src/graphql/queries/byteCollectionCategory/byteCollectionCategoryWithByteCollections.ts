@@ -37,6 +37,7 @@ export async function getByteCollectionCategoryWithByteCollections(spaceId: stri
     imageUrl: byteCollectionCategory.imageUrl,
     byteCollections: byteCollectionArr,
     creator: byteCollectionCategory.creator,
+    status: byteCollectionCategory.status,
   };
 }
 
