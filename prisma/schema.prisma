@@ -541,6 +541,7 @@ model ByteCollectionCategory {
   spaceId           String   @map("space_id") @db.VarChar(66)
   Space             Space    @relation(fields: [spaceId], references: [id])
   status            String   @default("Active") @db.VarChar(255)
+  priority          Int      @default(50)
 
   @@map("byte_collections_category")
 }
