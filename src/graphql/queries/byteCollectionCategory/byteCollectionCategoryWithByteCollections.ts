@@ -7,7 +7,7 @@ import { getByteCollectionWithBytes } from '@/helpers/byteCollection/byteCollect
 import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
-export async function getByteCollectionCategoryWithByteCollections(spaceId: string, categoryId: string) {
+export async function getByteCollectionCategoryWithByteCollections(spaceId: string, categoryId: string): Promise<CategoryWithByteCollection> {
   const byteCollectionCategory = await prisma.byteCollectionCategory.findUniqueOrThrow({
     where: {
       id: categoryId,
@@ -38,6 +38,7 @@ export async function getByteCollectionCategoryWithByteCollections(spaceId: stri
     byteCollections: byteCollectionArr,
     creator: byteCollectionCategory.creator,
     status: byteCollectionCategory.status,
+    priority: byteCollectionCategory.priority,
   };
 }
 

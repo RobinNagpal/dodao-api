@@ -14,6 +14,7 @@ type CategoryWithByteCollection {
   excerpt: String!
   creator: String!
   status: String!
+  priority: Int!
   byteCollections: [ByteCollection!]!
 }
 
@@ -23,6 +24,7 @@ type ByteCollectionCategory {
   imageUrl: String
   excerpt: String
   status: String!
+  priority: Int!
   byteCollectionIds: [String!]!
 }
 
@@ -33,6 +35,7 @@ input UpsertByteCollectionCategory {
   imageUrl: String
   excerpt: String!
   status: String!
+  priority: Int!
   byteCollectionIds: [String!]!
 }
 

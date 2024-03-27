@@ -6,6 +6,9 @@ export async function getByteCollectionCategories(spaceId: string) {
     where: {
       spaceId: spaceId,
     },
+    orderBy: {
+      priority: 'desc',
+    },
   });
 
   return byteCollectionCategories;

@@ -157,6 +157,7 @@ export type ByteCollectionCategory = {
   id: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  priority: Scalars['Int'];
   status: Scalars['String'];
 };
 
@@ -283,6 +284,7 @@ export type CategoryWithByteCollection = {
   id: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  priority: Scalars['Int'];
   status: Scalars['String'];
 };
 
@@ -2881,6 +2883,7 @@ export type UpsertByteCollectionCategory = {
   id: Scalars['String'];
   imageUrl?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
 };
@@ -3760,6 +3763,7 @@ export type ByteCollectionCategoryResolvers<ContextType = any, ParentType extend
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3843,6 +3847,7 @@ export type CategoryWithByteCollectionResolvers<ContextType = any, ParentType ex
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
