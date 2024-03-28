@@ -119,6 +119,7 @@ export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
   byteStyle?: Maybe<Scalars['String']>;
+  completionScreen?: Maybe<CompletionScreen>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -384,6 +385,36 @@ export type CompletionAiInput = {
   temperature?: InputMaybe<Scalars['Float']>;
 };
 
+export type CompletionScreen = {
+  __typename?: 'CompletionScreen';
+  content: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  items: Array<CompletionScreenItem>;
+  name: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
+export type CompletionScreenInput = {
+  content: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
+  items: Array<CompletionScreenItemInput>;
+  name: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
+export type CompletionScreenItem = {
+  __typename?: 'CompletionScreenItem';
+  label: Scalars['String'];
+  link: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
+export type CompletionScreenItemInput = {
+  label: Scalars['String'];
+  link: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
 export type ConsolidatedByteRating = {
   __typename?: 'ConsolidatedByteRating';
   avgRating: Scalars['Float'];
@@ -392,7 +423,7 @@ export type ConsolidatedByteRating = {
   positiveFeedbackCount: Scalars['Int'];
   positiveRatingDistribution: ByteRatingDistribution;
   ratingFeedbackCount: Scalars['Int'];
-};
+}
 
 export type ConsolidatedGuideRating = {
   __typename?: 'ConsolidatedGuideRating';
@@ -2046,6 +2077,7 @@ export type ProjectByte = {
   admins: Array<Scalars['String']>;
   archived: Scalars['Boolean'];
   byteStyle?: Maybe<Scalars['String']>;
+  completionScreen?: Maybe<CompletionScreen>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -2962,6 +2994,7 @@ export type UpsertByteCollectionCategory = {
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
+  completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -3061,6 +3094,7 @@ export type UpsertProjectByteCollectionInput = {
 export type UpsertProjectByteInput = {
   admins: Array<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
+  completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
   created: Scalars['String'];
   id: Scalars['String'];
@@ -3360,6 +3394,10 @@ export type ResolversTypes = {
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
   ConsolidatedByteRating: ResolverTypeWrapper<ConsolidatedByteRating>;
+  CompletionScreen: ResolverTypeWrapper<CompletionScreen>;
+  CompletionScreenInput: CompletionScreenInput;
+  CompletionScreenItem: ResolverTypeWrapper<CompletionScreenItem>;
+  CompletionScreenItemInput: CompletionScreenItemInput;
   ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
@@ -3593,6 +3631,10 @@ export type ResolversParentTypes = {
   ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
   ConsolidatedByteRating: ConsolidatedByteRating;
+  CompletionScreen: CompletionScreen;
+  CompletionScreenInput: CompletionScreenInput;
+  CompletionScreenItem: CompletionScreenItem;
+  CompletionScreenItemInput: CompletionScreenItemInput;
   ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
@@ -3819,6 +3861,7 @@ export type AuthSettingsResolvers<ContextType = any, ParentType extends Resolver
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  completionScreen?: Resolver<Maybe<ResolversTypes['CompletionScreen']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4025,6 +4068,20 @@ export type ConsolidatedByteRatingResolvers<ContextType = any, ParentType extend
   positiveFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   positiveRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
   ratingFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+};
+export type CompletionScreenResolvers<ContextType = any, ParentType extends ResolversParentTypes['CompletionScreen'] = ResolversParentTypes['CompletionScreen']> = {
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  items?: Resolver<Array<ResolversTypes['CompletionScreenItem']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CompletionScreenItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['CompletionScreenItem'] = ResolversParentTypes['CompletionScreenItem']> = {
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4724,6 +4781,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  completionScreen?: Resolver<Maybe<ResolversTypes['CompletionScreen']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -5163,6 +5221,8 @@ export type Resolvers<ContextType = any> = {
   ChatbotSubcategory?: ChatbotSubcategoryResolvers<ContextType>;
   ChatbotUserQuestion?: ChatbotUserQuestionResolvers<ContextType>;
   ConsolidatedByteRating?: ConsolidatedByteRatingResolvers<ContextType>;
+  CompletionScreen?: CompletionScreenResolvers<ContextType>;
+  CompletionScreenItem?: CompletionScreenItemResolvers<ContextType>;
   ConsolidatedGuideRating?: ConsolidatedGuideRatingResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;

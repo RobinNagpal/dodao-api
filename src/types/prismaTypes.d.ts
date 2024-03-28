@@ -10,6 +10,7 @@ import {
   ThemeColors as SpaceThemeColors,
   UsernameAndName as UsernameAndNameType,
   SEOMeta as SEOMetaType,
+  CompletionScreen as CompletionScreenType,
   TidbitsHomepage as TidbitsHomepageType,
   ByteFeedback as ByteFeedbackType,
 } from '@/graphql/generated/graphql';
@@ -40,6 +41,7 @@ declare global {
     type ThemeColors = SpaceThemeColors;
     type UsernameAndName = UsernameAndNameType;
     type SEOMeta = SEOMetaType;
+    type CompletionScreen = CompletionScreenType;
     type TidbitsHomepage = TidbitsHomepageType;
     type ByteFeedback = ByteFeedbackType;
   }
