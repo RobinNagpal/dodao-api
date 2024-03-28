@@ -28,6 +28,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
         description: args.input.seoMeta?.description ?? args.input.content,
         keywords: args.input.seoMeta?.keywords ?? [],
       },
+      completionScreen: args.input.completionScreen ?? (null as any),
     },
     update: {
       ...args.input,
@@ -40,6 +41,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
         description: args.input.seoMeta?.description ?? args.input.content,
         keywords: args.input.seoMeta?.keywords ?? [],
       },
+      completionScreen: args.input.completionScreen || undefined,
     },
     where: {
       id: args.input.id,

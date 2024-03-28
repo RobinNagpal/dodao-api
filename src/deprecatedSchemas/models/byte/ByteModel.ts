@@ -1,3 +1,4 @@
+import { CompletionScreen } from '@/graphql/generated/graphql';
 import { InputType, PublishStatus, QuestionType, StepItemType, UserDiscordConnectType } from '../enums';
 
 export interface ByteStepItem {
@@ -42,6 +43,7 @@ export interface ByteModel {
   admins: string[];
   tags: string[];
   priority: number;
+  completionScreen: CompletionScreen | null;
 }
 
 export type ByteWithoutSteps = Omit<ByteModel, 'steps'>;
