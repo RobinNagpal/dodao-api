@@ -2,6 +2,9 @@ extend type Query {
   byte(spaceId: String!, byteId: String!, includeDraft: Boolean): Byte!
   bytes(spaceId: String!): [Byte!]!
   byteSocialShare(spaceId: String!, byteId: String!): ByteSocialShare
+  byteRating(spaceId: String, ratingUuid: String!): [ByteRating!]!
+  byteRatings(spaceId: String!, byteId: String!): [ByteRating!]!
+  consolidatedByteRating(spaceId: String!, byteId: String!): ConsolidatedByteRating
 }
 
 extend type Mutation {
@@ -9,6 +12,7 @@ extend type Mutation {
   generateSharablePdf(spaceId: String!, byteId: String!): String!
   deleteByte(spaceId: String!, byteId: String!): Boolean!
   upsertByteSocialShare(spaceId: String!, input: UpsertByteSocialShareInput!): ByteSocialShare!
+  upsertByteRating(spaceId: String!, upsertByteRatingInput: UpsertByteRatingInput!): ByteRating!
 }
 
 enum ByteStyle {
@@ -78,6 +82,40 @@ type ByteSocialShare {
   twitterImage: String
 }
 
+type ByteFeedback {
+  ux: Boolean
+  content: Boolean
+}
+
+type ByteRating {
+  ratingUuid: String!
+  byteId: String!
+  spaceId: String!
+  userId: String
+  ipAddress: String
+  skipRating: Boolean
+  rating: Int
+  positiveFeedback: ByteFeedback
+  negativeFeedback: ByteFeedback
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  username: String
+}
+
+type ConsolidatedByteRating {
+  avgRating: Float!
+  positiveRatingDistribution: ByteRatingDistribution!
+  negativeRatingDistribution: ByteRatingDistribution!
+  positiveFeedbackCount: Int!
+  negativeFeedbackCount: Int!
+  ratingFeedbackCount: Int!
+}
+
+type ByteRatingDistribution {
+  ux: Float!
+  content: Float!
+}
+
 input ByteStepInput {
   content: String!
   name: String!
@@ -118,4 +156,20 @@ input UpsertByteSocialShareInput {
   linkedInImages: [String!]
   linkedInPdf: String
   twitterImage: String
+}
+
+input ByteFeedbackInput {
+  ux: Boolean
+  content: Boolean
+}
+
+input UpsertByteRatingInput {
+  ratingUuid: String!
+  byteId: String!
+  userId: String
+  rating: Int
+  spaceId: String!
+  positiveFeedback: ByteFeedbackInput
+  negativeFeedback: ByteFeedbackInput
+  skipRating: Boolean
 }

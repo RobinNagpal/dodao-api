@@ -11,6 +11,7 @@ import {
   UsernameAndName as UsernameAndNameType,
   SEOMeta as SEOMetaType,
   TidbitsHomepage as TidbitsHomepageType,
+  ByteFeedback as ByteFeedbackType,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
@@ -40,5 +41,6 @@ declare global {
     type UsernameAndName = UsernameAndNameType;
     type SEOMeta = SEOMetaType;
     type TidbitsHomepage = TidbitsHomepageType;
+    type ByteFeedback = ByteFeedbackType;
   }
 }

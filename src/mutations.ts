@@ -3,6 +3,7 @@ import deleteByte from '@/graphql/mutations/byte/deleteByte';
 import generateSharablePdf from '@/graphql/mutations/byte/generateSharablePdf';
 import submitByte from '@/graphql/mutations/byte/submitByte';
 import upsertByte from '@/graphql/mutations/byte/upsertByte';
+import upsertByteRating from '@/graphql/mutations/byte/upsertByteRating';
 import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShare';
 import createByteCollection from '@/graphql/mutations/byteCollection/createByteCollection';
 import deleteByteCollection from '@/graphql/mutations/byteCollection/deleteByteCollection';
@@ -102,6 +103,7 @@ export default {
   upsertByteCollectionCategory,
   submitByte,
   deleteByte,
+  upsertByteRating,
 
   submitGuide,
   deleteGuide,

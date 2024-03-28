@@ -167,6 +167,17 @@ export enum ByteCollectionCategoryStatus {
   Hidden = 'Hidden'
 }
 
+export type ByteFeedback = {
+  __typename?: 'ByteFeedback';
+  content?: Maybe<Scalars['Boolean']>;
+  ux?: Maybe<Scalars['Boolean']>;
+};
+
+export type ByteFeedbackInput = {
+  content?: InputMaybe<Scalars['Boolean']>;
+  ux?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type ByteLinkedinPdfContent = {
   __typename?: 'ByteLinkedinPdfContent';
   excerpt: Scalars['String'];
@@ -199,6 +210,28 @@ export type ByteQuestion = {
   explanation: Scalars['String'];
   type: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type ByteRating = {
+  __typename?: 'ByteRating';
+  byteId: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  ipAddress?: Maybe<Scalars['String']>;
+  negativeFeedback?: Maybe<ByteFeedback>;
+  positiveFeedback?: Maybe<ByteFeedback>;
+  rating?: Maybe<Scalars['Int']>;
+  ratingUuid: Scalars['String'];
+  skipRating?: Maybe<Scalars['Boolean']>;
+  spaceId: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+  userId?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+};
+
+export type ByteRatingDistribution = {
+  __typename?: 'ByteRatingDistribution';
+  content: Scalars['Float'];
+  ux: Scalars['Float'];
 };
 
 export type ByteSettings = {
@@ -349,6 +382,16 @@ export type CompletionAiInput = {
   n?: InputMaybe<Scalars['Int']>;
   prompt: Scalars['String'];
   temperature?: InputMaybe<Scalars['Float']>;
+};
+
+export type ConsolidatedByteRating = {
+  __typename?: 'ConsolidatedByteRating';
+  avgRating: Scalars['Float'];
+  negativeFeedbackCount: Scalars['Int'];
+  negativeRatingDistribution: ByteRatingDistribution;
+  positiveFeedbackCount: Scalars['Int'];
+  positiveRatingDistribution: ByteRatingDistribution;
+  ratingFeedbackCount: Scalars['Int'];
 };
 
 export type ConsolidatedGuideRating = {
@@ -1200,6 +1243,7 @@ export type Mutation = {
   upsertAcademyTask: AcademyTask;
   upsertByte: Byte;
   upsertByteCollectionCategory: ByteCollectionCategory;
+  upsertByteRating: ByteRating;
   upsertByteSocialShare: ByteSocialShare;
   upsertChatbotCategory: ChatbotCategory;
   upsertChatbotFAQ: ChatbotFaq;
@@ -1752,6 +1796,12 @@ export type MutationUpsertByteCollectionCategoryArgs = {
 };
 
 
+export type MutationUpsertByteRatingArgs = {
+  spaceId: Scalars['String'];
+  upsertByteRatingInput: UpsertByteRatingInput;
+};
+
+
 export type MutationUpsertByteSocialShareArgs = {
   input: UpsertByteSocialShareInput;
   spaceId: Scalars['String'];
@@ -2057,11 +2107,14 @@ export type Query = {
   byteCollectionCategories: Array<ByteCollectionCategory>;
   byteCollectionCategoryWithByteCollections: CategoryWithByteCollection;
   byteCollections: Array<ByteCollection>;
+  byteRating: Array<ByteRating>;
+  byteRatings: Array<ByteRating>;
   byteSocialShare?: Maybe<ByteSocialShare>;
   bytes: Array<Byte>;
   chatbotCategories: Array<ChatbotCategory>;
   chatbotFAQs: Array<ChatbotFaq>;
   chatbotUserQuestions: Array<ChatbotUserQuestion>;
+  consolidatedByteRating?: Maybe<ConsolidatedByteRating>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
   discordChannels: Array<DiscordChannel>;
@@ -2161,6 +2214,18 @@ export type QueryByteCollectionsArgs = {
 };
 
 
+export type QueryByteRatingArgs = {
+  ratingUuid: Scalars['String'];
+  spaceId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryByteRatingsArgs = {
+  byteId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
 export type QueryByteSocialShareArgs = {
   byteId: Scalars['String'];
   spaceId: Scalars['String'];
@@ -2183,6 +2248,12 @@ export type QueryChatbotFaQsArgs = {
 
 
 export type QueryChatbotUserQuestionsArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryConsolidatedByteRatingArgs = {
+  byteId: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -2902,6 +2973,17 @@ export type UpsertByteInput = {
   videoUrl?: InputMaybe<Scalars['String']>;
 };
 
+export type UpsertByteRatingInput = {
+  byteId: Scalars['String'];
+  negativeFeedback?: InputMaybe<ByteFeedbackInput>;
+  positiveFeedback?: InputMaybe<ByteFeedbackInput>;
+  rating?: InputMaybe<Scalars['Int']>;
+  ratingUuid: Scalars['String'];
+  skipRating?: InputMaybe<Scalars['Boolean']>;
+  spaceId: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
+};
+
 export type UpsertByteSocialShareInput = {
   byteId: Scalars['String'];
   linkedInImages?: InputMaybe<Array<Scalars['String']>>;
@@ -3249,11 +3331,15 @@ export type ResolversTypes = {
   ByteCollectionByte: ResolverTypeWrapper<ByteCollectionByte>;
   ByteCollectionCategory: ResolverTypeWrapper<ByteCollectionCategory>;
   ByteCollectionCategoryStatus: ByteCollectionCategoryStatus;
+  ByteFeedback: ResolverTypeWrapper<ByteFeedback>;
+  ByteFeedbackInput: ByteFeedbackInput;
   ByteLinkedinPdfContent: ResolverTypeWrapper<ByteLinkedinPdfContent>;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ResolverTypeWrapper<ByteLinkedinPdfContentStep>;
   ByteLinkedinPdfContentStepInput: ByteLinkedinPdfContentStepInput;
   ByteQuestion: ResolverTypeWrapper<ByteQuestion>;
+  ByteRating: ResolverTypeWrapper<ByteRating>;
+  ByteRatingDistribution: ResolverTypeWrapper<ByteRatingDistribution>;
   ByteSettings: ResolverTypeWrapper<ByteSettings>;
   ByteSettingsInput: ByteSettingsInput;
   ByteSocialShare: ResolverTypeWrapper<ByteSocialShare>;
@@ -3273,6 +3359,7 @@ export type ResolversTypes = {
   ChatbotSubcategory: ResolverTypeWrapper<ChatbotSubcategory>;
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
+  ConsolidatedByteRating: ResolverTypeWrapper<ConsolidatedByteRating>;
   ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
@@ -3433,6 +3520,7 @@ export type ResolversTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteCollectionCategory: UpsertByteCollectionCategory;
   UpsertByteInput: UpsertByteInput;
+  UpsertByteRatingInput: UpsertByteRatingInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
   UpsertChatbotFAQInput: UpsertChatbotFaqInput;
@@ -3478,11 +3566,15 @@ export type ResolversParentTypes = {
   ByteCollection: ByteCollection;
   ByteCollectionByte: ByteCollectionByte;
   ByteCollectionCategory: ByteCollectionCategory;
+  ByteFeedback: ByteFeedback;
+  ByteFeedbackInput: ByteFeedbackInput;
   ByteLinkedinPdfContent: ByteLinkedinPdfContent;
   ByteLinkedinPdfContentInput: ByteLinkedinPdfContentInput;
   ByteLinkedinPdfContentStep: ByteLinkedinPdfContentStep;
   ByteLinkedinPdfContentStepInput: ByteLinkedinPdfContentStepInput;
   ByteQuestion: ByteQuestion;
+  ByteRating: ByteRating;
+  ByteRatingDistribution: ByteRatingDistribution;
   ByteSettings: ByteSettings;
   ByteSettingsInput: ByteSettingsInput;
   ByteSocialShare: ByteSocialShare;
@@ -3500,6 +3592,7 @@ export type ResolversParentTypes = {
   ChatbotSubcategory: ChatbotSubcategory;
   ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
+  ConsolidatedByteRating: ConsolidatedByteRating;
   ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
@@ -3656,6 +3749,7 @@ export type ResolversParentTypes = {
   UpsertAcademyTaskInput: UpsertAcademyTaskInput;
   UpsertByteCollectionCategory: UpsertByteCollectionCategory;
   UpsertByteInput: UpsertByteInput;
+  UpsertByteRatingInput: UpsertByteRatingInput;
   UpsertByteSocialShareInput: UpsertByteSocialShareInput;
   UpsertChatbotCategoryInput: UpsertChatbotCategoryInput;
   UpsertChatbotFAQInput: UpsertChatbotFaqInput;
@@ -3768,6 +3862,12 @@ export type ByteCollectionCategoryResolvers<ContextType = any, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ByteFeedbackResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteFeedback'] = ResolversParentTypes['ByteFeedback']> = {
+  content?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  ux?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ByteLinkedinPdfContentResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteLinkedinPdfContent'] = ResolversParentTypes['ByteLinkedinPdfContent']> = {
   excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteLinkedinPdfContentStep']>, ParentType, ContextType>;
@@ -3788,6 +3888,28 @@ export type ByteQuestionResolvers<ContextType = any, ParentType extends Resolver
   explanation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteRating'] = ResolversParentTypes['ByteRating']> = {
+  byteId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  ipAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  negativeFeedback?: Resolver<Maybe<ResolversTypes['ByteFeedback']>, ParentType, ContextType>;
+  positiveFeedback?: Resolver<Maybe<ResolversTypes['ByteFeedback']>, ParentType, ContextType>;
+  rating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  ratingUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  skipRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ByteRatingDistributionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteRatingDistribution'] = ResolversParentTypes['ByteRatingDistribution']> = {
+  content?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  ux?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3893,6 +4015,16 @@ export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends R
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConsolidatedByteRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConsolidatedByteRating'] = ResolversParentTypes['ConsolidatedByteRating']> = {
+  avgRating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  negativeFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  negativeRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
+  positiveFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  positiveRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
+  ratingFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4481,6 +4613,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertAcademyTask?: Resolver<ResolversTypes['AcademyTask'], ParentType, ContextType, RequireFields<MutationUpsertAcademyTaskArgs, 'spaceId' | 'task'>>;
   upsertByte?: Resolver<ResolversTypes['Byte'], ParentType, ContextType, RequireFields<MutationUpsertByteArgs, 'input' | 'spaceId'>>;
   upsertByteCollectionCategory?: Resolver<ResolversTypes['ByteCollectionCategory'], ParentType, ContextType, RequireFields<MutationUpsertByteCollectionCategoryArgs, 'input' | 'spaceId'>>;
+  upsertByteRating?: Resolver<ResolversTypes['ByteRating'], ParentType, ContextType, RequireFields<MutationUpsertByteRatingArgs, 'spaceId' | 'upsertByteRatingInput'>>;
   upsertByteSocialShare?: Resolver<ResolversTypes['ByteSocialShare'], ParentType, ContextType, RequireFields<MutationUpsertByteSocialShareArgs, 'input' | 'spaceId'>>;
   upsertChatbotCategory?: Resolver<ResolversTypes['ChatbotCategory'], ParentType, ContextType, RequireFields<MutationUpsertChatbotCategoryArgs, 'input' | 'spaceId'>>;
   upsertChatbotFAQ?: Resolver<ResolversTypes['ChatbotFAQ'], ParentType, ContextType, RequireFields<MutationUpsertChatbotFaqArgs, 'input' | 'spaceId'>>;
@@ -4642,11 +4775,14 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   byteCollectionCategories?: Resolver<Array<ResolversTypes['ByteCollectionCategory']>, ParentType, ContextType, RequireFields<QueryByteCollectionCategoriesArgs, 'spaceId'>>;
   byteCollectionCategoryWithByteCollections?: Resolver<ResolversTypes['CategoryWithByteCollection'], ParentType, ContextType, RequireFields<QueryByteCollectionCategoryWithByteCollectionsArgs, 'categoryId' | 'spaceId'>>;
   byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType, RequireFields<QueryByteCollectionsArgs, 'spaceId'>>;
+  byteRating?: Resolver<Array<ResolversTypes['ByteRating']>, ParentType, ContextType, RequireFields<QueryByteRatingArgs, 'ratingUuid'>>;
+  byteRatings?: Resolver<Array<ResolversTypes['ByteRating']>, ParentType, ContextType, RequireFields<QueryByteRatingsArgs, 'byteId' | 'spaceId'>>;
   byteSocialShare?: Resolver<Maybe<ResolversTypes['ByteSocialShare']>, ParentType, ContextType, RequireFields<QueryByteSocialShareArgs, 'byteId' | 'spaceId'>>;
   bytes?: Resolver<Array<ResolversTypes['Byte']>, ParentType, ContextType, RequireFields<QueryBytesArgs, 'spaceId'>>;
   chatbotCategories?: Resolver<Array<ResolversTypes['ChatbotCategory']>, ParentType, ContextType, RequireFields<QueryChatbotCategoriesArgs, 'spaceId'>>;
   chatbotFAQs?: Resolver<Array<ResolversTypes['ChatbotFAQ']>, ParentType, ContextType, RequireFields<QueryChatbotFaQsArgs, 'spaceId'>>;
   chatbotUserQuestions?: Resolver<Array<ResolversTypes['ChatbotUserQuestion']>, ParentType, ContextType, RequireFields<QueryChatbotUserQuestionsArgs, 'spaceId'>>;
+  consolidatedByteRating?: Resolver<Maybe<ResolversTypes['ConsolidatedByteRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedByteRatingArgs, 'byteId' | 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   discordChannels?: Resolver<Array<ResolversTypes['DiscordChannel']>, ParentType, ContextType, RequireFields<QueryDiscordChannelsArgs, 'serverId' | 'spaceId'>>;
@@ -5008,9 +5144,12 @@ export type Resolvers<ContextType = any> = {
   ByteCollection?: ByteCollectionResolvers<ContextType>;
   ByteCollectionByte?: ByteCollectionByteResolvers<ContextType>;
   ByteCollectionCategory?: ByteCollectionCategoryResolvers<ContextType>;
+  ByteFeedback?: ByteFeedbackResolvers<ContextType>;
   ByteLinkedinPdfContent?: ByteLinkedinPdfContentResolvers<ContextType>;
   ByteLinkedinPdfContentStep?: ByteLinkedinPdfContentStepResolvers<ContextType>;
   ByteQuestion?: ByteQuestionResolvers<ContextType>;
+  ByteRating?: ByteRatingResolvers<ContextType>;
+  ByteRatingDistribution?: ByteRatingDistributionResolvers<ContextType>;
   ByteSettings?: ByteSettingsResolvers<ContextType>;
   ByteSocialShare?: ByteSocialShareResolvers<ContextType>;
   ByteStep?: ByteStepResolvers<ContextType>;
@@ -5023,6 +5162,7 @@ export type Resolvers<ContextType = any> = {
   ChatbotFAQCommon?: ChatbotFaqCommonResolvers<ContextType>;
   ChatbotSubcategory?: ChatbotSubcategoryResolvers<ContextType>;
   ChatbotUserQuestion?: ChatbotUserQuestionResolvers<ContextType>;
+  ConsolidatedByteRating?: ConsolidatedByteRatingResolvers<ContextType>;
   ConsolidatedGuideRating?: ConsolidatedGuideRatingResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;

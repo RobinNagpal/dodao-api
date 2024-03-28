@@ -2,6 +2,9 @@ import academyTask from '@/graphql/queries/academyTask/academyTask';
 import academyTasks from '@/graphql/queries/academyTask/academyTasks';
 import byte from '@/graphql/queries/byte/byte';
 import bytes from '@/graphql/queries/byte/bytes';
+import byteRating from '@/graphql/queries/byte/byteRating';
+import byteRatings from '@/graphql/queries/byte/byteRatings';
+import consolidatedByteRating from '@/graphql/queries/byte/consolidatedByteRating';
 import byteSocialShare from '@/graphql/queries/byte/byteSocialShare';
 import byteCollection from '@/graphql/queries/byteCollection/byteCollection';
 import byteCollections from '@/graphql/queries/byteCollection/byteCollections';
@@ -63,6 +66,10 @@ export default {
 
   byte,
   bytes,
+
+  byteRating,
+  byteRatings,
+  consolidatedByteRating,
 
   byteSocialShare,
 
