@@ -423,7 +423,7 @@ export type ConsolidatedByteRating = {
   positiveFeedbackCount: Scalars['Int'];
   positiveRatingDistribution: ByteRatingDistribution;
   ratingFeedbackCount: Scalars['Int'];
-}
+};
 
 export type ConsolidatedGuideRating = {
   __typename?: 'ConsolidatedGuideRating';
@@ -3393,11 +3393,11 @@ export type ResolversTypes = {
   ChatbotSubcategory: ResolverTypeWrapper<ChatbotSubcategory>;
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
-  ConsolidatedByteRating: ResolverTypeWrapper<ConsolidatedByteRating>;
   CompletionScreen: ResolverTypeWrapper<CompletionScreen>;
   CompletionScreenInput: CompletionScreenInput;
   CompletionScreenItem: ResolverTypeWrapper<CompletionScreenItem>;
   CompletionScreenItemInput: CompletionScreenItemInput;
+  ConsolidatedByteRating: ResolverTypeWrapper<ConsolidatedByteRating>;
   ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: ResolverTypeWrapper<CourseIntegrations>;
@@ -3630,11 +3630,11 @@ export type ResolversParentTypes = {
   ChatbotSubcategory: ChatbotSubcategory;
   ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
-  ConsolidatedByteRating: ConsolidatedByteRating;
   CompletionScreen: CompletionScreen;
   CompletionScreenInput: CompletionScreenInput;
   CompletionScreenItem: CompletionScreenItem;
   CompletionScreenItemInput: CompletionScreenItemInput;
+  ConsolidatedByteRating: ConsolidatedByteRating;
   ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
   CourseIntegrations: CourseIntegrations;
@@ -4061,14 +4061,6 @@ export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends R
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ConsolidatedByteRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConsolidatedByteRating'] = ResolversParentTypes['ConsolidatedByteRating']> = {
-  avgRating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  negativeFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  negativeRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
-  positiveFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  positiveRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
-  ratingFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-};
 export type CompletionScreenResolvers<ContextType = any, ParentType extends ResolversParentTypes['CompletionScreen'] = ResolversParentTypes['CompletionScreen']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -4082,6 +4074,16 @@ export type CompletionScreenItemResolvers<ContextType = any, ParentType extends 
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConsolidatedByteRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConsolidatedByteRating'] = ResolversParentTypes['ConsolidatedByteRating']> = {
+  avgRating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  negativeFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  negativeRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
+  positiveFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  positiveRatingDistribution?: Resolver<ResolversTypes['ByteRatingDistribution'], ParentType, ContextType>;
+  ratingFeedbackCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5220,9 +5222,9 @@ export type Resolvers<ContextType = any> = {
   ChatbotFAQCommon?: ChatbotFaqCommonResolvers<ContextType>;
   ChatbotSubcategory?: ChatbotSubcategoryResolvers<ContextType>;
   ChatbotUserQuestion?: ChatbotUserQuestionResolvers<ContextType>;
-  ConsolidatedByteRating?: ConsolidatedByteRatingResolvers<ContextType>;
   CompletionScreen?: CompletionScreenResolvers<ContextType>;
   CompletionScreenItem?: CompletionScreenItemResolvers<ContextType>;
+  ConsolidatedByteRating?: ConsolidatedByteRatingResolvers<ContextType>;
   ConsolidatedGuideRating?: ConsolidatedGuideRatingResolvers<ContextType>;
   CourseIntegrations?: CourseIntegrationsResolvers<ContextType>;
   CourseReadingQuestion?: CourseReadingQuestionResolvers<ContextType>;
