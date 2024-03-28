@@ -36,13 +36,6 @@ export type AcademyTask = {
   uuid: Scalars['String'];
 };
 
-export type ActionButton = {
-  __typename?: 'ActionButton';
-  label: Scalars['String'];
-  link: Scalars['String'];
-  uuid: Scalars['String'];
-};
-
 export type AddTopicExplanationInput = {
   courseKey: Scalars['String'];
   details: Scalars['String'];
@@ -376,7 +369,12 @@ export type CompletionScreenInput = {
   uuid: Scalars['String'];
 };
 
-export type CompletionScreenItem = ActionButton;
+export type CompletionScreenItem = {
+  __typename?: 'CompletionScreenItem';
+  label: Scalars['String'];
+  link: Scalars['String'];
+  uuid: Scalars['String'];
+};
 
 export type CompletionScreenItemInput = {
   label: Scalars['String'];
@@ -3256,21 +3254,18 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping of union types */
 export type ResolversUnionTypes = {
   ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  CompletionScreenItem: ( ActionButton );
   GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = {
   ByteStepItem: ( ByteQuestion ) | ( ByteUserInput ) | ( UserDiscordConnect );
-  CompletionScreenItem: ( ActionButton );
   GuideStepItem: ( GuideQuestion ) | ( GuideUserInput ) | ( UserDiscordConnect );
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AcademyTask: ResolverTypeWrapper<Omit<AcademyTask, 'items'> & { items: Array<ResolversTypes['GuideStepItem']> }>;
-  ActionButton: ResolverTypeWrapper<ActionButton>;
   AddTopicExplanationInput: AddTopicExplanationInput;
   AddTopicInput: AddTopicInput;
   AddTopicQuestionInput: AddTopicQuestionInput;
@@ -3312,9 +3307,9 @@ export type ResolversTypes = {
   ChatbotSubcategory: ResolverTypeWrapper<ChatbotSubcategory>;
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
   CompletionAIInput: CompletionAiInput;
-  CompletionScreen: ResolverTypeWrapper<Omit<CompletionScreen, 'items'> & { items: Array<ResolversTypes['CompletionScreenItem']> }>;
+  CompletionScreen: ResolverTypeWrapper<CompletionScreen>;
   CompletionScreenInput: CompletionScreenInput;
-  CompletionScreenItem: ResolverTypeWrapper<ResolversUnionTypes['CompletionScreenItem']>;
+  CompletionScreenItem: ResolverTypeWrapper<CompletionScreenItem>;
   CompletionScreenItemInput: CompletionScreenItemInput;
   ConsolidatedGuideRating: ResolverTypeWrapper<ConsolidatedGuideRating>;
   CourseBasicInfoInput: CourseBasicInfoInput;
@@ -3505,7 +3500,6 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AcademyTask: Omit<AcademyTask, 'items'> & { items: Array<ResolversParentTypes['GuideStepItem']> };
-  ActionButton: ActionButton;
   AddTopicExplanationInput: AddTopicExplanationInput;
   AddTopicInput: AddTopicInput;
   AddTopicQuestionInput: AddTopicQuestionInput;
@@ -3544,9 +3538,9 @@ export type ResolversParentTypes = {
   ChatbotSubcategory: ChatbotSubcategory;
   ChatbotUserQuestion: ChatbotUserQuestion;
   CompletionAIInput: CompletionAiInput;
-  CompletionScreen: Omit<CompletionScreen, 'items'> & { items: Array<ResolversParentTypes['CompletionScreenItem']> };
+  CompletionScreen: CompletionScreen;
   CompletionScreenInput: CompletionScreenInput;
-  CompletionScreenItem: ResolversUnionParentTypes['CompletionScreenItem'];
+  CompletionScreenItem: CompletionScreenItem;
   CompletionScreenItemInput: CompletionScreenItemInput;
   ConsolidatedGuideRating: ConsolidatedGuideRating;
   CourseBasicInfoInput: CourseBasicInfoInput;
@@ -3743,13 +3737,6 @@ export type AcademyTaskResolvers<ContextType = any, ParentType extends Resolvers
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   updatedBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ActionButtonResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActionButton'] = ResolversParentTypes['ActionButton']> = {
-  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3962,7 +3949,10 @@ export type CompletionScreenResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type CompletionScreenItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['CompletionScreenItem'] = ResolversParentTypes['CompletionScreenItem']> = {
-  __resolveType: TypeResolveFn<'ActionButton', ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ConsolidatedGuideRatingResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConsolidatedGuideRating'] = ResolversParentTypes['ConsolidatedGuideRating']> = {
@@ -5071,7 +5061,6 @@ export type WebsiteScrapingInfoResolvers<ContextType = any, ParentType extends R
 
 export type Resolvers<ContextType = any> = {
   AcademyTask?: AcademyTaskResolvers<ContextType>;
-  ActionButton?: ActionButtonResolvers<ContextType>;
   Any?: GraphQLScalarType;
   ArticleIndexingInfo?: ArticleIndexingInfoResolvers<ContextType>;
   AuthSettings?: AuthSettingsResolvers<ContextType>;

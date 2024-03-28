@@ -79,6 +79,12 @@ type ByteSocialShare {
   twitterImage: String
 }
 
+type CompletionScreenItem {
+  label: String!
+  link: String!
+  uuid: String!
+}
+
 type CompletionScreen {
   content: String!
   name: String!
@@ -87,13 +93,13 @@ type CompletionScreen {
   imageUrl: String
 }
 
-type ActionButton {
+type CompletionScreenItem {
   label: String!
   link: String!
   uuid: String!
 }
 
-union CompletionScreenItem = ActionButton
+# union CompletionScreenItem = ActionButton
 
 input CompletionScreenItemInput {
   label: String!

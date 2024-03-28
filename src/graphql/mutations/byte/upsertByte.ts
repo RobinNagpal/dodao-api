@@ -9,7 +9,7 @@ import { logError } from '@/helpers/adapters/errorLogger';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
 import { slugify } from '@/helpers/space/slugify';
 import { prisma } from '@/prisma';
-import { Byte, Prisma } from '@prisma/client';
+import { Byte } from '@prisma/client';
 import { IncomingMessage } from 'http';
 
 async function transformInput(spaceId: string, message: UpsertByteInput): Promise<ByteModel> {
@@ -33,6 +33,7 @@ async function transformInput(spaceId: string, message: UpsertByteInput): Promis
         };
       }),
     })),
+    completionScreen: message.completionScreen || null,
   };
   return byteModel;
 }
@@ -47,7 +48,6 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
     });
     const jwt = checkEditSpacePermission(spaceById, context);
     const transformedByte = await transformInput(spaceId, input);
-
     const steps: ByteStep[] = transformByteInputSteps(input);
     const id = input.id || slugify(input.name);
     const upsertedByte: Byte = await prisma.byte.upsert({
@@ -56,6 +56,7 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
         steps: steps,
         id: id,
         spaceId: spaceId,
+        completionScreen: input.completionScreen || undefined,
       },
       update: {
         ...input,
