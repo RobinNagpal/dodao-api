@@ -5,6 +5,8 @@ import bytes from '@/graphql/queries/byte/bytes';
 import byteSocialShare from '@/graphql/queries/byte/byteSocialShare';
 import byteCollection from '@/graphql/queries/byteCollection/byteCollection';
 import byteCollections from '@/graphql/queries/byteCollection/byteCollections';
+import byteCollectionCategories from './graphql/queries/byteCollectionCategory/byteCollectionCategories';
+import byteCollectionCategoryWithByteCollections from './graphql/queries/byteCollectionCategory/byteCollectionCategoryWithByteCollections';
 import chatbotCategories from '@/graphql/queries/chatbot/chatbotCategories';
 import chatbotFAQs from '@/graphql/queries/chatbot/chatbotFAQs';
 import chatbotUserQuestions from '@/graphql/queries/chatbot/chatbotUserQuestions';
@@ -63,6 +65,9 @@ export default {
   bytes,
 
   byteSocialShare,
+
+  byteCollectionCategories,
+  byteCollectionCategoryWithByteCollections,
 
   courses,
   gitCourse,

@@ -1,5 +1,5 @@
 import { MutationUpsertProjectByteCollectionArgs } from '@/graphql/generated/graphql';
-import { TOP_CRYPTO_PROJECTS_SPACE_ID } from '@/helpers/chat/utils/app/constants';
+import { PredefinedSpaces } from '@/helpers/chat/utils/app/constants';
 import { getProjectByteCollectionRedisKey, getProjectByteCollectionWithBytes } from '@/helpers/project/projectByteCollectionsHelper';
 import { deleteRedisValue } from '@/helpers/redis';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
@@ -7,7 +7,7 @@ import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
 export default async function upsertProjectByteCollection(_: any, args: MutationUpsertProjectByteCollectionArgs, context: IncomingMessage) {
-  const spaceById = await prisma.space.findUniqueOrThrow({ where: { id: TOP_CRYPTO_PROJECTS_SPACE_ID } });
+  const spaceById = await prisma.space.findUniqueOrThrow({ where: { id: PredefinedSpaces.TIDBITS_HUB } });
 
   checkEditSpacePermission(spaceById, context);
   const updatedByteCollection = await prisma.projectByteCollection.upsert({

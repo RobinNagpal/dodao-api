@@ -60,6 +60,10 @@ extend type Mutation {
   upsertVercelDomainRecord(spaceId: String!): VercelDomain!
 
   upsertDomainRecords(spaceId: String!): DomainRecords!
+
+  uploadImageFromUrlToS3(spaceId: String!, input: UploadImageFromUrlToS3Input!): String!
+
+  updateTidbitsHomepage(spaceId: ID!, tidbitsHomepage: TidbitsHomepageInput!): Space!
 }
 
 enum SpaceTypes {
@@ -94,6 +98,17 @@ type Space {
   socialSettings: SocialSettings!
   byteSettings: ByteSettings!
   themeColors: ThemeColors
+  tidbitsHomepage: TidbitsHomepage
+}
+
+type TidbitsHomepage {
+  heading: String!
+  shortDescription: String!
+}
+
+input TidbitsHomepageInput {
+  heading: String!
+  shortDescription: String!
 }
 
 type ThemeColors {
@@ -335,6 +350,14 @@ input SEOMetaInput {
   keywords: [String!]!
 }
 
+input UploadImageFromUrlToS3Input {
+  imageUrl: String!
+  imageType: String!
+  imageSource: String!
+  objectId: String!
+  name: String!
+}
+
 enum ImageType {
   Space
   Tidbits
@@ -343,4 +366,10 @@ enum ImageType {
   Course
   ShortVideo
   CryptoGelato
+}
+
+enum ImageSource {
+  LocalMachine
+  Unsplash
+  Dalle
 }

@@ -7,6 +7,7 @@ import upsertByteSocialShare from '@/graphql/mutations/byte/upsertByteSocialShar
 import createByteCollection from '@/graphql/mutations/byteCollection/createByteCollection';
 import deleteByteCollection from '@/graphql/mutations/byteCollection/deleteByteCollection';
 import updateByteCollection from '@/graphql/mutations/byteCollection/updateByteCollection';
+import upsertByteCollectionCategory from './graphql/mutations/byteCollectionCategory/upsertByteCollectionCategory';
 import deleteChatbotCategory from '@/graphql/mutations/chatbot/deleteChatbotCategory';
 import deleteChatbotFAQ from '@/graphql/mutations/chatbot/deleteChatbotFAQ';
 import deleteChatbotUserQuestion from '@/graphql/mutations/chatbot/deleteChatbotUserQuestion';
@@ -57,12 +58,14 @@ import { updateByteSettings } from '@/graphql/mutations/space/updateByteSettings
 import { updateGuideSettings } from '@/graphql/mutations/space/updateGuideSettings';
 import { updateSocialSettings } from '@/graphql/mutations/space/updateSocialSettings';
 import updateSpace from '@/graphql/mutations/space/updateSpace';
+import uploadImageFromUrlToS3 from '@/graphql/mutations/space/uploadImageFromUrlToS3';
 import upsertDomainRecords from '@/graphql/mutations/space/upsertDomainRecords';
 import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import upsertSpaceLoaderInfo from '@/graphql/mutations/space/upsertSpaceLoaderInfo';
 import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import updateSpaceCreator from './graphql/mutations/space/updateSpaceCreator';
 import updateThemeColors from './graphql/mutations/space/updateThemeColors';
+import updateTidbitsHomepage from './graphql/mutations/space/updateTidbitsHomepage';
 import updateSeoOfProject from './graphql/mutations/project/updateSeoOfProject';
 import updateSeoOfProjectByte from './graphql/mutations/project/updateSeoOfProjectByte';
 import updateSeoOfProjectByteCollection from './graphql/mutations/project/updateSeoOfProjectByteCollection';
@@ -82,6 +85,7 @@ export default {
   updateSpaceCreator,
   sendEmail,
   dropPineconeNamespace,
+  uploadImageFromUrlToS3,
 
   upsertSpaceLoaderInfo,
 
@@ -95,6 +99,7 @@ export default {
   updateByteSettings,
 
   upsertByte,
+  upsertByteCollectionCategory,
   submitByte,
   deleteByte,
 
@@ -151,6 +156,8 @@ export default {
   upsertShortVideo,
 
   updateThemeColors,
+
+  updateTidbitsHomepage,
 
   upsertRoute53Record,
   upsertVercelDomainRecord,
