@@ -12,6 +12,7 @@ import {
   SEOMeta as SEOMetaType,
   CompletionScreen as CompletionScreenType,
   TidbitsHomepage as TidbitsHomepageType,
+  ByteFeedback as ByteFeedbackType,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
@@ -42,5 +43,6 @@ declare global {
     type SEOMeta = SEOMetaType;
     type CompletionScreen = CompletionScreenType;
     type TidbitsHomepage = TidbitsHomepageType;
+    type ByteFeedback = ByteFeedbackType;
   }
 }
