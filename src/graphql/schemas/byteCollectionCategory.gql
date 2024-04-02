@@ -43,4 +43,5 @@ enum ByteCollectionCategoryStatus {
   Active
   Hidden
   ComingSoon
+  TryItOut
 }
