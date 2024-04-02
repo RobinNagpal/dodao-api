@@ -165,7 +165,8 @@ export type ByteCollectionCategory = {
 export enum ByteCollectionCategoryStatus {
   Active = 'Active',
   ComingSoon = 'ComingSoon',
-  Hidden = 'Hidden'
+  Hidden = 'Hidden',
+  TryItOut = 'TryItOut'
 }
 
 export type ByteFeedback = {
