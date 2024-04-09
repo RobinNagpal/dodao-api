@@ -13,6 +13,7 @@ import {
   CompletionScreen as CompletionScreenType,
   TidbitsHomepage as TidbitsHomepageType,
   ByteFeedback as ByteFeedbackType,
+  ClickableDemoStep as ClickableDemoStepType,
 } from '@/graphql/generated/graphql';
 import { ByteLinkedinPdfContent as ByteLinkedinPdfContentType } from '@/graphql/generated/graphql';
 import { TempTopicSubmissionModel as TempTopicSubmissionModelInterface } from '@/types/course/submission';
@@ -44,5 +45,6 @@ declare global {
     type CompletionScreen = CompletionScreenType;
     type TidbitsHomepage = TidbitsHomepageType;
     type ByteFeedback = ByteFeedbackType;
+    type ClickableDemoStep = ClickableDemoStepType;
   }
 }

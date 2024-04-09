@@ -697,3 +697,16 @@ model ChatbotFAQ {
 
   @@map("chatbot_faqs")
 }
+
+model ClickableDemos {
+  id        String   @id @db.VarChar(255)
+  spaceId   String   @map("space_id") @db.VarChar(66)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  title     String
+  excerpt   String   @db.VarChar(256)
+  /// [ClickableDemoStep]
+  steps     Json[]
+
+  @@map("clickable_demos")
+}

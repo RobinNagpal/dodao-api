@@ -59,6 +59,8 @@ import spaces from '@/graphql/queries/space/spaces';
 import vercelDomainRecord from '@/graphql/queries/space/vercelDomainRecord';
 import timeline from '@/graphql/queries/timeline/timeline';
 import timelines from '@/graphql/queries/timeline/timelines';
+import clickableDemos from '@/graphql/queries/clickableDemos/clickableDemos';
+import clickableDemoWithSteps from '@/graphql/queries/clickableDemos/clickableDemoWithSteps';
 
 export default {
   academyTask,
@@ -143,4 +145,7 @@ export default {
 
   shortVideos,
   shortVideo,
+
+  clickableDemos,
+  clickableDemoWithSteps,
 };
