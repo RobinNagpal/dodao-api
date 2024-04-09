@@ -3,6 +3,7 @@ import byteCollections from '@/api/byte/byteCollections';
 import bytes from '@/api/byte/bytes';
 import byteCollectionCategories from '@/api/byteCollectionCategory/byteCollectionCategories';
 import byteCollectionCategory from '@/api/byteCollectionCategory/byteCollectionCategory';
+import clickableDemo from '@/api/clickableDemo/clickableDemos';
 import chat from '@/api/chat/chat';
 import course from '@/api/course/course';
 import courses from '@/api/course/courses';
@@ -46,6 +47,8 @@ export function registerApiRoutes(app: Express) {
 
   app.get('/:spaceId/byte-collection-categories', cors(), json(), byteCollectionCategories);
   app.get('/:spaceId/byte-collection-categories/:categoryId', cors(), json(), byteCollectionCategory);
+
+  app.get('/:spaceId/clickable-demos', cors(), json(), clickableDemo);
 
   app.get('/:spaceId/courses', cors(), json(), courses);
   app.get('/:spaceId/courses/:courseKey', cors(), json(), course);

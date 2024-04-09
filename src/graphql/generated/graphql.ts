@@ -379,6 +379,44 @@ export type ChatbotUserQuestion = {
   spaceId: Scalars['String'];
 };
 
+export type ClickableDemo = {
+  __typename?: 'ClickableDemo';
+  createdAt: Scalars['DateTimeISO'];
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
+export type ClickableDemoStep = {
+  __typename?: 'ClickableDemoStep';
+  id: Scalars['String'];
+  order: Scalars['Int'];
+  selector: Scalars['String'];
+  tooltipInfo: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type ClickableDemoStepInput = {
+  id: Scalars['String'];
+  order: Scalars['Int'];
+  selector: Scalars['String'];
+  tooltipInfo: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type ClickableDemoWithSteps = {
+  __typename?: 'ClickableDemoWithSteps';
+  createdAt: Scalars['DateTimeISO'];
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  spaceId: Scalars['String'];
+  steps: Array<ClickableDemoStep>;
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
 export type CompletionAiInput = {
   model?: InputMaybe<Scalars['String']>;
   n?: InputMaybe<Scalars['Int']>;
@@ -1280,6 +1318,7 @@ export type Mutation = {
   upsertChatbotCategory: ChatbotCategory;
   upsertChatbotFAQ: ChatbotFaq;
   upsertChatbotUserQuestion: ChatbotUserQuestion;
+  upsertClickableDemo: ClickableDemoWithSteps;
   upsertCourseIntegrations: CourseIntegrations;
   upsertDomainRecords: DomainRecords;
   upsertGitCourse?: Maybe<SummarizedGitCourse>;
@@ -1858,6 +1897,12 @@ export type MutationUpsertChatbotUserQuestionArgs = {
 };
 
 
+export type MutationUpsertClickableDemoArgs = {
+  input: UpsertClickableDemoInput;
+  spaceId: Scalars['String'];
+};
+
+
 export type MutationUpsertCourseIntegrationsArgs = {
   courseIntegrationInput: UpsertCourseIntegrationsInput;
   spaceId: Scalars['String'];
@@ -2147,6 +2192,8 @@ export type Query = {
   chatbotCategories: Array<ChatbotCategory>;
   chatbotFAQs: Array<ChatbotFaq>;
   chatbotUserQuestions: Array<ChatbotUserQuestion>;
+  clickableDemoWithSteps: ClickableDemoWithSteps;
+  clickableDemos: Array<ClickableDemo>;
   consolidatedByteRating?: Maybe<ConsolidatedByteRating>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
@@ -2281,6 +2328,17 @@ export type QueryChatbotFaQsArgs = {
 
 
 export type QueryChatbotUserQuestionsArgs = {
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryClickableDemoWithStepsArgs = {
+  demoId: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryClickableDemosArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -3057,6 +3115,13 @@ export type UpsertChatbotUserQuestionInput = {
   spaceId: Scalars['String'];
 };
 
+export type UpsertClickableDemoInput = {
+  excerpt: Scalars['String'];
+  id: Scalars['String'];
+  steps: Array<ClickableDemoStepInput>;
+  title: Scalars['String'];
+};
+
 export type UpsertCourseIntegrationsInput = {
   courseKey: Scalars['String'];
   discordRoleIds: Array<Scalars['String']>;
@@ -3393,6 +3458,10 @@ export type ResolversTypes = {
   ChatbotFAQCommon: ResolversTypes['ChatbotFAQ'] | ResolversTypes['SearchedChatbotFAQ'];
   ChatbotSubcategory: ResolverTypeWrapper<ChatbotSubcategory>;
   ChatbotUserQuestion: ResolverTypeWrapper<ChatbotUserQuestion>;
+  ClickableDemo: ResolverTypeWrapper<ClickableDemo>;
+  ClickableDemoStep: ResolverTypeWrapper<ClickableDemoStep>;
+  ClickableDemoStepInput: ClickableDemoStepInput;
+  ClickableDemoWithSteps: ResolverTypeWrapper<ClickableDemoWithSteps>;
   CompletionAIInput: CompletionAiInput;
   CompletionScreen: ResolverTypeWrapper<CompletionScreen>;
   CompletionScreenInput: CompletionScreenInput;
@@ -3565,6 +3634,7 @@ export type ResolversTypes = {
   UpsertChatbotFAQInput: UpsertChatbotFaqInput;
   UpsertChatbotSubcategoryInput: UpsertChatbotSubcategoryInput;
   UpsertChatbotUserQuestionInput: UpsertChatbotUserQuestionInput;
+  UpsertClickableDemoInput: UpsertClickableDemoInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
@@ -3630,6 +3700,10 @@ export type ResolversParentTypes = {
   ChatbotFAQCommon: ResolversParentTypes['ChatbotFAQ'] | ResolversParentTypes['SearchedChatbotFAQ'];
   ChatbotSubcategory: ChatbotSubcategory;
   ChatbotUserQuestion: ChatbotUserQuestion;
+  ClickableDemo: ClickableDemo;
+  ClickableDemoStep: ClickableDemoStep;
+  ClickableDemoStepInput: ClickableDemoStepInput;
+  ClickableDemoWithSteps: ClickableDemoWithSteps;
   CompletionAIInput: CompletionAiInput;
   CompletionScreen: CompletionScreen;
   CompletionScreenInput: CompletionScreenInput;
@@ -3798,6 +3872,7 @@ export type ResolversParentTypes = {
   UpsertChatbotFAQInput: UpsertChatbotFaqInput;
   UpsertChatbotSubcategoryInput: UpsertChatbotSubcategoryInput;
   UpsertChatbotUserQuestionInput: UpsertChatbotUserQuestionInput;
+  UpsertClickableDemoInput: UpsertClickableDemoInput;
   UpsertCourseIntegrationsInput: UpsertCourseIntegrationsInput;
   UpsertGuideRatingInput: UpsertGuideRatingInput;
   UpsertProjectByteCollectionInput: UpsertProjectByteCollectionInput;
@@ -4059,6 +4134,36 @@ export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends R
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ClickableDemoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClickableDemo'] = ResolversParentTypes['ClickableDemo']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ClickableDemoStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClickableDemoStep'] = ResolversParentTypes['ClickableDemoStep']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  selector?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tooltipInfo?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ClickableDemoWithStepsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClickableDemoWithSteps'] = ResolversParentTypes['ClickableDemoWithSteps']> = {
+  createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
+  excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  steps?: Resolver<Array<ResolversTypes['ClickableDemoStep']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4678,6 +4783,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertChatbotCategory?: Resolver<ResolversTypes['ChatbotCategory'], ParentType, ContextType, RequireFields<MutationUpsertChatbotCategoryArgs, 'input' | 'spaceId'>>;
   upsertChatbotFAQ?: Resolver<ResolversTypes['ChatbotFAQ'], ParentType, ContextType, RequireFields<MutationUpsertChatbotFaqArgs, 'input' | 'spaceId'>>;
   upsertChatbotUserQuestion?: Resolver<ResolversTypes['ChatbotUserQuestion'], ParentType, ContextType, RequireFields<MutationUpsertChatbotUserQuestionArgs, 'input' | 'spaceId'>>;
+  upsertClickableDemo?: Resolver<ResolversTypes['ClickableDemoWithSteps'], ParentType, ContextType, RequireFields<MutationUpsertClickableDemoArgs, 'input' | 'spaceId'>>;
   upsertCourseIntegrations?: Resolver<ResolversTypes['CourseIntegrations'], ParentType, ContextType, RequireFields<MutationUpsertCourseIntegrationsArgs, 'courseIntegrationInput' | 'spaceId'>>;
   upsertDomainRecords?: Resolver<ResolversTypes['DomainRecords'], ParentType, ContextType, RequireFields<MutationUpsertDomainRecordsArgs, 'spaceId'>>;
   upsertGitCourse?: Resolver<Maybe<ResolversTypes['SummarizedGitCourse']>, ParentType, ContextType, RequireFields<MutationUpsertGitCourseArgs, 'gitCourseInput' | 'spaceId'>>;
@@ -4843,6 +4949,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   chatbotCategories?: Resolver<Array<ResolversTypes['ChatbotCategory']>, ParentType, ContextType, RequireFields<QueryChatbotCategoriesArgs, 'spaceId'>>;
   chatbotFAQs?: Resolver<Array<ResolversTypes['ChatbotFAQ']>, ParentType, ContextType, RequireFields<QueryChatbotFaQsArgs, 'spaceId'>>;
   chatbotUserQuestions?: Resolver<Array<ResolversTypes['ChatbotUserQuestion']>, ParentType, ContextType, RequireFields<QueryChatbotUserQuestionsArgs, 'spaceId'>>;
+  clickableDemoWithSteps?: Resolver<ResolversTypes['ClickableDemoWithSteps'], ParentType, ContextType, RequireFields<QueryClickableDemoWithStepsArgs, 'demoId' | 'spaceId'>>;
+  clickableDemos?: Resolver<Array<ResolversTypes['ClickableDemo']>, ParentType, ContextType, RequireFields<QueryClickableDemosArgs, 'spaceId'>>;
   consolidatedByteRating?: Resolver<Maybe<ResolversTypes['ConsolidatedByteRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedByteRatingArgs, 'byteId' | 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
@@ -5223,6 +5331,9 @@ export type Resolvers<ContextType = any> = {
   ChatbotFAQCommon?: ChatbotFaqCommonResolvers<ContextType>;
   ChatbotSubcategory?: ChatbotSubcategoryResolvers<ContextType>;
   ChatbotUserQuestion?: ChatbotUserQuestionResolvers<ContextType>;
+  ClickableDemo?: ClickableDemoResolvers<ContextType>;
+  ClickableDemoStep?: ClickableDemoStepResolvers<ContextType>;
+  ClickableDemoWithSteps?: ClickableDemoWithStepsResolvers<ContextType>;
   CompletionScreen?: CompletionScreenResolvers<ContextType>;
   CompletionScreenItem?: CompletionScreenItemResolvers<ContextType>;
   ConsolidatedByteRating?: ConsolidatedByteRatingResolvers<ContextType>;

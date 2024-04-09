@@ -1,0 +1,50 @@
+extend type Query {
+  clickableDemos(spaceId: String!): [ClickableDemo!]!
+  clickableDemoWithSteps(spaceId: String!, demoId: String!): ClickableDemoWithSteps!
+}
+
+extend type Mutation {
+  upsertClickableDemo(spaceId: String!, input: UpsertClickableDemoInput!): ClickableDemoWithSteps!
+}
+
+type ClickableDemo {
+  id: String!
+  spaceId: String!
+  title: String!
+  excerpt: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+}
+
+type ClickableDemoWithSteps {
+  id: String!
+  spaceId: String!
+  title: String!
+  excerpt: String!
+  steps: [ClickableDemoStep!]!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+}
+
+type ClickableDemoStep {
+  id: String!
+  url: String!
+  selector: String!
+  tooltipInfo: String!
+  order: Int!
+}
+
+input UpsertClickableDemoInput {
+  id: String!
+  title: String!
+  excerpt: String!
+  steps: [ClickableDemoStepInput!]!
+}
+
+input ClickableDemoStepInput {
+  id: String!
+  url: String!
+  selector: String!
+  tooltipInfo: String!
+  order: Int!
+}

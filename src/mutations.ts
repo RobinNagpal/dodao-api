@@ -71,6 +71,7 @@ import updateSeoOfProject from './graphql/mutations/project/updateSeoOfProject';
 import updateSeoOfProjectByte from './graphql/mutations/project/updateSeoOfProjectByte';
 import updateSeoOfProjectByteCollection from './graphql/mutations/project/updateSeoOfProjectByteCollection';
 import updateSeoOfProjectShortVideo from './graphql/mutations/project/updateSEOOfProjectShortVideo';
+import upsertClickableDemo from './graphql/mutations/clickableDemo/upsertClickableDemo';
 
 export default {
   askCompletionAI,
@@ -164,6 +165,8 @@ export default {
   upsertRoute53Record,
   upsertVercelDomainRecord,
   upsertDomainRecords,
+
+  upsertClickableDemo,
 
   ...mutations,
 };
