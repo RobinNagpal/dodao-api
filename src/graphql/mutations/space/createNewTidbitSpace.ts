@@ -3,7 +3,9 @@ import upsertRoute53Record from '@/graphql/mutations/space/upsertRoute53Record';
 import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDomainRecord';
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
+import { PredefinedSpaces } from '@/helpers/chat/utils/app/constants';
 import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
+import { isUserAdminOfSpace } from '@/helpers/space/checkEditSpacePermission';
 import { isSuperAdminOfDoDAO } from '@/helpers/space/isSuperAdmin';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
@@ -29,7 +31,8 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     },
   });
 
-  if (existingSpaceForCreator) {
+  const tidbitsHub = await prisma.space.findUniqueOrThrow({ where: { id: PredefinedSpaces.TIDBITS_HUB } })!;
+  if (existingSpaceForCreator && !isSuperAdminOfDoDAO(username) && !isUserAdminOfSpace(decoded, tidbitsHub)) {
     throw new Error('Space already for this user');
   }
 
@@ -39,7 +42,7 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     },
   });
 
-  if (existingSpaceForId && !isSuperAdminOfDoDAO(username)) {
+  if (existingSpaceForId) {
     throw new Error('Space already exists with this id');
   }
 
