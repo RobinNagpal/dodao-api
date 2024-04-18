@@ -4,6 +4,7 @@ import upsertVercelDomainRecord from '@/graphql/mutations/space/upsertVercelDoma
 import { getSpaceWithIntegrations } from '@/graphql/queries/space/getSpaceWithIntegrations';
 import { logEventInDiscord } from '@/helpers/adapters/logEventInDiscord';
 import { getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
+import { isSuperAdminOfDoDAO } from '@/helpers/space/isSuperAdmin';
 import { prisma } from '@/prisma';
 import { Space } from '@prisma/client';
 import { IncomingMessage } from 'http';
@@ -38,7 +39,7 @@ export default async function createNewTidbitSpace(_: unknown, args: MutationCre
     },
   });
 
-  if (existingSpaceForId) {
+  if (existingSpaceForId && !isSuperAdminOfDoDAO(username)) {
     throw new Error('Space already exists with this id');
   }
 
