@@ -6,8 +6,10 @@ import byteRating from '@/graphql/queries/byte/byteRating';
 import byteRatings from '@/graphql/queries/byte/byteRatings';
 import consolidatedByteRating from '@/graphql/queries/byte/consolidatedByteRating';
 import byteSocialShare from '@/graphql/queries/byte/byteSocialShare';
+import consolidatedByteRatingsForSpace from '@/graphql/queries/byte/consolidatedByteRatingsForSpace';
 import byteCollection from '@/graphql/queries/byteCollection/byteCollection';
 import byteCollections from '@/graphql/queries/byteCollection/byteCollections';
+import consolidatedGuideRatingsForSpace from '@/graphql/queries/guide/consolidatedGuideRatingsForSpace';
 import byteCollectionCategories from './graphql/queries/byteCollectionCategory/byteCollectionCategories';
 import byteCollectionCategoryWithByteCollections from './graphql/queries/byteCollectionCategory/byteCollectionCategoryWithByteCollections';
 import chatbotCategories from '@/graphql/queries/chatbot/chatbotCategories';
@@ -72,6 +74,7 @@ export default {
   byteRating,
   byteRatings,
   consolidatedByteRating,
+  consolidatedByteRatingsForSpace,
 
   byteSocialShare,
 
@@ -97,6 +100,7 @@ export default {
 
   guideSubmissions,
   consolidatedGuideRating,
+  consolidatedGuideRatingsForSpace,
 
   simulation,
   simulations,

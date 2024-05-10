@@ -1,4 +1,4 @@
-import { ConsolidatedByteRating, QueryConsolidatedByteRatingArgs } from '@/graphql/generated/graphql';
+import { ConsolidatedByteRating, QueryConsolidatedByteRatingArgs, QueryConsolidatedByteRatingsForSpaceArgs } from '@/graphql/generated/graphql';
 import { getSpaceById } from '@/graphql/operations/space';
 import { consolidateByteRatings } from '@/graphql/queries/byte/consolidateByteRatings';
 import { checkEditSpacePermission } from '@/helpers/space/checkEditSpacePermission';
@@ -6,12 +6,12 @@ import { prisma } from '@/prisma';
 import { ByteRating } from '@prisma/client';
 import { IncomingMessage } from 'http';
 
-export default async function consolidatedByteRating(
+export default async function consolidatedByteRatingsForSpace(
   _: any,
-  args: QueryConsolidatedByteRatingArgs,
+  args: QueryConsolidatedByteRatingsForSpaceArgs,
   context: IncomingMessage,
 ): Promise<ConsolidatedByteRating | undefined> {
-  const { spaceId, byteId } = args;
+  const { spaceId } = args;
   const spaceById = await getSpaceById(spaceId);
   checkEditSpacePermission(spaceById, context);
 
@@ -20,7 +20,6 @@ export default async function consolidatedByteRating(
       NOT: {
         rating: null,
       },
-      byteId,
       spaceId,
     },
     select: {

@@ -10,3 +10,4 @@ deploy/.terraform/providers
 data/
 backup.sql
 deploy_backup
+arbitrum/

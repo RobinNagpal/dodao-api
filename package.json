@@ -15,7 +15,8 @@
     "prettier-check": "prettier --check 'src/**/*.ts'",
     "start": "prisma generate && graphql-codegen --config codegen.yml && ts-node -r tsconfig-paths/register src/server.ts",
     "crawl-cheerio": "ts-node src/helpers/loaders/siteCrawler/cheerioSiteScrapper.ts",
-    "crawl-puppet": "ts-node src/helpers/loaders/siteCrawler/pupetteerSiteScrapper.ts"
+    "crawl-puppet": "ts-node src/helpers/loaders/siteCrawler/pupetteerSiteScrapper.ts",
+    "generate-sql": "ts-node submission-scripts/byteRatings.ts"
   },
   "keywords": [],
   "author": "robin",
@@ -83,6 +84,7 @@
     "@types/pdfkit": "^0.12.10",
     "@typescript-eslint/eslint-plugin": "5.59.0",
     "@typescript-eslint/parser": "5.59.0",
+    "date-fns": "^3.6.0",
     "eslint": "8.38.0",
     "nodemon": "2.0.22",
     "prisma-json-types-generator": "2.4.0",
