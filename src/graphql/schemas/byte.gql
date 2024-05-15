@@ -5,6 +5,7 @@ extend type Query {
   byteRating(spaceId: String, ratingUuid: String!): [ByteRating!]!
   byteRatings(spaceId: String!, byteId: String!): [ByteRating!]!
   consolidatedByteRating(spaceId: String!, byteId: String!): ConsolidatedByteRating
+  consolidatedByteRatingsForSpace(spaceId: String!): ConsolidatedByteRating
 }
 
 extend type Mutation {

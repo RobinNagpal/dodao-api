@@ -14,6 +14,8 @@ extend type Query {
   guideRatings(spaceId: String!, guideUuid: String!): [GuideRating!]!
 
   consolidatedGuideRating(spaceId: String!, guideUuid: String!): ConsolidatedGuideRating
+
+  consolidatedGuideRatingsForSpace(spaceId: String!): ConsolidatedGuideRating
 }
 
 type QuestionChoice {

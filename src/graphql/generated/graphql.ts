@@ -2195,7 +2195,9 @@ export type Query = {
   clickableDemoWithSteps: ClickableDemoWithSteps;
   clickableDemos: Array<ClickableDemo>;
   consolidatedByteRating?: Maybe<ConsolidatedByteRating>;
+  consolidatedByteRatingsForSpace?: Maybe<ConsolidatedByteRating>;
   consolidatedGuideRating?: Maybe<ConsolidatedGuideRating>;
+  consolidatedGuideRatingsForSpace?: Maybe<ConsolidatedGuideRating>;
   courses: Array<GitCourse>;
   discordChannels: Array<DiscordChannel>;
   discordMessages: Array<DiscordMessage>;
@@ -2349,8 +2351,18 @@ export type QueryConsolidatedByteRatingArgs = {
 };
 
 
+export type QueryConsolidatedByteRatingsForSpaceArgs = {
+  spaceId: Scalars['String'];
+};
+
+
 export type QueryConsolidatedGuideRatingArgs = {
   guideUuid: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type QueryConsolidatedGuideRatingsForSpaceArgs = {
   spaceId: Scalars['String'];
 };
 
@@ -4952,7 +4964,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   clickableDemoWithSteps?: Resolver<ResolversTypes['ClickableDemoWithSteps'], ParentType, ContextType, RequireFields<QueryClickableDemoWithStepsArgs, 'demoId' | 'spaceId'>>;
   clickableDemos?: Resolver<Array<ResolversTypes['ClickableDemo']>, ParentType, ContextType, RequireFields<QueryClickableDemosArgs, 'spaceId'>>;
   consolidatedByteRating?: Resolver<Maybe<ResolversTypes['ConsolidatedByteRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedByteRatingArgs, 'byteId' | 'spaceId'>>;
+  consolidatedByteRatingsForSpace?: Resolver<Maybe<ResolversTypes['ConsolidatedByteRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedByteRatingsForSpaceArgs, 'spaceId'>>;
   consolidatedGuideRating?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingArgs, 'guideUuid' | 'spaceId'>>;
+  consolidatedGuideRatingsForSpace?: Resolver<Maybe<ResolversTypes['ConsolidatedGuideRating']>, ParentType, ContextType, RequireFields<QueryConsolidatedGuideRatingsForSpaceArgs, 'spaceId'>>;
   courses?: Resolver<Array<ResolversTypes['GitCourse']>, ParentType, ContextType, RequireFields<QueryCoursesArgs, 'spaceId'>>;
   discordChannels?: Resolver<Array<ResolversTypes['DiscordChannel']>, ParentType, ContextType, RequireFields<QueryDiscordChannelsArgs, 'serverId' | 'spaceId'>>;
   discordMessages?: Resolver<Array<ResolversTypes['DiscordMessage']>, ParentType, ContextType, RequireFields<QueryDiscordMessagesArgs, 'channelId' | 'spaceId'>>;
