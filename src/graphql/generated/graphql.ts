@@ -393,6 +393,7 @@ export type ClickableDemoStep = {
   __typename?: 'ClickableDemoStep';
   id: Scalars['String'];
   order: Scalars['Int'];
+  placement: Scalars['String'];
   selector: Scalars['String'];
   tooltipInfo: Scalars['String'];
   url: Scalars['String'];
@@ -401,6 +402,7 @@ export type ClickableDemoStep = {
 export type ClickableDemoStepInput = {
   id: Scalars['String'];
   order: Scalars['Int'];
+  placement: Scalars['String'];
   selector: Scalars['String'];
   tooltipInfo: Scalars['String'];
   url: Scalars['String'];
@@ -1160,6 +1162,7 @@ export enum ImageSource {
 
 export enum ImageType {
   Academy = 'Academy',
+  ClickableDemos = 'ClickableDemos',
   Course = 'Course',
   CryptoGelato = 'CryptoGelato',
   Guide = 'Guide',
@@ -4162,6 +4165,7 @@ export type ClickableDemoResolvers<ContextType = any, ParentType extends Resolve
 export type ClickableDemoStepResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClickableDemoStep'] = ResolversParentTypes['ClickableDemoStep']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  placement?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   selector?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tooltipInfo?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

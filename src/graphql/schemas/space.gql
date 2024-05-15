@@ -366,6 +366,7 @@ enum ImageType {
   Course
   ShortVideo
   CryptoGelato
+  ClickableDemos
 }
 
 enum ImageSource {
