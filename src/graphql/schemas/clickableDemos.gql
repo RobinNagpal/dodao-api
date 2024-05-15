@@ -50,3 +50,8 @@ input ClickableDemoStepInput {
   placement: String!
   order: Int!
 }
+
+enum TooltipPlacement {
+  Top
+  Bottom
+}

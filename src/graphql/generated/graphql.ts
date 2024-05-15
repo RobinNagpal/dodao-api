@@ -2962,6 +2962,11 @@ export type TimelineEvent = {
   uuid: Scalars['String'];
 };
 
+export enum TooltipPlacement {
+  Bottom = 'Bottom',
+  Top = 'Top'
+}
+
 export type TopicConfig = {
   __typename?: 'TopicConfig';
   showExplanations: Scalars['Boolean'];
@@ -3630,6 +3635,7 @@ export type ResolversTypes = {
   TidbitsHomepageInput: TidbitsHomepageInput;
   Timeline: ResolverTypeWrapper<Timeline>;
   TimelineEvent: ResolverTypeWrapper<TimelineEvent>;
+  TooltipPlacement: TooltipPlacement;
   TopicConfig: ResolverTypeWrapper<TopicConfig>;
   TopicConfigInput: TopicConfigInput;
   TopicQuestionChoiceInput: TopicQuestionChoiceInput;
