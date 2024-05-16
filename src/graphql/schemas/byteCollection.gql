@@ -18,7 +18,7 @@ type ByteCollection {
   status: String!
   priority: Int!
   videoUrl: String
-  aspectRatio: String
+  videoAspectRatio: String
 }
 
 type ByteCollectionByte {
@@ -36,7 +36,7 @@ input CreateByteCollectionInput {
   status: String!
   priority: Int!
   videoUrl: String
-  aspectRatio: String
+  videoAspectRatio: String
 }
 
 input UpdateByteCollectionInput {
@@ -48,10 +48,10 @@ input UpdateByteCollectionInput {
   status: String!
   priority: Int!
   videoUrl: String
-  aspectRatio: String
+  videoAspectRatio: String
 }
 
-enum AspectRatio {
+enum VideoAspectRatio {
   Landscape
   Portrait
 }

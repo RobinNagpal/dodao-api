@@ -29,7 +29,7 @@ export default async function updateByteCollection(_: any, args: MutationUpdateB
       updatedAt: new Date(),
       priority: args.input.priority,
       videoUrl: args.input.videoUrl,
-      aspectRatio: args.input.aspectRatio,
+      videoAspectRatio: args.input.videoAspectRatio,
     },
   });
 
