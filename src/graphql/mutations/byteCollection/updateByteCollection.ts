@@ -15,7 +15,7 @@ export default async function updateByteCollection(_: any, args: MutationUpdateB
 
   const spaceById = await getSpaceById(byteCollection.spaceId);
 
-  // checkEditSpacePermission(spaceById, context);
+  checkEditSpacePermission(spaceById, context);
 
   const updatedByteCollection = await prisma.byteCollection.update({
     where: {
