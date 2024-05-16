@@ -104,6 +104,11 @@ export type ArticleIndexingInfo = {
   updatedAt: Scalars['DateTimeISO'];
 };
 
+export enum AspectRatio {
+  Landscape = 'Landscape',
+  Portrait = 'Portrait'
+}
+
 export type AuthSettings = {
   __typename?: 'AuthSettings';
   enableLogin?: Maybe<Scalars['Boolean']>;
@@ -118,6 +123,7 @@ export type AuthSettingsInput = {
 export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
+  aspectRatio?: Maybe<Scalars['String']>;
   byteStyle?: Maybe<Scalars['String']>;
   completionScreen?: Maybe<CompletionScreen>;
   content: Scalars['String'];
@@ -134,6 +140,7 @@ export type Byte = {
 
 export type ByteCollection = {
   __typename?: 'ByteCollection';
+  aspectRatio?: Maybe<Scalars['String']>;
   byteIds: Array<Scalars['String']>;
   bytes: Array<ByteCollectionByte>;
   description: Scalars['String'];
@@ -141,6 +148,7 @@ export type ByteCollection = {
   name: Scalars['String'];
   priority: Scalars['Int'];
   status: Scalars['String'];
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type ByteCollectionByte = {
@@ -522,12 +530,14 @@ export type CourseSubmissionInput = {
 };
 
 export type CreateByteCollectionInput = {
+  aspectRatio?: InputMaybe<Scalars['String']>;
   byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateCompletionResponseChoice = {
@@ -2984,6 +2994,7 @@ export type TopicQuestionChoiceInput = {
 };
 
 export type UpdateByteCollectionInput = {
+  aspectRatio?: InputMaybe<Scalars['String']>;
   byteCollectionId: Scalars['String'];
   byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
@@ -2991,6 +3002,7 @@ export type UpdateByteCollectionInput = {
   priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateTopicBasicInfoInput = {
@@ -3072,6 +3084,7 @@ export type UpsertByteCollectionCategory = {
 
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
+  aspectRatio?: InputMaybe<Scalars['String']>;
   byteStyle?: InputMaybe<Scalars['String']>;
   completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
@@ -3443,6 +3456,7 @@ export type ResolversTypes = {
   AnnotateDiscoursePostInput: AnnotateDiscoursePostInput;
   Any: ResolverTypeWrapper<Scalars['Any']>;
   ArticleIndexingInfo: ResolverTypeWrapper<ArticleIndexingInfo>;
+  AspectRatio: AspectRatio;
   AuthSettings: ResolverTypeWrapper<AuthSettings>;
   AuthSettingsInput: AuthSettingsInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -3957,6 +3971,7 @@ export type AuthSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  aspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   completionScreen?: Resolver<Maybe<ResolversTypes['CompletionScreen']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3973,6 +3988,7 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type ByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollection'] = ResolversParentTypes['ByteCollection']> = {
+  aspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3980,6 +3996,7 @@ export type ByteCollectionResolvers<ContextType = any, ParentType extends Resolv
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

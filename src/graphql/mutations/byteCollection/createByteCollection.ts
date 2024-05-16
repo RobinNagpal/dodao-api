@@ -23,6 +23,8 @@ export default async function createByteCollection(_: any, args: MutationCreateB
       updatedAt: new Date(),
       status: args.input.status,
       priority: args.input.priority,
+      videoUrl: args.input.videoUrl,
+      aspectRatio: args.input.aspectRatio,
     },
   });
 
