@@ -16,7 +16,7 @@
     "start": "prisma generate && graphql-codegen --config codegen.yml && ts-node -r tsconfig-paths/register src/server.ts",
     "crawl-cheerio": "ts-node src/helpers/loaders/siteCrawler/cheerioSiteScrapper.ts",
     "crawl-puppet": "ts-node src/helpers/loaders/siteCrawler/pupetteerSiteScrapper.ts",
-    "generate-sql": "ts-node submission-scripts/byteRatings.ts"
+    "generate-sql": "ts-node arbitrum/submission-scripts/byteRatings.ts"
   },
   "keywords": [],
   "author": "robin",
