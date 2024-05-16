@@ -17,6 +17,8 @@ type ByteCollection {
   bytes: [ByteCollectionByte!]!
   status: String!
   priority: Int!
+  videoUrl: String
+  videoAspectRatio: String
 }
 
 type ByteCollectionByte {
@@ -33,6 +35,8 @@ input CreateByteCollectionInput {
   byteIds: [String!]!
   status: String!
   priority: Int!
+  videoUrl: String
+  videoAspectRatio: String
 }
 
 input UpdateByteCollectionInput {
@@ -43,4 +47,11 @@ input UpdateByteCollectionInput {
   byteIds: [String!]!
   status: String!
   priority: Int!
+  videoUrl: String
+  videoAspectRatio: String
+}
+
+enum VideoAspectRatio {
+  Landscape
+  Portrait
 }

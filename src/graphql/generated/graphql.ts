@@ -129,6 +129,7 @@ export type Byte = {
   showIncorrectOnCompletion: Scalars['Boolean'];
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
+  videoAspectRatio?: Maybe<Scalars['String']>;
   videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -141,6 +142,8 @@ export type ByteCollection = {
   name: Scalars['String'];
   priority: Scalars['Int'];
   status: Scalars['String'];
+  videoAspectRatio?: Maybe<Scalars['String']>;
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type ByteCollectionByte = {
@@ -528,6 +531,8 @@ export type CreateByteCollectionInput = {
   priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
+  videoAspectRatio?: InputMaybe<Scalars['String']>;
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateCompletionResponseChoice = {
@@ -2991,6 +2996,8 @@ export type UpdateByteCollectionInput = {
   priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
+  videoAspectRatio?: InputMaybe<Scalars['String']>;
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateTopicBasicInfoInput = {
@@ -3082,6 +3089,7 @@ export type UpsertByteInput = {
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  videoAspectRatio?: InputMaybe<Scalars['String']>;
   videoUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -3337,6 +3345,11 @@ export type VercelVerification = {
   type: Scalars['String'];
   value: Scalars['String'];
 };
+
+export enum VideoAspectRatio {
+  Landscape = 'Landscape',
+  Portrait = 'Portrait'
+}
 
 export type WebsiteScrapingInfo = {
   __typename?: 'WebsiteScrapingInfo';
@@ -3674,6 +3687,7 @@ export type ResolversTypes = {
   UsernameAndNameInput: UsernameAndNameInput;
   VercelDomain: ResolverTypeWrapper<VercelDomain>;
   VercelVerification: ResolverTypeWrapper<VercelVerification>;
+  VideoAspectRatio: VideoAspectRatio;
   WebsiteScrapingInfo: ResolverTypeWrapper<WebsiteScrapingInfo>;
 };
 
@@ -3968,6 +3982,7 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
   showIncorrectOnCompletion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  videoAspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -3980,6 +3995,8 @@ export type ByteCollectionResolvers<ContextType = any, ParentType extends Resolv
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoAspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
