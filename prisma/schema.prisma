@@ -170,7 +170,7 @@ model Byte {
   spaceId          String   @map("space_id") @db.VarChar(255)
   Space            Space    @relation(fields: [spaceId], references: [id])
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
-  videoAspectRatio String?  @map("aspect_ratio") @db.VarChar(255)
+  videoAspectRatio String?  @map("video_aspect_ratio") @db.VarChar(255)
   byteStyle        String?  @default("CardAndCircleProgress") @map("byte_style") @db.VarChar(255)
   /// [CompletionScreen]
   completionScreen Json?    @map("completion_screen") @db.Json
@@ -548,7 +548,7 @@ model ByteCollection {
   status           String   @db.VarChar(255)
   priority         Int      @default(50) @map("priority")
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
-  videoAspectRatio String?  @map("aspect_ratio") @db.VarChar(255)
+  videoAspectRatio String?  @map("video_aspect_ratio") @db.VarChar(255)
 
   @@map("byte_collections")
 }
