@@ -2141,6 +2141,7 @@ export type ProjectByte = {
   seoMeta?: Maybe<SeoMeta>;
   steps: Array<ByteStep>;
   tags: Array<Scalars['String']>;
+  videoAspectRatio?: Maybe<Scalars['String']>;
   videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -2155,6 +2156,8 @@ export type ProjectByteCollection = {
   priority: Scalars['Int'];
   seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
+  videoAspectRatio?: Maybe<Scalars['String']>;
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type ProjectShortVideo = {
@@ -3183,6 +3186,8 @@ export type UpsertProjectByteCollectionInput = {
   projectId: Scalars['String'];
   seoMeta?: InputMaybe<SeoMetaInput>;
   status: Scalars['String'];
+  videoAspectRatio?: InputMaybe<Scalars['String']>;
+  videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type UpsertProjectByteInput = {
@@ -3198,6 +3203,7 @@ export type UpsertProjectByteInput = {
   steps: Array<ByteStepInput>;
   tags: Array<Scalars['String']>;
   thumbnail?: InputMaybe<Scalars['String']>;
+  videoAspectRatio?: InputMaybe<Scalars['String']>;
   videoUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -4939,6 +4945,7 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   steps?: Resolver<Array<ResolversTypes['ByteStep']>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  videoAspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -4953,6 +4960,8 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoAspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

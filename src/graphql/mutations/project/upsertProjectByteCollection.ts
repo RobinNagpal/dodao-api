@@ -21,6 +21,8 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       status: args.input.status,
       updatedAt: new Date(),
       priority: args.input.priority,
+      videoUrl: args.input.videoUrl,
+      videoAspectRatio: args.input.videoAspectRatio,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.description,
@@ -37,6 +39,8 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       updatedAt: new Date(),
       status: args.input.status,
       priority: args.input.priority,
+      videoUrl: args.input.videoUrl,
+      videoAspectRatio: args.input.videoAspectRatio,
       archived: false,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
