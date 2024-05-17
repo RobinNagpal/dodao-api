@@ -19,6 +19,8 @@ type ProjectByteCollection {
   archived: Boolean!
   seoMeta: SEOMeta
   priority: Int!
+  videoUrl: String
+  videoAspectRatio: String
 }
 
 input UpsertProjectByteCollectionInput {
@@ -30,4 +32,6 @@ input UpsertProjectByteCollectionInput {
   status: String!
   seoMeta: SEOMetaInput
   priority: Int!
+  videoUrl: String
+  videoAspectRatio: String
 }

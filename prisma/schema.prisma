@@ -618,6 +618,7 @@ model ProjectByte {
   /// [SEOMeta]
   seoMeta          Json?    @map("seo_meta") @db.JsonB
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
+  videoAspectRatio String?  @map("video_aspect_ratio") @db.VarChar(255)
   byteStyle        String?  @default("CardAndCircleProgress") @map("byte_style") @db.VarChar(255)
   /// [CompletionScreen]
   completionScreen Json?    @map("completion_screen") @db.Json
@@ -627,19 +628,21 @@ model ProjectByte {
 }
 
 model ProjectByteCollection {
-  id          String   @id @db.VarChar(255)
-  projectId   String   @map("projectId") @db.VarChar(66)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  name        String   @db.VarChar(255)
-  description String
-  byteIds     String[] @map("byte_ids") @db.VarChar(255)
-  status      String   @db.VarChar(255)
-  archived    Boolean  @default(false)
-  Project     Project  @relation(fields: [projectId], references: [id])
+  id               String   @id @db.VarChar(255)
+  projectId        String   @map("projectId") @db.VarChar(66)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  name             String   @db.VarChar(255)
+  description      String
+  byteIds          String[] @map("byte_ids") @db.VarChar(255)
+  status           String   @db.VarChar(255)
+  archived         Boolean  @default(false)
+  Project          Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
-  seoMeta     Json?    @map("seo_meta") @db.JsonB
-  priority    Int      @default(50) @map("priority")
+  seoMeta          Json?    @map("seo_meta") @db.JsonB
+  priority         Int      @default(50) @map("priority")
+  videoUrl         String?  @map("video_url") @db.VarChar(1024)
+  videoAspectRatio String?  @map("video_aspect_ratio") @db.VarChar(255)
 
   @@map("project_byte_collections")
 }
