@@ -22,13 +22,14 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
       archived: false,
       priority: args.input.priority,
       videoUrl: args.input.videoUrl,
+      videoAspectRatio: args.input.videoAspectRatio,
       byteStyle: args.input.byteStyle,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.content,
         keywords: args.input.seoMeta?.keywords ?? [],
       },
-      completionScreen: args.input.completionScreen ?? (null as any),
+      completionScreen: args.input.completionScreen || undefined,
     },
     update: {
       ...args.input,
@@ -36,6 +37,7 @@ export default async function upsertProjectByte(_: unknown, args: MutationUpsert
       archived: false,
       priority: args.input.priority,
       videoUrl: args.input.videoUrl,
+      videoAspectRatio: args.input.videoAspectRatio,
       seoMeta: {
         title: args.input.seoMeta?.title ?? args.input.name,
         description: args.input.seoMeta?.description ?? args.input.content,
