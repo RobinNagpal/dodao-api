@@ -48,7 +48,7 @@ These instructions will get you a copy of the project up and running on your loc
 
     - Make sure `NEXTAUTH_SECRET` & `DODAO_AUTH_SECRET` have the same keys as present in `.env` of `dodao-ui` project
     - Create a new key `NODE_ENV` and set its value to `local` like so `NODE_ENV=local`
-    - Create a new key `DODAO_SUPERADMINS` and set its value to your own MetaMask key and comma separated email address.
+    - Create a new key `DODAO_SUPERADMINS` and set its value to your own MetaMask account address and comma separated email address.
 
       For example: `DODAO_SUPERADMINS = 0x0000000000000000000000000000000000000000, johndoe@gmail.com`
 
