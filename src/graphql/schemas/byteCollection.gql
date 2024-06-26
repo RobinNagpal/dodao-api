@@ -18,7 +18,6 @@ type ByteCollection {
   status: String!
   priority: Int!
   videoUrl: String
-  videoAspectRatio: String
 }
 
 type ByteCollectionByte {
