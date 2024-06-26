@@ -35,7 +35,6 @@ input CreateByteCollectionInput {
   status: String!
   priority: Int!
   videoUrl: String
-  videoAspectRatio: String
 }
 
 input UpdateByteCollectionInput {
@@ -47,10 +46,4 @@ input UpdateByteCollectionInput {
   status: String!
   priority: Int!
   videoUrl: String
-  videoAspectRatio: String
-}
-
-enum VideoAspectRatio {
-  Landscape
-  Portrait
 }

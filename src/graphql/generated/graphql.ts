@@ -142,7 +142,6 @@ export type ByteCollection = {
   name: Scalars['String'];
   priority: Scalars['Int'];
   status: Scalars['String'];
-  videoAspectRatio?: Maybe<Scalars['String']>;
   videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -531,7 +530,6 @@ export type CreateByteCollectionInput = {
   priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
-  videoAspectRatio?: InputMaybe<Scalars['String']>;
   videoUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -2999,7 +2997,6 @@ export type UpdateByteCollectionInput = {
   priority: Scalars['Int'];
   spaceId: Scalars['String'];
   status: Scalars['String'];
-  videoAspectRatio?: InputMaybe<Scalars['String']>;
   videoUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -3352,11 +3349,6 @@ export type VercelVerification = {
   value: Scalars['String'];
 };
 
-export enum VideoAspectRatio {
-  Landscape = 'Landscape',
-  Portrait = 'Portrait'
-}
-
 export type WebsiteScrapingInfo = {
   __typename?: 'WebsiteScrapingInfo';
   baseUrl: Scalars['String'];
@@ -3693,7 +3685,6 @@ export type ResolversTypes = {
   UsernameAndNameInput: UsernameAndNameInput;
   VercelDomain: ResolverTypeWrapper<VercelDomain>;
   VercelVerification: ResolverTypeWrapper<VercelVerification>;
-  VideoAspectRatio: VideoAspectRatio;
   WebsiteScrapingInfo: ResolverTypeWrapper<WebsiteScrapingInfo>;
 };
 
@@ -4001,7 +3992,6 @@ export type ByteCollectionResolvers<ContextType = any, ParentType extends Resolv
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  videoAspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

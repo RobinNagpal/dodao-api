@@ -12,6 +12,8 @@ export const dodaoTeamMates = [
   'robinnagpal.tiet@gmail.com', // Robin
   '0xbCb6c649Bc1E0ad342a2036ab7C080B622099Bf8', // Dawood
   '0xb0bc2970c3a870e7e3383357aa98770fc8eae3f1', // Sami
+
+  '0x494B3274127906265B6525De62FF25c336C54CD1', //usman
 ];
 
 function validateJwtTokenString(jwtString?: string): DoDaoJwtTokenPayload {
