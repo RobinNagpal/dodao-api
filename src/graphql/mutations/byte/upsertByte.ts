@@ -68,9 +68,9 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
       },
     });
 
-    // if (spaceIntegration?.academyRepository) {
-    //   await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, jwt.username);
-    // }
+    if (spaceIntegration?.academyRepository) {
+      await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, jwt.username);
+    }
 
     return upsertedByte;
   } catch (e) {
