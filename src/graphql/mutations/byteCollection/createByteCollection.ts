@@ -24,7 +24,6 @@ export default async function createByteCollection(_: any, args: MutationCreateB
       status: args.input.status,
       priority: args.input.priority,
       videoUrl: args.input.videoUrl,
-      videoAspectRatio: args.input.videoAspectRatio,
     },
   });
 

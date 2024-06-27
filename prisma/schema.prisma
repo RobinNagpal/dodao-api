@@ -548,7 +548,6 @@ model ByteCollection {
   status           String   @db.VarChar(255)
   priority         Int      @default(50) @map("priority")
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
-  videoAspectRatio String?  @map("video_aspect_ratio") @db.VarChar(255)
 
   @@map("byte_collections")
 }
