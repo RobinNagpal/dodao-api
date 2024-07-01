@@ -1257,6 +1257,7 @@ export type Mutation = {
   deleteChatbotUserQuestion: Scalars['Boolean'];
   deleteGitCourseSubmission: Scalars['Boolean'];
   deleteGuide: Scalars['Boolean'];
+  deleteShortVideo?: Maybe<ShortVideo>;
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
   deleteTopicQuestion: GitCourse;
@@ -1501,6 +1502,12 @@ export type MutationDeleteGitCourseSubmissionArgs = {
 export type MutationDeleteGuideArgs = {
   spaceId: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+
+export type MutationDeleteShortVideoArgs = {
+  shortVideoId: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -4759,6 +4766,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteChatbotUserQuestion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotUserQuestionArgs, 'id' | 'spaceId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
+  deleteShortVideo?: Resolver<Maybe<ResolversTypes['ShortVideo']>, ParentType, ContextType, RequireFields<MutationDeleteShortVideoArgs, 'shortVideoId' | 'spaceId'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;

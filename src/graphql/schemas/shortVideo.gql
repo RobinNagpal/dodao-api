@@ -1,5 +1,6 @@
 extend type Mutation {
   upsertShortVideo(spaceId: String!, shortVideo: ShortVideoInput!): ShortVideo!
+  deleteShortVideo(spaceId: String!, shortVideoId: String!): ShortVideo
 }
 
 extend type Query {
