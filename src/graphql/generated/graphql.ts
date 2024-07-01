@@ -1250,6 +1250,7 @@ export type Mutation = {
   deleteAndPullCourseRepo: GitCourse;
   deleteByte: Scalars['Boolean'];
   deleteByteCollection: Scalars['Boolean'];
+  deleteByteCollectionCategory: Scalars['Boolean'];
   deleteChatbotCategory: Scalars['Boolean'];
   deleteChatbotFAQ: Scalars['Boolean'];
   deleteChatbotUserQuestion: Scalars['Boolean'];
@@ -1469,6 +1470,12 @@ export type MutationDeleteByteArgs = {
 
 export type MutationDeleteByteCollectionArgs = {
   byteCollectionId: Scalars['String'];
+};
+
+
+export type MutationDeleteByteCollectionCategoryArgs = {
+  categoryId: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -4744,6 +4751,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
   deleteByte?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteArgs, 'byteId' | 'spaceId'>>;
   deleteByteCollection?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionArgs, 'byteCollectionId'>>;
+  deleteByteCollectionCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionCategoryArgs, 'categoryId' | 'spaceId'>>;
   deleteChatbotCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotCategoryArgs, 'id' | 'spaceId'>>;
   deleteChatbotFAQ?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotFaqArgs, 'id' | 'spaceId'>>;
   deleteChatbotUserQuestion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotUserQuestionArgs, 'id' | 'spaceId'>>;

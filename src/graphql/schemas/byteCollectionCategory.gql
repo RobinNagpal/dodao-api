@@ -5,6 +5,7 @@ extend type Query {
 
 extend type Mutation {
   upsertByteCollectionCategory(spaceId: String!, input: UpsertByteCollectionCategory!): ByteCollectionCategory!
+  deleteByteCollectionCategory(spaceId: String!, categoryId: String!): Boolean!
 }
 
 type CategoryWithByteCollection {
