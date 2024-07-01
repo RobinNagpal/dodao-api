@@ -227,6 +227,7 @@ export type ByteRating = {
   ratingUuid: Scalars['String'];
   skipRating?: Maybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
+  suggestion?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTimeISO'];
   userId?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
@@ -1034,6 +1035,7 @@ export type GuideRating = {
   skipStartRating?: Maybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
   startRating?: Maybe<Scalars['Int']>;
+  suggestion?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTimeISO'];
   userId?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
@@ -3101,6 +3103,7 @@ export type UpsertByteRatingInput = {
   ratingUuid: Scalars['String'];
   skipRating?: InputMaybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
+  suggestion?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -3171,6 +3174,7 @@ export type UpsertGuideRatingInput = {
   skipStartRating?: InputMaybe<Scalars['Boolean']>;
   spaceId: Scalars['String'];
   startRating?: InputMaybe<Scalars['Int']>;
+  suggestion?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -4054,6 +4058,7 @@ export type ByteRatingResolvers<ContextType = any, ParentType extends ResolversP
   ratingUuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   skipRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  suggestion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -4617,6 +4622,7 @@ export type GuideRatingResolvers<ContextType = any, ParentType extends Resolvers
   skipStartRating?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startRating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  suggestion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
