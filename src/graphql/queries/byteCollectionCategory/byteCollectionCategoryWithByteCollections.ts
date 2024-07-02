@@ -39,6 +39,7 @@ export async function getByteCollectionCategoryWithByteCollections(spaceId: stri
     creator: byteCollectionCategory.creator,
     status: byteCollectionCategory.status,
     priority: byteCollectionCategory.priority,
+    archive: !!byteCollectionCategory.archive!,
   };
 }
 

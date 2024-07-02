@@ -20,7 +20,6 @@ type ProjectByteCollection {
   seoMeta: SEOMeta
   priority: Int!
   videoUrl: String
-  videoAspectRatio: String
 }
 
 input UpsertProjectByteCollectionInput {
@@ -33,5 +32,4 @@ input UpsertProjectByteCollectionInput {
   seoMeta: SEOMetaInput
   priority: Int!
   videoUrl: String
-  videoAspectRatio: String
 }

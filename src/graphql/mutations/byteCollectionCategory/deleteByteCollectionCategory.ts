@@ -15,11 +15,19 @@ export default async function deleteByteCollection(_: any, args: QueryByteCollec
     },
   });
 
-  await prisma.byteCollectionCategory.delete({
-    where: {
-      id: args.categoryId,
-    },
-  });
+  try {
+    const UpdatedbyteCollectionCategory = await prisma.byteCollectionCategory.update({
+      where: {
+        id: args.categoryId,
+      },
+      data: {
+        archive: true,
+      },
+    });
 
-  return true;
+    return UpdatedbyteCollectionCategory;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 }

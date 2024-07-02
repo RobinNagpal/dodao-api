@@ -155,6 +155,7 @@ export type ByteCollectionByte = {
 
 export type ByteCollectionCategory = {
   __typename?: 'ByteCollectionCategory';
+  archive: Scalars['Boolean'];
   byteCollectionIds: Array<Scalars['String']>;
   excerpt?: Maybe<Scalars['String']>;
   id: Scalars['String'];
@@ -315,6 +316,7 @@ export type ByteUserInput = {
 
 export type CategoryWithByteCollection = {
   __typename?: 'CategoryWithByteCollection';
+  archive: Scalars['Boolean'];
   byteCollections: Array<ByteCollection>;
   creator: Scalars['String'];
   excerpt: Scalars['String'];
@@ -1250,7 +1252,7 @@ export type Mutation = {
   deleteAndPullCourseRepo: GitCourse;
   deleteByte: Scalars['Boolean'];
   deleteByteCollection: Scalars['Boolean'];
-  deleteByteCollectionCategory: Scalars['Boolean'];
+  deleteByteCollectionCategory: ByteCollectionCategory;
   deleteChatbotCategory: Scalars['Boolean'];
   deleteChatbotFAQ: Scalars['Boolean'];
   deleteChatbotUserQuestion: Scalars['Boolean'];
@@ -2161,7 +2163,6 @@ export type ProjectByteCollection = {
   priority: Scalars['Int'];
   seoMeta?: Maybe<SeoMeta>;
   status: Scalars['String'];
-  videoAspectRatio?: Maybe<Scalars['String']>;
   videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -3074,6 +3075,7 @@ export type UpsertAcademyTaskInput = {
 };
 
 export type UpsertByteCollectionCategory = {
+  archive: Scalars['Boolean'];
   byteCollectionIds: Array<Scalars['String']>;
   excerpt: Scalars['String'];
   id: Scalars['String'];
@@ -3190,7 +3192,6 @@ export type UpsertProjectByteCollectionInput = {
   projectId: Scalars['String'];
   seoMeta?: InputMaybe<SeoMetaInput>;
   status: Scalars['String'];
-  videoAspectRatio?: InputMaybe<Scalars['String']>;
   videoUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -4012,6 +4013,7 @@ export type ByteCollectionByteResolvers<ContextType = any, ParentType extends Re
 };
 
 export type ByteCollectionCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollectionCategory'] = ResolversParentTypes['ByteCollectionCategory']> = {
+  archive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   byteCollectionIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   excerpt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4123,6 +4125,7 @@ export type ByteUserInputResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type CategoryWithByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CategoryWithByteCollection'] = ResolversParentTypes['CategoryWithByteCollection']> = {
+  archive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   byteCollections?: Resolver<Array<ResolversTypes['ByteCollection']>, ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4751,7 +4754,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteAndPullCourseRepo?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteAndPullCourseRepoArgs, 'courseKey' | 'spaceId'>>;
   deleteByte?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteArgs, 'byteId' | 'spaceId'>>;
   deleteByteCollection?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionArgs, 'byteCollectionId'>>;
-  deleteByteCollectionCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionCategoryArgs, 'categoryId' | 'spaceId'>>;
+  deleteByteCollectionCategory?: Resolver<ResolversTypes['ByteCollectionCategory'], ParentType, ContextType, RequireFields<MutationDeleteByteCollectionCategoryArgs, 'categoryId' | 'spaceId'>>;
   deleteChatbotCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotCategoryArgs, 'id' | 'spaceId'>>;
   deleteChatbotFAQ?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotFaqArgs, 'id' | 'spaceId'>>;
   deleteChatbotUserQuestion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotUserQuestionArgs, 'id' | 'spaceId'>>;
@@ -4958,7 +4961,6 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   seoMeta?: Resolver<Maybe<ResolversTypes['SEOMeta']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  videoAspectRatio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
