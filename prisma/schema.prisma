@@ -565,6 +565,7 @@ model ByteCollectionCategory {
   Space             Space    @relation(fields: [spaceId], references: [id])
   status            String   @default("Active") @db.VarChar(255)
   priority          Int      @default(50)
+  archive          Boolean? @default(false)
 
   @@map("byte_collections_category")
 }
@@ -641,7 +642,6 @@ model ProjectByteCollection {
   seoMeta          Json?    @map("seo_meta") @db.JsonB
   priority         Int      @default(50) @map("priority")
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
-  videoAspectRatio String?  @map("video_aspect_ratio") @db.VarChar(255)
 
   @@map("project_byte_collections")
 }
