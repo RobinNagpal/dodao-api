@@ -20,6 +20,7 @@ export default async function upsertByteRating(_: unknown, args: MutationUpsertB
       ipAddress: context.ip,
       skipRating: args.upsertByteRatingInput.skipRating,
       username: decodedJWT?.username,
+      suggestion: args.upsertByteRatingInput.suggestion,
     },
     update: {
       rating: args.upsertByteRatingInput.rating,

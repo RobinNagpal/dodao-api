@@ -103,6 +103,7 @@ type ByteRating {
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
   username: String
+  suggestion: String
 }
 
 type ConsolidatedByteRating {
@@ -213,4 +214,5 @@ input UpsertByteRatingInput {
   positiveFeedback: ByteFeedbackInput
   negativeFeedback: ByteFeedbackInput
   skipRating: Boolean
+  suggestion: String
 }

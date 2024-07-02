@@ -109,6 +109,7 @@ type GuideRating {
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
   username: String
+  suggestion: String
 }
 
 type ConsolidatedGuideRating {
@@ -224,4 +225,5 @@ input UpsertGuideRatingInput {
   negativeFeedback: GuideFeedbackInput
   skipStartRating: Boolean
   skipEndRating: Boolean
+  suggestion: String
 }
