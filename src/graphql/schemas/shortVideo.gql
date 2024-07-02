@@ -1,6 +1,6 @@
 extend type Mutation {
   upsertShortVideo(spaceId: String!, shortVideo: ShortVideoInput!): ShortVideo!
-  deleteShortVideo(spaceId: String!, shortVideoId: String!): ShortVideo
+  deleteShortVideo(spaceId: String!, shortVideoId: String!): ShortVideo!
 }
 
 extend type Query {
@@ -17,6 +17,7 @@ type ShortVideo {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
+  archive: Boolean
 }
 
 input ShortVideoInput {
@@ -26,4 +27,5 @@ input ShortVideoInput {
   videoUrl: String!
   priority: Int!
   thumbnail: String!
+  archive: Boolean
 }
