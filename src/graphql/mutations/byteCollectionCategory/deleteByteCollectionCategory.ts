@@ -9,12 +9,6 @@ export default async function deleteByteCollection(_: any, args: QueryByteCollec
 
   checkEditSpacePermission(spaceById, context);
 
-  const byteCollectionCategory = await prisma.byteCollectionCategory.findUniqueOrThrow({
-    where: {
-      id: args.categoryId,
-    },
-  });
-
   try {
     const UpdatedbyteCollectionCategory = await prisma.byteCollectionCategory.update({
       where: {
