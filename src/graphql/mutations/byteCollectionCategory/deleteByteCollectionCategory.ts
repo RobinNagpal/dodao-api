@@ -5,15 +5,15 @@ import { prisma } from '@/prisma';
 import { IncomingMessage } from 'http';
 
 export default async function deleteByteCollection(_: any, args: QueryByteCollectionCategoryWithByteCollectionsArgs, context: IncomingMessage) {
+  const spaceById = await getSpaceById(args.spaceId);
+
+  checkEditSpacePermission(spaceById, context);
+
   const byteCollectionCategory = await prisma.byteCollectionCategory.findUniqueOrThrow({
     where: {
       id: args.categoryId,
     },
   });
-
-  const spaceById = await getSpaceById(byteCollectionCategory.spaceId);
-
-  checkEditSpacePermission(spaceById, context);
 
   await prisma.byteCollectionCategory.delete({
     where: {
