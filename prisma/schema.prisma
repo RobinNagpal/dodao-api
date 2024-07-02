@@ -193,7 +193,7 @@ model ByteRating {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
   username         String?  @map("username") @db.VarChar(1024)
-
+  suggestion        String? @map("suggestion") @db.VarChar(1024)
   @@map("byte_ratings")
 }
 
@@ -325,7 +325,7 @@ model GuideRating {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
   username         String?  @map("username") @db.VarChar(1024)
-
+  suggestion        String? @map("suggestion") @db.VarChar(1024)
   @@map("guide_ratings")
 }
 

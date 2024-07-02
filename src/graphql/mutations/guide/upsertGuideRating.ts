@@ -22,6 +22,7 @@ export default async function upsertGuideRating(_: unknown, args: MutationUpsert
       skipEndRating: args.upsertGuideRatingInput.skipEndRating,
       skipStartRating: args.upsertGuideRatingInput.skipStartRating,
       username: decodedJWT?.username,
+      suggestion: args.upsertGuideRatingInput.suggestion,
     },
     update: {
       startRating: args.upsertGuideRatingInput.startRating,
