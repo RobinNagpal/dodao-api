@@ -1260,6 +1260,7 @@ export type Mutation = {
   deleteChatbotUserQuestion: Scalars['Boolean'];
   deleteGitCourseSubmission: Scalars['Boolean'];
   deleteGuide: Scalars['Boolean'];
+  deleteShortVideo: ShortVideo;
   deleteTopic: GitCourse;
   deleteTopicExplanation: GitCourse;
   deleteTopicQuestion: GitCourse;
@@ -1510,6 +1511,12 @@ export type MutationDeleteGitCourseSubmissionArgs = {
 export type MutationDeleteGuideArgs = {
   spaceId: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+
+export type MutationDeleteShortVideoArgs = {
+  shortVideoId: Scalars['String'];
+  spaceId: Scalars['String'];
 };
 
 
@@ -2705,6 +2712,7 @@ export type SendEmailInput = {
 
 export type ShortVideo = {
   __typename?: 'ShortVideo';
+  archive?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['String'];
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -2716,6 +2724,7 @@ export type ShortVideo = {
 };
 
 export type ShortVideoInput = {
+  archive?: InputMaybe<Scalars['Boolean']>;
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
@@ -4766,6 +4775,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteChatbotUserQuestion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotUserQuestionArgs, 'id' | 'spaceId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
+  deleteShortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<MutationDeleteShortVideoArgs, 'shortVideoId' | 'spaceId'>>;
   deleteTopic?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicArgs, 'spaceId' | 'topicInfo'>>;
   deleteTopicExplanation?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicExplanationArgs, 'explanationInfo' | 'spaceId'>>;
   deleteTopicQuestion?: Resolver<ResolversTypes['GitCourse'], ParentType, ContextType, RequireFields<MutationDeleteTopicQuestionArgs, 'questionInfo' | 'spaceId'>>;
@@ -5116,6 +5126,7 @@ export type SearchedChatbotFaqResolvers<ContextType = any, ParentType extends Re
 };
 
 export type ShortVideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShortVideo'] = ResolversParentTypes['ShortVideo']> = {
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;

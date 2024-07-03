@@ -73,7 +73,7 @@ import updateSeoOfProjectByte from './graphql/mutations/project/updateSeoOfProje
 import updateSeoOfProjectByteCollection from './graphql/mutations/project/updateSeoOfProjectByteCollection';
 import updateSeoOfProjectShortVideo from './graphql/mutations/project/updateSEOOfProjectShortVideo';
 import upsertClickableDemo from './graphql/mutations/clickableDemo/upsertClickableDemo';
-
+import deleteShortVideo from './graphql/mutations/shortVideo/deleteShortVideo';
 export default {
   askCompletionAI,
   askChatCompletionAI,
@@ -106,6 +106,7 @@ export default {
   deleteByteCollectionCategory,
   submitByte,
   deleteByte,
+
   upsertByteRating,
 
   submitGuide,
@@ -169,6 +170,7 @@ export default {
   upsertDomainRecords,
 
   upsertClickableDemo,
+  deleteShortVideo,
 
   ...mutations,
 };
