@@ -10,7 +10,7 @@ export default async function deleteByteCollection(_: any, args: QueryByteCollec
   checkEditSpacePermission(spaceById, context);
 
   try {
-    const UpdatedbyteCollectionCategory = await prisma.byteCollectionCategory.update({
+    const updatedbyteCollectionCategory = await prisma.byteCollectionCategory.update({
       where: {
         id: args.categoryId,
       },
@@ -19,7 +19,7 @@ export default async function deleteByteCollection(_: any, args: QueryByteCollec
       },
     });
 
-    return UpdatedbyteCollectionCategory;
+    return updatedbyteCollectionCategory;
   } catch (e) {
     console.log(e);
     throw e;
