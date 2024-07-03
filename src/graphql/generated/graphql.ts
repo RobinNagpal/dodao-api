@@ -2177,6 +2177,7 @@ export type ProjectByteCollection = {
 
 export type ProjectShortVideo = {
   __typename?: 'ProjectShortVideo';
+  archive?: Maybe<Scalars['Boolean']>;
   archived: Scalars['Boolean'];
   createdAt: Scalars['String'];
   description: Scalars['String'];
@@ -2190,6 +2191,7 @@ export type ProjectShortVideo = {
 };
 
 export type ProjectShortVideoInput = {
+  archive?: InputMaybe<Scalars['Boolean']>;
   description: Scalars['String'];
   id: Scalars['ID'];
   priority: Scalars['Int'];
@@ -4982,6 +4984,7 @@ export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends
 };
 
 export type ProjectShortVideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectShortVideo'] = ResolversParentTypes['ProjectShortVideo']> = {
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
