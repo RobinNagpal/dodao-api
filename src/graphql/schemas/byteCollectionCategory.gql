@@ -5,6 +5,7 @@ extend type Query {
 
 extend type Mutation {
   upsertByteCollectionCategory(spaceId: String!, input: UpsertByteCollectionCategory!): ByteCollectionCategory!
+  deleteByteCollectionCategory(spaceId: String!, categoryId: String!): ByteCollectionCategory!
 }
 
 type CategoryWithByteCollection {
@@ -16,6 +17,7 @@ type CategoryWithByteCollection {
   status: String!
   priority: Int!
   byteCollections: [ByteCollection!]!
+  archive: Boolean!
 }
 
 type ByteCollectionCategory {
@@ -26,6 +28,7 @@ type ByteCollectionCategory {
   status: String!
   priority: Int!
   byteCollectionIds: [String!]!
+  archive: Boolean!
 }
 
 input UpsertByteCollectionCategory {
@@ -37,6 +40,7 @@ input UpsertByteCollectionCategory {
   status: String!
   priority: Int!
   byteCollectionIds: [String!]!
+  archive: Boolean!
 }
 
 enum ByteCollectionCategoryStatus {
