@@ -193,7 +193,8 @@ model ByteRating {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
   username         String?  @map("username") @db.VarChar(1024)
-  suggestion        String? @map("suggestion") @db.VarChar(1024)
+  suggestion       String?  @map("suggestion") @db.VarChar(1024)
+
   @@map("byte_ratings")
 }
 
@@ -325,7 +326,8 @@ model GuideRating {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
   username         String?  @map("username") @db.VarChar(1024)
-  suggestion        String? @map("suggestion") @db.VarChar(1024)
+  suggestion       String?  @map("suggestion") @db.VarChar(1024)
+
   @@map("guide_ratings")
 }
 
@@ -566,7 +568,7 @@ model ByteCollectionCategory {
   Space             Space    @relation(fields: [spaceId], references: [id])
   status            String   @default("Active") @db.VarChar(255)
   priority          Int      @default(50)
-  archive          Boolean? @default(false)
+  archive           Boolean? @default(false)
 
   @@map("byte_collections_category")
 }
@@ -629,20 +631,20 @@ model ProjectByte {
 }
 
 model ProjectByteCollection {
-  id               String   @id @db.VarChar(255)
-  projectId        String   @map("projectId") @db.VarChar(66)
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
-  name             String   @db.VarChar(255)
-  description      String
-  byteIds          String[] @map("byte_ids") @db.VarChar(255)
-  status           String   @db.VarChar(255)
-  archived         Boolean  @default(false)
-  Project          Project  @relation(fields: [projectId], references: [id])
+  id          String   @id @db.VarChar(255)
+  projectId   String   @map("projectId") @db.VarChar(66)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  name        String   @db.VarChar(255)
+  description String
+  byteIds     String[] @map("byte_ids") @db.VarChar(255)
+  status      String   @db.VarChar(255)
+  archived    Boolean  @default(false)
+  Project     Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
-  seoMeta          Json?    @map("seo_meta") @db.JsonB
-  priority         Int      @default(50) @map("priority")
-  videoUrl         String?  @map("video_url") @db.VarChar(1024)
+  seoMeta     Json?    @map("seo_meta") @db.JsonB
+  priority    Int      @default(50) @map("priority")
+  videoUrl    String?  @map("video_url") @db.VarChar(1024)
 
   @@map("project_byte_collections")
 }
@@ -661,6 +663,7 @@ model ProjectShortVideo {
   Project     Project  @relation(fields: [projectId], references: [id])
   /// [SEOMeta]
   seoMeta     Json?    @map("seo_meta") @db.JsonB
+  archive     Boolean? @default(false)
 
   @@map("project_short_videos")
 }
