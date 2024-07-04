@@ -12,6 +12,7 @@ services:
 #      - redis
   db:
     image: postgres
+    container_name: dodao-api-db
     restart: always
     environment:
       POSTGRES_DB: dodao_api_localhost_db
