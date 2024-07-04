@@ -1,4 +1,4 @@
-import { dodaoTeamMates, getDecodedJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
+import { decodeTokenWithoutValidation, getDecodedJwtFromContext, getJwtFromContext } from '@/helpers/permissions/getJwtFromContext';
 import { isDoDAOSuperAdmin, isSuperAdminOfDoDAO } from '@/helpers/space/isSuperAdmin';
 import { DoDaoJwtTokenPayload } from '@/types/session';
 import { Space } from '@prisma/client';
@@ -11,13 +11,6 @@ import { JwtPayload } from 'jsonwebtoken';
  *
  * @param context
  */
-function isDoDAOMember(context: IncomingMessage): (JwtPayload & DoDaoJwtTokenPayload) | null {
-  const decoded = getDecodedJwtFromContext(context);
-  if (dodaoTeamMates.map((u) => u.toLowerCase()).includes(decoded.username.toLowerCase())) {
-    return decoded;
-  }
-  return null;
-}
 
 export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Space) {
   const user = decodedJWT.accountId.toLowerCase();
@@ -37,10 +30,10 @@ export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Spac
 }
 
 export function canEditGitSpace(context: IncomingMessage, space: Space) {
-  const doDAOMember = isDoDAOMember(context);
-
-  if (doDAOMember && space.id === 'test-academy-eth') {
-    return { decodedJWT: doDAOMember, canEditSpace: true, user: doDAOMember.accountId.toLowerCase() };
+  const jwtFromContext = getJwtFromContext(context);
+  const unvalidatedJWT = jwtFromContext ? decodeTokenWithoutValidation(jwtFromContext) : null;
+  if (unvalidatedJWT && space.id === 'test-academy-eth') {
+    return { decodedJWT: unvalidatedJWT, canEditSpace: true, user: unvalidatedJWT.accountId.toLowerCase() };
   }
 
   const isCreator =
