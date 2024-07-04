@@ -9,7 +9,8 @@ import { JwtPayload } from 'jsonwebtoken';
  * @deprecated - see dodaoTeamMates in getJwtFromContext.ts. That already checks for it.
  *               May be this is not needed anymore.?
  *
- * @param context
+ * @param decodedJWT
+ * @param space
  */
 
 export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Space) {
@@ -18,21 +19,17 @@ export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Spac
   if (!user) {
     throw Error('No accountId present in JWT');
   }
-  const spaceAdmins = [space.creator.toLowerCase(), ...space.admins.map((admin) => admin.toLowerCase())];
+  const username = decodedJWT.username;
+  const isUserAdminOfSpace = isAdminOfSpace(space, username);
 
-  const isAdminOfSpace: boolean = spaceAdmins.includes(user.toLowerCase());
-
-  const isAdminOfSpaceByUserName: boolean = space.adminUsernames.map((u) => u.toLowerCase()).includes(decodedJWT.username.toLowerCase());
-  const isAdminOfSpaceByUserNameByName: boolean = space.adminUsernamesV1.map((u) => u.username.toLowerCase()).includes(decodedJWT.username.toLowerCase());
-
-  const canEditSpace = isAdminOfSpace || isAdminOfSpaceByUserName || isSuperAdminOfDoDAO(user) || isAdminOfSpaceByUserNameByName;
+  const canEditSpace = isUserAdminOfSpace || isSuperAdminOfDoDAO(user);
   return { decodedJWT, canEditSpace, user };
 }
 
 export function canEditGitSpace(context: IncomingMessage, space: Space) {
   const jwtFromContext = getJwtFromContext(context);
   const unvalidatedJWT = jwtFromContext ? decodeTokenWithoutValidation(jwtFromContext) : null;
-  if (unvalidatedJWT && space.id === 'test-academy-eth') {
+  if (unvalidatedJWT && space.id === 'test-academy-eth' && isAdminOfSpace(space, unvalidatedJWT.username)) {
     return { decodedJWT: unvalidatedJWT, canEditSpace: true, user: unvalidatedJWT.accountId.toLowerCase() };
   }
 
@@ -74,4 +71,14 @@ export function checkSpaceIdAndSpaceInEntityAreSame(spaceId: string, entitySpace
   if (entitySpaceId !== spaceId) {
     throw new Error('Space id and entity space id are not same - ' + spaceId + ' - ' + entitySpaceId);
   }
+}
+
+function isAdminOfSpace(space: Space, username: string) {
+  const spaceAdmins = [space.creator.toLowerCase(), ...space.admins.map((admin) => admin.toLowerCase())];
+
+  const isAdminOfSpace: boolean = spaceAdmins.includes(username);
+
+  const isAdminOfSpaceByUserName: boolean = space.adminUsernames.map((u) => u.toLowerCase()).includes(username.toLowerCase());
+  const isAdminOfSpaceByUserNameByName: boolean = space.adminUsernamesV1.map((u) => u.username.toLowerCase()).includes(username.toLowerCase());
+  return isAdminOfSpace || isAdminOfSpaceByUserName || isAdminOfSpaceByUserNameByName;
 }
