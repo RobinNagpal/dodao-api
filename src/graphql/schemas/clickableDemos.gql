@@ -54,4 +54,6 @@ input ClickableDemoStepInput {
 enum TooltipPlacement {
   Top
   Bottom
+  Right
+  Left
 }
