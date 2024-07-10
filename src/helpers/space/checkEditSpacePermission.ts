@@ -22,7 +22,7 @@ export function isUserAdminOfSpace(decodedJWT: DoDaoJwtTokenPayload, space: Spac
   const username = decodedJWT.username;
   const isUserAdminOfSpace = isAdminOfSpace(space, username);
 
-  const canEditSpace = isUserAdminOfSpace || isSuperAdminOfDoDAO(user);
+  const canEditSpace = isUserAdminOfSpace || isSuperAdminOfDoDAO(user) || decodedJWT.isAdminOfSpace || decodedJWT.isSuperAdminOfDoDAO;
   return { decodedJWT, canEditSpace, user };
 }
 
