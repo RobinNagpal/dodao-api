@@ -118,6 +118,7 @@ export type AuthSettingsInput = {
 export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
+  byteCollectionId: Scalars['String'];
   byteStyle?: Maybe<Scalars['String']>;
   completionScreen?: Maybe<CompletionScreen>;
   content: Scalars['String'];
@@ -3088,6 +3089,7 @@ export type UpsertByteCollectionCategory = {
 
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
+  byteCollectionId: Scalars['String'];
   byteStyle?: InputMaybe<Scalars['String']>;
   completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
@@ -3976,6 +3978,7 @@ export type AuthSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  byteCollectionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   completionScreen?: Resolver<Maybe<ResolversTypes['CompletionScreen']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
