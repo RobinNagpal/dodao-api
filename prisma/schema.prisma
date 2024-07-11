@@ -716,6 +716,7 @@ model ClickableDemos {
   excerpt   String   @db.VarChar(256)
   /// [ClickableDemoStep]
   steps     Json[]
+  archive   Boolean? @default(false)
 
   @@map("clickable_demos")
 }

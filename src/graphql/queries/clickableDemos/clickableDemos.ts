@@ -5,6 +5,7 @@ export async function getClickableDemos(spaceId: string): Promise<ClickableDemo[
   const clickableDemos = await prisma.clickableDemos.findMany({
     where: {
       spaceId: spaceId,
+      archive: false,
     },
     select: {
       id: true,

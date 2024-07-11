@@ -5,6 +5,7 @@ extend type Query {
 
 extend type Mutation {
   upsertClickableDemo(spaceId: String!, input: UpsertClickableDemoInput!): ClickableDemoWithSteps!
+  deleteClickableDemo(spaceId: String!, demoId: String!): ClickableDemoWithSteps!
 }
 
 type ClickableDemo {
@@ -14,6 +15,7 @@ type ClickableDemo {
   excerpt: String!
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
+  archive: Boolean
 }
 
 type ClickableDemoWithSteps {
@@ -24,6 +26,7 @@ type ClickableDemoWithSteps {
   steps: [ClickableDemoStep!]!
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
+  archive: Boolean
 }
 
 type ClickableDemoStep {
@@ -40,6 +43,7 @@ input UpsertClickableDemoInput {
   title: String!
   excerpt: String!
   steps: [ClickableDemoStepInput!]!
+  archive: Boolean
 }
 
 input ClickableDemoStepInput {

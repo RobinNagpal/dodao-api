@@ -11,6 +11,7 @@ import updateByteCollection from '@/graphql/mutations/byteCollection/updateByteC
 import upsertByteCollectionCategory from './graphql/mutations/byteCollectionCategory/upsertByteCollectionCategory';
 import deleteByteCollectionCategory from '@/graphql/mutations/byteCollectionCategory/deleteByteCollectionCategory';
 import deleteChatbotCategory from '@/graphql/mutations/chatbot/deleteChatbotCategory';
+import deleteClickableDemo from './graphql/mutations/clickableDemo/deleteClickableDemo';
 import deleteChatbotFAQ from '@/graphql/mutations/chatbot/deleteChatbotFAQ';
 import deleteChatbotUserQuestion from '@/graphql/mutations/chatbot/deleteChatbotUserQuestion';
 import indexChatbotFAQs from '@/graphql/mutations/chatbot/indexChatbotFAQs';
@@ -158,6 +159,7 @@ export default {
   deleteChatbotFAQ,
   deleteChatbotUserQuestion,
   deleteChatbotCategory,
+  deleteClickableDemo,
 
   upsertShortVideo,
 
