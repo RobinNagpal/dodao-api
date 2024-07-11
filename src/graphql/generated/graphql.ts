@@ -386,6 +386,7 @@ export type ChatbotUserQuestion = {
 
 export type ClickableDemo = {
   __typename?: 'ClickableDemo';
+  archive?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['DateTimeISO'];
   excerpt: Scalars['String'];
   id: Scalars['String'];
@@ -415,6 +416,7 @@ export type ClickableDemoStepInput = {
 
 export type ClickableDemoWithSteps = {
   __typename?: 'ClickableDemoWithSteps';
+  archive?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['DateTimeISO'];
   excerpt: Scalars['String'];
   id: Scalars['String'];
@@ -1258,6 +1260,7 @@ export type Mutation = {
   deleteChatbotCategory: Scalars['Boolean'];
   deleteChatbotFAQ: Scalars['Boolean'];
   deleteChatbotUserQuestion: Scalars['Boolean'];
+  deleteClickableDemo: ClickableDemoWithSteps;
   deleteGitCourseSubmission: Scalars['Boolean'];
   deleteGuide: Scalars['Boolean'];
   deleteShortVideo: ShortVideo;
@@ -1498,6 +1501,12 @@ export type MutationDeleteChatbotFaqArgs = {
 
 export type MutationDeleteChatbotUserQuestionArgs = {
   id: Scalars['String'];
+  spaceId: Scalars['String'];
+};
+
+
+export type MutationDeleteClickableDemoArgs = {
+  demoId: Scalars['String'];
   spaceId: Scalars['String'];
 };
 
@@ -3169,6 +3178,7 @@ export type UpsertChatbotUserQuestionInput = {
 };
 
 export type UpsertClickableDemoInput = {
+  archive?: InputMaybe<Scalars['Boolean']>;
   excerpt: Scalars['String'];
   id: Scalars['String'];
   steps: Array<ClickableDemoStepInput>;
@@ -4200,6 +4210,7 @@ export type ChatbotUserQuestionResolvers<ContextType = any, ParentType extends R
 };
 
 export type ClickableDemoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClickableDemo'] = ResolversParentTypes['ClickableDemo']> = {
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4220,6 +4231,7 @@ export type ClickableDemoStepResolvers<ContextType = any, ParentType extends Res
 };
 
 export type ClickableDemoWithStepsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClickableDemoWithSteps'] = ResolversParentTypes['ClickableDemoWithSteps']> = {
+  archive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   excerpt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -4777,6 +4789,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteChatbotCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotCategoryArgs, 'id' | 'spaceId'>>;
   deleteChatbotFAQ?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotFaqArgs, 'id' | 'spaceId'>>;
   deleteChatbotUserQuestion?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatbotUserQuestionArgs, 'id' | 'spaceId'>>;
+  deleteClickableDemo?: Resolver<ResolversTypes['ClickableDemoWithSteps'], ParentType, ContextType, RequireFields<MutationDeleteClickableDemoArgs, 'demoId' | 'spaceId'>>;
   deleteGitCourseSubmission?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGitCourseSubmissionArgs, 'courseKey' | 'spaceId'>>;
   deleteGuide?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteGuideArgs, 'spaceId' | 'uuid'>>;
   deleteShortVideo?: Resolver<ResolversTypes['ShortVideo'], ParentType, ContextType, RequireFields<MutationDeleteShortVideoArgs, 'shortVideoId' | 'spaceId'>>;
