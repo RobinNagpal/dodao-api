@@ -33,7 +33,7 @@ async function transformToGitFormat(spaceId: string, input: GuideInput): Promise
     socialShareImage: input.socialShareImage || undefined,
     steps: input.steps.map((step) => ({
       content: step.content,
-      name: step.name,
+      name: step.stepName,
       stepItems: step.stepItems.map((item) => {
         return {
           answerKeys: item.answerKeys,
