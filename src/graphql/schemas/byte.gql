@@ -36,7 +36,6 @@ type Byte {
   videoUrl: String
   videoAspectRatio: String
   byteStyle: String
-  byteCollectionId: String!
 }
 
 type ByteQuestion {
@@ -178,7 +177,6 @@ input UpsertByteInput {
   videoAspectRatio: String
   byteStyle: String
   completionScreen: CompletionScreenInput
-  byteCollectionId: String!
 }
 
 input ByteLinkedinPdfContentStepInput {

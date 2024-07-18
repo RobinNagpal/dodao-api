@@ -174,7 +174,7 @@ model Byte {
   byteStyle        String?  @default("CardAndCircleProgress") @map("byte_style") @db.VarChar(255)
   /// [CompletionScreen]
   completionScreen Json?    @map("completion_screen") @db.Json
-  byteCollectionId String? @map("byteCollectionId")
+  mappings         ByteCollectionItemMappings[]
 
   @@map("bytes")
 }
@@ -351,6 +351,7 @@ model ShortVideo {
   description String
   videoUrl    String   @map("video_url") @db.VarChar(1024)
   thumbnail   String   @db.VarChar(1024)
+  mappings    ByteCollectionItemMappings[]
 
   @@map("short_videos")
 }
@@ -545,13 +546,27 @@ model ByteCollection {
   updatedAt        DateTime @updatedAt @map("updated_at")
   name             String   @db.VarChar(255)
   description      String
-  byteIds          String[] @map("byte_ids") @db.VarChar(255)
   status           String   @db.VarChar(255)
   priority         Int      @default(50) @map("priority")
   videoUrl         String?  @map("video_url") @db.VarChar(1024)
-
+  items            ByteCollectionItemMappings[]
   @@map("byte_collections")
 }
+
+model ByteCollectionItemMappings {
+  id               String   @id @db.VarChar(255)
+  byteCollectionId String?  @map("byte_collection_id")
+  itemId           String   @db.VarChar(255)
+  itemType         String   @db.VarChar(255)
+  order            Int
+  ByteCollection   ByteCollection?   @relation(fields: [byteCollectionId], references: [id], map: "FK_ByteCollection")
+  Byte             Byte?             @relation(fields: [itemId], references: [id], map: "FK_Byte")
+  ShortVideo       ShortVideo?       @relation(fields: [itemId], references: [id], map: "FK_ShortVideo")
+  ClickableDemos   ClickableDemos?   @relation(fields: [itemId], references: [id], map: "FK_ClickableDemos")
+
+  @@map("byte_collections_items_mappings")
+}
+
 
 model ByteCollectionCategory {
   id                String   @id @db.VarChar(255)
@@ -635,7 +650,7 @@ model ProjectByteCollection {
   updatedAt        DateTime @updatedAt @map("updated_at")
   name             String   @db.VarChar(255)
   description      String
-  byteIds          String[] @map("byte_ids") @db.VarChar(255)
+  byteIds     String[] @map("byte_ids") @db.VarChar(255)
   status           String   @db.VarChar(255)
   archived         Boolean  @default(false)
   Project          Project  @relation(fields: [projectId], references: [id])
@@ -713,6 +728,7 @@ model ClickableDemos {
   excerpt   String   @db.VarChar(256)
   /// [ClickableDemoStep]
   steps     Json[]
+  mappings  ByteCollectionItemMappings[]
 
   @@map("clickable_demos")
 }

@@ -17,7 +17,6 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
     update: {
       name: args.input.name,
       description: args.input.description,
-      byteIds: args.input.byteIds,
       status: args.input.status,
       updatedAt: new Date(),
       priority: args.input.priority,
@@ -33,7 +32,6 @@ export default async function upsertProjectByteCollection(_: any, args: Mutation
       name: args.input.name,
       description: args.input.description,
       projectId: args.input.projectId,
-      byteIds: args.input.byteIds,
       createdAt: new Date(),
       updatedAt: new Date(),
       status: args.input.status,

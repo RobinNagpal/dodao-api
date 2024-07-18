@@ -27,7 +27,6 @@ async function assignByteCollections(spaceId: string) {
           name: 'UNGROUPED_TIDBITS',
           spaceId: spaceId,
           description: '',
-          byteIds: [],
           status: 'ACTIVE',
         },
       });

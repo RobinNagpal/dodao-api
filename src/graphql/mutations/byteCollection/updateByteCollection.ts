@@ -24,7 +24,6 @@ export default async function updateByteCollection(_: any, args: MutationUpdateB
     data: {
       name: args.input.name,
       description: args.input.description,
-      byteIds: args.input.byteIds,
       status: args.input.status,
       updatedAt: new Date(),
       priority: args.input.priority,

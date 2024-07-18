@@ -18,7 +18,6 @@ export default async function createByteCollection(_: any, args: MutationCreateB
       name: args.input.name,
       description: args.input.description,
       spaceId: args.input.spaceId,
-      byteIds: args.input.byteIds,
       createdAt: new Date(),
       updatedAt: new Date(),
       status: args.input.status,

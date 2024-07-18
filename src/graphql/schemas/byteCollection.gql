@@ -13,7 +13,6 @@ type ByteCollection {
   id: ID!
   name: String!
   description: String!
-  byteIds: [String!]!
   bytes: [ByteCollectionByte!]!
   status: String!
   priority: Int!
@@ -31,7 +30,6 @@ input CreateByteCollectionInput {
   name: String!
   description: String!
   spaceId: String!
-  byteIds: [String!]!
   status: String!
   priority: Int!
   videoUrl: String
@@ -42,7 +40,6 @@ input UpdateByteCollectionInput {
   name: String!
   description: String!
   spaceId: String!
-  byteIds: [String!]!
   status: String!
   priority: Int!
   videoUrl: String

@@ -118,7 +118,6 @@ export type AuthSettingsInput = {
 export type Byte = {
   __typename?: 'Byte';
   admins: Array<Scalars['String']>;
-  byteCollectionId: Scalars['String'];
   byteStyle?: Maybe<Scalars['String']>;
   completionScreen?: Maybe<CompletionScreen>;
   content: Scalars['String'];
@@ -136,7 +135,6 @@ export type Byte = {
 
 export type ByteCollection = {
   __typename?: 'ByteCollection';
-  byteIds: Array<Scalars['String']>;
   bytes: Array<ByteCollectionByte>;
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -527,7 +525,6 @@ export type CourseSubmissionInput = {
 };
 
 export type CreateByteCollectionInput = {
-  byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
@@ -2156,7 +2153,6 @@ export type ProjectByte = {
 export type ProjectByteCollection = {
   __typename?: 'ProjectByteCollection';
   archived: Scalars['Boolean'];
-  byteIds: Array<Scalars['String']>;
   bytes: Array<ByteCollectionByte>;
   description: Scalars['String'];
   id: Scalars['String'];
@@ -3000,7 +2996,6 @@ export type TopicQuestionChoiceInput = {
 
 export type UpdateByteCollectionInput = {
   byteCollectionId: Scalars['String'];
-  byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   name: Scalars['String'];
   priority: Scalars['Int'];
@@ -3089,7 +3084,6 @@ export type UpsertByteCollectionCategory = {
 
 export type UpsertByteInput = {
   admins: Array<Scalars['String']>;
-  byteCollectionId: Scalars['String'];
   byteStyle?: InputMaybe<Scalars['String']>;
   completionScreen?: InputMaybe<CompletionScreenInput>;
   content: Scalars['String'];
@@ -3186,7 +3180,6 @@ export type UpsertGuideRatingInput = {
 };
 
 export type UpsertProjectByteCollectionInput = {
-  byteIds: Array<Scalars['String']>;
   description: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
@@ -3978,7 +3971,6 @@ export type AuthSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type ByteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Byte'] = ResolversParentTypes['Byte']> = {
   admins?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  byteCollectionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   byteStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   completionScreen?: Resolver<Maybe<ResolversTypes['CompletionScreen']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3996,7 +3988,6 @@ export type ByteResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type ByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ByteCollection'] = ResolversParentTypes['ByteCollection']> = {
-  byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -4956,7 +4947,6 @@ export type ProjectByteResolvers<ContextType = any, ParentType extends Resolvers
 
 export type ProjectByteCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectByteCollection'] = ResolversParentTypes['ProjectByteCollection']> = {
   archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  byteIds?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   bytes?: Resolver<Array<ResolversTypes['ByteCollectionByte']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

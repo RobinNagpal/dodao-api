@@ -7,19 +7,19 @@ import { ProjectByteCollection } from '@prisma/client';
 
 export async function getProjectByteCollectionWithBytes(byteCollection: ProjectByteCollection): Promise<ProjectByteCollectionGraphql> {
   const bytes: ByteCollectionByte[] = [];
-  for (const byteId of byteCollection.byteIds) {
-    const byte = await prisma.projectByte.findFirstOrThrow({
-      where: {
-        id: byteId,
-      },
-    });
-    bytes.push({
-      byteId: byte.id,
-      name: byte.name,
-      content: byte.content,
-      videoUrl: byte.videoUrl,
-    });
-  }
+  // for (const byteId of byteCollection.byteIds) {
+  //   const byte = await prisma.projectByte.findFirstOrThrow({
+  //     where: {
+  //       id: byteId,
+  //     },
+  //   });
+  //   bytes.push({
+  //     byteId: byte.id,
+  //     name: byte.name,
+  //     content: byte.content,
+  //     videoUrl: byte.videoUrl,
+  //   });
+  // }
   return {
     ...byteCollection,
     bytes: bytes,

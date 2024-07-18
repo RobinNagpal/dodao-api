@@ -68,9 +68,29 @@ export default async function upsertByte(_: unknown, { spaceId, input }: Mutatio
       },
     });
 
-    if (spaceIntegration?.academyRepository) {
-      await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, jwt.username);
-    }
+    const byteCollectionItemMappingId = slugify(input.name) + '-mapping';
+    await prisma.byteCollectionItemMappings.upsert({
+      create: {
+        id: byteCollectionItemMappingId,
+        byteCollectionId: input.byteCollectionId,
+        itemId: id,
+        itemType: 'byte',
+        order: input.priority,
+      },
+      update: {
+        byteCollectionId: input.byteCollectionId,
+        itemId: id,
+        itemType: 'byte',
+        order: input.priority,
+      },
+      where: {
+        id: byteCollectionItemMappingId,
+      },
+    });
+
+    // if (spaceIntegration?.academyRepository) {
+    //   await writeObjectToAcademyRepo(spaceById, upsertedByte, AcademyObjectTypes.bytes, jwt.username);
+    // }
 
     return upsertedByte;
   } catch (e) {
