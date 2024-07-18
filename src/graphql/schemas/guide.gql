@@ -52,8 +52,8 @@ type GuideStep {
   content: String!
   created: Int!
   id: String!
-  name: String!
-  order: Int!
+  stepName: String!
+  stepOrder: Int!
   stepItems: [GuideStepItem!]!
   uuid: String!
 }
@@ -78,7 +78,7 @@ type Guide {
   guideSource: String!
   guideType: String!
   id: String!
-  name: String!
+  guideName: String!
   previousId: String
   publishStatus: String!
   steps: [GuideStep!]!
@@ -183,8 +183,8 @@ input UserInputInput {
 input GuideStepInput {
   content: String!
   id: String!
-  name: String!
-  order: Int!
+  stepName: String!
+  stepOrder: Int!
   stepItems: [StepItemInputGenericInput!]!
   uuid: String!
 }

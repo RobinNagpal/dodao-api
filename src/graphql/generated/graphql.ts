@@ -939,10 +939,10 @@ export type Guide = {
   content: Scalars['String'];
   createdAt: Scalars['DateTimeISO'];
   guideIntegrations: GuideIntegrations;
+  guideName: Scalars['String'];
   guideSource: Scalars['String'];
   guideType: Scalars['String'];
   id: Scalars['String'];
-  name: Scalars['String'];
   postSubmissionStepContent?: Maybe<Scalars['String']>;
   previousId?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['Int']>;
@@ -1069,18 +1069,18 @@ export type GuideStep = {
   content: Scalars['String'];
   created: Scalars['Int'];
   id: Scalars['String'];
-  name: Scalars['String'];
-  order: Scalars['Int'];
   stepItems: Array<GuideStepItem>;
+  stepName: Scalars['String'];
+  stepOrder: Scalars['Int'];
   uuid: Scalars['String'];
 };
 
 export type GuideStepInput = {
   content: Scalars['String'];
   id: Scalars['String'];
-  name: Scalars['String'];
-  order: Scalars['Int'];
   stepItems: Array<StepItemInputGenericInput>;
+  stepName: Scalars['String'];
+  stepOrder: Scalars['Int'];
   uuid: Scalars['String'];
 };
 
@@ -4602,10 +4602,10 @@ export type GuideResolvers<ContextType = any, ParentType extends ResolversParent
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeISO'], ParentType, ContextType>;
   guideIntegrations?: Resolver<ResolversTypes['GuideIntegrations'], ParentType, ContextType>;
+  guideName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   guideSource?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   guideType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postSubmissionStepContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   previousId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   priority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -4678,9 +4678,9 @@ export type GuideStepResolvers<ContextType = any, ParentType extends ResolversPa
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   stepItems?: Resolver<Array<ResolversTypes['GuideStepItem']>, ParentType, ContextType>;
+  stepName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  stepOrder?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
