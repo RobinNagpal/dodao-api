@@ -32,6 +32,7 @@ type ClickableDemoWithSteps {
 type ClickableDemoStep {
   id: String!
   url: String!
+  captureUrl: String
   selector: String!
   tooltipInfo: String!
   placement: String!
@@ -49,6 +50,7 @@ input UpsertClickableDemoInput {
 input ClickableDemoStepInput {
   id: String!
   url: String!
+  captureUrl: String
   selector: String!
   tooltipInfo: String!
   placement: String!
